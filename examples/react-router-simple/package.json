@@ -1,0 +1,32 @@
+{
+  "name": "react-router-simple",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --bun vite dev",
+    "debug": "node main.js",
+    "build": "bun run build.client && bun run build.server",
+    "build.client": "NODE_ENV=production bun --bun vite build",
+    "build.server": "NODE_ENV=production bun --bun vite build --ssr",
+    "test": "vitest",
+    "test.watch": "vitest watch --update",
+    "typecheck": "tsc",
+    "start": "bun run --hot dist/main.js"
+  },
+  "dependencies": {
+    "hono": "3.7.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.16.0"
+  },
+  "devDependencies": {
+    "@dete/vite": "workspace:*",
+    "@types/react": "18.2.25",
+    "@types/react-dom": "18.2.10",
+    "@vitejs/plugin-react": "4.1.0",
+    "vite": "5.0.0-beta.4",
+    "vite-tsconfig-paths": "4.2.1"
+  }
+}

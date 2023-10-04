@@ -1,0 +1,42 @@
+# compiled output
+dist
+build
+tmp
+out-tsc
+.cache
+*.tsbuildinfo
+.solid
+.wrangler
+
+# do not ignore built dist files in yalc'd packages
+!.yalc/**/dist
+!.yalc/**/build
+
+# dependencies
+node_modules
+
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.DS_Store
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
