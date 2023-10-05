@@ -29,6 +29,20 @@ export type Asset = {
   content?: string;
 };
 
+/**
+ * Subset of Vite's HtmlTagDescriptor type
+ */
+export type AssetHtmlTag = {
+  tag: string;
+  attrs?: Record<string, string | boolean | undefined>;
+  children?: string;
+
+  /**
+   * @default 'head-prepend'
+   */
+  injectTo?: 'head' | 'body' | 'head-prepend' | 'body-prepend';
+};
+
 type RouteIdToPath = Record<RouteId, string>;
 
 export type SSRManifest = {
@@ -109,30 +123,80 @@ export const generateRoutesManifest = (clientManifest: ViteClientManifest, route
 };
 
 export const assetsToHtml = (assets: Asset[], opts?: { isDev?: boolean; shouldModulePreload?: boolean }) => {
+  const tags = assetsToTags(assets, opts);
+
+  return tags.map(({ tag, attrs, children }) => {
+    const attrsString = Object.entries(attrs ?? {})
+      .map(([key, value]) => {
+        if (value === true) return key;
+        if (value === false) return null;
+        return `${key}="${value}"`;
+      })
+      .filter(Boolean)
+      .join(' ');
+
+    return `<${tag} ${attrsString}>${children || ''}</${tag}>`;
+  });
+};
+
+export const assetsToTags = (
+  assets: Asset[],
+  opts?: { isDev?: boolean; shouldModulePreload?: boolean },
+): AssetHtmlTag[] => {
   const isDev = opts?.isDev ?? false;
   const shouldModulePreload = opts?.shouldModulePreload ?? true;
 
-  const htmlAssets = assets
+  return assets
     .map(({ type, url, isPreload, content = '' }) => {
       switch (type) {
         case 'style':
-          return isDev
-            ? `<style data-vite-dev-id="${url}">${content}</style>`
-            : `<link rel="stylesheet" href="${url}">`;
+          if (isDev) {
+            return {
+              tag: 'style',
+              attrs: {
+                'data-vite-dev-id': url,
+              },
+              children: content,
+            };
+          } else {
+            return {
+              tag: 'link',
+              attrs: {
+                rel: 'stylesheet',
+                href: url,
+              },
+            };
+          }
 
         case 'script':
-          return isPreload
-            ? shouldModulePreload
-              ? `<link rel="modulepreload" as="script" crossorigin href="${url}">`
-              : null
-            : `<script async type="module" crossorigin src="${url}"></script>`;
+          if (isPreload && !shouldModulePreload) return null;
+
+          if (isPreload) {
+            return {
+              tag: 'link',
+              attrs: {
+                rel: 'modulepreload',
+                as: 'script',
+                crossorigin: true,
+                href: url,
+              },
+            };
+          } else {
+            return {
+              tag: 'script',
+              attrs: {
+                async: true,
+                type: 'module',
+                crossorigin: true,
+                src: url,
+              },
+            };
+          }
       }
 
       return null;
     })
     .filter(Boolean);
-
-  return htmlAssets;
 };
 
 export const getRouteAssets = (manifest: SSRManifest, matches: MatchedRoute[]) => {

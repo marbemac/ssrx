@@ -30,6 +30,12 @@ export const devServerPlugin = ({ config, manifest }: DevServerPluginOpts): Plug
 
       server.middlewares.use(await createMiddleware(server, { entry: config.serverFile }));
     },
+
+    transformIndexHtml: {
+      handler(html, ctx) {
+        return manifest.getAssetsHtmlTags(ctx.path);
+      },
+    },
   };
 };
 
@@ -75,12 +81,12 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
 
         if (
           options?.injectClientScript !== false &&
-          // If the response is a streaming, it does not inject the script:
+          // If the response is a stream, it does not inject the script (end user must handle it themselves):
           !response.headers.get('transfer-encoding')?.match('chunked') &&
           response.headers.get('content-type')?.match(/^text\/html/)
         ) {
-          const body = (await response.text()) + '<script type="module" src="/@vite/client"></script>';
-
+          const resText = await response.text();
+          const body = await server.transformIndexHtml(request.url, resText);
           const headers = new Headers(response.headers);
           headers.delete('content-length');
 
@@ -97,8 +103,6 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
         server.ssrFixStacktrace(err);
         next(err);
         return SKIP_REQ;
-        // return new Response(err, { status: 500 });
-        // throw err;
       }
     })(req, res);
   };
@@ -117,7 +121,7 @@ const getRequestListener = (fetchCallback: FetchCallback) => {
     const headerRecord: [string, string][] = [];
     const len = incoming.rawHeaders.length;
     for (let i = 0; i < len; i += 2) {
-      headerRecord.push([incoming.rawHeaders[i], incoming.rawHeaders[i + 1]]);
+      headerRecord.push([incoming.rawHeaders[i]!, incoming.rawHeaders[i + 1]!]);
     }
 
     const init = {

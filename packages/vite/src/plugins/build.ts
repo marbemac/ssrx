@@ -1,9 +1,10 @@
-import { Plugin, ViteDevServer, createServer } from "vite";
+import type { Plugin, ViteDevServer } from 'vite';
+import { createServer } from 'vite';
 
-import type { Config } from "../config.ts";
-import type { Router } from "../router.ts";
-import type { Manifest } from "../ssr-manifest.ts";
-import { PLUGIN_NAMESPACE } from "../consts.ts";
+import type { Config } from '../config.ts';
+import { PLUGIN_NAMESPACE } from '../consts.ts';
+import type { Router } from '../router.ts';
+import type { Manifest } from '../ssr-manifest.ts';
 
 export type BuildPluginOpts = {
   config: Config;
@@ -11,26 +12,43 @@ export type BuildPluginOpts = {
   manifest: Manifest<any>;
 };
 
-export const buildPlugin = ({
-  config,
-  router,
-  manifest,
-}: BuildPluginOpts): Plugin => {
+export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plugin => {
   let server: ViteDevServer;
+  let isSsr = false;
 
   return {
     name: `${PLUGIN_NAMESPACE}:build`,
 
     apply(config, env) {
-      return !!env.ssrBuild && env.command === "build";
+      return env.command === 'build';
+    },
+
+    config(viteConfig, env) {
+      isSsr = !!env.ssrBuild;
+
+      return {
+        build: {
+          manifest: !isSsr,
+          outDir: isSsr ? config.serverOutDir : config.clientOutDir,
+          target: isSsr ? 'esnext' : 'modules',
+          emptyOutDir: !isSsr,
+          rollupOptions: {
+            input: {
+              main: isSsr ? config.serverFile : config.clientEntry,
+            },
+          },
+        },
+      };
     },
 
     async buildStart() {
+      if (!isSsr) return;
+
       server =
         server ||
         (await createServer({
           mode: config.mode,
-          appType: "custom",
+          appType: 'custom',
           server: {
             middlewareMode: true,
           },
@@ -44,7 +62,7 @@ export const buildPlugin = ({
       const ssrManifest = await manifest.buildSSRManifest();
 
       this.emitFile({
-        type: "asset",
+        type: 'asset',
         fileName: manifest.ssrManifestName,
         source: JSON.stringify(ssrManifest, null, 2),
       });

@@ -4,7 +4,7 @@ import type { ViteDevServer } from 'vite';
 
 import type { Config } from './config.ts';
 import type { Asset, SSRManifest, ViteClientManifest } from './helpers/routes.ts';
-import { assetsToHtml, emptySSRManifest, generateSSRManifest, getRoutesIds } from './helpers/routes.ts';
+import { assetsToHtml, assetsToTags, emptySSRManifest, generateSSRManifest, getRoutesIds } from './helpers/routes.ts';
 import type { MatchedRoute, Router } from './router.ts';
 import { findStylesInModuleGraph } from './ssr-manifest-dev.ts';
 
@@ -39,6 +39,15 @@ export class Manifest<ExternalRoutes> {
     const assets = await this.getAssets(url);
 
     return assetsToHtml(assets, {
+      isDev: this.config.isDev,
+      shouldModulePreload: this.config.shouldModulePreload,
+    });
+  }
+
+  public async getAssetsHtmlTags(url: string) {
+    const assets = await this.getAssets(url);
+
+    return assetsToTags(assets, {
       isDev: this.config.isDev,
       shouldModulePreload: this.config.shouldModulePreload,
     });
