@@ -1,4 +1,4 @@
-import './home.css';
+import './_index.css';
 
 import { useLoaderData } from 'react-router-dom';
 

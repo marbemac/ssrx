@@ -53,11 +53,15 @@ export class Manifest<ExternalRoutes> {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async getAssets(url: string) {
-    const routeMatches = this.router.getMatchedRoutes(url);
+    // const routeMatches = this.router.getMatchedRoutes(url);
 
+    /**
+     * @TODO scope assets down to the matched route during dev
+     */
     if (this.config.isDev) {
-      return this.#getAssetsDev(routeMatches);
+      return this.#getAssetsDev([]);
     }
 
     throw new Error('not implemented');

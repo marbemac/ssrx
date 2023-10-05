@@ -1,10 +1,14 @@
+import { renderAssets } from '@dete/react';
+import { assetsForRequest } from '@dete/vite/runtime';
+import { StrictMode } from 'react';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
-import * as React from 'react';
 
-import { routes } from '~/routes.tsx';
 import { App } from '~/app.tsx';
+import { routes } from '~/routes.tsx';
 
 export async function render(req: Request) {
+  const assets = await assetsForRequest(req.url);
+
   const { query, dataRoutes } = createStaticHandler(routes);
   const context = await query(req);
 
@@ -15,11 +19,11 @@ export async function render(req: Request) {
   const router = createStaticRouter(dataRoutes, context);
 
   const app = (
-    <React.StrictMode>
-      <App>
+    <StrictMode>
+      <App head={renderAssets(assets)}>
         <StaticRouterProvider router={router} context={context} nonce="the-nonce" />
       </App>
-    </React.StrictMode>
+    </StrictMode>
   );
 
   return { app };

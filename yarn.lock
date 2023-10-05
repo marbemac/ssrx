@@ -299,10 +299,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dete/react@workspace:*, @dete/react@workspace:packages/react":
+  version: 0.0.0-use.local
+  resolution: "@dete/react@workspace:packages/react"
+  dependencies:
+    "@dete/vite": "workspace:*"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  languageName: unknown
+  linkType: soft
+
 "@dete/vite@workspace:*, @dete/vite@workspace:packages/vite":
   version: 0.0.0-use.local
   resolution: "@dete/vite@workspace:packages/vite"
   dependencies:
+    radix3: "npm:^1.1.0"
     vite: "npm:5.0.0-beta.4"
     vitest: "npm:0.34.6"
   peerDependencies:
@@ -503,6 +517,13 @@ __metadata:
   version: 8.50.0
   resolution: "@eslint/js@npm:8.50.0"
   checksum: 54e095254315be66a07d89ea37c31f6d7f55d31a8f8ef6b22b3bcbadeb2a0ec5d3336a8ca98ed43fa63da4624bec9e3b5b8a797a796daed7ec93b4aeed0627fc
+  languageName: node
+  linkType: hard
+
+"@hono/node-server@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@hono/node-server@npm:1.2.0"
+  checksum: 59e5fed7eaaad7fa436179263cba1663e8c28258a3bd2419884a8e572455e170dea3584bf7ccca96c084f11c74b632dfa8683214ea622020ac8d8399b3a41639
   languageName: node
   linkType: hard
 
@@ -4094,6 +4115,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"radix3@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "radix3@npm:1.1.0"
+  checksum: e0427bcfed1adc041b5244a6260cb10d17c78fe174ed6acc92925f010e799fb2135c9bc7d15d31fb3df309be705d6334576a43e7e3d4c777eaddcd3bbc27ce89
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -4137,7 +4165,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-router-simple@workspace:examples/react-router-simple"
   dependencies:
-    "@dete/vite": "workspace:*"
+    "@dete/react": "npm:latest"
+    "@dete/vite": "npm:latest"
+    "@hono/node-server": "npm:1.2.0"
     "@types/react": "npm:18.2.25"
     "@types/react-dom": "npm:18.2.10"
     "@vitejs/plugin-react": "npm:4.1.0"

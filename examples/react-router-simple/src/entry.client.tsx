@@ -2,12 +2,13 @@ import { startTransition, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { createBrowserRouter, matchRoutes, RouterProvider } from 'react-router-dom';
 
-import { routes } from '~/routes.tsx';
 import { App } from '~/app.tsx';
+import { routes } from '~/routes.tsx';
 
-hydrate();
+void hydrate();
 
 async function hydrate() {
+  // @ts-expect-error ignore
   const lazyMatches = matchRoutes(routes, window.location)?.filter(m => m.route.lazy);
 
   // Load the lazy matches and update the routes before creating your router
@@ -25,6 +26,7 @@ async function hydrate() {
 
   startTransition(() => {
     hydrateRoot(
+      // @ts-expect-error ignore
       document,
       <StrictMode>
         <App>

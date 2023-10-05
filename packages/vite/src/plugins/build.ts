@@ -26,16 +26,17 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
     config(viteConfig, env) {
       isSsr = !!env.ssrBuild;
 
+      const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientEntry };
+
       return {
         build: {
           manifest: !isSsr,
           outDir: isSsr ? config.serverOutDir : config.clientOutDir,
           target: isSsr ? 'esnext' : 'modules',
+          copyPublicDir: !isSsr,
           emptyOutDir: !isSsr,
           rollupOptions: {
-            input: {
-              main: isSsr ? config.serverFile : config.clientEntry,
-            },
+            input: input as any,
           },
         },
       };

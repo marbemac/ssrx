@@ -5,24 +5,23 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun vite dev",
-    "debug": "node main.js",
+    "dev": "bun --bun vite dev --port 3000",
     "build": "bun run build.client && bun run build.server",
     "build.client": "NODE_ENV=production bun --bun vite build",
     "build.server": "NODE_ENV=production bun --bun vite build --ssr",
-    "test": "vitest",
-    "test.watch": "vitest watch --update",
-    "typecheck": "tsc",
-    "start": "bun run --hot dist/main.js"
+    "start": "node dist/server.js --port 3000",
+    "typecheck": "tsc"
   },
   "dependencies": {
+    "@dete/react": "latest",
+    "@hono/node-server": "1.2.0",
     "hono": "3.7.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.16.0"
   },
   "devDependencies": {
-    "@dete/vite": "workspace:*",
+    "@dete/vite": "latest",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.10",
     "@vitejs/plugin-react": "4.1.0",

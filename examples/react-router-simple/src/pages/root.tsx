@@ -1,10 +1,11 @@
-import { Link, Outlet, ScrollRestoration } from 'react-router-dom';
 import './root.css';
 
-export const RootLayout = () => {
+import { Link, Outlet, ScrollRestoration } from 'react-router-dom';
+
+export function Component() {
   return (
     <>
-      <h1 className="layout-title">Data Router Server Rendering Example</h1>
+      <h1 className="root-layout-title">Data Router Server Rendering Example</h1>
 
       <nav>
         <ul>
@@ -36,4 +37,4 @@ export const RootLayout = () => {
       <ScrollRestoration />
     </>
   );
-};
+}

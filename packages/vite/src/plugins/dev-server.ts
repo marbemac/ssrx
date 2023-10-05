@@ -30,12 +30,6 @@ export const devServerPlugin = ({ config, manifest }: DevServerPluginOpts): Plug
 
       server.middlewares.use(await createMiddleware(server, { entry: config.serverFile }));
     },
-
-    transformIndexHtml: {
-      handler(html, ctx) {
-        return manifest.getAssetsHtmlTags(ctx.path);
-      },
-    },
   };
 };
 

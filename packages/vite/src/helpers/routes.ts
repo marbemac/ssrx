@@ -1,6 +1,6 @@
 import type { ViteDevServer } from 'vite';
 
-import type { MatchedRoute, RouteId, RouteInfo } from '../router.ts';
+import type { RouteId, RouteInfo } from '../router.ts';
 import { getModuleBySsrReference } from './get-module-by-ssr-reference.ts';
 
 export type ViteClientManifest = {
@@ -10,6 +10,8 @@ export type ViteClientManifest = {
     file: string;
     isEntry?: boolean;
     imports: string[];
+    dynamicImports?: string[];
+    isDynamicEntry?: boolean;
   };
 };
 
@@ -43,7 +45,7 @@ export type AssetHtmlTag = {
   injectTo?: 'head' | 'body' | 'head-prepend' | 'body-prepend';
 };
 
-type RouteIdToPath = Record<RouteId, string>;
+type RouteIdToPaths = Record<RouteId, string[]>;
 
 export type SSRManifest = {
   readonly entry: Readonly<SSREntryManifest>;
@@ -56,13 +58,14 @@ export type SSRRouteManifest = Record<RouteId, Asset[]>;
 export const getRoutesIds = async (
   vite: ViteDevServer,
   routes: RouteInfo[],
-  index?: string,
-): Promise<RouteIdToPath> => {
-  const result: RouteIdToPath = {};
+  parentIds: string[] = [],
+  parentPath?: string,
+): Promise<RouteIdToPaths> => {
+  const result: RouteIdToPaths = {};
 
-  for (const routeIndex in routes) {
-    const route = routes[routeIndex]!;
-    const routeId = [index, routeIndex].filter(Boolean).join('-');
+  for (const route of routes) {
+    let childParentIds = parentIds;
+    const routeId = [parentPath, normalizeRouteId(route.path)].filter(Boolean).join('/');
 
     if (route.lazy) {
       try {
@@ -73,14 +76,15 @@ export const getRoutesIds = async (
 
         const mod = await vite.moduleGraph.getModuleById(id);
 
-        result[routeId] = normalizeRouteId(mod!.url);
+        childParentIds = [...parentIds, normalizeRouteId(mod!.url)!];
+        result[`/${routeId}`] = childParentIds;
       } catch (e) {
         console.error('Failed to load route:', route.path, e);
       }
     }
 
     if (route.children) {
-      Object.assign(result, await getRoutesIds(vite, route.children, routeId));
+      Object.assign(result, await getRoutesIds(vite, route.children, childParentIds, routeId));
     }
   }
 
@@ -92,7 +96,7 @@ export const emptySSRManifest: SSRManifest = {
   routes: {},
 };
 
-export const generateSSRManifest = (clientManifest: ViteClientManifest, routeIds: RouteIdToPath) => {
+export const generateSSRManifest = (clientManifest: ViteClientManifest, routeIds: RouteIdToPaths) => {
   return {
     entry: generateEntryManifest(clientManifest),
     routes: generateRoutesManifest(clientManifest, routeIds),
@@ -108,15 +112,32 @@ export const generateEntryManifest = (clientManifest: ViteClientManifest) => {
   return sortAssets(Object.values(getManifestModuleAssets(clientManifest, entry)));
 };
 
-export const generateRoutesManifest = (clientManifest: ViteClientManifest, routeIds: RouteIdToPath) => {
+export const generateRoutesManifest = (clientManifest: ViteClientManifest, routeIds: RouteIdToPaths) => {
   const result: SSRRouteManifest = {};
 
   // accumulate route assets
-  for (const [routeId, routePath] of Object.entries(routeIds)) {
-    const routeMeta = clientManifest[routePath];
-    if (!routeMeta) continue;
+  for (const [routeId, routePaths] of Object.entries(routeIds)) {
+    const assets: Asset[] = [];
 
-    result[routeId] = sortAssets(Object.values(getManifestModuleAssets(clientManifest, routeMeta)));
+    const usedAssets = new Set<string>();
+
+    for (const routePath of routePaths) {
+      const routeMeta = clientManifest[routePath];
+      if (!routeMeta) continue;
+
+      assets.push(
+        ...Object.values(
+          getManifestModuleAssets(clientManifest, routeMeta, usedAssets, false, {
+            skipEntry: true,
+            includeDynamic: true,
+          }),
+        ),
+      );
+    }
+
+    if (assets.length) {
+      result[routeId] = sortAssets(assets);
+    }
   }
 
   return result;
@@ -177,17 +198,16 @@ export const assetsToTags = (
               attrs: {
                 rel: 'modulepreload',
                 as: 'script',
-                crossorigin: true,
                 href: url,
               },
             };
           } else {
             return {
               tag: 'script',
+              injectTo: 'body' as const,
               attrs: {
                 async: true,
                 type: 'module',
-                crossorigin: true,
                 src: url,
               },
             };
@@ -197,21 +217,6 @@ export const assetsToTags = (
       return null;
     })
     .filter(Boolean);
-};
-
-export const getRouteAssets = (manifest: SSRManifest, matches: MatchedRoute[]) => {
-  // always include the entry assets
-  const assets = [...manifest.entry];
-
-  for (const m of matches) {
-    const routeAssets = manifest.routes[m.__id];
-
-    if (routeAssets?.length) {
-      assets.push(...routeAssets);
-    }
-  }
-
-  return sortAssets(assets);
 };
 
 export const sortAssets = (assets: Asset[]): Asset[] => {
@@ -239,7 +244,7 @@ export const getAssetWeight = (asset: string): number => {
  * --------------
  */
 
-const normalizeRouteId = (routePath: string) => {
+const normalizeRouteId = (routePath?: string) => {
   if (!routePath) return routePath;
 
   // remove leading/trailing slashes
@@ -280,20 +285,35 @@ const getAssetType = (asset: string): AssetType | null => {
 const getManifestModuleAssets = (
   manifest: ViteClientManifest,
   module: ViteClientManifest[string],
+  usedAssets: Set<string> = new Set(),
   isNested = false,
+  opts?: {
+    skipEntry?: boolean;
+    includeDynamic?: boolean;
+  },
 ): Record<string, Asset> => {
+  if (module.isEntry && opts?.skipEntry) return {};
+
   const rootAssets = [...(module?.assets ?? []), ...(module?.css ?? []), module?.file];
 
   const assets = rootAssets.reduce((res, asset) => {
     if (asset) {
       const type = getAssetType(asset);
       const isEntry = module.isEntry && module.file === asset;
+      const isDynamic = module.isDynamicEntry && module.file === asset;
+      const entryIdentifier = `${type}:${asset}`;
 
-      // only keep asset files
-      if (type) {
+      // only keep asset files, no dupes
+      if (type && !usedAssets.has(entryIdentifier) && (!isEntry || !opts?.skipEntry)) {
+        usedAssets.add(entryIdentifier);
+
+        const weight = isEntry ? 1.9 : getAssetWeight(asset);
+        const nestedWeight = isNested ? 0.1 : 0;
+        const dynamicWeight = isDynamic ? 0.1 : 0;
+
         res[asset] = {
           url: `/${asset}`,
-          weight: isEntry ? 1.9 : getAssetWeight(asset),
+          weight: weight + nestedWeight + dynamicWeight,
           type,
           isNested,
           isPreload: !isEntry,
@@ -304,13 +324,17 @@ const getManifestModuleAssets = (
     return res;
   }, {} as Record<string, Asset>);
 
-  // nested assets
-  if (module?.imports?.length) {
-    module.imports.forEach(nestedAsset => {
+  const nestedAssets = [...(module?.imports ?? [])];
+  if (opts?.includeDynamic && module?.dynamicImports) {
+    nestedAssets.push(...module.dynamicImports);
+  }
+
+  if (nestedAssets.length) {
+    nestedAssets.forEach(nestedAsset => {
       const nestedModule = manifest[nestedAsset];
 
       if (nestedModule) {
-        Object.assign(assets, getManifestModuleAssets(manifest, nestedModule, true));
+        Object.assign(assets, getManifestModuleAssets(manifest, nestedModule, usedAssets, true, opts));
       }
     });
   }

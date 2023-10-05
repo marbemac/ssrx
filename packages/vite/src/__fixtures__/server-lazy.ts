@@ -1,6 +1,6 @@
-import { routes } from "./routes-lazy.tsx";
+import blah from '/dx:routes.js';
 
-import blah from "/dx:routes.js";
+import { routes } from './routes-lazy.tsx';
 
 const PORT = 3005;
 
@@ -12,10 +12,10 @@ export default {
     return new Response(
       JSON.stringify({
         req: req.url,
-        msg: "hello world",
+        msg: 'hello world',
         foo: blah,
         manifest: import.meta.env.SSR_MANIFEST,
-      })
+      }),
     );
   },
 };

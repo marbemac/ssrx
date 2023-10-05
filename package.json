@@ -7,6 +7,8 @@
     "packages/*"
   ],
   "resolutions": {
+    "@dete/vite": "workspace:*",
+    "@dete/react": "workspace:*",
     "@remix-run/router": "file:.yalc/@remix-run/router",
     "react-router-dom": "file:.yalc/react-router-dom",
     "vite": "file:.yalc/vite"

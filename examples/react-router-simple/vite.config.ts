@@ -1,15 +1,12 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import deteVitePlugin from '@dete/vite/plugin';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    port: 3003,
-  },
-
   ssr: {
+    target: 'webworker',
     resolve: {
       conditions: ['worker', 'browser'],
       externalConditions: ['worker', 'browser'],
@@ -21,4 +18,8 @@ export default defineConfig({
   },
 
   plugins: [tsconfigPaths(), react(), deteVitePlugin()],
+
+  build: {
+    minify: false,
+  },
 });

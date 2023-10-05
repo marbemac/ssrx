@@ -1,31 +1,23 @@
+import { serve } from '@hono/node-server';
+import { serveStatic } from '@hono/node-server/serve-static';
+import { Hono } from 'hono';
 import { renderToString } from 'react-dom/server';
 
 import * as entry from '~/entry.server.tsx';
 
-import { Hono } from 'hono';
-
-const createAppServer = () => {
-  // const app = new Hono()
-  //   .use("/assets/*", serveStatic({ root: "./dist" }))
-  //   .use("/favicon.ico", serveStatic({ path: "./public/favicon.ico" }));
-
-  const app = new Hono();
-
-  app.get('*', async c => {
+const server = new Hono()
+  .use('/assets/*', serveStatic({ root: './dist/public' }))
+  .use('/favicon.ico', serveStatic({ path: './dist/public/favicon.ico' }))
+  .get('*', async c => {
     try {
       const { app: reactApp } = await entry.render(c.req.raw);
 
       const html = renderToString(reactApp);
 
-      return new Response(html, {
-        status: 200,
-        headers: {
-          'Content-Type': 'text/html',
-        },
-      });
+      return c.html(html);
     } catch (err) {
       /**
-       * Handle redirects
+       * Handle react-router redirects
        */
       if (err instanceof Response && err.status >= 300 && err.status <= 399) {
         return c.redirect(err.headers.get('Location') || '/', err.status);
@@ -35,12 +27,21 @@ const createAppServer = () => {
     }
   });
 
-  return { app };
-};
+/**
+ * In development, vite handles starting up the server
+ * In production, we need to start the server ourselves
+ */
+if (import.meta.env.PROD) {
+  const port = Number(process.env['PORT'] || 3000);
+  serve(
+    {
+      port,
+      fetch: server.fetch,
+    },
+    () => {
+      console.log(`🚀 Server running at http://localhost:${port}`);
+    },
+  );
+}
 
-const { app } = createAppServer();
-
-export default {
-  port: 3099,
-  fetch: app.fetch,
-};
+export default server;

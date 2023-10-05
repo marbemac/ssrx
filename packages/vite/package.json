@@ -8,15 +8,20 @@
   ],
   "exports": {
     "./plugin": "./src/plugin-entry.ts",
-    "./runtime": "./src/runtime.ts",
+    "./runtime": "./src/runtime/index.ts",
     "./adapters/react-router": "./src/adapters/react-router.ts"
   },
   "scripts": {
     "build": "echo 'todo'",
+    "test": "vitest",
+    "test.watch": "vitest watch --update",
     "typecheck": "tsc"
   },
   "peerDependencies": {
     "vite": ">=4"
+  },
+  "dependencies": {
+    "radix3": "^1.1.0"
   },
   "devDependencies": {
     "vite": "5.0.0-beta.4",

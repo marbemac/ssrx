@@ -1,0 +1,24 @@
+{
+  "name": "@dete/react",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo 'todo'",
+    "test": "vitest",
+    "test.watch": "vitest watch --update",
+    "typecheck": "tsc"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@dete/vite": "workspace:*",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}

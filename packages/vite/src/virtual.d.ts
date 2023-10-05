@@ -1,6 +1,6 @@
 declare module 'virtual:dete-routes' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  const routes: import('./router.ts').IdentifiedRouteInfo[];
+  const routes: import('./router.ts').RouteInfo[];
   export default routes;
 }
 
