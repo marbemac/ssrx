@@ -21,6 +21,7 @@
     "react-router-dom": "6.16.0"
   },
   "devDependencies": {
+    "@dete/adapter-react-router": "latest",
     "@dete/vite": "latest",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.10",

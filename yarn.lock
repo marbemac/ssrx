@@ -299,6 +299,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dete/adapter-react-router@workspace:*, @dete/adapter-react-router@workspace:packages/adapter-react-router":
+  version: 0.0.0-use.local
+  resolution: "@dete/adapter-react-router@workspace:packages/adapter-react-router"
+  dependencies:
+    "@dete/vite": "workspace:*"
+    react-router-dom: "npm:6.16.0"
+  peerDependencies:
+    react-router-dom: 6
+  languageName: unknown
+  linkType: soft
+
 "@dete/react@workspace:*, @dete/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@dete/react@workspace:packages/react"
@@ -4165,6 +4176,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-router-simple@workspace:examples/react-router-simple"
   dependencies:
+    "@dete/adapter-react-router": "npm:latest"
     "@dete/react": "npm:latest"
     "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"

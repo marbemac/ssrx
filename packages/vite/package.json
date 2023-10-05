@@ -7,9 +7,9 @@
     "vite-plugin"
   ],
   "exports": {
+    "./types": "./src/types.ts",
     "./plugin": "./src/plugin-entry.ts",
-    "./runtime": "./src/runtime/index.ts",
-    "./adapters/react-router": "./src/adapters/react-router.ts"
+    "./runtime": "./src/runtime/index.ts"
   },
   "scripts": {
     "build": "echo 'todo'",

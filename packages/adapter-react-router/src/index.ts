@@ -1,6 +1,5 @@
+import type { RouteInfo, RouterAdapter } from '@dete/vite/types';
 import type { RouteObject as RRRouteObject } from 'react-router-dom';
-
-import type { RouteInfo, RouterAdapter } from '../router.ts';
 
 export const ReactRouterAdapter = () => {
   const adapter: RouterAdapter<RRRouteObject[]> = {

@@ -1,15 +1,16 @@
 import type { Plugin } from 'vite';
 
-import { ReactRouterAdapter } from './adapters/react-router.ts';
 import { Config } from './config.ts';
 import { buildPlugin } from './plugins/build.ts';
 import { configPlugin } from './plugins/config.ts';
 import { devServerPlugin } from './plugins/dev-server.ts';
 import { virtualPlugin } from './plugins/virtual.ts';
+import type { RouterAdapter } from './router.ts';
 import { Router } from './router.ts';
 import { Manifest } from './ssr-manifest.ts';
 
 export type Opts = {
+  routerAdapter: RouterAdapter<any>;
   routesFile?: string;
   clientEntry?: string;
   serverFile?: string;
@@ -18,12 +19,13 @@ export type Opts = {
 };
 
 const plugin = ({
+  routerAdapter,
   routesFile = './src/routes.tsx',
   clientEntry = './src/entry.client.tsx',
   serverFile = './src/server.ts',
   clientOutDir = 'dist/public',
   serverOutDir = 'dist',
-}: Opts = {}): Plugin[] => {
+}: Opts): Plugin[] => {
   const config = new Config({
     routesFile,
     clientEntry,
@@ -32,11 +34,8 @@ const plugin = ({
     serverOutDir,
   });
 
-  const reactRouterAdapter = ReactRouterAdapter();
-
   const router = new Router<any>({
-    getMatchedRoutes: reactRouterAdapter.getMatchedRoutes,
-    normalizeExternalRoutes: routes => reactRouterAdapter.normalizeExternalRoutes(routes.routes),
+    normalizeExternalRoutes: routes => routerAdapter.normalizeExternalRoutes(routes.routes),
   });
 
   const manifest = new Manifest({

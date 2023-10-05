@@ -1,0 +1,22 @@
+{
+  "name": "@dete/adapter-react-router",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo 'todo'",
+    "test": "vitest",
+    "test.watch": "vitest watch --update",
+    "typecheck": "tsc"
+  },
+  "peerDependencies": {
+    "react-router-dom": "6"
+  },
+  "devDependencies": {
+    "@dete/vite": "workspace:*",
+    "react-router-dom": "6.16.0"
+  }
+}

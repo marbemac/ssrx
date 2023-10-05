@@ -1,3 +1,4 @@
+import { ReactRouterAdapter } from '@dete/adapter-react-router';
 import deteVitePlugin from '@dete/vite/plugin';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -17,7 +18,13 @@ export default defineConfig({
     conditions: ['worker', 'browser'],
   },
 
-  plugins: [tsconfigPaths(), react(), deteVitePlugin()],
+  plugins: [
+    tsconfigPaths(),
+    react(),
+    deteVitePlugin({
+      routerAdapter: ReactRouterAdapter(),
+    }),
+  ],
 
   build: {
     minify: false,
