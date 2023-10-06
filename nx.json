@@ -19,6 +19,9 @@
       "outputs": ["{projectRoot}/dist"]
     },
     "start": {
+      "dependsOn": ["build"]
+    },
+    "typecheck": {
       "dependsOn": ["^build"]
     }
   }

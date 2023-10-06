@@ -6,18 +6,6 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  ssr: {
-    target: 'webworker',
-    resolve: {
-      conditions: ['worker', 'browser'],
-      externalConditions: ['worker', 'browser'],
-    },
-  },
-
-  resolve: {
-    conditions: ['worker', 'browser'],
-  },
-
   plugins: [
     tsconfigPaths(),
     react(),
@@ -25,8 +13,4 @@ export default defineConfig({
       routerAdapter: ReactRouterAdapter(),
     }),
   ],
-
-  build: {
-    minify: false,
-  },
 });

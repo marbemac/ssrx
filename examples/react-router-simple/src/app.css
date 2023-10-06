@@ -36,7 +36,7 @@ a.active {
   font-weight: bold;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --color-border: rgba(0, 0, 0, 0.15);
     --color-link: #646cff;

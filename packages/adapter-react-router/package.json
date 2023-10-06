@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "yarn build --watch",
-    "build": "tsup --format esm src/index.ts",
+    "build": "tsup --dts --format esm src/index.ts",
     "test": "vitest",
     "test.watch": "vitest watch --update",
     "typecheck": "tsc"
