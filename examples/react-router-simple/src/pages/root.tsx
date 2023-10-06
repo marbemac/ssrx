@@ -1,38 +1,30 @@
 import './root.css';
 
-import { Link, Outlet, ScrollRestoration } from 'react-router-dom';
+import { useCallback } from 'react';
+import { NavLink, Outlet, ScrollRestoration } from 'react-router-dom';
 
 export function Component() {
+  const linkClass = useCallback(({ isActive }: any) => `root-nav__item ${isActive ? 'active' : undefined}`, []);
+
   return (
     <>
-      <h1 className="root-layout-title">Data Router Server Rendering Example</h1>
+      <nav className="root-nav">
+        <NavLink to="/" className={linkClass}>
+          Home
+        </NavLink>
 
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/lazy">Lazy</Link>
-          </li>
-          <li>
-            <Link to="/redirect">Redirect to Home</Link>
-          </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
-        </ul>
+        <NavLink to="/lazy-component" className={linkClass}>
+          Lazy Component
+        </NavLink>
+
+        <NavLink to="/admin" className={linkClass}>
+          Admin
+        </NavLink>
       </nav>
 
-      <hr />
-
-      <Outlet />
+      <div className="root-content">
+        <Outlet />
+      </div>
 
       <ScrollRestoration />
     </>

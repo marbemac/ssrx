@@ -1,9 +1,21 @@
-import './admin.members.$memberId.css';
+import { useLoaderData } from 'react-router-dom';
+
+import { getMember, sleep } from '~/utils.ts';
+
+export async function loader({ params: { memberId } }: any) {
+  await sleep();
+
+  return {
+    data: getMember(Number(memberId)),
+  };
+}
 
 export function Component() {
-  return (
-    <div>
-      <h2 className="admin-member">A member item!</h2>
-    </div>
-  );
+  const { data } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+
+  if (!data) {
+    return <div>member not found</div>;
+  }
+
+  return <div>Member: {data.name}</div>;
 }

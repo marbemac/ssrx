@@ -1,13 +1,39 @@
 import './admin.members.css';
 
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLoaderData } from 'react-router-dom';
+
+import { getMembers, sleep } from '~/utils.ts';
+
+export async function loader() {
+  await sleep();
+
+  return {
+    data: getMembers(),
+  };
+}
 
 export function Component() {
-  return (
-    <div>
-      <h2 className="admin-members-title">Admin members layout</h2>
+  const { data } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
-      <Outlet />
+  return (
+    <div className="members-layout">
+      <div className="members-list">
+        <div className="members-list__title">Members:</div>
+
+        {data.map(member => (
+          <NavLink
+            key={member.id}
+            className={({ isActive }) => `members-list__item ${isActive ? 'active' : ''}`}
+            to={String(member.id)}
+          >
+            {member.name}
+          </NavLink>
+        ))}
+      </div>
+
+      <div className="members-content">
+        <Outlet />
+      </div>
     </div>
   );
 }

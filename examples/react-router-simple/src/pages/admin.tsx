@@ -1,13 +1,28 @@
 import './admin.css';
 
-import { Outlet } from 'react-router-dom';
+import { useCallback } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 
 export function Component() {
+  const linkClass = useCallback(({ isActive }: any) => `admin-nav__item ${isActive ? 'active' : undefined}`, []);
+
   return (
     <>
-      <h1 className="admin-layout-title">Admin Layout Title</h1>
+      <h2>Admin Area</h2>
 
-      <Outlet />
+      <nav className="admin-nav">
+        <NavLink to="" className={linkClass} end>
+          Home
+        </NavLink>
+
+        <NavLink to="members" className={linkClass}>
+          Members
+        </NavLink>
+      </nav>
+
+      <div className="admin-content">
+        <Outlet />
+      </div>
     </>
   );
 }

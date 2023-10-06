@@ -6,8 +6,13 @@ import { renderToString } from 'react-dom/server';
 import * as entry from '~/entry.server.tsx';
 
 const server = new Hono()
+  /**
+   * These two serveStatic's will be used to serve production assets.
+   * Vite dev server handles assets during development.
+   */
   .use('/assets/*', serveStatic({ root: './dist/public' }))
   .use('/favicon.ico', serveStatic({ path: './dist/public/favicon.ico' }))
+
   .get('*', async c => {
     try {
       const { app: reactApp } = await entry.render(c.req.raw);

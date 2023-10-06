@@ -1,3 +1,10 @@
-.root-layout-title {
-  color: red;
+.root-nav {
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+.root-content {
+  padding: 20px;
 }

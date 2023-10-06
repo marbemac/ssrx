@@ -1,3 +1,10 @@
-.admin-layout-title {
-  color: orange;
+.admin-nav {
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  padding: 0 2px 20px 2px;
+  gap: 20px;
+}
+
+.admin-content {
+  padding-top: 15px;
 }
