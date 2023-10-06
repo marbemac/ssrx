@@ -5,10 +5,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun vite dev --port 3000",
-    "build": "bun run build.client && bun run build.server",
-    "build.client": "NODE_ENV=production bun --bun vite build",
-    "build.server": "NODE_ENV=production bun --bun vite build --ssr",
+    "dev": "vite dev --port 3000",
+    "build": "yarn run build.client && yarn run build.server",
+    "build.client": "NODE_ENV=production vite build",
+    "build.server": "NODE_ENV=production vite build --ssr",
     "start": "node dist/server.js --port 3000",
     "typecheck": "tsc"
   },

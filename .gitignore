@@ -33,6 +33,7 @@ node_modules
 .settings/
 *.sublime-workspace
 .DS_Store
+.ignore
 
 # IDE - VSCode
 .vscode/*

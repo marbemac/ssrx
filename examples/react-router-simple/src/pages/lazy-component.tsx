@@ -1,5 +1,3 @@
-import './_index.css';
-
 import React, { Suspense } from 'react';
 
 const MyHeavyComponent = React.lazy(() => import('~/components/heavy-component.tsx'));
