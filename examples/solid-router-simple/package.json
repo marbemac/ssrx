@@ -1,0 +1,29 @@
+{
+  "name": "solid-router-simple",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3000",
+    "build": "yarn run build.client && yarn run build.server",
+    "build.client": "NODE_ENV=production vite build",
+    "build.server": "NODE_ENV=production vite build --ssr",
+    "start": "node dist/server.js --port 3000",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@dete/solid": "latest",
+    "@hono/node-server": "1.2.0",
+    "@solidjs/router": "0.8.3",
+    "hono": "3.7.3",
+    "solid-js": "1.7.12"
+  },
+  "devDependencies": {
+    "@dete/adapter-solid-router": "latest",
+    "@dete/vite": "latest",
+    "vite": "5.0.0-beta.4",
+    "vite-plugin-solid": "2.7.0",
+    "vite-tsconfig-paths": "4.2.1"
+  }
+}

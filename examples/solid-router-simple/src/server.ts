@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
-import { renderToString } from 'react-dom/server';
+import { renderToStringAsync } from 'solid-js/web';
 
 import * as entry from '~/entry.server.tsx';
 
@@ -17,12 +17,12 @@ const server = new Hono()
     try {
       const { app } = await entry.render(c.req.raw);
 
-      const html = renderToString(app);
+      const html = await renderToStringAsync(() => app);
 
       return c.html(html);
     } catch (err) {
       /**
-       * Handle react-router redirects
+       * Handle redirects
        */
       if (err instanceof Response && err.status >= 300 && err.status <= 399) {
         return c.redirect(err.headers.get('Location') || '/', err.status);

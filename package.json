@@ -15,6 +15,8 @@
     "@dete/vite": "workspace:*",
     "@dete/react": "workspace:*",
     "@dete/adapter-react-router": "workspace:*",
+    "@dete/solid": "workspace:*",
+    "@dete/adapter-solid-router": "workspace:*",
     "@remix-run/router": "file:.yalc/@remix-run/router",
     "react-router-dom": "file:.yalc/react-router-dom",
     "vite": "file:.yalc/vite"
@@ -32,6 +34,7 @@
     "nx": "16.10.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
+    "vite": "5.0.0-beta.4",
     "vite-plugin-inspect": "0.7.40"
   },
   "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",

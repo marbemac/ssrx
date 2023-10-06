@@ -19,7 +19,7 @@
   },
   "scripts": {
     "dev": "yarn build --watch",
-    "build": "tsup --external 'virtual:dete-ssr-manifest' --dts --format esm src/plugin-entry.ts src/runtime/index.ts",
+    "build": "tsup",
     "test": "vitest",
     "test.watch": "vitest watch --update",
     "typecheck": "tsc"

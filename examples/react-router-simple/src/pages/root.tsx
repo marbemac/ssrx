@@ -9,7 +9,7 @@ export function Component() {
   return (
     <>
       <nav className="root-nav">
-        <NavLink to="/" className={linkClass}>
+        <NavLink to="/" className={linkClass} end>
           Home
         </NavLink>
 

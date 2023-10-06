@@ -1,7 +1,7 @@
 import type { RouteInfo, RouterAdapter } from '@dete/vite/types';
 import type { RouteObject as RRRouteObject } from 'react-router-dom';
 
-export const ReactRouterAdapter = () => {
+export const reactRouterAdapter = () => {
   const adapter: RouterAdapter<RRRouteObject[]> = {
     normalizeExternalRoutes(routes, parentId): RouteInfo[] {
       return routes.map((r, index) => {
