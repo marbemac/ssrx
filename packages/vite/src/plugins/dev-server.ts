@@ -79,8 +79,7 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
           !response.headers.get('transfer-encoding')?.match('chunked') &&
           response.headers.get('content-type')?.match(/^text\/html/)
         ) {
-          const resText = await response.text();
-          const body = await server.transformIndexHtml(request.url, resText);
+          const body = await response.text();
           const headers = new Headers(response.headers);
           headers.delete('content-length');
 

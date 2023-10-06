@@ -26,8 +26,8 @@ export type Asset = {
   type: AssetType;
   url: string;
   weight: number;
-  isNested: boolean;
-  isPreload: boolean;
+  isNested?: boolean;
+  isPreload?: boolean;
   content?: string;
 };
 
@@ -220,7 +220,9 @@ export const assetsToTags = (
 };
 
 export const sortAssets = (assets: Asset[]): Asset[] => {
-  return assets.sort((a, b) => (a.weight === b.weight ? Number(a.isNested) - Number(b.isNested) : a.weight - b.weight));
+  return assets.sort((a, b) =>
+    a.weight === b.weight ? Number(a.isNested || false) - Number(b.isNested || false) : a.weight - b.weight,
+  );
 };
 
 export const getAssetWeight = (asset: string): number => {
@@ -286,7 +288,7 @@ const getManifestModuleAssets = (
   manifest: ViteClientManifest,
   module: ViteClientManifest[string],
   usedAssets: Set<string> = new Set(),
-  isNested = false,
+  isNested?: boolean,
   opts?: {
     skipEntry?: boolean;
     includeDynamic?: boolean;
@@ -316,7 +318,7 @@ const getManifestModuleAssets = (
           weight: weight + nestedWeight + dynamicWeight,
           type,
           isNested,
-          isPreload: !isEntry,
+          isPreload: !isEntry ? true : undefined,
         };
       }
     }

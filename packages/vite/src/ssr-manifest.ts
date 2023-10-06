@@ -1,10 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import type { ViteDevServer } from 'vite';
+import type { IndexHtmlTransformHook, ViteDevServer } from 'vite';
 
 import type { Config } from './config.ts';
 import type { Asset, SSRManifest, ViteClientManifest } from './helpers/routes.ts';
-import { assetsToHtml, assetsToTags, emptySSRManifest, generateSSRManifest, getRoutesIds } from './helpers/routes.ts';
+import {
+  assetsToHtml,
+  assetsToTags,
+  AssetType,
+  emptySSRManifest,
+  generateSSRManifest,
+  getAssetWeight,
+  getRoutesIds,
+} from './helpers/routes.ts';
 import type { MatchedRoute, Router } from './router.ts';
 import { findStylesInModuleGraph } from './ssr-manifest-dev.ts';
 
@@ -91,6 +99,47 @@ export class Manifest<ExternalRoutes> {
     return ssrManifest;
   }
 
+  public async getVitePluginAssets(requestUrl: string = '/') {
+    const server = this.viteServer;
+    if (!server) return [];
+
+    const plugins = server.config.plugins.filter(plugin => 'transformIndexHtml' in plugin);
+
+    const pluginAssets = [];
+    for (const plugin of plugins) {
+      const hook = plugin!.transformIndexHtml;
+
+      const handler: IndexHtmlTransformHook =
+        typeof hook === 'function'
+          ? hook
+          : // @ts-expect-error ignore
+            hook.handler ?? hook.transform;
+
+      const transformedHtml = await handler(``, { path: requestUrl, server, filename: 'index.html' });
+
+      if (!transformedHtml) continue;
+
+      if (Array.isArray(transformedHtml)) {
+        pluginAssets.push(...transformedHtml);
+      } else if (typeof transformedHtml === 'string') {
+        console.warn(`getVitePluginAssets() transformHtml string response not supported from plugin ${plugin.name}`);
+        continue;
+      } else if (transformedHtml.tags) {
+        pluginAssets.push(...(transformedHtml.tags ?? []));
+      }
+    }
+
+    return pluginAssets.map((asset, index) => {
+      return {
+        ...asset,
+        attrs: {
+          ...asset.attrs,
+          key: `plugin-${index}`,
+        },
+      };
+    });
+  }
+
   #loadClientManifest(): ViteClientManifest {
     if (this.#clientManifest) return this.#clientManifest;
 
@@ -118,17 +167,31 @@ export class Manifest<ExternalRoutes> {
     return path.resolve(this.config.root, `${this.config.serverOutDir}/${this.ssrManifestName}`);
   }
 
+  /**
+   * @TODO actually use these routeMatches to scope down the assets in dev
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async #getAssetsDev(routeMatches: MatchedRoute[]): Promise<Asset[]> {
     const devServer = this.viteServer;
     if (!devServer) {
-      throw new Error('Cannot call getAssetsDev() without a dev server');
+      throw new Error('Cannot call getAssetsDev() without a vite server');
     }
 
     const clientEntryId = this.config.clientEntry;
 
-    const assets = await findStylesInModuleGraph(devServer, [clientEntryId], false);
+    const assets: Asset[] = [];
 
-    return Object.values(assets);
+    // push the main entry
+    assets.push({
+      type: AssetType.script,
+      url: this.config.clientEntry,
+      weight: getAssetWeight(this.config.clientEntry),
+    });
+
+    // styles
+    const styleAssets = await findStylesInModuleGraph(devServer, [clientEntryId], false);
+    assets.push(...Object.values(styleAssets));
+
+    return assets;
   }
 }

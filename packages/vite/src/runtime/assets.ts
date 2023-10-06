@@ -9,17 +9,23 @@ import type { Manifest } from '../ssr-manifest.ts';
 export type { AssetHtmlTag };
 
 export const assetsForRequest = async (url: string) => {
-  const assets = import.meta.env.PROD ? prodAssetsForRequest(url) : await devAssetsForRequest(url);
-  const htmlTags = assetsToTags(assets, { isDev: import.meta.env.DEV, shouldModulePreload: true });
-
-  return htmlTags;
+  return import.meta.env.PROD ? prodAssetsForRequest(url) : devAssetsForRequest(url);
 };
 
 const devAssetsForRequest = async (url: string) => {
   // @ts-expect-error ignore
   const m = globalThis.MANIFEST as Manifest<any>;
 
-  return m.getAssets(url);
+  const tags: AssetHtmlTag[] = [];
+
+  const pluginTags = await m.getVitePluginAssets(url);
+  // @ts-expect-error ignore for now...
+  tags.push(...pluginTags);
+
+  const assets = await m.getAssets(url);
+  tags.push(...assetsToTags(assets, { isDev: true, shouldModulePreload: true }));
+
+  return tags;
 };
 
 const prodAssetsForRequest = (url: string) => {
@@ -30,7 +36,7 @@ const prodAssetsForRequest = (url: string) => {
   const entryAssets = ssrManifest.entry;
   const reqAssets = router.lookup(u.pathname) || [];
 
-  return [...entryAssets, ...reqAssets];
+  return assetsToTags([...entryAssets, ...reqAssets], { isDev: false, shouldModulePreload: true });
 };
 
 let routerSingleton: RadixRouter<Asset[]>;
