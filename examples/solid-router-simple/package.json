@@ -20,7 +20,6 @@
     "solid-js": "1.7.12"
   },
   "devDependencies": {
-    "@dete/adapter-solid-router": "latest",
     "@dete/vite": "latest",
     "vite": "5.0.0-beta.4",
     "vite-plugin-solid": "2.7.0",

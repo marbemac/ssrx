@@ -14,9 +14,8 @@
   "resolutions": {
     "@dete/vite": "workspace:*",
     "@dete/react": "workspace:*",
-    "@dete/adapter-react-router": "workspace:*",
     "@dete/solid": "workspace:*",
-    "@dete/adapter-solid-router": "workspace:*",
+    "@dete/adapter-tanstack-router": "workspace:*",
     "@remix-run/router": "file:.yalc/@remix-run/router",
     "react-router-dom": "file:.yalc/react-router-dom",
     "vite": "file:.yalc/vite"

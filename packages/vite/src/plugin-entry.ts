@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite';
 
 import { Config } from './config.ts';
+import { defaultRouterAdapter } from './default-router-adapter.ts';
 import { buildPlugin } from './plugins/build.ts';
 import { configPlugin } from './plugins/config.ts';
 import { devServerPlugin } from './plugins/dev-server.ts';
@@ -10,7 +11,7 @@ import { Router } from './router.ts';
 import { Manifest } from './ssr-manifest.ts';
 
 export type Opts = {
-  routerAdapter: RouterAdapter<any>;
+  routerAdapter?: RouterAdapter<any>;
   routesFile?: string;
   clientEntry?: string;
   serverFile?: string;
@@ -19,13 +20,13 @@ export type Opts = {
 };
 
 const plugin = ({
-  routerAdapter,
+  routerAdapter = defaultRouterAdapter(),
   routesFile = './src/routes.tsx',
   clientEntry = './src/entry.client.tsx',
   serverFile = './src/server.ts',
   clientOutDir = 'dist/public',
   serverOutDir = 'dist',
-}: Opts): Plugin[] => {
+}: Opts = {}): Plugin[] => {
   const config = new Config({
     routesFile,
     clientEntry,
@@ -35,7 +36,7 @@ const plugin = ({
   });
 
   const router = new Router<any>({
-    normalizeExternalRoutes: routes => routerAdapter.normalizeExternalRoutes(routes.routes),
+    normalizeExternalRoutes: routeFile => routerAdapter.normalizeExternalRoutes(routeFile),
   });
 
   const manifest = new Manifest({

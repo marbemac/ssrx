@@ -440,34 +440,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dete/adapter-react-router@workspace:*, @dete/adapter-react-router@workspace:packages/adapter-react-router":
-  version: 0.0.0-use.local
-  resolution: "@dete/adapter-react-router@workspace:packages/adapter-react-router"
-  dependencies:
-    "@dete/vite": "workspace:*"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
-    react-router-dom: "npm:6.16.0"
-    tsup: "npm:7.2.0"
-  peerDependencies:
-    react-router-dom: 6
-  languageName: unknown
-  linkType: soft
-
-"@dete/adapter-solid-router@workspace:*, @dete/adapter-solid-router@workspace:packages/adapter-solid-router":
-  version: 0.0.0-use.local
-  resolution: "@dete/adapter-solid-router@workspace:packages/adapter-solid-router"
-  dependencies:
-    "@dete/vite": "workspace:*"
-    "@solidjs/router": "npm:0.8.3"
-    esbuild-plugin-solid: "npm:0.5.0"
-    solid-js: "npm:1.7.12"
-    tsup: "npm:7.2.0"
-  peerDependencies:
-    "@solidjs/router": "*"
-  languageName: unknown
-  linkType: soft
-
 "@dete/adapter-tanstack-router@workspace:*, @dete/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
   version: 0.0.0-use.local
   resolution: "@dete/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
@@ -5419,7 +5391,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-router-simple@workspace:examples/react-router-simple"
   dependencies:
-    "@dete/adapter-react-router": "npm:latest"
     "@dete/react": "npm:latest"
     "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"
@@ -5839,7 +5810,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "solid-router-simple@workspace:examples/solid-router-simple"
   dependencies:
-    "@dete/adapter-solid-router": "npm:latest"
     "@dete/solid": "npm:latest"
     "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"
