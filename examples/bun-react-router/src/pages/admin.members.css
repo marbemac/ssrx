@@ -1,0 +1,26 @@
+.members-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding-top: 20px;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  border-right: 1px solid var(--color-border);
+}
+
+.members-list__title {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.members-list__item {
+  padding: 5px 0;
+}
+
+.members-content {
+  padding: 0 50px;
+}

@@ -1,0 +1,31 @@
+{
+  "name": "bun-react-router",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --bun vite dev --port 3000",
+    "build": "bun run build.client && bun run build.server",
+    "build.client": "NODE_ENV=production bun run --bun vite build",
+    "build.server": "NODE_ENV=production bun run --bun vite build --ssr",
+    "start": "bun run dist/server.js --port 3000",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@dete/react": "latest",
+    "@elysiajs/static": "0.7.1",
+    "elysia": "0.7.15",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.16.0"
+  },
+  "devDependencies": {
+    "@dete/vite": "latest",
+    "@types/react": "18.2.25",
+    "@types/react-dom": "18.2.10",
+    "@vitejs/plugin-react": "4.1.0",
+    "vite": "5.0.0-beta.4",
+    "vite-tsconfig-paths": "4.2.1"
+  }
+}

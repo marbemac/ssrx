@@ -499,6 +499,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@elysiajs/static@npm:0.7.1":
+  version: 0.7.1
+  resolution: "@elysiajs/static@npm:0.7.1"
+  peerDependencies:
+    elysia: ">= 0.7.9"
+  checksum: b5b59f484ab4fcb779f503c339bcbc7ab3b6c2d0dcc88a8ec6e373ddae5da37a14d2eeaba543880c95a1caa5138a5f14f8dc9d83c95a7bb87108a8a12208baab
+  languageName: node
+  linkType: hard
+
 "@esbuild/android-arm64@npm:0.18.20":
   version: 0.18.20
   resolution: "@esbuild/android-arm64@npm:0.18.20"
@@ -1125,6 +1134,13 @@ __metadata:
   version: 0.27.8
   resolution: "@sinclair/typebox@npm:0.27.8"
   checksum: 7e5f62b0c2c8152c5884d6241720c384d884b4d036c18ae30b03cf3ac79280d4904127b60d61992e6dcb6de3e2d55bc371e38fef7c54279001f9d53e76f4bd33
+  languageName: node
+  linkType: hard
+
+"@sinclair/typebox@npm:^0.31.17":
+  version: 0.31.17
+  resolution: "@sinclair/typebox@npm:0.31.17"
+  checksum: c6c4c7aed33effd850c42eac7b4db096415dcbeedca86de5f08e53f4cfecaed1cb7d179820f0a7e9a838ac56ddeb53435b86e96b9cf8e640f161b4e0cd64ad82
   languageName: node
   linkType: hard
 
@@ -2071,6 +2087,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bun-react-router@workspace:examples/bun-react-router":
+  version: 0.0.0-use.local
+  resolution: "bun-react-router@workspace:examples/bun-react-router"
+  dependencies:
+    "@dete/react": "npm:latest"
+    "@dete/vite": "npm:latest"
+    "@elysiajs/static": "npm:0.7.1"
+    "@types/react": "npm:18.2.25"
+    "@types/react-dom": "npm:18.2.10"
+    "@vitejs/plugin-react": "npm:4.1.0"
+    elysia: "npm:0.7.15"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    react-router-dom: "npm:6.16.0"
+    vite: "npm:5.0.0-beta.4"
+    vite-tsconfig-paths: "npm:4.2.1"
+  languageName: unknown
+  linkType: soft
+
 "bun-types@npm:1.0.3":
   version: 1.0.3
   resolution: "bun-types@npm:1.0.3"
@@ -2339,6 +2374,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie-signature@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "cookie-signature@npm:1.2.1"
+  checksum: 6154cbee61238c4cbfdb85896d812844bc953eee243dc99a8f1073b58416f8c972b55324a06c18fbda37f5ad4022f3c1782f1abbb328a4b552c9853420503632
+  languageName: node
+  linkType: hard
+
+"cookie@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "cookie@npm:0.5.0"
+  checksum: 23bd6dd64f025869373c6f3c72a870b9bd0e0e6a0ffe734229c032d7aca51972ba584b39100c09141b18043e790862425aae4a60d7449fca565b21cdae0cb3c3
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -2590,6 +2639,32 @@ __metadata:
   version: 1.4.540
   resolution: "electron-to-chromium@npm:1.4.540"
   checksum: a6bc1f593dca949f24f2cf43c033cdad1a3562c4057d7d4f0dce1fe2debe8dd3b5bc30e1c0bb7f3f58427ce87fb8db51c845e2f75859f786fb00afda303f8bdb
+  languageName: node
+  linkType: hard
+
+"elysia@npm:0.7.15":
+  version: 0.7.15
+  resolution: "elysia@npm:0.7.15"
+  dependencies:
+    "@sinclair/typebox": "npm:^0.31.17"
+    cookie: "npm:^0.5.0"
+    cookie-signature: "npm:^1.2.1"
+    eventemitter3: "npm:^5.0.1"
+    fast-querystring: "npm:^1.1.2"
+    memoirist: "npm:0.1.4"
+    openapi-types: "npm:^12.1.3"
+  peerDependencies:
+    "@sinclair/typebox": ">= 0.31.0"
+    openapi-types: ">= 12.0.0"
+    typescript: ">= 5.0.0"
+  peerDependenciesMeta:
+    "@sinclair/typebox":
+      optional: true
+    openapi-types:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 5b5d8bad4aeb32b98e5d3e347960a0469c3863f6e198ee009a94035ad1124e2da4ed5ecf9449736b0afdcd7aef6a986a609b5e32da71bd67a94f3a6cd686bccf
   languageName: node
   linkType: hard
 
@@ -3151,6 +3226,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eventemitter3@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "eventemitter3@npm:5.0.1"
+  checksum: 3c7f3864e4bd8b23574595c43fda88ac8b5798a6bd6f57788c2cf7fa5a09e11c7c6161da6d263f2c40bcbca58bc69914ee2bbf684eccf73d671b12f002f44ce6
+  languageName: node
+  linkType: hard
+
 "execa@npm:^5.0.0":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
@@ -3192,6 +3274,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-decode-uri-component@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "fast-decode-uri-component@npm:1.0.1"
+  checksum: 47a0e7876b61e6f2661d43abd50cbb1cbb1a3e4eaadc428fbb914a5c78ad1a187f9fc1e4570052eb18d02239fbfd66642cd7b1adee5e927821fba0c93e7096db
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -3223,6 +3312,15 @@ __metadata:
   version: 2.0.6
   resolution: "fast-levenshtein@npm:2.0.6"
   checksum: 7814143d0352153a7a51ebd9b21341bf1732b9599ec592a398ab5e4584b516aeb5008834ba2a46502253c221b33dad7dddc93ce3f5054acd09218cce1710c81b
+  languageName: node
+  linkType: hard
+
+"fast-querystring@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "fast-querystring@npm:1.1.2"
+  dependencies:
+    fast-decode-uri-component: "npm:^1.0.1"
+  checksum: fc70deb15d019b8c56dbaa692c7c45cb73d223e469297d8d05779e3051b82ee9810701e1ea81abaab1396a6bc387237d47267092af63f85045c15b72bcfedf0e
   languageName: node
   linkType: hard
 
@@ -4467,6 +4565,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"memoirist@npm:0.1.4":
+  version: 0.1.4
+  resolution: "memoirist@npm:0.1.4"
+  checksum: c896caf54ee07583ab114b90868005a60f51802dddae942764365548936536547ff51922007676e1089c4461805c2841dea69b19754898519cfe875c4c94a4d4
+  languageName: node
+  linkType: hard
+
 "merge-anything@npm:^5.1.4":
   version: 5.1.7
   resolution: "merge-anything@npm:5.1.7"
@@ -5044,6 +5149,13 @@ __metadata:
     is-inside-container: "npm:^1.0.0"
     is-wsl: "npm:^2.2.0"
   checksum: e1ac0dd901d5ac8f7ecc334bf6a768d908e396ed97cfe8f857a46ac5ff677d9b1f81b892cb7c2fcdde4e90123db43fb70c0acb39290fe6e9a69c8c0553904f84
+  languageName: node
+  linkType: hard
+
+"openapi-types@npm:^12.1.3":
+  version: 12.1.3
+  resolution: "openapi-types@npm:12.1.3"
+  checksum: 5a197365ac2ed3955aed7fe27b522bf0421ef09532564577a3b56b7a19bac5f667c14d4edae845e021839b1c1ca5586d244bd8625ec43b832407c725a9eb3f46
   languageName: node
   linkType: hard
 
