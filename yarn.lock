@@ -340,7 +340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx-self@npm:^7.22.5":
+"@babel/plugin-transform-react-jsx-self@npm:^7.18.6, @babel/plugin-transform-react-jsx-self@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/plugin-transform-react-jsx-self@npm:7.22.5"
   dependencies:
@@ -351,7 +351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx-source@npm:^7.22.5":
+"@babel/plugin-transform-react-jsx-source@npm:^7.19.6, @babel/plugin-transform-react-jsx-source@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/plugin-transform-react-jsx-source@npm:7.22.5"
   dependencies:
@@ -391,7 +391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.20.7":
+"@babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0":
   version: 7.23.1
   resolution: "@babel/runtime@npm:7.23.1"
   dependencies:
@@ -460,10 +460,30 @@ __metadata:
   dependencies:
     "@dete/vite": "workspace:*"
     "@solidjs/router": "npm:0.8.3"
+    esbuild-plugin-solid: "npm:0.5.0"
     solid-js: "npm:1.7.12"
     tsup: "npm:7.2.0"
   peerDependencies:
     "@solidjs/router": "*"
+  languageName: unknown
+  linkType: soft
+
+"@dete/adapter-tanstack-router@workspace:*, @dete/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
+  version: 0.0.0-use.local
+  resolution: "@dete/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
+  dependencies:
+    "@dete/vite": "workspace:*"
+    "@tanstack/react-router": "npm:0.0.1-beta.194"
+    "@tanstack/router-core": "npm:0.0.1-beta.194"
+    acorn: "npm:8.10.0"
+    acorn-walk: "npm:^8.2.0"
+    estree-walker: "npm:^3.0.3"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    tsup: "npm:7.2.0"
+    vitest: "npm:0.34.6"
+  peerDependencies:
+    "@tanstack/router-core": <=1
   languageName: unknown
   linkType: soft
 
@@ -857,6 +877,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gisatcz/cross-package-react-context@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@gisatcz/cross-package-react-context@npm:0.2.0"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.2 || ^18.1.0
+  checksum: 1199cd687abeb34a4e53110c9879d360a2a55a7777cd9a11c3ab483a76f1dcdf994c6e2ef0106e7502ddb7b78016051116640686092a3b80850fe997480a322a
+  languageName: node
+  linkType: hard
+
 "@hono/node-server@npm:1.2.0":
   version: 1.2.0
   resolution: "@hono/node-server@npm:1.2.0"
@@ -937,7 +966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.14, @jridgewell/sourcemap-codec@npm:^1.4.15":
+"@jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.13, @jridgewell/sourcemap-codec@npm:^1.4.14, @jridgewell/sourcemap-codec@npm:^1.4.15":
   version: 1.4.15
   resolution: "@jridgewell/sourcemap-codec@npm:1.4.15"
   checksum: b71b5eeb0af50fb1dbdf18e88aa5cf755baa30723f0d5fd2ac069f861d0c73b12b968321314e4db86d5a4d5d89a292211f68ba94767c620fee35247a94c05890
@@ -1133,6 +1162,113 @@ __metadata:
   peerDependencies:
     solid-js: ^1.5.3
   checksum: 50412e183342617b3828867448cca845736953e1895621640ef69e3fc88710d258b5d3c59bc4bf5ebf5300d4d9ac7a63197564ebf0875632e58bf39fe327155f
+  languageName: node
+  linkType: hard
+
+"@tanstack/bling@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@tanstack/bling@npm:0.0.3"
+  dependencies:
+    "@vitejs/plugin-react": "npm:^3.1.0"
+  checksum: f1f643a33f97ae27fe2b51228a2723ec2b699bdac96c9052621e9d9b4a7ff3bac884f8a65bab086b805ad6b68799d5d5c8dafa2f3979a5bdde33c9496d025b21
+  languageName: node
+  linkType: hard
+
+"@tanstack/loaders@npm:0.0.1-beta.194":
+  version: 0.0.1-beta.194
+  resolution: "@tanstack/loaders@npm:0.0.1-beta.194"
+  dependencies:
+    "@tanstack/store": "npm:^0.0.1"
+    tiny-invariant: "npm:^1.3.1"
+  checksum: 62e09c82fb5976160e78120ec921d951192c8b8b5b04128d418bd7126eb8f4a8f16aae71a3c49afa405cc1b408bde90cf18af590bc10973e9c718726e29b5e86
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-loaders@npm:0.0.1-beta.194":
+  version: 0.0.1-beta.194
+  resolution: "@tanstack/react-loaders@npm:0.0.1-beta.194"
+  dependencies:
+    "@tanstack/loaders": "npm:0.0.1-beta.194"
+    "@tanstack/react-store": "npm:^0.0.1"
+    tiny-invariant: "npm:^1.0.5"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: d969e20ec3f8415f90ff68e133db901f442de075a48f6b9ba88149d22ad82ca04e6a4895d41abca8bb184679ef0018aaa09b15f4373127dabfb7b72c59b9aac9
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-router@npm:0.0.1-beta.194":
+  version: 0.0.1-beta.194
+  resolution: "@tanstack/react-router@npm:0.0.1-beta.194"
+  dependencies:
+    "@babel/runtime": "npm:^7.16.7"
+    "@gisatcz/cross-package-react-context": "npm:^0.2.0"
+    "@tanstack/react-store": "npm:^0.0.1"
+    "@tanstack/router-core": "npm:0.0.1-beta.194"
+    tiny-invariant: "npm:^1.3.1"
+    tiny-warning: "npm:^1.0.3"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: d59d6c96514a6c7912c427bd08315b5f0832541129a09418e19a05db0505c32083f198dc9983288a87799615b0599b0376f849b21f27cd10d74550aa45e638c3
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-start@npm:0.0.1-beta.194":
+  version: 0.0.1-beta.194
+  resolution: "@tanstack/react-start@npm:0.0.1-beta.194"
+  dependencies:
+    "@babel/runtime": "npm:^7.21.0"
+    "@gisatcz/cross-package-react-context": "npm:^0.2.0"
+    "@tanstack/bling": "npm:^0.0.3"
+    "@tanstack/react-loaders": "npm:0.0.1-beta.194"
+    "@tanstack/react-router": "npm:0.0.1-beta.194"
+    "@tanstack/store": "npm:^0.0.1"
+    isbot: "npm:^3.6.6"
+    jsesc: "npm:^3.0.2"
+    tiny-invariant: "npm:^1.3.1"
+    tiny-warning: "npm:^1.0.3"
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: eb3bc553200e68d2e2a15ed9ec3014586d8f4335fc3571f3d3b1af0c1c8818583f261d56ea9c7dac1aeb0af4c39d21a7d8d6709c389bb7380b4821428cf2990c
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-store@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@tanstack/react-store@npm:0.0.1"
+  dependencies:
+    "@tanstack/store": "npm:0.0.1"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 627086af3b5a282fb5e86e33bd5f631fe30300e4a00acf1cdaa30603d1b65e7b384dde95e281958fbd408230579e9ef9593bddeae3c49ae52ee5866ed8756303
+  languageName: node
+  linkType: hard
+
+"@tanstack/router-core@npm:0.0.1-beta.194":
+  version: 0.0.1-beta.194
+  resolution: "@tanstack/router-core@npm:0.0.1-beta.194"
+  dependencies:
+    "@babel/runtime": "npm:^7.16.7"
+    "@gisatcz/cross-package-react-context": "npm:^0.2.0"
+    "@tanstack/store": "npm:^0.0.1"
+    tiny-invariant: "npm:^1.3.1"
+    tiny-warning: "npm:^1.0.3"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 57be1c59e3b37ba5ca67e002fa66e07bbd4c27ec0ee95fbbc76483ed1e388850bd495cfcdc709cd4340c52e72378575cfde5b6a897bbc12e46b7075b2b7cc8fa
+  languageName: node
+  linkType: hard
+
+"@tanstack/store@npm:0.0.1, @tanstack/store@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@tanstack/store@npm:0.0.1"
+  checksum: 71bfe4cfee6bad00fe8fbd8c39ff7ee3dddf15b78ea4ce0e448e7c54aa7dd83ba134e393349d58188b0603ee56878ec520f4c715e7c50dc757d2371041ffaf91
   languageName: node
   linkType: hard
 
@@ -1413,6 +1549,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vitejs/plugin-react@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@vitejs/plugin-react@npm:3.1.0"
+  dependencies:
+    "@babel/core": "npm:^7.20.12"
+    "@babel/plugin-transform-react-jsx-self": "npm:^7.18.6"
+    "@babel/plugin-transform-react-jsx-source": "npm:^7.19.6"
+    magic-string: "npm:^0.27.0"
+    react-refresh: "npm:^0.14.0"
+  peerDependencies:
+    vite: ^4.1.0-beta.0
+  checksum: 22ff3e5bd36c707a32eee8988cb48708dc01740358bb90fead24a76b2b701d849d574dc197402ce500686483113d4fd146e510188c1b40cadd631666e366c3d1
+  languageName: node
+  linkType: hard
+
 "@vitest/expect@npm:0.34.6":
   version: 0.34.6
   resolution: "@vitest/expect@npm:0.34.6"
@@ -1517,7 +1668,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.10.0, acorn@npm:^8.9.0":
+"acorn@npm:8.10.0, acorn@npm:^8.10.0, acorn@npm:^8.9.0":
   version: 8.10.0
   resolution: "acorn@npm:8.10.0"
   bin:
@@ -3012,6 +3163,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "estree-walker@npm:3.0.3"
+  dependencies:
+    "@types/estree": "npm:^1.0.0"
+  checksum: 0c44966bc57eeafacb2ba2eda8e12e2d7d298fe44bd4e93ad9c9a5c3c6521fac8eb2f3499a500a44dc630e846bc35aff3a50824521bd7c1d767fd4d1d103d3d7
+  languageName: node
+  linkType: hard
+
 "esutils@npm:^2.0.2":
   version: 2.0.3
   resolution: "esutils@npm:2.0.3"
@@ -3966,6 +4126,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"isbot@npm:^3.6.6":
+  version: 3.7.0
+  resolution: "isbot@npm:3.7.0"
+  checksum: d8cbe3394e070e520568bb43dd9e5967dc9ca73ca6e1c385a5c6d881336aa31fa7e3a4519e08ca67f3e3a08a55637665149f69bcdd607c987106f7f5b9b84b3c
+  languageName: node
+  linkType: hard
+
 "isexe@npm:^2.0.0":
   version: 2.0.0
   resolution: "isexe@npm:2.0.0"
@@ -4057,6 +4224,15 @@ __metadata:
   bin:
     jsesc: bin/jsesc
   checksum: 145808bbe202187ed901a7c41d1ca88386fba41da2fc56f8e450ac07a240cc7fdb4828a6a7b7e4773931c0cee8eb938523215b3d2d2ab568ac4640d7abceaef6
+  languageName: node
+  linkType: hard
+
+"jsesc@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "jsesc@npm:3.0.2"
+  bin:
+    jsesc: bin/jsesc
+  checksum: fcac8cfe4f8a947d8f16ff1be77c9d4c81ddc66da7798eff79a6f8bd1c39e88a4e728a14576acfa2ae06303be6684113b46f322ca40681ad204fa48908e6a86d
   languageName: node
   linkType: hard
 
@@ -4275,6 +4451,15 @@ __metadata:
   version: 10.0.1
   resolution: "lru-cache@npm:10.0.1"
   checksum: 2a029f0067f9cc179c276af53f6827234bda6c799d003e07586eeaecff23bcebbb87c7985d1687c5be1ab5fd42d64327ee06a465d7905bfcb7ad49343793a0a4
+  languageName: node
+  linkType: hard
+
+"magic-string@npm:^0.27.0":
+  version: 0.27.0
+  resolution: "magic-string@npm:0.27.0"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.13"
+  checksum: 3b7ea05374ce06a1f4726a752959af578d5cd864b00321f2ffa131b5256776d47b87fbcf569b42abe6e70f53708dec91996776ce942bc68c21f91b205356cd57
   languageName: node
   linkType: hard
 
@@ -5921,6 +6106,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tanstack-router-simple@workspace:examples/tanstack-router-simple":
+  version: 0.0.0-use.local
+  resolution: "tanstack-router-simple@workspace:examples/tanstack-router-simple"
+  dependencies:
+    "@dete/adapter-tanstack-router": "npm:latest"
+    "@dete/react": "npm:latest"
+    "@dete/vite": "npm:latest"
+    "@hono/node-server": "npm:1.2.0"
+    "@tanstack/react-router": "npm:0.0.1-beta.194"
+    "@tanstack/react-start": "npm:0.0.1-beta.194"
+    "@types/react": "npm:18.2.25"
+    "@types/react-dom": "npm:18.2.10"
+    "@vitejs/plugin-react": "npm:4.1.0"
+    hono: "npm:3.7.3"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    vite: "npm:5.0.0-beta.4"
+    vite-tsconfig-paths: "npm:4.2.1"
+  languageName: unknown
+  linkType: soft
+
 "tar-stream@npm:~2.2.0":
   version: 2.2.0
   resolution: "tar-stream@npm:2.2.0"
@@ -5977,6 +6183,20 @@ __metadata:
   version: 2.3.8
   resolution: "through@npm:2.3.8"
   checksum: c9d6883ace26b3c967283827cafdd4ceee6164fa4d3754865f5032dcb564e0cbdea9dc6f43806afa51e1f2863d8e3beca141cbf7b8dcff989982aef69bb851c0
+  languageName: node
+  linkType: hard
+
+"tiny-invariant@npm:^1.0.5, tiny-invariant@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "tiny-invariant@npm:1.3.1"
+  checksum: 26961717eddd03a59e6d71b8ef283cb8754f3b40e23813f63a10fb24c289e07d42563fbf1883972489b75aa91308e128de143b722b0317a34472324c06515a3e
+  languageName: node
+  linkType: hard
+
+"tiny-warning@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "tiny-warning@npm:1.0.3"
+  checksum: 2fe4472b8904b1682eaeb2f4ac980b4eef1af65d94b57c391e0f2cac2a0b1e84c5d8d0b64edf451695b6a6566cfc3b0460f1812ec18ace189a34f0cfed4c9875
   languageName: node
   linkType: hard
 
@@ -6315,6 +6535,15 @@ __metadata:
   dependencies:
     punycode: "npm:^2.1.0"
   checksum: 284fedd1b11512a77e783bfd32b320a9af1f2e39fbfabf4d65d64122344a3f55b8d37ec0c77e0045f7467b99d24bd2c067c1224d74f5c76b069753c7276d8709
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "use-sync-external-store@npm:1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: bed3d1f68ca3dd33647035dbeb9d3a5ece12fced0245cb0fa831426192e52e4948b0fc6e9187d9d4dce9f58269af605f8feeeda100d2928f8b865f9cd9cc4a4a
   languageName: node
   linkType: hard
 
