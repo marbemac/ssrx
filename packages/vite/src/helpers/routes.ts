@@ -1,7 +1,6 @@
 import type { ViteDevServer } from 'vite';
 
 import type { RouteId, RouteInfo } from '../router.ts';
-import { getModuleBySsrReference } from './get-module-by-ssr-reference.ts';
 
 export type ViteClientManifest = {
   [path: string]: {
@@ -342,4 +341,16 @@ const getManifestModuleAssets = (
   }
 
   return assets;
+};
+
+const getModuleBySsrReference = async (vite: ViteDevServer, mod: unknown) => {
+  for (const [id, value] of vite.moduleGraph.idToModuleMap.entries()) {
+    if (!value.ssrModule) {
+      await vite.ssrLoadModule(id);
+    }
+
+    if (value.ssrModule === mod) return id;
+  }
+
+  return null;
 };

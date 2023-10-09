@@ -10,7 +10,7 @@ import { isBuiltin } from 'node:module';
 import * as path from 'path';
 import type { ModuleNode, ViteDevServer } from 'vite';
 
-import { type Asset, AssetType, getAssetWeight } from './helpers/routes.ts';
+import { type Asset, AssetType, getAssetWeight } from './routes.ts';
 
 // Vite doesn't expose this
 // https://github.com/vitejs/vite/blob/3edd1af56e980aef56641a5a51cf2932bb580d41/packages/vite/src/node/plugins/css.ts#L96

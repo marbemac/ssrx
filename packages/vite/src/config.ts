@@ -47,7 +47,6 @@ export class Config {
   }
 
   get viteVersion() {
-    console.log(vitePkg.version);
     return vitePkg.version;
   }
 

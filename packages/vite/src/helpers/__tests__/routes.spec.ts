@@ -70,15 +70,15 @@ describe('generateEntryManifest()', () => {
     expect(entryManifest).toMatchInlineSnapshot(`
       [
         {
-          "isNested": false,
+          "isNested": undefined,
           "isPreload": true,
           "type": "style",
           "url": "/assets/entry.client.css",
           "weight": 1,
         },
         {
-          "isNested": false,
-          "isPreload": false,
+          "isNested": undefined,
+          "isPreload": undefined,
           "type": "script",
           "url": "/assets/main-.js",
           "weight": 1.9,

@@ -22,6 +22,8 @@ export const virtualPlugin = ({ router, manifest }: VirtualPluginOpts): Plugin =
     if (virtual === 'ssr-manifest') {
       return `export default ${JSON.stringify(manifest.ssrManifest)}`;
     }
+
+    return null;
   };
 
   return {
@@ -39,6 +41,8 @@ export const virtualPlugin = ({ router, manifest }: VirtualPluginOpts): Plugin =
 
         return id;
       }
+
+      return;
     },
 
     load(id) {
@@ -52,6 +56,8 @@ export const virtualPlugin = ({ router, manifest }: VirtualPluginOpts): Plugin =
 
         return mod;
       }
+
+      return;
     },
   };
 };

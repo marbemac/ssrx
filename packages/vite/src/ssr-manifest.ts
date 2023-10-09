@@ -13,8 +13,8 @@ import {
   getAssetWeight,
   getRoutesIds,
 } from './helpers/routes.ts';
+import { findStylesInModuleGraph } from './helpers/vite.ts';
 import type { MatchedRoute, Router } from './router.ts';
-import { findStylesInModuleGraph } from './ssr-manifest-dev.ts';
 
 type ManifestOpts<ExternalRoutes> = {
   router: Router<ExternalRoutes>;
