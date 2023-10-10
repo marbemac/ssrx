@@ -1,5 +1,5 @@
 {
-  "name": "@dete/solid",
+  "name": "@super-ssr/solid",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -20,7 +20,7 @@
     "solid-js": "*"
   },
   "devDependencies": {
-    "@dete/vite": "workspace:*",
+    "@super-ssr/vite": "workspace:*",
     "esbuild-plugin-solid": "0.5.0",
     "solid-js": "1.8.0",
     "tsup": "7.2.0"

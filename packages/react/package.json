@@ -1,5 +1,5 @@
 {
-  "name": "@dete/react",
+  "name": "@super-ssr/react",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -21,7 +21,7 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
-    "@dete/vite": "workspace:*",
+    "@super-ssr/vite": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tsup": "7.2.0"

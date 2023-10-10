@@ -12,14 +12,14 @@ export type VirtualPluginOpts = {
 };
 
 export const virtualPlugin = ({ router, manifest }: VirtualPluginOpts): Plugin => {
-  const prefix = /^virtual:dete-/;
+  const prefix = /^virtual:super-ssr-/;
 
   const loadVirtualModule = (virtual: string) => {
     if (virtual === 'routes') {
       return `export default ${JSON.stringify(router.routes)}`;
     }
 
-    if (virtual === 'ssr-manifest') {
+    if (virtual === 'manifest') {
       return `export default ${JSON.stringify(manifest.ssrManifest)}`;
     }
 

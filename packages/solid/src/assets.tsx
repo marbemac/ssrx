@@ -1,4 +1,4 @@
-import type { AssetHtmlTag } from '@dete/vite/runtime';
+import type { AssetHtmlTag } from '@super-ssr/vite/runtime';
 
 export const renderAssets = (assets: AssetHtmlTag[]) => {
   return assets.map(a => renderAsset(a));

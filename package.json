@@ -1,5 +1,5 @@
 {
-  "name": "dete-monorepo",
+  "name": "super-ssr-monorepo",
   "private": true,
   "packageManager": "yarn@4.0.0-rc.40",
   "workspaces": [
@@ -7,15 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "nx run-many -t dev -p '@dete/*'",
-    "build": "nx run-many -t build -p '@dete/*'",
+    "dev": "nx run-many -t dev -p '@super-ssr/*'",
+    "build": "nx run-many -t build -p '@super-ssr/*'",
     "dep-graph": "nx graph"
   },
   "resolutions": {
-    "@dete/vite": "workspace:*",
-    "@dete/react": "workspace:*",
-    "@dete/solid": "workspace:*",
-    "@dete/adapter-tanstack-router": "workspace:*",
+    "@super-ssr/vite": "workspace:*",
+    "@super-ssr/react": "workspace:*",
+    "@super-ssr/solid": "workspace:*",
+    "@super-ssr/adapter-tanstack-router": "workspace:*",
     "@remix-run/router": "file:.yalc/@remix-run/router",
     "react-router-dom": "file:.yalc/react-router-dom"
   },

@@ -440,66 +440,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dete/adapter-tanstack-router@workspace:*, @dete/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
-  version: 0.0.0-use.local
-  resolution: "@dete/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
-  dependencies:
-    "@dete/vite": "workspace:*"
-    "@tanstack/react-router": "npm:0.0.1-beta.194"
-    "@tanstack/router-core": "npm:0.0.1-beta.194"
-    acorn: "npm:8.10.0"
-    acorn-walk: "npm:^8.2.0"
-    estree-walker: "npm:^3.0.3"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
-    tsup: "npm:7.2.0"
-    vitest: "npm:0.34.6"
-  peerDependencies:
-    "@tanstack/router-core": <=1
-  languageName: unknown
-  linkType: soft
-
-"@dete/react@workspace:*, @dete/react@workspace:packages/react":
-  version: 0.0.0-use.local
-  resolution: "@dete/react@workspace:packages/react"
-  dependencies:
-    "@dete/vite": "workspace:*"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
-    tsup: "npm:7.2.0"
-  peerDependencies:
-    react: ">=18"
-    react-dom: ">=18"
-  languageName: unknown
-  linkType: soft
-
-"@dete/solid@workspace:*, @dete/solid@workspace:packages/solid":
-  version: 0.0.0-use.local
-  resolution: "@dete/solid@workspace:packages/solid"
-  dependencies:
-    "@dete/vite": "workspace:*"
-    esbuild-plugin-solid: "npm:0.5.0"
-    solid-js: "npm:1.8.0"
-    tsup: "npm:7.2.0"
-  peerDependencies:
-    solid-js: "*"
-  languageName: unknown
-  linkType: soft
-
-"@dete/vite@workspace:*, @dete/vite@workspace:packages/vite":
-  version: 0.0.0-use.local
-  resolution: "@dete/vite@workspace:packages/vite"
-  dependencies:
-    radix3: "npm:^1.1.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
-    vite: "npm:5.0.0-beta.6"
-    vitest: "npm:0.34.6"
-  peerDependencies:
-    vite: ">=4"
-  languageName: unknown
-  linkType: soft
-
 "@elysiajs/static@npm:0.7.1":
   version: 0.7.1
   resolution: "@elysiajs/static@npm:0.7.1"
@@ -1108,9 +1048,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@file:.yalc/@remix-run/router::locator=dete-monorepo%40workspace%3A.":
+"@remix-run/router@file:.yalc/@remix-run/router::locator=super-ssr-monorepo%40workspace%3A.":
   version: 1.9.0
-  resolution: "@remix-run/router@file:.yalc/@remix-run/router#.yalc/@remix-run/router::hash=261ce0&locator=dete-monorepo%40workspace%3A."
+  resolution: "@remix-run/router@file:.yalc/@remix-run/router#.yalc/@remix-run/router::hash=261ce0&locator=super-ssr-monorepo%40workspace%3A."
   checksum: c5ce18802d674a9bb7d7cd3669f9c2f14a8d0b2e268593ce438d66f4bad70a9d6ea6677719b69e6411922f1d375f0ccc819aa7d7ec01a20bc75e0b124d16e94d
   languageName: node
   linkType: hard
@@ -1153,6 +1093,66 @@ __metadata:
   checksum: 50412e183342617b3828867448cca845736953e1895621640ef69e3fc88710d258b5d3c59bc4bf5ebf5300d4d9ac7a63197564ebf0875632e58bf39fe327155f
   languageName: node
   linkType: hard
+
+"@super-ssr/adapter-tanstack-router@workspace:*, @super-ssr/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
+  dependencies:
+    "@super-ssr/vite": "workspace:*"
+    "@tanstack/react-router": "npm:0.0.1-beta.194"
+    "@tanstack/router-core": "npm:0.0.1-beta.194"
+    acorn: "npm:8.10.0"
+    acorn-walk: "npm:^8.2.0"
+    estree-walker: "npm:^3.0.3"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    tsup: "npm:7.2.0"
+    vitest: "npm:0.34.6"
+  peerDependencies:
+    "@tanstack/router-core": <=1
+  languageName: unknown
+  linkType: soft
+
+"@super-ssr/react@workspace:*, @super-ssr/react@workspace:packages/react":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/react@workspace:packages/react"
+  dependencies:
+    "@super-ssr/vite": "workspace:*"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    tsup: "npm:7.2.0"
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  languageName: unknown
+  linkType: soft
+
+"@super-ssr/solid@workspace:*, @super-ssr/solid@workspace:packages/solid":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/solid@workspace:packages/solid"
+  dependencies:
+    "@super-ssr/vite": "workspace:*"
+    esbuild-plugin-solid: "npm:0.5.0"
+    solid-js: "npm:1.8.0"
+    tsup: "npm:7.2.0"
+  peerDependencies:
+    solid-js: "*"
+  languageName: unknown
+  linkType: soft
+
+"@super-ssr/vite@workspace:*, @super-ssr/vite@workspace:packages/vite":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/vite@workspace:packages/vite"
+  dependencies:
+    radix3: "npm:^1.1.0"
+    tsup: "npm:7.2.0"
+    typescript: "npm:5.2.2"
+    vite: "npm:5.0.0-beta.6"
+    vitest: "npm:0.34.6"
+  peerDependencies:
+    vite: ">=4"
+  languageName: unknown
+  linkType: soft
 
 "@tanstack/bling@npm:^0.0.3":
   version: 0.0.3
@@ -2129,9 +2129,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "bun-react-router@workspace:examples/bun-react-router"
   dependencies:
-    "@dete/react": "npm:latest"
-    "@dete/vite": "npm:latest"
     "@elysiajs/static": "npm:0.7.1"
+    "@super-ssr/react": "npm:latest"
+    "@super-ssr/vite": "npm:latest"
     "@types/react": "npm:18.2.27"
     "@types/react-dom": "npm:18.2.12"
     "@vitejs/plugin-react": "npm:4.1.0"
@@ -2575,27 +2575,6 @@ __metadata:
   checksum: 7a633ec0ba78bc08ba217b762b15157d2ec99edb50a82124df2c341255b1943217215872888981cc6a6ee02406ab1b09783f5b51b7db8d8f8f1284092f379aad
   languageName: node
   linkType: hard
-
-"dete-monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "dete-monorepo@workspace:."
-  dependencies:
-    "@total-typescript/ts-reset": "npm:~0.5.1"
-    "@typescript-eslint/eslint-plugin": "npm:6.7.5"
-    "@typescript-eslint/parser": "npm:6.7.5"
-    bun-types: "npm:1.0.4"
-    eslint: "npm:8.51.0"
-    eslint-config-prettier: "npm:^9.0.0"
-    eslint-plugin-import: "npm:^2.28.1"
-    eslint-plugin-jsx-a11y: "npm:^6.7.1"
-    eslint-plugin-simple-import-sort: "npm:^10.0.0"
-    nx: "npm:16.10.0"
-    tailwindcss: "npm:3.3.3"
-    typescript: "npm:5.2.2"
-    vite: "npm:5.0.0-beta.6"
-    vite-plugin-inspect: "npm:0.7.40"
-  languageName: unknown
-  linkType: soft
 
 "didyoumean@npm:^1.2.2":
   version: 1.2.2
@@ -5534,9 +5513,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@file:.yalc/react-router-dom::locator=dete-monorepo%40workspace%3A.":
+"react-router-dom@file:.yalc/react-router-dom::locator=super-ssr-monorepo%40workspace%3A.":
   version: 6.16.0
-  resolution: "react-router-dom@file:.yalc/react-router-dom#.yalc/react-router-dom::hash=fe296c&locator=dete-monorepo%40workspace%3A."
+  resolution: "react-router-dom@file:.yalc/react-router-dom#.yalc/react-router-dom::hash=fe296c&locator=super-ssr-monorepo%40workspace%3A."
   dependencies:
     "@remix-run/router": "npm:1.9.0"
     react-router: "npm:6.16.0"
@@ -5551,9 +5530,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-router-simple@workspace:examples/react-router-simple"
   dependencies:
-    "@dete/react": "npm:latest"
-    "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"
+    "@super-ssr/react": "npm:latest"
+    "@super-ssr/vite": "npm:latest"
     "@types/react": "npm:18.2.27"
     "@types/react-dom": "npm:18.2.12"
     "@vitejs/plugin-react": "npm:4.1.0"
@@ -5970,10 +5949,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "solid-router-simple@workspace:examples/solid-router-simple"
   dependencies:
-    "@dete/solid": "npm:latest"
-    "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"
     "@solidjs/router": "npm:0.8.3"
+    "@super-ssr/solid": "npm:latest"
+    "@super-ssr/vite": "npm:latest"
     hono: "npm:3.7.5"
     solid-js: "npm:1.8.0"
     vite: "npm:5.0.0-beta.6"
@@ -6032,9 +6011,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "streaming-kitchen-sink@workspace:examples/streaming-kitchen-sink"
   dependencies:
-    "@dete/react": "npm:latest"
-    "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"
+    "@super-ssr/react": "npm:latest"
+    "@super-ssr/vite": "npm:latest"
     "@tanstack/react-query": "npm:5.0.0-rc.5"
     "@types/react": "npm:18.2.27"
     "@types/react-dom": "npm:18.2.12"
@@ -6198,6 +6177,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"super-ssr-monorepo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "super-ssr-monorepo@workspace:."
+  dependencies:
+    "@total-typescript/ts-reset": "npm:~0.5.1"
+    "@typescript-eslint/eslint-plugin": "npm:6.7.5"
+    "@typescript-eslint/parser": "npm:6.7.5"
+    bun-types: "npm:1.0.4"
+    eslint: "npm:8.51.0"
+    eslint-config-prettier: "npm:^9.0.0"
+    eslint-plugin-import: "npm:^2.28.1"
+    eslint-plugin-jsx-a11y: "npm:^6.7.1"
+    eslint-plugin-simple-import-sort: "npm:^10.0.0"
+    nx: "npm:16.10.0"
+    tailwindcss: "npm:3.3.3"
+    typescript: "npm:5.2.2"
+    vite: "npm:5.0.0-beta.6"
+    vite-plugin-inspect: "npm:0.7.40"
+  languageName: unknown
+  linkType: soft
+
 "supports-color@npm:^5.3.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
@@ -6260,10 +6260,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tanstack-router-simple@workspace:examples/tanstack-router-simple"
   dependencies:
-    "@dete/adapter-tanstack-router": "npm:latest"
-    "@dete/react": "npm:latest"
-    "@dete/vite": "npm:latest"
     "@hono/node-server": "npm:1.2.0"
+    "@super-ssr/adapter-tanstack-router": "npm:latest"
+    "@super-ssr/react": "npm:latest"
+    "@super-ssr/vite": "npm:latest"
     "@tanstack/react-router": "npm:0.0.1-beta.194"
     "@tanstack/react-start": "npm:0.0.1-beta.194"
     "@types/react": "npm:18.2.27"

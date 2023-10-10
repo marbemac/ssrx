@@ -1,5 +1,5 @@
 {
-  "name": "@dete/vite",
+  "name": "@super-ssr/vite",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",

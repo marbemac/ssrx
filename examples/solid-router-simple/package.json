@@ -13,14 +13,14 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@dete/solid": "latest",
     "@hono/node-server": "1.2.0",
     "@solidjs/router": "0.8.3",
+    "@super-ssr/solid": "latest",
     "hono": "3.7.5",
     "solid-js": "1.8.0"
   },
   "devDependencies": {
-    "@dete/vite": "latest",
+    "@super-ssr/vite": "latest",
     "vite": "5.0.0-beta.6",
     "vite-plugin-solid": "2.7.0",
     "vite-tsconfig-paths": "4.2.1"

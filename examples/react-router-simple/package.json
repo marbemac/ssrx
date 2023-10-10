@@ -13,15 +13,15 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@dete/react": "latest",
     "@hono/node-server": "1.2.0",
+    "@super-ssr/react": "latest",
     "hono": "3.7.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.16.0"
   },
   "devDependencies": {
-    "@dete/vite": "latest",
+    "@super-ssr/vite": "latest",
     "@types/react": "18.2.27",
     "@types/react-dom": "18.2.12",
     "@vitejs/plugin-react": "4.1.0",

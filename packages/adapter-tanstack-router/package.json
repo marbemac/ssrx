@@ -1,5 +1,5 @@
 {
-  "name": "@dete/adapter-tanstack-router",
+  "name": "@super-ssr/adapter-tanstack-router",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -24,7 +24,7 @@
     "estree-walker": "^3.0.3"
   },
   "devDependencies": {
-    "@dete/vite": "workspace:*",
+    "@super-ssr/vite": "workspace:*",
     "@tanstack/react-router": "0.0.1-beta.194",
     "@tanstack/router-core": "0.0.1-beta.194",
     "acorn": "8.10.0",
