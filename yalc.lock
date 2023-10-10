@@ -8,10 +8,6 @@
     "@remix-run/router": {
       "signature": "844fdfec9804efbc291c295e6c1ed064",
       "file": true
-    },
-    "vite": {
-      "signature": "5befb9d28d28175c78e2699bfcd7c98c",
-      "pure": true
     }
   }
 }
