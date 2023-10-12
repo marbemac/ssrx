@@ -5,61 +5,65 @@ import type { RenderPlugin, ServerHandlerOpts } from '../types.ts';
 import { storage } from './ctx.ts';
 import { injectIntoStream } from './stream-transformer.ts';
 
-/** Have to duplicate these extract types, or downstream packages don't work correctly */
-type ExtractPluginsContext<T extends RenderPlugin<any>[]> = {
-  [K in T[number]['id']]: ExtractPluginContext<T, K>;
-};
-
-type ExtractPluginContext<T extends RenderPlugin<any>[], K extends T[number]['id']> = NonNullable<
-  Extract<T[number], { id: K }>['hooks']
->['extendRequestCtx'] extends (...args: any[]) => infer R
-  ? R
-  : never;
-
-export function createHandler<P extends RenderPlugin<any>[]>({
+export function createApp<P extends RenderPlugin<any, any>[]>({
   renderRoot,
   renderer,
   renderApp,
   plugins,
 }: ServerHandlerOpts<P>) {
-  function getPageCtx<K extends P[number]['id']>(pluginId: K): Simplify<ExtractPluginContext<P, K>>;
-  function getPageCtx<K extends P[number]['id']>(pluginId?: K): Simplify<ExtractPluginsContext<P>>;
-  function getPageCtx<K extends P[number]['id']>(
+  function __getPluginCtx<K extends P[number]['id']>(pluginId: K): Simplify<ExtractPluginContext<P, K>>;
+  function __getPluginCtx<K extends P[number]['id']>(pluginId?: K): Simplify<ExtractPluginsContext<P>>;
+  function __getPluginCtx<K extends P[number]['id']>(
     pluginId?: K,
   ): Simplify<ExtractPluginsContext<P> | ExtractPluginContext<P, K>> {
-    const store = storage.getStore() || {};
+    const store = storage.getStore()?.pluginCtx || {};
 
-    // @ts-expect-error ignore, complicated
     if (typeof pluginId !== 'undefined') return store[pluginId] || {};
 
     // @ts-expect-error ignore, complicated
     return store;
   }
 
-  return {
-    getPageCtx,
+  const ctx = new Proxy({} as ExtractPluginsAppContext<P>, {
+    get(_target, prop) {
+      const store = storage.getStore()?.appCtx || {};
+      // @ts-expect-error ignore
+      return store[prop];
+    },
+  });
 
-    client: () => {
+  return {
+    ctx,
+
+    // for internal debugging
+    __getPluginCtx,
+
+    clientHandler: () => {
       throw new Error(
         'The client handler should not be called on the server. . Something is wrong, make sure you are not calling `appHandler.client()` in code that is included in the server.',
       );
     },
 
-    server: async ({ req }: { req: Request }) => {
+    serverHandler: async ({ req }: { req: Request }) => {
       const assets = await assetsForRequest(req.url);
 
-      const ctx: Record<string, any> = {};
+      const pluginCtx: Record<string, any> = {};
+      const appCtx: Record<string, any> = {};
 
       for (const p of plugins || []) {
         if (p.hooks?.extendRequestCtx) {
-          ctx[p.id] = p.hooks.extendRequestCtx({ req });
+          pluginCtx[p.id] = p.hooks.extendRequestCtx({ req });
+        }
+
+        if (p.hooks?.extendAppCtx) {
+          Object.assign(appCtx, p.hooks.extendAppCtx({ ctx: pluginCtx[p.id] }) || {});
         }
       }
 
       /**
        * Run the rest of the hooks in storage scope so we can access the ctx
        */
-      const appStream = await storage.run(ctx, async () => {
+      const appStream = await storage.run({ appCtx, pluginCtx }, async () => {
         let appElem = renderApp ? await renderApp({ req }) : undefined;
 
         for (const p of plugins || []) {
@@ -81,7 +85,7 @@ export function createHandler<P extends RenderPlugin<any>[]>({
         for (const p of plugins || []) {
           if (!p.hooks?.wrapApp) continue;
 
-          appElem = p.hooks.wrapApp({ req, ctx: ctx[p.id], children: appElem });
+          appElem = p.hooks.wrapApp({ req, ctx: pluginCtx[p.id], children: appElem });
         }
 
         const RootComp = renderRoot;
@@ -93,7 +97,7 @@ export function createHandler<P extends RenderPlugin<any>[]>({
               for (const p of plugins || []) {
                 if (!p.hooks?.emitToDocumentHead) continue;
 
-                work.push(p.hooks.emitToDocumentHead({ req, ctx: ctx[p.id] }));
+                work.push(p.hooks.emitToDocumentHead({ req, ctx: pluginCtx[p.id] }));
               }
 
               const html = [renderAssetsToHtml(assets), ...(await Promise.all(work))];
@@ -106,7 +110,7 @@ export function createHandler<P extends RenderPlugin<any>[]>({
               for (const p of plugins || []) {
                 if (!p.hooks?.emitBeforeSsrChunk) continue;
 
-                work.push(p.hooks.emitBeforeSsrChunk({ req, ctx: ctx[p.id] }));
+                work.push(p.hooks.emitBeforeSsrChunk({ req, ctx: pluginCtx[p.id] }));
               }
 
               return (await Promise.all(work)).filter(Boolean).join('');
@@ -117,7 +121,7 @@ export function createHandler<P extends RenderPlugin<any>[]>({
               for (const p of plugins || []) {
                 if (!p.hooks?.emitToDocumentBody) continue;
 
-                work.push(p.hooks.emitToDocumentBody({ req, ctx: ctx[p.id] }));
+                work.push(p.hooks.emitToDocumentBody({ req, ctx: pluginCtx[p.id] }));
               }
 
               return (await Promise.all(work)).filter(Boolean).join('');
@@ -130,3 +134,37 @@ export function createHandler<P extends RenderPlugin<any>[]>({
     },
   };
 }
+
+/**
+ * Have to duplicate these extract types in client and server entry, or downstream packages don't work correctly
+ */
+
+type Flatten<T> = {
+  [K in keyof T]: T[K] extends object ? T[K] : never;
+}[keyof T];
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+
+type ExtractPluginsContext<T extends RenderPlugin<any, any>[]> = {
+  [K in T[number]['id']]: ExtractPluginContext<T, K>;
+};
+
+type ExtractPluginContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
+  Extract<T[number], { id: K }>['hooks']
+>['extendRequestCtx'] extends (...args: any[]) => infer R
+  ? R
+  : never;
+
+type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
+  UnionToIntersection<
+    Flatten<{
+      [K in T[number]['id']]: ExtractPluginAppContext<T, K>;
+    }>
+  >
+>;
+
+type ExtractPluginAppContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
+  Extract<T[number], { id: K }>['hooks']
+>['extendAppCtx'] extends (...args: any[]) => infer R
+  ? R
+  : never;

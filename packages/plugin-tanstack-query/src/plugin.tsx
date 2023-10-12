@@ -63,6 +63,12 @@ export const tanstackQueryPlugin = ({
         return { trackedQueries, blockingQueries, queryClient };
       },
 
+      extendAppCtx({ ctx }) {
+        const { queryClient } = ctx as TanstackQueryCtx;
+
+        return { queryClient };
+      },
+
       wrapApp: ({ ctx, children }) => {
         const { queryClient } = ctx as TanstackQueryCtx;
 

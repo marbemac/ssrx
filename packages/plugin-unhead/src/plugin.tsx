@@ -1,10 +1,15 @@
 import { deepmerge, defineRenderPlugin } from '@super-ssr/renderer-core';
 import { InferSeoMetaPlugin } from '@unhead/addons';
-import type { CreateHeadOptions, SchemaAugmentations, Unhead } from '@unhead/schema';
+import type {
+  ActiveHeadEntry,
+  CreateHeadOptions,
+  Head,
+  HeadEntryOptions,
+  SchemaAugmentations,
+  Unhead,
+} from '@unhead/schema';
 import { renderSSRHead } from '@unhead/ssr';
 import { createHead } from 'unhead';
-
-import { HeadProvider } from './provider.tsx';
 
 export const PLUGIN_ID = 'unhead' as const;
 
@@ -34,20 +39,32 @@ export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
         return { head };
       },
 
-      wrapApp: ({ ctx, children }) => {
+      extendAppCtx({ ctx }) {
         const { head } = ctx as UnheadCtx;
 
-        return <HeadProvider value={head}>{children}</HeadProvider>;
+        return { useHead: createUseHead(head) };
       },
 
       async emitToDocumentHead({ ctx }) {
         const { head } = ctx as UnheadCtx;
 
-        const { headTags, ...rest } = await renderSSRHead(head);
-
-        console.log('UNHEAD', headTags, rest);
+        const { headTags } = await renderSSRHead(head);
 
         return headTags;
       },
     },
   });
+
+type SupportedHead = Pick<
+  Head,
+  'title' | 'titleTemplate' | 'templateParams' | 'link' | 'meta' | 'style' | 'script' | 'noscript'
+>;
+
+const createUseHead = <T extends SupportedHead>(head: Unhead<T>) => {
+  return function useHead(input: T, options: HeadEntryOptions = {}): ActiveHeadEntry<T> | void {
+    const isBrowser = !import.meta.env.SSR;
+    if ((options.mode === 'server' && isBrowser) || (options.mode === 'client' && !isBrowser)) return;
+
+    return head.push(input, options);
+  };
+};

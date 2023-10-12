@@ -2,55 +2,65 @@ import type { Simplify } from 'type-fest';
 
 import type { ClientHandlerOpts, RenderPlugin } from '../types.ts';
 
-/** Have to duplicate these extract types, or downstream packages don't work correctly */
-type ExtractPluginsContext<T extends RenderPlugin<any>[]> = {
-  [K in T[number]['id']]: ExtractPluginContext<T, K>;
-};
-
-type ExtractPluginContext<T extends RenderPlugin<any>[], K extends T[number]['id']> = NonNullable<
-  Extract<T[number], { id: K }>['hooks']
->['extendRequestCtx'] extends (...args: any[]) => infer R
-  ? R
-  : never;
-
-export function createHandler<P extends RenderPlugin<any>[]>({ renderRoot, renderApp, plugins }: ClientHandlerOpts<P>) {
+export function createApp<P extends RenderPlugin<any, any>[]>({
+  renderRoot,
+  renderApp,
+  plugins,
+}: ClientHandlerOpts<P>) {
   // @ts-expect-error ignore
   const req = new Request(`${window.location.pathname}${window.location.search}`);
 
-  function getPageCtx<K extends P[number]['id']>(pluginId: K): Simplify<ExtractPluginContext<P, K>>;
-  function getPageCtx<K extends P[number]['id']>(pluginId?: K): Simplify<ExtractPluginsContext<P>>;
-  function getPageCtx<K extends P[number]['id']>(
+  function __getPluginCtx<K extends P[number]['id']>(pluginId: K): Simplify<ExtractPluginContext<P, K>>;
+  function __getPluginCtx<K extends P[number]['id']>(pluginId?: K): Simplify<ExtractPluginsContext<P>>;
+  function __getPluginCtx<K extends P[number]['id']>(
     pluginId?: K,
   ): Simplify<ExtractPluginsContext<P> | ExtractPluginContext<P, K>> {
     // @ts-expect-error ignore, complicated
-    const store = window.__PAGE_CTX__ || {};
+    const store = window.__PAGE_CTX__?.pluginCtx || {};
 
     if (typeof pluginId !== 'undefined') return store[pluginId] || {};
 
     return store;
   }
 
+  const ctx = new Proxy({} as ExtractPluginsAppContext<P>, {
+    get(_target, prop) {
+      // @ts-expect-error ignore
+      const store = window.__PAGE_CTX__?.appCtx || {};
+
+      return store[prop];
+    },
+  });
+
   return {
-    getPageCtx,
+    ctx,
+
+    // for internal debugging
+    __getPluginCtx,
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    server: (props: { req: Request }) => {
+    serverHandler: (props: { req: Request }) => {
       throw new Error(
         'The server handler should not be called on the client. Something is wrong, make sure you are not calling `appHandler.server()` in code that is included in the client.',
       );
     },
 
-    client: async () => {
-      const ctx: Record<string, any> = {};
+    clientHandler: async () => {
+      const pluginCtx: Record<string, any> = {};
+      const appCtx: Record<string, any> = {};
 
       for (const p of plugins || []) {
         if (p.hooks?.extendRequestCtx) {
-          ctx[p.id] = p.hooks.extendRequestCtx({ req });
+          pluginCtx[p.id] = p.hooks.extendRequestCtx({ req });
+        }
+
+        if (p.hooks?.extendAppCtx) {
+          Object.assign(appCtx, p.hooks.extendAppCtx({ ctx: pluginCtx[p.id] }) || {});
         }
       }
 
       // @ts-expect-error ignore
-      window.__PAGE_CTX__ = ctx;
+      window.__PAGE_CTX__ = { pluginCtx, appCtx };
 
       let appElem = renderApp ? await renderApp({ req }) : undefined;
 
@@ -73,7 +83,7 @@ export function createHandler<P extends RenderPlugin<any>[]>({ renderRoot, rende
       for (const p of plugins || []) {
         if (!p.hooks?.wrapApp) continue;
 
-        appElem = p.hooks.wrapApp({ req, ctx: ctx[p.id], children: appElem });
+        appElem = p.hooks.wrapApp({ req, ctx: pluginCtx[p.id], children: appElem });
       }
 
       const RootComp = renderRoot;
@@ -82,3 +92,37 @@ export function createHandler<P extends RenderPlugin<any>[]>({ renderRoot, rende
     },
   };
 }
+
+/**
+ * Have to duplicate these extract types in client and server entry, or downstream packages don't work correctly
+ */
+
+type Flatten<T> = {
+  [K in keyof T]: T[K] extends object ? T[K] : never;
+}[keyof T];
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+
+type ExtractPluginsContext<T extends RenderPlugin<any, any>[]> = {
+  [K in T[number]['id']]: ExtractPluginContext<T, K>;
+};
+
+type ExtractPluginContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
+  Extract<T[number], { id: K }>['hooks']
+>['extendRequestCtx'] extends (...args: any[]) => infer R
+  ? R
+  : never;
+
+type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
+  UnionToIntersection<
+    Flatten<{
+      [K in T[number]['id']]: ExtractPluginAppContext<T, K>;
+    }>
+  >
+>;
+
+type ExtractPluginAppContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
+  Extract<T[number], { id: K }>['hooks']
+>['extendAppCtx'] extends (...args: any[]) => infer R
+  ? R
+  : never;

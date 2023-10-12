@@ -1,5 +1,5 @@
 import {
-  createHandler as baseCreateHandler,
+  createApp as baseCreateApp,
   type RenderPlugin,
   type ServerHandlerOpts,
   type SetOptional,
@@ -10,10 +10,10 @@ import { renderToReadableStream as fallbackRenderToReadableStream } from 'react-
 
 import { Root } from '../default-root.tsx';
 
-export function createHandler<P extends RenderPlugin<any>[]>(
+export function createApp<P extends RenderPlugin<any, any>[]>(
   opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'renderRoot'>,
 ) {
-  return baseCreateHandler({
+  return baseCreateApp({
     renderRoot: Root,
     renderer: {
       renderToStream: ({ app }) => {

@@ -1,5 +1,5 @@
 import type { RenderPlugin } from './types';
 
-export function defineRenderPlugin<R extends RenderPlugin<Record<string, unknown>>>(r: R) {
+export function defineRenderPlugin<R extends RenderPlugin<any, any>>(r: R) {
   return r;
 }

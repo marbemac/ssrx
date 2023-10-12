@@ -7,20 +7,23 @@ type BaseHandlerOpts = {
   renderApp?: (props: { req: Request }) => React.ReactNode | Promise<React.ReactNode>;
 };
 
-export type ClientHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts & {
+export type ClientHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
   plugins?: P;
 };
 
-export type ServerHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts & {
+export type ServerHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
   renderer: ServerRenderer;
   plugins?: P;
 };
 
-export type RenderPlugin<C extends Record<string, unknown>> = {
+export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
   id: string;
 
   hooks?: {
     extendRequestCtx?: (props: { req: Request }) => C;
+
+    extendAppCtx?: (props: { ctx: C }) => AC;
+
     wrapApp?: (props: { req: Request; ctx: C; children: React.ReactNode }) => React.ReactNode;
     renderApp?: (props: { req: Request }) => React.ReactNode | Promise<React.ReactNode>;
 
