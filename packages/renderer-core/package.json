@@ -1,0 +1,39 @@
+{
+  "name": "@super-ssr/renderer-core",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./src/server/index.ts",
+      "node": "./dist/server/index.js",
+      "worker": "./dist/server/index.js",
+      "workerd": "./dist/server/index.js",
+      "deno": "./dist/server/index.js",
+      "edge": "./dist/server/index.js",
+      "default": "./dist/client/index.js"
+    },
+    "./client": {
+      "bun": "./src/client/index.ts",
+      "default": "./dist/client/index.js"
+    },
+    "./server": {
+      "bun": "./src/server/index.ts",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "yarn build --watch",
+    "build": "tsup",
+    "test": "vitest",
+    "test.watch": "vitest watch --update",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@super-ssr/vite": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "7.2.0",
+    "type-fest": "4.4.0"
+  }
+}
