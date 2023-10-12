@@ -17,15 +17,15 @@ export type UnheadPluginOpts = {
   createHeadOptions?: CreateHeadOptions;
 };
 
-type UnheadCtx = {
-  head: ReturnType<typeof createHead>;
+export type UnheadPluginCtx = {
+  head: Unhead<SchemaAugmentations>;
 };
 
 export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
-    createCtx: () => {
+    createCtx: (): UnheadPluginCtx => {
       const head: Unhead<SchemaAugmentations> = createHead(
         deepmerge(
           {
@@ -40,13 +40,13 @@ export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
 
     hooks: {
       'app:extendCtx': ({ ctx }) => {
-        const { head } = ctx as UnheadCtx;
+        const { head } = ctx as UnheadPluginCtx;
 
-        return { useHead: createUseHead(head) };
+        return { useHead: createUseHead(head as any) };
       },
 
       'ssr:emitToHead': async ({ ctx }) => {
-        const { head } = ctx as UnheadCtx;
+        const { head } = ctx as UnheadPluginCtx;
 
         const { headTags } = await renderSSRHead(head);
 

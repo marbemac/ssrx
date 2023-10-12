@@ -39,7 +39,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     __getPluginCtx,
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    serverHandler: (props: { req: Request }) => {
+    serverHandler: (props: { req: Request; meta?: Record<string, unknown> }) => {
       throw new Error(
         'The server handler should not be called on the client. Something is wrong, make sure you are not calling `appHandler.server()` in code that is included in the client.',
       );
@@ -47,15 +47,24 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
 
     clientHandler: async () => {
       const pluginCtx: Record<string, any> = {};
-      const appCtx: Record<string, any> = {};
-
       for (const p of plugins || []) {
         if (p.createCtx) {
           pluginCtx[p.id] = p.createCtx({ req });
         }
+      }
 
+      const appCtx: Record<string, any> = {};
+      for (const p of plugins || []) {
         if (p.hooks?.['app:extendCtx']) {
-          Object.assign(appCtx, p.hooks['app:extendCtx']({ ctx: pluginCtx[p.id] }) || {});
+          Object.assign(
+            appCtx,
+            p.hooks['app:extendCtx']({
+              ctx: pluginCtx[p.id],
+              getPluginCtx<T>(id: string) {
+                return __getPluginCtx(id) as T;
+              },
+            }) || {},
+          );
         }
       }
 

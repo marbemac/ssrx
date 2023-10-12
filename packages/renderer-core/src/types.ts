@@ -19,10 +19,14 @@ export type ServerHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerO
 export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
   id: Readonly<string>;
 
-  createCtx?: (props: { req: Request }) => C;
+  createCtx?: (props: { req: Request; meta?: Record<string, unknown> }) => C;
 
   hooks?: {
-    'app:extendCtx'?: (props: { ctx: C }) => AC;
+    'app:extendCtx'?: (props: {
+      ctx: C;
+      getPluginCtx: <T extends Record<string, unknown>>(id: string) => T;
+      meta?: Record<string, unknown>;
+    }) => AC;
     'app:wrap'?: (props: { req: Request; ctx: C }) => (props: { children: () => JSX.Element }) => JSX.Element;
     'app:render'?: (props: { req: Request }) => (() => JSX.Element) | Promise<() => JSX.Element>;
 
@@ -48,6 +52,9 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
       ctx: C;
     }) => string | void | undefined | Promise<string | void | undefined>;
 
+    /**
+     * @TODO: not actually implemented yet
+     */
     'ssr:completed'?: (props: { req: Request; ctx: C }) => void | Promise<void>;
   };
 };

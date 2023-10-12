@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/plugin-tanstack-query",
+  "name": "@super-ssr/plugin-trpc-react",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -14,14 +14,17 @@
     "typecheck": "tsc"
   },
   "peerDependencies": {
-    "@tanstack/query-core": "^5"
+    "@tanstack/react-query": "^5"
   },
   "dependencies": {
+    "@super-ssr/plugin-tanstack-query": "*",
     "@super-ssr/renderer-core": "latest",
-    "devalue": "^4.3.2"
+    "@trpc/client": "^10.40.0",
+    "@trpc/server": "^10.40.0"
   },
   "devDependencies": {
-    "@tanstack/query-core": "^5.0.0-rc.12",
-    "tsup": "7.2.0"
+    "@tanstack/react-query": "5.0.0-rc.12",
+    "tsup": "7.2.0",
+    "typescript": "5.2.2"
   }
 }

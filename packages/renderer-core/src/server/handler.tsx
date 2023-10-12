@@ -44,19 +44,29 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       );
     },
 
-    serverHandler: async ({ req }: { req: Request }) => {
+    serverHandler: async ({ req, meta }: { req: Request; meta?: Record<string, unknown> }) => {
       const assets = await assetsForRequest(req.url);
 
       const pluginCtx: Record<string, any> = {};
-      const appCtx: Record<string, any> = {};
-
       for (const p of plugins || []) {
         if (p.createCtx) {
-          pluginCtx[p.id] = p.createCtx({ req });
+          pluginCtx[p.id] = p.createCtx({ req, meta });
         }
+      }
 
+      const appCtx: Record<string, any> = {};
+      for (const p of plugins || []) {
         if (p.hooks?.['app:extendCtx']) {
-          Object.assign(appCtx, p.hooks['app:extendCtx']({ ctx: pluginCtx[p.id] }) || {});
+          Object.assign(
+            appCtx,
+            p.hooks['app:extendCtx']({
+              ctx: pluginCtx[p.id],
+              meta,
+              getPluginCtx<T>(id: string) {
+                return __getPluginCtx(id) as T;
+              },
+            }) || {},
+          );
         }
       }
 

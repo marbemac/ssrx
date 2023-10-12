@@ -30,7 +30,7 @@ export type TanstackQueryPluginOpts = {
   queryClientConfig?: QueryClientConfig;
 };
 
-type TanstackQueryCtx = {
+export type TanstackQueryPluginCtx = {
   queryClient: QueryClient;
   trackedQueries: Set<string>;
   blockingQueries: Map<string, Promise<void>>;
@@ -49,7 +49,7 @@ export const tanstackQueryPlugin = ({
   defineRenderPlugin({
     id: PLUGIN_ID,
 
-    createCtx: () => {
+    createCtx: (): TanstackQueryPluginCtx => {
       const trackedQueries = new Set<string>();
       const blockingQueries = new Map<string, Promise<void>>();
       const queryClient = createQueryClient({ trackedQueries, blockingQueries, clientConfig: queryClientConfig });
@@ -64,13 +64,13 @@ export const tanstackQueryPlugin = ({
 
     hooks: {
       'app:extendCtx': ({ ctx }) => {
-        const { queryClient } = ctx as TanstackQueryCtx;
+        const { queryClient } = ctx as TanstackQueryPluginCtx;
 
         return { queryClient };
       },
 
       'app:wrap': ({ ctx }) => {
-        const { queryClient } = ctx as TanstackQueryCtx;
+        const { queryClient } = ctx as TanstackQueryPluginCtx;
 
         return ({ children }) => <QueryClientProvider client={queryClient}>{children()}</QueryClientProvider>;
       },
@@ -91,7 +91,7 @@ export const tanstackQueryPlugin = ({
       'ssr:emitBeforeFlush': async ({ ctx }) => {
         if (skipHydration) return;
 
-        const { blockingQueries, trackedQueries, queryClient } = ctx as TanstackQueryCtx;
+        const { blockingQueries, trackedQueries, queryClient } = ctx as TanstackQueryPluginCtx;
 
         // If there are any queries marked with deferStream, block the stream until they are completed
         if (blockingQueries.size) {
@@ -122,7 +122,7 @@ export const tanstackQueryPlugin = ({
       },
 
       'ssr:completed': ({ ctx }) => {
-        const { queryClient } = ctx as TanstackQueryCtx;
+        const { queryClient } = ctx as TanstackQueryPluginCtx;
 
         queryClient.clear();
       },

@@ -2,7 +2,10 @@ import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 
-import { serverHandler } from './app.tsx';
+import { serverHandler } from '~/app.tsx';
+
+import { trpcServer } from './trpc/hono-middleware.ts';
+import { appRouter } from './trpc/index.ts';
 
 const server = new Hono()
   /**
@@ -12,9 +15,25 @@ const server = new Hono()
   .use('/assets/*', serveStatic({ root: './dist/public' }))
   .use('/favicon.ico', serveStatic({ path: './dist/public/favicon.ico' }))
 
+  /**
+   * TRPC
+   */
+  .use('/trpc/*', trpcServer({ router: appRouter }))
+
+  /**
+   * The frontend app
+   */
   .get('*', async c => {
     try {
-      const appStream = await serverHandler({ req: c.req.raw });
+      const appStream = await serverHandler({
+        req: c.req.raw,
+        meta: {
+          // used by @super-ssr/plugin-trpc-react
+          trpcCaller: appRouter.createCaller({
+            // @TODO hook trpc router context up to this
+          }),
+        },
+      });
 
       return new Response(appStream);
     } catch (err) {

@@ -1,1 +1,1 @@
-export { reactRouterPlugin } from './plugin.tsx';
+export { PLUGIN_ID, reactRouterPlugin } from './plugin.tsx';

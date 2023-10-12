@@ -1,1 +1,1 @@
-export { solidRouterPlugin } from './plugin.tsx';
+export { PLUGIN_ID, solidRouterPlugin } from './plugin.tsx';

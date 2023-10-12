@@ -5,5 +5,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [tsconfigPaths(), react(), superSsr()],
+  plugins: [
+    tsconfigPaths(),
+    react(),
+    superSsr({
+      serverFile: 'src/server/index.ts',
+    }),
+  ],
 });

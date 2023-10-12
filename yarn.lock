@@ -1148,7 +1148,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/plugin-solid-router@workspace:*, @super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router":
+"@super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router":
   version: 0.0.0-use.local
   resolution: "@super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router"
   dependencies:
@@ -1166,11 +1166,27 @@ __metadata:
   resolution: "@super-ssr/plugin-tanstack-query@workspace:packages/plugin-tanstack-query"
   dependencies:
     "@super-ssr/renderer-core": "npm:latest"
-    "@tanstack/query-core": "npm:^5.0.0-rc.6"
+    "@tanstack/query-core": "npm:^5.0.0-rc.12"
     devalue: "npm:^4.3.2"
     tsup: "npm:7.2.0"
   peerDependencies:
     "@tanstack/query-core": ^5
+  languageName: unknown
+  linkType: soft
+
+"@super-ssr/plugin-trpc-react@workspace:*, @super-ssr/plugin-trpc-react@workspace:packages/plugin-trpc-react":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/plugin-trpc-react@workspace:packages/plugin-trpc-react"
+  dependencies:
+    "@super-ssr/plugin-tanstack-query": "npm:*"
+    "@super-ssr/renderer-core": "npm:latest"
+    "@tanstack/react-query": "npm:5.0.0-rc.12"
+    "@trpc/client": "npm:^10.40.0"
+    "@trpc/server": "npm:^10.40.0"
+    tsup: "npm:7.2.0"
+    typescript: "npm:5.2.2"
+  peerDependencies:
+    "@tanstack/react-query": ^5
   languageName: unknown
   linkType: soft
 
@@ -1218,7 +1234,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@super-ssr/solid@workspace:packages/solid"
   dependencies:
-    "@super-ssr/vite": "workspace:*"
+    "@super-ssr/renderer-core": "npm:latest"
+    "@super-ssr/vite": "npm:latest"
     esbuild-plugin-solid: "npm:0.5.0"
     solid-js: "npm:1.8.1"
     tsup: "npm:7.2.0"
@@ -1260,17 +1277,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.0.0-rc.12":
+"@tanstack/query-core@npm:5.0.0-rc.12, @tanstack/query-core@npm:^5.0.0-rc.12":
   version: 5.0.0-rc.12
   resolution: "@tanstack/query-core@npm:5.0.0-rc.12"
   checksum: f884dfe64e7f479a2b9a5016b31ac14a0852036b032fc881dfdf84363db759e06252532b9c9f1311c5ca4015edd0172fb06ff1bb271a99fcb115722e2802bcf5
-  languageName: node
-  linkType: hard
-
-"@tanstack/query-core@npm:^5.0.0-rc.6":
-  version: 5.0.0-rc.6
-  resolution: "@tanstack/query-core@npm:5.0.0-rc.6"
-  checksum: af6ed507d86c0792824965dba890effdbd13a92663578b99547badf848b13b773f99b043bccc913caebb17172ce34467538c9496a07bb9618c779ff03e3f6458
   languageName: node
   linkType: hard
 
@@ -1392,6 +1402,22 @@ __metadata:
   version: 0.5.1
   resolution: "@total-typescript/ts-reset@npm:0.5.1"
   checksum: af9adfa31bd531fb1db590cbcab103d1202572c6ec2b655b718e3c5c3230777c379880d7e49953f9522dc0a826398d19de1e0d364dad621c296e68b44ef13b3b
+  languageName: node
+  linkType: hard
+
+"@trpc/client@npm:^10.40.0":
+  version: 10.40.0
+  resolution: "@trpc/client@npm:10.40.0"
+  peerDependencies:
+    "@trpc/server": 10.40.0
+  checksum: 7a68606d26988413b1c1f8f997ea2649e553a274b4fce905e5804cc1ec98874f5da08f9a190f63e4ebf58f5032d64f345c30c00d3912a2f78bf561efcc650a81
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:10.40.0, @trpc/server@npm:^10.40.0":
+  version: 10.40.0
+  resolution: "@trpc/server@npm:10.40.0"
+  checksum: 5e82617fdb9b58dbbc0e61f56e411d62171bb071b27d41c3d13ef7a59d8449f19a614937ba50740c9c731e947f141ac22236512faa2a4c220f459f37ef4e7b35
   languageName: node
   linkType: hard
 
@@ -6138,7 +6164,6 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:1.2.0"
     "@solidjs/router": "npm:0.8.3"
-    "@super-ssr/plugin-solid-router": "npm:latest"
     "@super-ssr/solid": "npm:latest"
     "@super-ssr/vite": "npm:latest"
     hono: "npm:3.7.6"
@@ -6202,10 +6227,12 @@ __metadata:
     "@hono/node-server": "npm:1.2.0"
     "@super-ssr/plugin-react-router": "npm:latest"
     "@super-ssr/plugin-tanstack-query": "npm:latest"
+    "@super-ssr/plugin-trpc-react": "npm:latest"
     "@super-ssr/plugin-unhead": "npm:latest"
     "@super-ssr/react": "npm:latest"
     "@super-ssr/vite": "npm:latest"
     "@tanstack/react-query": "npm:5.0.0-rc.12"
+    "@trpc/server": "npm:10.40.0"
     "@types/react": "npm:18.2.28"
     "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
