@@ -60,10 +60,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
         }
       }
 
-      /**
-       * Run the rest of the hooks in storage scope so we can access the ctx
-       */
-      const appStream = await storage.run({ appCtx, pluginCtx }, async () => {
+      async function createAppStream() {
         let appElem = renderApp ? await renderApp({ req }) : undefined;
 
         for (const p of plugins || []) {
@@ -128,7 +125,13 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             },
           }),
         );
-      });
+      }
+
+      /**
+       * Run the rest of the hooks in storage scope so we can access the ctx
+       */
+      const appStream = await storage.run({ appCtx, pluginCtx }, createAppStream);
+      // const appStream = await createAppStream();
 
       return appStream;
     },
