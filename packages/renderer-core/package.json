@@ -23,14 +23,14 @@
     }
   },
   "scripts": {
-    "dev": "yarn build --watch",
     "build": "tsup",
     "test": "vitest",
     "test.watch": "vitest watch --update",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@super-ssr/vite": "workspace:*"
+    "@super-ssr/vite": "workspace:*",
+    "deepmerge": "4.3.1"
   },
   "devDependencies": {
     "tsup": "7.2.0",

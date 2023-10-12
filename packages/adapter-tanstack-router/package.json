@@ -10,7 +10,6 @@
     }
   },
   "scripts": {
-    "dev": "yarn build --watch",
     "build": "tsup",
     "test": "vitest",
     "test.watch": "vitest watch --update",

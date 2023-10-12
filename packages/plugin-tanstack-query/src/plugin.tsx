@@ -64,7 +64,9 @@ export const tanstackQueryPlugin = ({
       },
 
       wrapApp: ({ ctx, children }) => {
-        return <QueryClientProvider client={(ctx as TanstackQueryCtx).queryClient}>{children}</QueryClientProvider>;
+        const { queryClient } = ctx as TanstackQueryCtx;
+
+        return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
       },
 
       emitToDocumentHead() {

@@ -1,3 +1,4 @@
+import { deepmerge } from '@super-ssr/renderer-core';
 import { QueryCache, QueryClient, type QueryClientConfig } from '@tanstack/query-core';
 
 type CreateQueryClientOpts = {
@@ -23,17 +24,18 @@ export const createQueryClient = ({ trackedQueries, blockingQueries, clientConfi
 
   const queryClient: QueryClient = new QueryClient({
     queryCache,
-    defaultOptions: {
-      queries: {
-        suspense: true,
-        retry: false,
-        staleTime: 1000 * 30,
-        refetchOnReconnect: true,
-        refetchOnWindowFocus: true,
-        ...clientConfig?.defaultOptions?.queries,
+    defaultOptions: deepmerge(
+      {
+        queries: {
+          suspense: true,
+          retry: false,
+          staleTime: 1000 * 30,
+          refetchOnReconnect: true,
+          refetchOnWindowFocus: true,
+        },
       },
-      ...clientConfig?.defaultOptions,
-    },
+      clientConfig?.defaultOptions || {},
+    ),
   });
 
   if (trackedQueries && import.meta.env.SSR) {

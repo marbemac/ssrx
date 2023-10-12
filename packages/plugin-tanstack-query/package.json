@@ -10,7 +10,6 @@
     }
   },
   "scripts": {
-    "dev": "yarn build --watch",
     "build": "tsup",
     "typecheck": "tsc"
   },

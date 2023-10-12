@@ -29,7 +29,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/utils@npm:^0.7.6":
+"@antfu/utils@npm:^0.7.5, @antfu/utils@npm:^0.7.6":
   version: 0.7.6
   resolution: "@antfu/utils@npm:0.7.6"
   checksum: ccc989adbebeb50c07eae0077ed0045c362bd588a3dc1d4ebf16c8721488f571d7fd904e749f7cd9bdc89b5d13ebcca5521ab984287cdc55da2d6ec1b6f80a06
@@ -53,7 +53,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.20.12, @babel/core@npm:^7.20.5, @babel/core@npm:^7.22.20":
+"@babel/core@npm:^7.20.12, @babel/core@npm:^7.22.20":
   version: 7.23.0
   resolution: "@babel/core@npm:7.23.0"
   dependencies:
@@ -76,7 +76,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.21.1, @babel/generator@npm:^7.23.0":
+"@babel/core@npm:^7.23.0":
+  version: 7.23.2
+  resolution: "@babel/core@npm:7.23.2"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.0"
+    "@babel/code-frame": "npm:^7.22.13"
+    "@babel/generator": "npm:^7.23.0"
+    "@babel/helper-compilation-targets": "npm:^7.22.15"
+    "@babel/helper-module-transforms": "npm:^7.23.0"
+    "@babel/helpers": "npm:^7.23.2"
+    "@babel/parser": "npm:^7.23.0"
+    "@babel/template": "npm:^7.22.15"
+    "@babel/traverse": "npm:^7.23.2"
+    "@babel/types": "npm:^7.23.0"
+    convert-source-map: "npm:^2.0.0"
+    debug: "npm:^4.1.0"
+    gensync: "npm:^1.0.0-beta.2"
+    json5: "npm:^2.2.3"
+    semver: "npm:^6.3.1"
+  checksum: f26e9f03f727cf04cd7a27f4b4b869046c2ebb75d576004bc242334972fa96032d91a0b7103aba576c2bcf2ef8b10c53dcce982482bff6b4ee0c4d93de72f55c
+  languageName: node
+  linkType: hard
+
+"@babel/generator@npm:^7.21.1, @babel/generator@npm:^7.22.7, @babel/generator@npm:^7.23.0":
   version: 7.23.0
   resolution: "@babel/generator@npm:7.23.0"
   dependencies:
@@ -274,7 +297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helpers@npm:^7.23.0":
+"@babel/helpers@npm:^7.23.0, @babel/helpers@npm:^7.23.2":
   version: 7.23.2
   resolution: "@babel/helpers@npm:7.23.2"
   dependencies:
@@ -296,7 +319,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.22.15, @babel/parser@npm:^7.23.0":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.22.15, @babel/parser@npm:^7.22.7, @babel/parser@npm:^7.23.0":
   version: 7.23.0
   resolution: "@babel/parser@npm:7.23.0"
   bin:
@@ -376,7 +399,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.18.6":
+"@babel/preset-typescript@npm:^7.18.6, @babel/preset-typescript@npm:^7.23.0":
   version: 7.23.2
   resolution: "@babel/preset-typescript@npm:7.23.2"
   dependencies:
@@ -1055,7 +1078,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.4":
+"@rollup/pluginutils@npm:^5.0.2, @rollup/pluginutils@npm:^5.0.4":
   version: 5.0.5
   resolution: "@rollup/pluginutils@npm:5.0.5"
   dependencies:
@@ -1138,6 +1161,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@super-ssr/plugin-unhead@workspace:*, @super-ssr/plugin-unhead@workspace:packages/plugin-unhead":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/plugin-unhead@workspace:packages/plugin-unhead"
+  dependencies:
+    "@super-ssr/renderer-core": "npm:latest"
+    "@unhead/addons": "npm:~1.7.4"
+    "@unhead/schema": "npm:~1.7.5"
+    "@unhead/ssr": "npm:~1.7.4"
+    tsup: "npm:7.2.0"
+    typescript: "npm:5.2.2"
+    unhead: "npm:~1.7.4"
+  languageName: unknown
+  linkType: soft
+
 "@super-ssr/react@workspace:*, @super-ssr/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@super-ssr/react@workspace:packages/react"
@@ -1158,6 +1195,7 @@ __metadata:
   resolution: "@super-ssr/renderer-core@workspace:packages/renderer-core"
   dependencies:
     "@super-ssr/vite": "workspace:*"
+    deepmerge: "npm:4.3.1"
     tsup: "npm:7.2.0"
     type-fest: "npm:4.4.0"
   languageName: unknown
@@ -1169,7 +1207,7 @@ __metadata:
   dependencies:
     "@super-ssr/vite": "workspace:*"
     esbuild-plugin-solid: "npm:0.5.0"
-    solid-js: "npm:1.8.0"
+    solid-js: "npm:1.8.1"
     tsup: "npm:7.2.0"
   peerDependencies:
     solid-js: "*"
@@ -1344,7 +1382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.1.20, @types/babel__core@npm:^7.20.2":
+"@types/babel__core@npm:^7.20.2":
   version: 7.20.2
   resolution: "@types/babel__core@npm:7.20.2"
   dependencies:
@@ -1438,16 +1476,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.12":
-  version: 18.2.12
-  resolution: "@types/react-dom@npm:18.2.12"
+"@types/react-dom@npm:18.2.13":
+  version: 18.2.13
+  resolution: "@types/react-dom@npm:18.2.13"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 0e567eaa2cbeaa0773f5702dabd3b1b8cdf4c5905bdc9b43f79a12b922fe31b4e17ada0e3583f07f51041032698c9c2f656a5c55528d647bf987d11ec8559501
+  checksum: 3f78c8c35e1988b110d253dd18823709b2d8c35f38e958ca5f4ca0df2599308ee06dabf3a8911cc94dbd98d59996c4b87369e44730d6a41e4601293319e239fd
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
+"@types/react@npm:*, @types/react@npm:18.2.28":
   version: 18.2.28
   resolution: "@types/react@npm:18.2.28"
   dependencies:
@@ -1455,17 +1493,6 @@ __metadata:
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
   checksum: 23981ebcb0a2d279e771339d3529472ae65493a55ade517ee276f7a05d0db6631aab3586bcb999167ce1020386859dd1759da835ac7128438ca2a86c69c31f17
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:18.2.27":
-  version: 18.2.27
-  resolution: "@types/react@npm:18.2.27"
-  dependencies:
-    "@types/prop-types": "npm:*"
-    "@types/scheduler": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 63a58e05b4db96b08fc844aaa90edaf48034ba7190d7f5778fbf721cd3516682660712d0573178efe8cc4d6d30bacee35d4a058e6406eac0679b896f54affc66
   languageName: node
   linkType: hard
 
@@ -1602,6 +1629,71 @@ __metadata:
     "@typescript-eslint/types": "npm:6.7.5"
     eslint-visitor-keys: "npm:^3.4.1"
   checksum: e1819bad31ea952f9af0bc15b203618412b5e4b182058378705fcbf2b87c055c94d4082a08c52b125240fecff00783d6bbe786d75e7c54260847a3e6b519e394
+  languageName: node
+  linkType: hard
+
+"@unhead/addons@npm:~1.7.4":
+  version: 1.7.4
+  resolution: "@unhead/addons@npm:1.7.4"
+  dependencies:
+    "@rollup/pluginutils": "npm:^5.0.4"
+    "@unhead/schema": "npm:1.7.4"
+    "@unhead/shared": "npm:1.7.4"
+    magic-string: "npm:^0.30.3"
+    mlly: "npm:^1.4.2"
+    ufo: "npm:^1.3.0"
+    unplugin: "npm:^1.4.0"
+    unplugin-ast: "npm:^0.8.2"
+  checksum: fa3c0edf98677b0cd39348ea124d10381bb20dbe5a225e4660108fef23585017f9e47342e370aa05c99b65d8352e98c000899fe4be156dbd07d44c6ab49a5688
+  languageName: node
+  linkType: hard
+
+"@unhead/dom@npm:1.7.4":
+  version: 1.7.4
+  resolution: "@unhead/dom@npm:1.7.4"
+  dependencies:
+    "@unhead/schema": "npm:1.7.4"
+    "@unhead/shared": "npm:1.7.4"
+  checksum: 7e4f308f147a1c2bd7be70dd9c84d6d207bfb130af119cec747e35bb9cffff5541dbe65d116f3da5a426acd72f2177f38766e888f68f56f89a4215195f8c88f2
+  languageName: node
+  linkType: hard
+
+"@unhead/schema@npm:1.7.4":
+  version: 1.7.4
+  resolution: "@unhead/schema@npm:1.7.4"
+  dependencies:
+    hookable: "npm:^5.5.3"
+    zhead: "npm:^2.1.1"
+  checksum: 2f5d58bafb4ef65609911be85a7a44b1c66e6dbcde7cfbb7d6933b17286a31e437c70905f1bbb7dfe0bf35c9a0d87f502ad775c6b8e49bea85f659d9651a3a7d
+  languageName: node
+  linkType: hard
+
+"@unhead/schema@npm:~1.7.5":
+  version: 1.7.5
+  resolution: "@unhead/schema@npm:1.7.5"
+  dependencies:
+    hookable: "npm:^5.5.3"
+    zhead: "npm:^2.1.2"
+  checksum: b09c70512d1b1c2d15895ec85738bb64e64b7dd6679278a995e37055704a9b4494676e06719abe7a645b42ce90099a0e6eaf9b60136ad8ddd7a1143503ac7038
+  languageName: node
+  linkType: hard
+
+"@unhead/shared@npm:1.7.4":
+  version: 1.7.4
+  resolution: "@unhead/shared@npm:1.7.4"
+  dependencies:
+    "@unhead/schema": "npm:1.7.4"
+  checksum: 1ba20fe290b8babab855a421209a1b0ebb7feb66262ead252faf5174f0df3e8c0c1835a4921793f79ef199a28d3bc175e38cc3ed2f89c08396acd4848b684f13
+  languageName: node
+  linkType: hard
+
+"@unhead/ssr@npm:~1.7.4":
+  version: 1.7.4
+  resolution: "@unhead/ssr@npm:1.7.4"
+  dependencies:
+    "@unhead/schema": "npm:1.7.4"
+    "@unhead/shared": "npm:1.7.4"
+  checksum: 209d00f415b7463a711092958d5f9fbba71efcbd9ffae7ca4e193f8b950041836c28a18d3d0dcd713c1439ed7b45f3c7f27ed18d9cc158e88529583afd1ee7c0
   languageName: node
   linkType: hard
 
@@ -1996,6 +2088,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ast-kit@npm:^0.6.6":
+  version: 0.6.9
+  resolution: "ast-kit@npm:0.6.9"
+  dependencies:
+    "@babel/parser": "npm:^7.22.7"
+    "@rollup/pluginutils": "npm:^5.0.2"
+    pathe: "npm:^1.1.1"
+  checksum: 88d2ba0d8b0c0840c495c9c7297c8dc1f39e5d82d1fdf6ad5b28cfb99435d35020ac68695126433e8459346872c7c040eb87a5bf752c767b80fc3d26d046c745
+  languageName: node
+  linkType: hard
+
 "ast-types-flow@npm:^0.0.7":
   version: 0.0.7
   resolution: "ast-types-flow@npm:0.0.7"
@@ -2059,7 +2162,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-solid@npm:^1.6.9, babel-preset-solid@npm:^1.7.2":
+"babel-preset-solid@npm:^1.6.9, babel-preset-solid@npm:^1.8.0":
   version: 1.8.0
   resolution: "babel-preset-solid@npm:1.8.0"
   dependencies:
@@ -2177,8 +2280,8 @@ __metadata:
     "@elysiajs/static": "npm:0.7.1"
     "@super-ssr/react": "npm:latest"
     "@super-ssr/vite": "npm:latest"
-    "@types/react": "npm:18.2.27"
-    "@types/react-dom": "npm:18.2.12"
+    "@types/react": "npm:18.2.28"
+    "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
     elysia: "npm:0.7.16"
     react: "npm:18.2.0"
@@ -2189,10 +2292,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"bun-types@npm:1.0.4":
-  version: 1.0.4
-  resolution: "bun-types@npm:1.0.4"
-  checksum: b1929489b9bf5eae0ceb8e1be3f80d48c4402f4f3e5c9cb995c6f6355b68fc73ba0103767007bcc75d63b65dbaec7a52ddce6a3dee4a06e50076bf86ada90514
+"bun-types@npm:1.0.6":
+  version: 1.0.6
+  resolution: "bun-types@npm:1.0.6"
+  checksum: 1546e4f0508650effc75ba55194dee2bd6fd866c7cf4dc2e268c789be11f78f9bf7276d4a8c5418ff24d7262257f3508ddd7a65e88dd1c519af6ce174b82d3be
   languageName: node
   linkType: hard
 
@@ -2539,6 +2642,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: dfee7fc148cb00508a2a4af815144cce85a86ec7a5f658525bf6929095baeef7782c166504a0dc3b18872a1f53e27521de3d308a575c6d8063516815fc553a59
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:4.3.1":
+  version: 4.3.1
+  resolution: "deepmerge@npm:4.3.1"
+  checksum: 367ae28f98c94b2807dd6eba48f4c3d051742c2ab431f1037d60f5cb5af989aac2b170b6a891d5617679bcb95881b4e22a0616161a1f2154894b349b13d384e0
   languageName: node
   linkType: hard
 
@@ -3870,10 +3980,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:3.7.5":
-  version: 3.7.5
-  resolution: "hono@npm:3.7.5"
-  checksum: cd38823df780b3875b37bd8c77d9cea96b26bf3398f5ecd527cb28167033872129b3fe05e16f0479cd98ec851211b1c721c14cafc8adabc42833cde9c9af68a8
+"hono@npm:3.7.6":
+  version: 3.7.6
+  resolution: "hono@npm:3.7.6"
+  checksum: 000891630fadeab83e946ccaee6acfeef8becf918379af813958d3e4835ff2c264d180dcd244834684775b542025dfe06be0ea8366a7933d32b5b24b6f2bbd2a
+  languageName: node
+  linkType: hard
+
+"hookable@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "hookable@npm:5.5.3"
+  checksum: 958e4aa5d54ff5163af647051ee41e6472bb0db51f13801bf625c6fe923fe568e03e3791e37b4ce006987972c3065a28a3e4cf8757a4725bd615e9f3c5376c7e
   languageName: node
   linkType: hard
 
@@ -4590,12 +4707,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"magic-string-ast@npm:^0.1.2":
+  version: 0.1.3
+  resolution: "magic-string-ast@npm:0.1.3"
+  dependencies:
+    magic-string: "npm:^0.30.0"
+  checksum: 712429a3f57cbdc7f9e13c322d17b826f671f8d12559661358431c8353dd06de09bc5d9f688b9dc7077665166de91e23adfd3452e6f114a9ef32bf501ed5b9be
+  languageName: node
+  linkType: hard
+
 "magic-string@npm:^0.27.0":
   version: 0.27.0
   resolution: "magic-string@npm:0.27.0"
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.4.13"
   checksum: 3b7ea05374ce06a1f4726a752959af578d5cd864b00321f2ffa131b5256776d47b87fbcf569b42abe6e70f53708dec91996776ce942bc68c21f91b205356cd57
+  languageName: node
+  linkType: hard
+
+"magic-string@npm:^0.30.0, magic-string@npm:^0.30.3":
+  version: 0.30.5
+  resolution: "magic-string@npm:0.30.5"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+  checksum: 0c4517905c3f044fc347c82f42050a490ebb5fe13f0846c9af88fc197ac19c5b4352855586c9464c68896df6c82a40ace40c7acf76e05b9ff2945997094161b4
   languageName: node
   linkType: hard
 
@@ -4638,7 +4773,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"merge-anything@npm:^5.1.4":
+"merge-anything@npm:^5.1.7":
   version: 5.1.7
   resolution: "merge-anything@npm:5.1.7"
   dependencies:
@@ -4828,7 +4963,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mlly@npm:^1.2.0, mlly@npm:^1.4.0":
+"mlly@npm:^1.2.0, mlly@npm:^1.4.0, mlly@npm:^1.4.2":
   version: 1.4.2
   resolution: "mlly@npm:1.4.2"
   dependencies:
@@ -5572,10 +5707,10 @@ __metadata:
     "@hono/node-server": "npm:1.2.0"
     "@super-ssr/react": "npm:latest"
     "@super-ssr/vite": "npm:latest"
-    "@types/react": "npm:18.2.27"
-    "@types/react-dom": "npm:18.2.12"
+    "@types/react": "npm:18.2.28"
+    "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
-    hono: "npm:3.7.5"
+    hono: "npm:3.7.6"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-router-dom: "npm:6.16.0"
@@ -5961,17 +6096,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"solid-js@npm:1.8.0":
-  version: 1.8.0
-  resolution: "solid-js@npm:1.8.0"
+"solid-js@npm:1.8.1":
+  version: 1.8.1
+  resolution: "solid-js@npm:1.8.1"
   dependencies:
     csstype: "npm:^3.1.0"
     seroval: "npm:^0.10.4"
-  checksum: 436e8a0033fa868faa80fa9caa36fa2dded7dd204a11ef2e7740dc01a7450ff30b60b009a2c0cd3b015be57b3c974c2a5d1b23c4f2c504b326a13b59ba2c571e
+  checksum: e85908e181932c6e59b5be9b043513eeca613b9f704a65076ddcb4e5d6197d9e90fbd96ed8b0f5f2847a08f3c8f1cf03697c34277f7e8ed6e9b53a33d589c3d6
   languageName: node
   linkType: hard
 
-"solid-refresh@npm:^0.5.0":
+"solid-refresh@npm:^0.5.3":
   version: 0.5.3
   resolution: "solid-refresh@npm:0.5.3"
   dependencies:
@@ -5992,10 +6127,10 @@ __metadata:
     "@solidjs/router": "npm:0.8.3"
     "@super-ssr/solid": "npm:latest"
     "@super-ssr/vite": "npm:latest"
-    hono: "npm:3.7.5"
-    solid-js: "npm:1.8.0"
+    hono: "npm:3.7.6"
+    solid-js: "npm:1.8.1"
     vite: "npm:5.0.0-beta.6"
-    vite-plugin-solid: "npm:2.7.0"
+    vite-plugin-solid: "npm:2.7.1"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown
   linkType: soft
@@ -6053,13 +6188,14 @@ __metadata:
     "@hono/node-server": "npm:1.2.0"
     "@super-ssr/plugin-react-router": "npm:latest"
     "@super-ssr/plugin-tanstack-query": "npm:latest"
+    "@super-ssr/plugin-unhead": "npm:latest"
     "@super-ssr/react": "npm:latest"
     "@super-ssr/vite": "npm:latest"
     "@tanstack/react-query": "npm:5.0.0-rc.12"
-    "@types/react": "npm:18.2.27"
-    "@types/react-dom": "npm:18.2.12"
+    "@types/react": "npm:18.2.28"
+    "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
-    hono: "npm:3.7.5"
+    hono: "npm:3.7.6"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-router-dom: "npm:6.16.0"
@@ -6225,7 +6361,7 @@ __metadata:
     "@total-typescript/ts-reset": "npm:~0.5.1"
     "@typescript-eslint/eslint-plugin": "npm:6.7.5"
     "@typescript-eslint/parser": "npm:6.7.5"
-    bun-types: "npm:1.0.4"
+    bun-types: "npm:1.0.6"
     eslint: "npm:8.51.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-import: "npm:^2.28.1"
@@ -6307,10 +6443,10 @@ __metadata:
     "@super-ssr/vite": "npm:latest"
     "@tanstack/react-router": "npm:0.0.1-beta.194"
     "@tanstack/react-start": "npm:0.0.1-beta.194"
-    "@types/react": "npm:18.2.27"
-    "@types/react-dom": "npm:18.2.12"
+    "@types/react": "npm:18.2.28"
+    "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
-    hono: "npm:3.7.5"
+    hono: "npm:3.7.6"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     vite: "npm:5.0.0-beta.6"
@@ -6688,6 +6824,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unhead@npm:~1.7.4":
+  version: 1.7.4
+  resolution: "unhead@npm:1.7.4"
+  dependencies:
+    "@unhead/dom": "npm:1.7.4"
+    "@unhead/schema": "npm:1.7.4"
+    "@unhead/shared": "npm:1.7.4"
+    hookable: "npm:^5.5.3"
+  checksum: ac74631658c1fd999caff4c529306cce92abc004bee3fda1cf4a66a6147a32a6944d65001e90e47fc67b5105298edd2b6cfc0973a451a0885e556a6dc22dbc95
+  languageName: node
+  linkType: hard
+
 "unique-filename@npm:^3.0.0":
   version: 3.0.0
   resolution: "unique-filename@npm:3.0.0"
@@ -6710,6 +6858,33 @@ __metadata:
   version: 2.0.0
   resolution: "universalify@npm:2.0.0"
   checksum: 243b0697a640cda1912e62a79f9439ec24b937df9a9a47ee7dd5fe813c4547300a3dc346e0c7c10dbd925f54a19507e8de915f2562a5e694716bdcd0825d48f6
+  languageName: node
+  linkType: hard
+
+"unplugin-ast@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "unplugin-ast@npm:0.8.2"
+  dependencies:
+    "@antfu/utils": "npm:^0.7.5"
+    "@babel/generator": "npm:^7.22.7"
+    "@babel/parser": "npm:^7.22.7"
+    "@rollup/pluginutils": "npm:^5.0.2"
+    ast-kit: "npm:^0.6.6"
+    magic-string-ast: "npm:^0.1.2"
+    unplugin: "npm:^1.3.2"
+  checksum: 4225bf633beb2d17c544b885823ad2cce2690e98363b59b6d7adaef3bec2a1df634e1f2e5f3e921955bd87dfefdb90ecb04ea94c2c49ad1bd6ae5876fef547e7
+  languageName: node
+  linkType: hard
+
+"unplugin@npm:^1.3.2, unplugin@npm:^1.4.0":
+  version: 1.5.0
+  resolution: "unplugin@npm:1.5.0"
+  dependencies:
+    acorn: "npm:^8.10.0"
+    chokidar: "npm:^3.5.3"
+    webpack-sources: "npm:^3.2.3"
+    webpack-virtual-modules: "npm:^0.5.0"
+  checksum: f149e361458044b223d11a47cfb47f07421f895690895a7ebd525dfb27409fd340451123f64610400bc6443254ee13c19b8ea81785f8182f4dae3b3fbe16940d
   languageName: node
   linkType: hard
 
@@ -6810,21 +6985,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-solid@npm:2.7.0":
-  version: 2.7.0
-  resolution: "vite-plugin-solid@npm:2.7.0"
+"vite-plugin-solid@npm:2.7.1":
+  version: 2.7.1
+  resolution: "vite-plugin-solid@npm:2.7.1"
   dependencies:
-    "@babel/core": "npm:^7.20.5"
-    "@babel/preset-typescript": "npm:^7.18.6"
-    "@types/babel__core": "npm:^7.1.20"
-    babel-preset-solid: "npm:^1.7.2"
-    merge-anything: "npm:^5.1.4"
-    solid-refresh: "npm:^0.5.0"
-    vitefu: "npm:^0.2.3"
+    "@babel/core": "npm:^7.23.0"
+    "@babel/preset-typescript": "npm:^7.23.0"
+    "@types/babel__core": "npm:^7.20.2"
+    babel-preset-solid: "npm:^1.8.0"
+    merge-anything: "npm:^5.1.7"
+    solid-refresh: "npm:^0.5.3"
+    vitefu: "npm:^0.2.4"
   peerDependencies:
     solid-js: ^1.7.2
     vite: ^3.0.0 || ^4.0.0
-  checksum: cfd0f43de8036d2a21469d35c8aa55d12135da39ecb589adddc5f4d457f4f32f0eac5675acc6cdaa15cd9e5752197e3583f028a562fe6858a862525e31b41c90
+  checksum: 41111ab8512bc29c9b254ffd2caba136196fb7cf4bb79aebd8bc41d7e95c1ba7f2bc1cf4990b9d9c6ca88890dceb5eeec5d8e26bd17e00daf7fce8096f3250d4
   languageName: node
   linkType: hard
 
@@ -6884,7 +7059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitefu@npm:^0.2.3":
+"vitefu@npm:^0.2.4":
   version: 0.2.4
   resolution: "vitefu@npm:0.2.4"
   peerDependencies:
@@ -6960,6 +7135,20 @@ __metadata:
   version: 4.0.2
   resolution: "webidl-conversions@npm:4.0.2"
   checksum: 68c1adc8200c122eeb9cd3ccb6407e929dab3108210a249ce485ac71acbe8d943cf97fe03687fe350295be467de1c0538d4ee0e0818267a941f1fbcdb0d8f765
+  languageName: node
+  linkType: hard
+
+"webpack-sources@npm:^3.2.3":
+  version: 3.2.3
+  resolution: "webpack-sources@npm:3.2.3"
+  checksum: aaccb99ee23afcfa1ebddbd7101f7cf15cdc3d72afe37258cf6d852eb6cfedf540086fae3a53b2c65412040eb2e1a3e7b1bff077b09eaf4f82f032a8211d6a6f
+  languageName: node
+  linkType: hard
+
+"webpack-virtual-modules@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "webpack-virtual-modules@npm:0.5.0"
+  checksum: ce0e2d6bddfc3ef32d16ddee612556cfa2e14a17fc574a4e9b7b38ab3d32d8317d74b116a36e90e134621a25c2e630849ab24f50c8e0ee4b6df2f0d5942d3043
   languageName: node
   linkType: hard
 
@@ -7122,5 +7311,12 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 4522405d36a190a188112c3bc9ae84ac5eeafee637417ec127c6defc28a75b745a6139f9178107389e5ae57c3a5523b0016aec5a1f23b228c7b17ca8b2869a9c
+  languageName: node
+  linkType: hard
+
+"zhead@npm:^2.1.1, zhead@npm:^2.1.2":
+  version: 2.1.3
+  resolution: "zhead@npm:2.1.3"
+  checksum: fc15ad189c1a2a0538f0e634d0d928bd009002c286e1aea5c8c8c933e1ec36e76baf1457c19cea0aa579bb37e562d62e8cb3e5a2a1f6a612167d357815dadd05
   languageName: node
   linkType: hard
