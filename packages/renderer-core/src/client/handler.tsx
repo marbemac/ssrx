@@ -50,12 +50,12 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       const appCtx: Record<string, any> = {};
 
       for (const p of plugins || []) {
-        if (p.hooks?.extendRequestCtx) {
-          pluginCtx[p.id] = p.hooks.extendRequestCtx({ req });
+        if (p.createCtx) {
+          pluginCtx[p.id] = p.createCtx({ req });
         }
 
-        if (p.hooks?.extendAppCtx) {
-          Object.assign(appCtx, p.hooks.extendAppCtx({ ctx: pluginCtx[p.id] }) || {});
+        if (p.hooks?.['app:extendCtx']) {
+          Object.assign(appCtx, p.hooks['app:extendCtx']({ ctx: pluginCtx[p.id] }) || {});
         }
       }
 
@@ -65,13 +65,13 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       let appElem = renderApp ? await renderApp({ req }) : undefined;
 
       for (const p of plugins || []) {
-        if (!p.hooks?.renderApp) continue;
+        if (!p.hooks?.['app:render']) continue;
 
         if (appElem) {
           throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
         }
 
-        appElem = await p.hooks.renderApp({ req });
+        appElem = await p.hooks['app:render']({ req });
 
         break;
       }
@@ -81,9 +81,9 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       }
 
       for (const p of plugins || []) {
-        if (!p.hooks?.wrapApp) continue;
+        if (!p.hooks?.['app:wrap']) continue;
 
-        appElem = p.hooks.wrapApp({ req, ctx: pluginCtx[p.id], children: appElem });
+        appElem = p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id], children: appElem });
       }
 
       const RootComp = renderRoot;
@@ -108,8 +108,8 @@ type ExtractPluginsContext<T extends RenderPlugin<any, any>[]> = {
 };
 
 type ExtractPluginContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
-  Extract<T[number], { id: K }>['hooks']
->['extendRequestCtx'] extends (...args: any[]) => infer R
+  Extract<T[number], { id: K }>
+>['createCtx'] extends (...args: any[]) => infer R
   ? R
   : never;
 
@@ -123,6 +123,6 @@ type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
 
 type ExtractPluginAppContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
   Extract<T[number], { id: K }>['hooks']
->['extendAppCtx'] extends (...args: any[]) => infer R
+>['app:extendCtx'] extends (...args: any[]) => infer R
   ? R
   : never;

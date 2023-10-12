@@ -17,19 +17,18 @@ export type ServerHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerO
 };
 
 export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
-  id: string;
+  id: Readonly<string>;
+
+  createCtx?: (props: { req: Request }) => C;
 
   hooks?: {
-    extendRequestCtx?: (props: { req: Request }) => C;
-
-    extendAppCtx?: (props: { ctx: C }) => AC;
-
-    wrapApp?: (props: { req: Request; ctx: C; children: React.ReactNode }) => React.ReactNode;
-    renderApp?: (props: { req: Request }) => React.ReactNode | Promise<React.ReactNode>;
+    'app:extendCtx'?: (props: { ctx: C }) => AC;
+    'app:wrap'?: (props: { req: Request; ctx: C; children: React.ReactNode }) => React.ReactNode;
+    'app:render'?: (props: { req: Request }) => React.ReactNode | Promise<React.ReactNode>;
 
     // Return a string or ReactElement to emit
     // some HTML into the document's head.
-    emitToDocumentHead?: (props: {
+    'ssr:emitToHead'?: (props: {
       req: Request;
       ctx: C;
     }) => string | void | undefined | Promise<string | void | undefined>;
@@ -37,17 +36,19 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     // Return a string to emit into the
     // SSR stream just before the rendering framework (react, solid, etc) emits a
     // chunk of the page.
-    emitBeforeSsrChunk?: (props: {
+    'ssr:emitBeforeFlush'?: (props: {
       req: Request;
       ctx: C;
     }) => string | void | undefined | Promise<string | void | undefined>;
 
-    // Return a string or ReactElement to emit
+    // Return a string to emit
     // some HTML into the document's body before it is closed.
-    emitToDocumentBody?: (props: {
+    'ssr:emitToBody'?: (props: {
       req: Request;
       ctx: C;
     }) => string | void | undefined | Promise<string | void | undefined>;
+
+    'ssr:completed'?: (props: { req: Request; ctx: C }) => void | Promise<void>;
   };
 };
 

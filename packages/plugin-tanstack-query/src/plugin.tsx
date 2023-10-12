@@ -49,33 +49,33 @@ export const tanstackQueryPlugin = ({
   defineRenderPlugin({
     id: PLUGIN_ID,
 
+    createCtx: () => {
+      const trackedQueries = new Set<string>();
+      const blockingQueries = new Map<string, Promise<void>>();
+      const queryClient = createQueryClient({ trackedQueries, blockingQueries, clientConfig: queryClientConfig });
+
+      if (!import.meta.env.SSR) {
+        // hydrate on the client
+        hydrateStreamingData({ queryClient });
+      }
+
+      return { trackedQueries, blockingQueries, queryClient };
+    },
+
     hooks: {
-      extendRequestCtx: () => {
-        const trackedQueries = new Set<string>();
-        const blockingQueries = new Map<string, Promise<void>>();
-        const queryClient = createQueryClient({ trackedQueries, blockingQueries, clientConfig: queryClientConfig });
-
-        if (!import.meta.env.SSR) {
-          // hydrate on the client
-          hydrateStreamingData({ queryClient });
-        }
-
-        return { trackedQueries, blockingQueries, queryClient };
-      },
-
-      extendAppCtx({ ctx }) {
+      'app:extendCtx': ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryCtx;
 
         return { queryClient };
       },
 
-      wrapApp: ({ ctx, children }) => {
+      'app:wrap': ({ ctx, children }) => {
         const { queryClient } = ctx as TanstackQueryCtx;
 
         return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
       },
 
-      emitToDocumentHead() {
+      'ssr:emitToHead': () => {
         if (skipHydration) return;
 
         /**
@@ -88,7 +88,7 @@ export const tanstackQueryPlugin = ({
         return `<script>${html.join('')}</script>`;
       },
 
-      async emitBeforeSsrChunk({ ctx }) {
+      'ssr:emitBeforeFlush': async ({ ctx }) => {
         if (skipHydration) return;
 
         const { blockingQueries, trackedQueries, queryClient } = ctx as TanstackQueryCtx;
@@ -120,7 +120,11 @@ export const tanstackQueryPlugin = ({
 
         return `<script>${[`$TQS(${dehydratedString})`].join('')}</script>`;
       },
-    },
 
-    // @TODO: queryClient.clear() on request finished
+      'ssr:completed': ({ ctx }) => {
+        const { queryClient } = ctx as TanstackQueryCtx;
+
+        queryClient.clear();
+      },
+    },
   });

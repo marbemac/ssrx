@@ -25,27 +25,27 @@ export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
+    createCtx: () => {
+      const head: Unhead<SchemaAugmentations> = createHead(
+        deepmerge(
+          {
+            plugins: [InferSeoMetaPlugin()],
+          },
+          opts?.createHeadOptions || {},
+        ),
+      );
+
+      return { head };
+    },
+
     hooks: {
-      extendRequestCtx() {
-        const head: Unhead<SchemaAugmentations> = createHead(
-          deepmerge(
-            {
-              plugins: [InferSeoMetaPlugin()],
-            },
-            opts?.createHeadOptions || {},
-          ),
-        );
-
-        return { head };
-      },
-
-      extendAppCtx({ ctx }) {
+      'app:extendCtx': ({ ctx }) => {
         const { head } = ctx as UnheadCtx;
 
         return { useHead: createUseHead(head) };
       },
 
-      async emitToDocumentHead({ ctx }) {
+      'ssr:emitToHead': async ({ ctx }) => {
         const { head } = ctx as UnheadCtx;
 
         const { headTags } = await renderSSRHead(head);

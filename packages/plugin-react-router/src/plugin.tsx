@@ -15,7 +15,7 @@ export const reactRouterPlugin = ({ routes, client }: ReactRouterPluginOpts) =>
     id: PLUGIN_ID,
 
     hooks: {
-      renderApp: async ({ req }) => {
+      'app:render': async ({ req }) => {
         /**
          * SERVER
          */
