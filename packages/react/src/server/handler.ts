@@ -11,10 +11,10 @@ import { renderToReadableStream as fallbackRenderToReadableStream } from 'react-
 import { Root } from '../default-root.tsx';
 
 export function createApp<P extends RenderPlugin<any, any>[]>(
-  opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'renderRoot'>,
+  opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'rootLayout'>,
 ) {
   return baseCreateApp({
-    renderRoot: Root,
+    rootLayout: Root,
     renderer: {
       renderToStream: ({ app }) => {
         /**
@@ -26,7 +26,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>(
          * with a fallback to the implementation provided by the browser build. This is what we want in the case of node on the server, since we're targeting
          * node versions that support web streams.
          */
-        return rd.renderToReadableStream ? rd.renderToReadableStream(app) : fallbackRenderToReadableStream(app);
+        return rd.renderToReadableStream ? rd.renderToReadableStream(app()) : fallbackRenderToReadableStream(app());
       },
     },
     ...opts,

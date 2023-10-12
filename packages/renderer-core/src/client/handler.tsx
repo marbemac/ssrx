@@ -3,8 +3,8 @@ import type { Simplify } from 'type-fest';
 import type { ClientHandlerOpts, RenderPlugin } from '../types.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
-  renderRoot,
-  renderApp,
+  rootLayout,
+  appRenderer,
   plugins,
 }: ClientHandlerOpts<P>) {
   // @ts-expect-error ignore
@@ -62,33 +62,56 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       // @ts-expect-error ignore
       window.__PAGE_CTX__ = { pluginCtx, appCtx };
 
-      let appElem = renderApp ? await renderApp({ req }) : undefined;
+      let AppComp = appRenderer ? await appRenderer({ req }) : undefined;
 
       for (const p of plugins || []) {
         if (!p.hooks?.['app:render']) continue;
 
-        if (appElem) {
+        if (AppComp) {
           throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
         }
 
-        appElem = await p.hooks['app:render']({ req });
+        AppComp = await p.hooks['app:render']({ req });
 
         break;
       }
 
-      if (!appElem) {
+      if (!AppComp) {
         throw new Error('No plugin implemented renderApp');
       }
 
+      const wrappers: Array<(props: { children: () => JSX.Element }) => JSX.Element> = [];
       for (const p of plugins || []) {
         if (!p.hooks?.['app:wrap']) continue;
 
-        appElem = p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id], children: appElem });
+        wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id] }));
       }
 
-      const RootComp = renderRoot;
+      const renderApp = () => {
+        if (!AppComp) {
+          throw new Error('No plugin implemented renderApp');
+        }
 
-      return <RootComp>{appElem}</RootComp>;
+        const RootLayout = rootLayout;
+
+        let finalApp;
+        if (wrappers.length) {
+          for (const i in wrappers) {
+            const Wrap = wrappers[i]!;
+            const nextWrapper = wrappers[Number(i) + 1];
+            const children = nextWrapper || AppComp;
+            // @ts-expect-error ignore
+            finalApp = Wrap({ children });
+          }
+        } else {
+          finalApp = AppComp;
+        }
+
+        // @ts-expect-error ignore
+        return RootLayout({ children: finalApp });
+      };
+
+      return renderApp;
     },
   };
 }

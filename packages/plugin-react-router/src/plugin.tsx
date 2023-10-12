@@ -29,7 +29,7 @@ export const reactRouterPlugin = ({ routes, client }: ReactRouterPluginOpts) =>
 
           const router = createStaticRouter(dataRoutes, context);
 
-          return <StaticRouterProvider router={router} context={context} nonce="the-nonce" />;
+          return () => <StaticRouterProvider router={router} context={context} nonce="the-nonce" />;
         }
 
         /**
@@ -55,7 +55,7 @@ export const reactRouterPlugin = ({ routes, client }: ReactRouterPluginOpts) =>
 
         const router = createBrowserRouter(routes);
 
-        return <RouterProvider {...client?.providerProps} router={router} />;
+        return () => <RouterProvider {...client?.providerProps} router={router} />;
       },
     },
   });

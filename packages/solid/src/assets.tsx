@@ -4,10 +4,6 @@ export const renderAssets = (assets: AssetHtmlTag[]) => {
   return assets.map(a => renderAsset(a));
 };
 
-// export const renderAssets = (assets: AssetHtmlTag[]) => {
-//   return <For each={assets}>{a => renderAsset(a)}</For>;
-// };
-
 const renderAsset = ({ tag, attrs, children }: AssetHtmlTag) => {
   switch (tag) {
     case 'script':

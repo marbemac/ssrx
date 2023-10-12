@@ -1,10 +1,10 @@
 export type ServerRenderer = {
-  renderToStream: (props: { app: React.ReactNode }) => Promise<ReadableStream>;
+  renderToStream: (props: { app: () => JSX.Element }) => Promise<ReadableStream>;
 };
 
 type BaseHandlerOpts = {
-  renderRoot: (props: { children: React.ReactNode }) => React.ReactNode;
-  renderApp?: (props: { req: Request }) => React.ReactNode | Promise<React.ReactNode>;
+  rootLayout: (props: { children: JSX.Element }) => JSX.Element;
+  appRenderer?: (props: { req: Request }) => (() => JSX.Element) | Promise<() => JSX.Element>;
 };
 
 export type ClientHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
@@ -23,8 +23,8 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
 
   hooks?: {
     'app:extendCtx'?: (props: { ctx: C }) => AC;
-    'app:wrap'?: (props: { req: Request; ctx: C; children: React.ReactNode }) => React.ReactNode;
-    'app:render'?: (props: { req: Request }) => React.ReactNode | Promise<React.ReactNode>;
+    'app:wrap'?: (props: { req: Request; ctx: C }) => (props: { children: () => JSX.Element }) => JSX.Element;
+    'app:render'?: (props: { req: Request }) => (() => JSX.Element) | Promise<() => JSX.Element>;
 
     // Return a string or ReactElement to emit
     // some HTML into the document's head.

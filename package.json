@@ -14,6 +14,7 @@
   "resolutions": {
     "@super-ssr/adapter-tanstack-router": "workspace:*",
     "@super-ssr/plugin-react-router": "workspace:*",
+    "@super-ssr/plugin-solid-router": "workspace:*",
     "@super-ssr/plugin-tanstack-query": "workspace:*",
     "@super-ssr/plugin-unhead": "workspace:*",
     "@super-ssr/react": "workspace:*",

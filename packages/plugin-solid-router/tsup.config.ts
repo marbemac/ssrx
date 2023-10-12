@@ -7,7 +7,8 @@ export default defineConfig({
   format: 'esm',
   sourcemap: true,
   clean: true,
-  entry: ['src/client/index.ts', 'src/server/index.ts'],
+  entry: ['src/index.ts'],
+  external: ['virtual:super-ssr-manifest'],
   esbuildPlugins: [
     solidPlugin({
       solid: {

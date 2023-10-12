@@ -17,7 +17,7 @@ export type TanstackQueryPluginOpts = {
   /**
    * The QueryClientProvider from whichever version of tanstack query you are using (react-query, solid-query, etc)
    */
-  QueryClientProvider: (props: any) => any;
+  QueryClientProvider: any;
 
   /**
    * If your adapter handles hydration itself (solidjs, for example), set this to true.
@@ -69,10 +69,10 @@ export const tanstackQueryPlugin = ({
         return { queryClient };
       },
 
-      'app:wrap': ({ ctx, children }) => {
+      'app:wrap': ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryCtx;
 
-        return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+        return ({ children }) => <QueryClientProvider client={queryClient}>{children()}</QueryClientProvider>;
       },
 
       'ssr:emitToHead': () => {

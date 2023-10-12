@@ -1148,6 +1148,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@super-ssr/plugin-solid-router@workspace:*, @super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router"
+  dependencies:
+    "@solidjs/router": "npm:0.8.3"
+    "@super-ssr/renderer-core": "npm:latest"
+    esbuild-plugin-solid: "npm:0.5.0"
+    tsup: "npm:7.2.0"
+  peerDependencies:
+    "@solidjs/router": "*"
+  languageName: unknown
+  linkType: soft
+
 "@super-ssr/plugin-tanstack-query@workspace:*, @super-ssr/plugin-tanstack-query@workspace:packages/plugin-tanstack-query":
   version: 0.0.0-use.local
   resolution: "@super-ssr/plugin-tanstack-query@workspace:packages/plugin-tanstack-query"
@@ -6125,6 +6138,7 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:1.2.0"
     "@solidjs/router": "npm:0.8.3"
+    "@super-ssr/plugin-solid-router": "npm:latest"
     "@super-ssr/solid": "npm:latest"
     "@super-ssr/vite": "npm:latest"
     hono: "npm:3.7.6"

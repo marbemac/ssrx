@@ -1,3 +1,5 @@
+import './app.css';
+
 import { reactRouterPlugin } from '@super-ssr/plugin-react-router';
 import { tanstackQueryPlugin } from '@super-ssr/plugin-tanstack-query';
 import { unheadPlugin } from '@super-ssr/plugin-unhead';

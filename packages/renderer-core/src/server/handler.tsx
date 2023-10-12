@@ -6,9 +6,9 @@ import { storage } from './ctx.ts';
 import { injectIntoStream } from './stream-transformer.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
-  renderRoot,
+  rootLayout,
   renderer,
-  renderApp,
+  appRenderer,
   plugins,
 }: ServerHandlerOpts<P>) {
   function __getPluginCtx<K extends P[number]['id']>(pluginId: K): Simplify<ExtractPluginContext<P, K>>;
@@ -61,33 +61,52 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       }
 
       async function createAppStream() {
-        let appElem = renderApp ? await renderApp({ req }) : undefined;
+        let AppComp = appRenderer ? await appRenderer({ req }) : undefined;
 
         for (const p of plugins || []) {
           if (!p.hooks?.['app:render']) continue;
 
-          if (appElem) {
-            throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
+          if (AppComp) {
+            throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
           }
 
-          appElem = await p.hooks['app:render']({ req });
+          AppComp = await p.hooks['app:render']({ req });
 
           break;
         }
 
-        if (!appElem) {
-          throw new Error('No plugin implemented renderApp');
-        }
-
+        const wrappers: Array<(props: { children: () => JSX.Element }) => JSX.Element> = [];
         for (const p of plugins || []) {
           if (!p.hooks?.['app:wrap']) continue;
 
-          appElem = p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id], children: appElem });
+          wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id] }));
         }
 
-        const RootComp = renderRoot;
+        const renderApp = () => {
+          if (!AppComp) {
+            throw new Error('No plugin implemented renderApp');
+          }
 
-        return (await renderer.renderToStream({ app: <RootComp>{appElem}</RootComp> })).pipeThrough(
+          const RootLayout = rootLayout;
+
+          let finalApp;
+          if (wrappers.length) {
+            for (const i in wrappers) {
+              const Wrap = wrappers[i]!;
+              const nextWrapper = wrappers[Number(i) + 1];
+              const children = nextWrapper || AppComp;
+              // @ts-expect-error ignore
+              finalApp = Wrap({ children });
+            }
+          } else {
+            finalApp = AppComp;
+          }
+
+          // @ts-expect-error ignore
+          return RootLayout({ children: finalApp });
+        };
+
+        return (await renderer.renderToStream({ app: renderApp })).pipeThrough(
           injectIntoStream({
             async emitToDocumentHead() {
               const work = [];
