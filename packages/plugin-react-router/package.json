@@ -1,0 +1,27 @@
+{
+  "name": "@super-ssr/plugin-react-router",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "yarn build --watch",
+    "build": "tsup",
+    "typecheck": "tsc"
+  },
+  "peerDependencies": {
+    "react-router-dom": "^6"
+  },
+  "dependencies": {
+    "@super-ssr/renderer-core": "latest"
+  },
+  "devDependencies": {
+    "react-router-dom": "6.16.0",
+    "tsup": "7.2.0"
+  }
+}

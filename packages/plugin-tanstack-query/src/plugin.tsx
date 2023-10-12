@@ -14,7 +14,10 @@ import { createQueryClient } from './query-client.ts';
 export const PLUGIN_ID = 'tanstackQuery' as const;
 
 export type TanstackQueryPluginOpts = {
-  QueryClientProvider: (props: { client: QueryClient; children?: any }) => any;
+  /**
+   * The QueryClientProvider from whichever version of tanstack query you are using (react-query, solid-query, etc)
+   */
+  QueryClientProvider: (props: any) => any;
 
   /**
    * If your adapter handles hydration itself (solidjs, for example), set this to true.

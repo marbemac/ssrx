@@ -7,12 +7,13 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "nx run-many -t dev -p '@super-ssr/*'",
+    "dev": "yarn build && nx watch -p '@super-ssr/*' -- nx run \\$NX_PROJECT_NAME:build",
     "build": "nx run-many -t build -p '@super-ssr/*'",
     "dep-graph": "nx graph"
   },
   "resolutions": {
     "@super-ssr/adapter-tanstack-router": "workspace:*",
+    "@super-ssr/plugin-react-router": "workspace:*",
     "@super-ssr/plugin-tanstack-query": "workspace:*",
     "@super-ssr/react": "workspace:*",
     "@super-ssr/renderer-core": "workspace:*",
