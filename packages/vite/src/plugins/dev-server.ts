@@ -61,7 +61,7 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
       }
     }
 
-    const appModule = await server.ssrLoadModule(entry);
+    const appModule = await server.ssrLoadModule(entry, { fixStacktrace: true });
     const app = appModule['default'] as { fetch: Fetch };
 
     if (!app) {

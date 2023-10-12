@@ -12,10 +12,12 @@
     "dep-graph": "nx graph"
   },
   "resolutions": {
-    "@super-ssr/vite": "workspace:*",
-    "@super-ssr/react": "workspace:*",
-    "@super-ssr/solid": "workspace:*",
     "@super-ssr/adapter-tanstack-router": "workspace:*",
+    "@super-ssr/plugin-tanstack-query": "workspace:*",
+    "@super-ssr/react": "workspace:*",
+    "@super-ssr/renderer-core": "workspace:*",
+    "@super-ssr/solid": "workspace:*",
+    "@super-ssr/vite": "workspace:*",
     "@remix-run/router": "file:.yalc/@remix-run/router",
     "react-router-dom": "file:.yalc/react-router-dom"
   },

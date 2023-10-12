@@ -2,6 +2,8 @@ import * as path from 'path';
 import { normalizePath } from 'vite';
 import vitePkg from 'vite/package.json' assert { type: 'json' };
 
+import type { ServerRuntime } from './types';
+
 export type ConfigOpts = {
   root?: string;
   mode?: string;
@@ -11,6 +13,14 @@ export type ConfigOpts = {
   clientEntry?: string;
   serverFile?: string;
   shouldModulePreload?: boolean;
+  runtime?: ServerRuntime;
+};
+
+const RUNTIME_CONDITIONS: Record<ServerRuntime, string[]> = {
+  bun: ['bun', 'node', 'import'],
+  deno: ['deno', 'node', 'import'],
+  edge: ['workerd', 'worker', 'edge'],
+  node: ['node', 'import'],
 };
 
 export class Config {
@@ -22,12 +32,14 @@ export class Config {
   public readonly clientEntry: string;
   public readonly serverFile: string;
   public readonly shouldModulePreload: boolean;
+  public readonly runtime: ServerRuntime;
 
   constructor(opts: ConfigOpts) {
     this.root = normalizePath(opts.root || '');
     this.clientOutDir = opts.clientOutDir || 'dist/client';
     this.serverOutDir = opts.serverOutDir || 'dist/server';
     this.mode = opts.mode || 'development';
+    this.runtime = opts.runtime || 'node';
 
     this.routesFile = normalizePath(path.resolve(path.join(this.root, opts.routesFile || 'src/routes.ts')));
 
@@ -52,5 +64,9 @@ export class Config {
 
   get viteMajor() {
     return parseInt(this.viteVersion.split('.')[0]!);
+  }
+
+  get runtimeConditions() {
+    return RUNTIME_CONDITIONS[this.runtime];
   }
 }

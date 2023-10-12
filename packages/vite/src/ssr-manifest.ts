@@ -181,6 +181,13 @@ export class Manifest<ExternalRoutes> {
 
     const assets: Asset[] = [];
 
+    // push the vite dev entry
+    assets.push({
+      type: AssetType.script,
+      url: '/@vite/client',
+      weight: getAssetWeight('script.js'),
+    });
+
     // push the main entry
     assets.push({
       type: AssetType.script,

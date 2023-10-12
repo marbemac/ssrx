@@ -1,4 +1,4 @@
-import type { Plugin, ViteDevServer } from 'vite';
+import type { Plugin, ResolvedConfig, UserConfig, ViteDevServer } from 'vite';
 import { createServer } from 'vite';
 
 import type { Config } from '../config.ts';
@@ -15,6 +15,10 @@ export type BuildPluginOpts = {
 export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plugin => {
   let server: ViteDevServer;
   let isSsr = false;
+  const isEdgeRuntime = config.runtime === 'edge';
+
+  let viteConfig: UserConfig;
+  let resolvedViteConfig: ResolvedConfig;
 
   return {
     name: `${PLUGIN_NAMESPACE}:build`,
@@ -23,12 +27,25 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
       return env.command === 'build';
     },
 
-    config(viteConfig, env) {
+    config(c, env) {
+      viteConfig = c;
+
       isSsr = !!env.ssrBuild;
 
       const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientEntry };
 
       return {
+        ssr: {
+          target: isEdgeRuntime ? 'webworker' : 'node',
+          ssr: {
+            noExternal: isEdgeRuntime ? true : undefined,
+            resolve: {
+              conditions: config.runtimeConditions,
+              externalConditions: config.runtimeConditions,
+            },
+          },
+        },
+
         build: {
           manifest: !isSsr,
           outDir: isSsr ? config.serverOutDir : config.clientOutDir,
@@ -37,9 +54,16 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
           emptyOutDir: !isSsr,
           rollupOptions: {
             input: input as any,
+            output: {
+              inlineDynamicImports: isSsr && isEdgeRuntime ? true : undefined,
+            },
           },
         },
       };
+    },
+
+    configResolved(c) {
+      resolvedViteConfig = c;
     },
 
     async buildStart() {
@@ -50,14 +74,20 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
         (await createServer({
           mode: config.mode,
           appType: 'custom',
+          configFile: false,
+          plugins: viteConfig.plugins,
           server: {
             middlewareMode: true,
+          },
+          ssr: {
+            target: resolvedViteConfig.ssr?.target,
+            resolve: resolvedViteConfig.ssr?.resolve,
           },
         }));
 
       manifest.setViteServer(server);
 
-      const routesModule = await server.ssrLoadModule(config.routesFile);
+      const routesModule = await server.ssrLoadModule(config.routesFile, { fixStacktrace: true });
       await router.setRoutes(routesModule);
 
       const ssrManifest = await manifest.buildSSRManifest();

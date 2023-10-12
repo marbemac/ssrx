@@ -5,8 +5,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "bun": "./src/index.ts",
-      "import": "./dist/index.js"
+      "bun": "./src/server/index.ts",
+      "node": "./dist/server/index.js",
+      "worker": "./dist/server/index.js",
+      "workerd": "./dist/server/index.js",
+      "deno": "./dist/server/index.js",
+      "edge": "./dist/server/index.js",
+      "default": "./dist/client/index.js"
+    },
+    "./client": {
+      "bun": "./src/client/index.ts",
+      "default": "./dist/client/index.js"
+    },
+    "./server": {
+      "bun": "./src/server/index.ts",
+      "default": "./dist/server/index.js"
     }
   },
   "scripts": {
@@ -20,8 +33,11 @@
     "react": ">=18",
     "react-dom": ">=18"
   },
+  "dependencies": {
+    "@super-ssr/renderer-core": "latest",
+    "@super-ssr/vite": "latest"
+  },
   "devDependencies": {
-    "@super-ssr/vite": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tsup": "7.2.0"

@@ -9,6 +9,7 @@ import { virtualPlugin } from './plugins/virtual.ts';
 import type { RouterAdapter } from './router.ts';
 import { Router } from './router.ts';
 import { Manifest } from './ssr-manifest.ts';
+import type { ServerRuntime } from './types.ts';
 
 export type Opts = {
   routerAdapter?: RouterAdapter<any>;
@@ -17,6 +18,7 @@ export type Opts = {
   serverFile?: string;
   clientOutDir?: string;
   serverOutDir?: string;
+  runtime?: ServerRuntime;
 };
 
 const plugin = ({
@@ -26,6 +28,7 @@ const plugin = ({
   serverFile = './src/server.ts',
   clientOutDir = 'dist/public',
   serverOutDir = 'dist',
+  runtime = 'node',
 }: Opts = {}): Plugin[] => {
   const config = new Config({
     routesFile,
@@ -33,6 +36,7 @@ const plugin = ({
     serverFile,
     clientOutDir,
     serverOutDir,
+    runtime,
   });
 
   const router = new Router<any>({

@@ -205,7 +205,7 @@ export const assetsToTags = (
               tag: 'script',
               injectTo: 'body' as const,
               attrs: {
-                async: true,
+                defer: true,
                 type: 'module',
                 src: url,
               },

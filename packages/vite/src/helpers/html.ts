@@ -114,7 +114,7 @@ function serializeTag({ tag, attrs, children }: AssetHtmlTag, indent: string = '
   }
 }
 
-function serializeTags(tags?: AssetHtmlTag[] | string, indent: string = ''): string {
+export function serializeTags(tags?: AssetHtmlTag[] | string, indent: string = ''): string {
   if (typeof tags === 'string') {
     return tags;
   } else if (tags && tags.length) {

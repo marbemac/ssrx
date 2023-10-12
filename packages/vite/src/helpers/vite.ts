@@ -141,7 +141,9 @@ async function findDeps(vite: ViteDevServer, node: ModuleNode, deps: Set<ModuleN
     //   node.ssrTransformResult.dynamicDeps.forEach(url => branches.push(add_by_url(url)));
     // }
   } else if (!ssr) {
-    node.importedModules.forEach(node => branches.push(add_by_url(node.url, ssr)));
+    node.clientImportedModules.forEach(child => {
+      branches.push(add_by_url(child.url, ssr));
+    });
   }
 
   await Promise.all(branches);
