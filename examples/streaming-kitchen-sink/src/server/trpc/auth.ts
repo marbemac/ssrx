@@ -1,4 +1,6 @@
 import { wrap } from '@decs/typeschema';
+import { TRPCError } from '@trpc/server';
+import { SqliteError } from 'better-sqlite3';
 import type { CookieOptions } from 'hono/utils/cookie';
 import { LuciaError } from 'lucia';
 import { maxLength, minLength, object, string } from 'valibot';
@@ -15,29 +17,54 @@ const SignupSchema = object({
 const LoginSchema = SignupSchema;
 
 export const authRouter = router({
+  me: publicProcedure.query(async ({ ctx }) => {
+    return ctx.user || null;
+  }),
+
   signup: publicProcedure.input(wrap(SignupSchema)).mutation(async ({ input, ctx }) => {
     const { username, password } = input;
 
-    const user = await auth.createUser({
-      userId: `u_${createDbId()}`,
-      key: {
-        providerId: 'username', // auth method
-        providerUserId: username.toLowerCase(), // unique id when using "username" auth method
-        password, // hashed by Lucia
-      },
-      attributes: {
-        username,
-      },
-    });
+    try {
+      const user = await auth.createUser({
+        userId: `u_${createDbId()}`,
+        key: {
+          providerId: 'username', // auth method
+          providerUserId: username.toLowerCase(), // unique id when using "username" auth method
+          password, // hashed by Lucia
+        },
+        attributes: {
+          username,
+        },
+      });
 
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
+      const session = await auth.createSession({
+        userId: user.userId,
+        attributes: {},
+      });
 
-    const sessionCookie = auth.createSessionCookie(session);
-    const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
-    ctx.setCookie(sessionCookie.name, sessionCookie.value, { ...cookieAttrs, sameSite: sameSiteLuciaToHono(sameSite) });
+      const sessionCookie = auth.createSessionCookie(session);
+      const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
+      ctx.setCookie(sessionCookie.name, sessionCookie.value, {
+        ...cookieAttrs,
+        sameSite: sameSiteLuciaToHono(sameSite),
+      });
+    } catch (e) {
+      if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Username already exists.',
+          cause: e,
+        });
+      }
+
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An unknown error occurred.',
+        cause: e,
+      });
+    }
+
+    return null;
   }),
 
   login: publicProcedure.input(wrap(LoginSchema)).mutation(async ({ input, ctx }) => {
@@ -59,17 +86,21 @@ export const authRouter = router({
         ...cookieAttrs,
         sameSite: sameSiteLuciaToHono(sameSite),
       });
+
+      return null;
     } catch (e) {
       if (e instanceof LuciaError && (e.message === 'AUTH_INVALID_KEY_ID' || e.message === 'AUTH_INVALID_PASSWORD')) {
-        // user does not exist
-        // or invalid password
-        return new Response('Incorrect username or password', {
-          status: 400,
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Incorrect username or password.',
+          cause: e,
         });
       }
 
-      return new Response('An unknown error occurred', {
-        status: 500,
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An unknown error occurred.',
+        cause: e,
       });
     }
   }),
@@ -83,6 +114,8 @@ export const authRouter = router({
 
     const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
     ctx.deleteCookie(sessionCookie.name, { ...cookieAttrs, sameSite: sameSiteLuciaToHono(sameSite) });
+
+    return null;
   }),
 });
 
