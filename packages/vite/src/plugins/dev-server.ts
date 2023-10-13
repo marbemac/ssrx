@@ -132,6 +132,7 @@ const getRequestListener = (fetchCallback: FetchCallback) => {
     let res: Response;
 
     try {
+      // @ts-expect-error ignore
       const possibleRes = (await fetchCallback(new Request(url.toString(), init))) as any;
 
       if (possibleRes === SKIP_REQ) return;

@@ -3,11 +3,14 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 
 import { serverHandler } from '~/app.tsx';
+import { type ReqCtx, reqCtxMiddleware } from '~/server/middleware/context.ts';
+import { trpcServer } from '~/server/middleware/trpc.ts';
+import { appRouter } from '~/server/trpc/index.ts';
+import { deleteCookie, setCookie } from '~/server/utils/cookies.ts';
 
-import { trpcServer } from './trpc/hono-middleware.ts';
-import { appRouter } from './trpc/index.ts';
+type HonoEnv = { Variables: ReqCtx };
 
-const server = new Hono()
+const server = new Hono<HonoEnv>()
   /**
    * These two serveStatic's will be used to serve production assets.
    * Vite dev server handles assets during development.
@@ -18,20 +21,30 @@ const server = new Hono()
   /**
    * TRPC
    */
-  .use('/trpc/*', trpcServer({ router: appRouter }))
+  .use(
+    '/trpc/*',
+    reqCtxMiddleware,
+    trpcServer<HonoEnv>({
+      router: appRouter,
+      createContext: ({ c, resHeaders }) => ({
+        ...c.var,
+        // trpc manages it's own headers, so use those in the cookie helpers
+        setCookie: (...args) => setCookie(resHeaders, ...args),
+        deleteCookie: (...args) => deleteCookie(resHeaders, ...args),
+      }),
+    }),
+  )
 
   /**
    * The frontend app
    */
-  .get('*', async c => {
+  .get('*', reqCtxMiddleware, async c => {
     try {
       const appStream = await serverHandler({
         req: c.req.raw,
         meta: {
           // used by @super-ssr/plugin-trpc-react
-          trpcCaller: appRouter.createCaller({
-            // @TODO hook trpc router context up to this
-          }),
+          trpcCaller: appRouter.createCaller(c.var),
         },
       });
 
