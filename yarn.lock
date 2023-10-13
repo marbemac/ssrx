@@ -1167,6 +1167,7 @@ __metadata:
   dependencies:
     "@super-ssr/renderer-core": "npm:latest"
     "@tanstack/query-core": "npm:^5.0.0-rc.12"
+    "@tanstack/query-devtools": "npm:5.0.0-rc.13"
     devalue: "npm:^4.3.2"
     tsup: "npm:7.2.0"
   peerDependencies:
@@ -1284,6 +1285,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-devtools@npm:5.0.0-rc.13":
+  version: 5.0.0-rc.13
+  resolution: "@tanstack/query-devtools@npm:5.0.0-rc.13"
+  checksum: 275fff2e0a797c67b87eb9c6ef5b69cab8d1e798f36956e0c809f5f5c9cf24a47d8d6cf066f57af96574c9c2a4fb0a5caac26fba3636221e186d668fbb10c9db
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-loaders@npm:0.0.1-beta.194":
   version: 0.0.1-beta.194
   resolution: "@tanstack/react-loaders@npm:0.0.1-beta.194"
@@ -1295,6 +1303,19 @@ __metadata:
     react: ">=16"
     react-dom: ">=16"
   checksum: d969e20ec3f8415f90ff68e133db901f442de075a48f6b9ba88149d22ad82ca04e6a4895d41abca8bb184679ef0018aaa09b15f4373127dabfb7b72c59b9aac9
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:5.0.0-rc.13":
+  version: 5.0.0-rc.13
+  resolution: "@tanstack/react-query-devtools@npm:5.0.0-rc.13"
+  dependencies:
+    "@tanstack/query-devtools": "npm:5.0.0-rc.13"
+  peerDependencies:
+    "@tanstack/react-query": ^5.0.0-rc.12
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  checksum: 12ade2eb34c217a8c74a4a78421eb4cf17f175c73c63d43f7bc5836731718b7d5e74fc2aa7644573e2733f857eb16275a7654e8df825507f6f1b606b91489f4b
   languageName: node
   linkType: hard
 
@@ -2152,6 +2173,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"autoprefixer@npm:10.4.16":
+  version: 10.4.16
+  resolution: "autoprefixer@npm:10.4.16"
+  dependencies:
+    browserslist: "npm:^4.21.10"
+    caniuse-lite: "npm:^1.0.30001538"
+    fraction.js: "npm:^4.3.6"
+    normalize-range: "npm:^0.1.2"
+    picocolors: "npm:^1.0.0"
+    postcss-value-parser: "npm:^4.2.0"
+  peerDependencies:
+    postcss: ^8.1.0
+  bin:
+    autoprefixer: bin/autoprefixer
+  checksum: 647f5324967767a64209b22b10377b5fb15c1a10786bc35000bccaab4409bb01a00a0a0dbbc7c33c3ddf082a127fea58aa0df172ce578d2e3bc727e32f7e8c15
+  languageName: node
+  linkType: hard
+
 "available-typed-arrays@npm:^1.0.5":
   version: 1.0.5
   resolution: "available-typed-arrays@npm:1.0.5"
@@ -2288,7 +2327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.21.9":
+"browserslist@npm:^4.21.10, browserslist@npm:^4.21.9":
   version: 4.22.1
   resolution: "browserslist@npm:4.22.1"
   dependencies:
@@ -2409,7 +2448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001541":
+"caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001541":
   version: 1.0.30001547
   resolution: "caniuse-lite@npm:1.0.30001547"
   checksum: feadb02a03af1c4f39cb9d603338ba04abc97dcb1bff8d985c1edbd9c9d7f15566654856bda5f60b7adc0ef70c033d66f53790af10ac1b5ba2257a4496d83484
@@ -3651,6 +3690,13 @@ __metadata:
     combined-stream: "npm:^1.0.8"
     mime-types: "npm:^2.1.12"
   checksum: de37c5684d843842d2cc2bc44a975d9fecdf1df30d061c90b62fc0caeeeeb45794bceaba7aa52ee5eae8ede01ba44215b26c58f41cf64271c513787b7241fce4
+  languageName: node
+  linkType: hard
+
+"fraction.js@npm:^4.3.6":
+  version: 4.3.7
+  resolution: "fraction.js@npm:4.3.7"
+  checksum: d6afebe5f7d173304ee7e8e34a81c2a21a3a82cbda09faebe1978fcd5c27fb72282da6210bc846376c709a7861663b84756dd7db52f95799dc3e561664879d67
   languageName: node
   linkType: hard
 
@@ -5142,6 +5188,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"normalize-range@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "normalize-range@npm:0.1.2"
+  checksum: 6f4b792ccc8a0c23cbbe983d79f25b2005872e7b7a62f153abeb8dd5aebe445e52ac1b33376e22f0937f31b78e37b8bd440dc08fc73aa0ba292f47bbc980e450
+  languageName: node
+  linkType: hard
+
 "npm-run-path@npm:^4.0.1":
   version: 4.0.1
   resolution: "npm-run-path@npm:4.0.1"
@@ -5626,7 +5679,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-value-parser@npm:^4.0.0":
+"postcss-value-parser@npm:^4.0.0, postcss-value-parser@npm:^4.2.0":
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: edc490e9f11336a2efb136d8a52350b5c680ca9a91ee64285732e796177eb888f559a4eafc94cdbf7ce065a388e65b3cc21a32c92458a90efc445f30e8a679dc
@@ -6232,14 +6285,17 @@ __metadata:
     "@super-ssr/react": "npm:latest"
     "@super-ssr/vite": "npm:latest"
     "@tanstack/react-query": "npm:5.0.0-rc.12"
+    "@tanstack/react-query-devtools": "npm:5.0.0-rc.13"
     "@trpc/server": "npm:10.40.0"
     "@types/react": "npm:18.2.28"
     "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
+    autoprefixer: "npm:10.4.16"
     hono: "npm:3.7.6"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-router-dom: "npm:6.16.0"
+    tailwindcss: "npm:3.3.3"
     vite: "npm:5.0.0-beta.6"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown

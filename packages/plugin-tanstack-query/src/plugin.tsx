@@ -6,6 +6,7 @@ import {
   type QueryClient,
   type QueryClientConfig,
 } from '@tanstack/query-core';
+import type { TanstackQueryDevtoolsConfig } from '@tanstack/query-devtools';
 import { stringify } from 'devalue';
 
 import { hydrateStreamingData } from './hydrate.ts';
@@ -13,7 +14,7 @@ import { createQueryClient } from './query-client.ts';
 
 export const PLUGIN_ID = 'tanstackQuery' as const;
 
-export type TanstackQueryPluginOpts = {
+type TanstackQueryPluginOpts = {
   /**
    * The QueryClientProvider from whichever version of tanstack query you are using (react-query, solid-query, etc)
    */
@@ -28,6 +29,18 @@ export type TanstackQueryPluginOpts = {
    * Override the default query client config
    */
   queryClientConfig?: QueryClientConfig;
+
+  devTools?: {
+    /**
+     * The QueryDevtools from whichever version of tanstack query you are using (ReactQueryDevtools, SolidQueryDevtools, etc)
+     */
+    QueryDevtools: any;
+
+    /**
+     * Options to pass to the QueryDevtools
+     */
+    options?: Pick<TanstackQueryDevtoolsConfig, 'initialIsOpen' | 'buttonPosition' | 'position' | 'errorTypes'>;
+  };
 };
 
 export type TanstackQueryPluginCtx = {
@@ -45,6 +58,7 @@ export const tanstackQueryPlugin = ({
   QueryClientProvider,
   skipHydration,
   queryClientConfig,
+  devTools,
 }: TanstackQueryPluginOpts) =>
   defineRenderPlugin({
     id: PLUGIN_ID,
@@ -72,7 +86,12 @@ export const tanstackQueryPlugin = ({
       'app:wrap': ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryPluginCtx;
 
-        return ({ children }) => <QueryClientProvider client={queryClient}>{children()}</QueryClientProvider>;
+        return ({ children }) => (
+          <QueryClientProvider client={queryClient}>
+            {children()}
+            {devTools ? <devTools.QueryDevtools {...devTools.options} /> : null}
+          </QueryClientProvider>
+        );
       },
 
       'ssr:emitToHead': () => {
