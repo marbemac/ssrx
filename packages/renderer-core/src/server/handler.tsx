@@ -63,7 +63,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
               ctx: pluginCtx[p.id],
               meta,
               getPluginCtx<T>(id: string) {
-                return __getPluginCtx(id) as T;
+                return pluginCtx[id] as T;
               },
             }) || {},
           );

@@ -61,7 +61,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             p.hooks['app:extendCtx']({
               ctx: pluginCtx[p.id],
               getPluginCtx<T>(id: string) {
-                return __getPluginCtx(id) as T;
+                return pluginCtx[id] as T;
               },
             }) || {},
           );
