@@ -21,9 +21,7 @@
     "@super-ssr/react": "workspace:*",
     "@super-ssr/renderer-core": "workspace:*",
     "@super-ssr/solid": "workspace:*",
-    "@super-ssr/vite": "workspace:*",
-    "@remix-run/router": "file:.yalc/@remix-run/router",
-    "react-router-dom": "file:.yalc/react-router-dom"
+    "@super-ssr/vite": "workspace:*"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "~0.5.1",

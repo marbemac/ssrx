@@ -1071,10 +1071,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@file:.yalc/@remix-run/router::locator=super-ssr-monorepo%40workspace%3A.":
+"@remix-run/router@npm:1.9.0":
   version: 1.9.0
-  resolution: "@remix-run/router@file:.yalc/@remix-run/router#.yalc/@remix-run/router::hash=261ce0&locator=super-ssr-monorepo%40workspace%3A."
-  checksum: c5ce18802d674a9bb7d7cd3669f9c2f14a8d0b2e268593ce438d66f4bad70a9d6ea6677719b69e6411922f1d375f0ccc819aa7d7ec01a20bc75e0b124d16e94d
+  resolution: "@remix-run/router@npm:1.9.0"
+  checksum: 5b3d10c067f75c634d2e7dbbe5e9d541c4b1c24cdffde33e34332d69f0f37fb69f6ca16aa771e0d0fc90c6e19863a14d0d6556a10fdd0c1baa8c2180b0118bea
   languageName: node
   linkType: hard
 
@@ -5726,16 +5726,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@file:.yalc/react-router-dom::locator=super-ssr-monorepo%40workspace%3A.":
+"react-router-dom@npm:6.16.0":
   version: 6.16.0
-  resolution: "react-router-dom@file:.yalc/react-router-dom#.yalc/react-router-dom::hash=fe296c&locator=super-ssr-monorepo%40workspace%3A."
+  resolution: "react-router-dom@npm:6.16.0"
   dependencies:
     "@remix-run/router": "npm:1.9.0"
     react-router: "npm:6.16.0"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 923c3fb816fbd2959dfb75655cdfabc94ab15860e8eaaace3fe2d9afa773ed648e6f656ccae5ba40eab2419285d5b0dda6adf30cdaf4b5bffc5e91dd7bf4302d
+  checksum: c04e6cfaa33d7ea28724a08f6386b8a7a653b7bc73667c1595dbf1527f36b1546b1d33d6b60afdcc8c70241c85c6c0482f945ae60ee89f2d55a66a1a19b649f1
   languageName: node
   linkType: hard
 
