@@ -61,17 +61,28 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
       }
     }
 
-    const appModule = await server.ssrLoadModule(entry, { fixStacktrace: true });
-    const app = appModule['default'] as { fetch: Fetch };
+    let app: { fetch: Fetch } | undefined;
+
+    try {
+      const appModule = await server.ssrLoadModule(entry, { fixStacktrace: true });
+      app = appModule['default'] as { fetch: Fetch };
+
+      if (!app.fetch) {
+        throw new Error(
+          `The 'default' export of your server file ('${entry}') must be an object with a 'fetch' method.`,
+        );
+      }
+    } catch (err: any) {
+      return next(err);
+    }
 
     if (!app) {
-      console.error(`Failed to find a named export "default" from ${entry}`);
-      return next();
+      return next(new Error(`Failed to find a named export "default" from ${entry}`));
     }
 
     void getRequestListener(async (request: Request) => {
       try {
-        const response = await app.fetch(request);
+        const response = await app!.fetch(request);
 
         if (
           options?.injectClientScript !== false &&
