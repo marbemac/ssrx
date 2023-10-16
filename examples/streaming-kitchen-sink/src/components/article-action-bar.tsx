@@ -4,6 +4,7 @@ import type { RouterOutputs } from '~/app.tsx';
 import { ctx } from '~/app.tsx';
 import { Button } from '~/components/ui/button.tsx';
 import { useToast } from '~/components/ui/use-toast.ts';
+import { paths } from '~/routes.tsx';
 
 export const ActionBar = ({
   article,
@@ -32,7 +33,7 @@ export const ActionBar = ({
       <DeleteButton
         article={article}
         onSuccess={() => {
-          navigate('/articles');
+          navigate(paths.Articles.buildPath({}));
         }}
       />
 
@@ -75,7 +76,7 @@ const ToggleStatusButton = ({ article }: { article: Pick<RouterOutputs['articles
 const DiscardButton = ({ id }: { id: string }) => {
   return (
     <Button size="xs">
-      <Link to={`/articles/${id}`}>Stop Editing</Link>
+      <Link to={paths.Article.buildPath({ articleId: id })}>Stop Editing</Link>
     </Button>
   );
 };

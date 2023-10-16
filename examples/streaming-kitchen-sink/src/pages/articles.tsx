@@ -3,6 +3,7 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import type { RouterOutputs } from '~/app.tsx';
 import { ctx } from '~/app.tsx';
 import { QueryBoundary } from '~/components/query-boundary.tsx';
+import { paths } from '~/routes.tsx';
 import { cn } from '~/utils.ts';
 
 export async function loader() {
@@ -18,10 +19,10 @@ export function Component() {
     <div className="flex divide-x flex-1">
       <div className="flex-1">
         <QueryBoundary
+          query={() => ctx.trpc.articles.list.useQuery()}
           loadingFallback={
             <div className="p-10 text-muted-foreground">Loading articles (with simulated latency)...</div>
           }
-          query={() => ctx.trpc.articles.list.useQuery()}
         >
           {data => <ArticleList articles={data} />}
         </QueryBoundary>
@@ -61,7 +62,7 @@ const ArticleListItem = ({
 }) => {
   return (
     <Link
-      to={isActive ? '/articles' : `${article.id}`}
+      to={isActive ? paths.Articles.buildPath({}) : paths.Article.buildPath({ articleId: article.id })}
       className={cn('flex items-center py-4 px-6', isActive && 'bg-muted', !isActive && 'hover:bg-subtle')}
     >
       <div className="flex-1 font-medium">{article.title}</div>

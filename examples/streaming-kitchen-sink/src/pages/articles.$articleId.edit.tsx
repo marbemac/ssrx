@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Params } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
 import type { RouterInputs, RouterOutputs } from '~/app.tsx';
 import { ctx } from '~/app.tsx';
@@ -10,6 +10,7 @@ import { Button } from '~/components/ui/button.tsx';
 import { Input } from '~/components/ui/input.tsx';
 import { Textarea } from '~/components/ui/textarea.tsx';
 import { useToast } from '~/components/ui/use-toast.ts';
+import { paths } from '~/routes.tsx';
 
 export async function loader({ params: { articleId } }: { params: Params<'articleId'> }) {
   void ctx.trpc.articles.byId.prefetchQuery({ id: articleId! }, { meta: { deferStream: true } });
@@ -18,7 +19,7 @@ export async function loader({ params: { articleId } }: { params: Params<'articl
 }
 
 export function Component() {
-  const { articleId } = useParams<{ articleId: string }>();
+  const { articleId } = useTypedParams(paths.Article.Edit);
 
   return (
     <QueryBoundary

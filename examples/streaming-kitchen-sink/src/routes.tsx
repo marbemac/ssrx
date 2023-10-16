@@ -1,7 +1,20 @@
 import type { RouteObject } from 'react-router-dom';
+import { route } from 'react-router-typesafe-routes/dom';
 
 import { RouteErrorBoundary } from './components/route-error-boundary.tsx';
 import { Component as RootLayout } from './pages/root.tsx';
+
+export const paths = {
+  Wait: route('wait'),
+  Articles: route('articles', {}),
+  Article: route(
+    'articles/:articleId',
+    {},
+    {
+      Edit: route('edit'),
+    },
+  ),
+};
 
 export const routes: RouteObject[] = [
   {
@@ -15,12 +28,12 @@ export const routes: RouteObject[] = [
       },
 
       {
-        path: 'wait',
+        path: paths.Wait.path,
         lazy: () => import('~/pages/wait.tsx'),
       },
 
       {
-        path: 'articles',
+        path: paths.Articles.path,
         lazy: () => import('~/pages/articles.tsx'),
         children: [
           {
@@ -29,12 +42,12 @@ export const routes: RouteObject[] = [
           },
 
           {
-            path: ':articleId/edit',
+            path: paths.Article.Edit.path,
             lazy: () => import('~/pages/articles.$articleId.edit.tsx'),
           },
 
           {
-            path: ':articleId',
+            path: paths.Article.path,
             lazy: () => import('~/pages/articles.$articleId.tsx'),
           },
         ],

@@ -7,15 +7,10 @@ import { Button } from '~/components/ui/button.tsx';
 import { Toaster } from '~/components/ui/toaster.tsx';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip.tsx';
 import { useToast } from '~/components/ui/use-toast.ts';
+import { paths } from '~/routes.tsx';
 import { cn } from '~/utils.ts';
 
 export function Component() {
-  const navigate = useNavigate();
-  const linkClass = useCallback(
-    ({ isActive }: any) => (isActive ? 'opacity-100 cursor-default' : 'hover:opacity-100 opacity-60'),
-    [],
-  );
-
   // https://unhead.unjs.io/usage/guides/template-params#separator
   ctx.useHead({
     titleTemplate: '%s %separator %subpage %separator %site.name',
@@ -40,6 +35,12 @@ export function Component() {
     ],
   });
 
+  const navigate = useNavigate();
+  const linkClass = useCallback(
+    ({ isActive }: any) => (isActive ? 'opacity-100 cursor-default' : 'hover:opacity-100 opacity-60'),
+    [],
+  );
+
   return (
     <>
       <TooltipProvider>
@@ -49,17 +50,17 @@ export function Component() {
               Home
             </NavLink>
 
-            <NavLink to="/articles" className={linkClass}>
+            <NavLink to={paths.Articles.buildPath({})} className={linkClass}>
               Articles
             </NavLink>
 
-            <NavLink to="/wait" className={linkClass}>
+            <NavLink to={paths.Wait.buildPath({})} className={linkClass}>
               Waiter
             </NavLink>
           </nav>
 
           <nav className="flex items-center gap-4 py-4 px-6">
-            <AddArticleButton onSuccess={({ id }) => navigate(`/articles/${id}/edit`)} />
+            <AddArticleButton onSuccess={({ id }) => navigate(paths.Article.Edit.buildPath({ articleId: id }))} />
             <LoginButton />
             <LogoutButton />
           </nav>
