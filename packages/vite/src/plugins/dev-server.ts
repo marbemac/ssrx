@@ -84,6 +84,12 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
       try {
         const response = await app!.fetch(request);
 
+        // Allow the server to pass rendering errors through in development
+        // we pass these through to vite to display in the error overlay
+        if (response instanceof Error) {
+          throw response;
+        }
+
         if (
           options?.injectClientScript !== false &&
           // If the response is a stream, it does not inject the script (end user must handle it themselves):
@@ -106,6 +112,7 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
 
         server.ssrFixStacktrace(err);
         next(err);
+
         return SKIP_REQ;
       }
     })(req, res);
