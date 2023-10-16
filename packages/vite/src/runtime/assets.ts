@@ -2,8 +2,8 @@ import type { RadixRouter } from 'radix3';
 import { createRouter } from 'radix3';
 import ssrManifest from 'virtual:super-ssr-manifest';
 
-import type { AssetHtmlTag } from '../helpers/routes.ts';
-import { type Asset, assetsToTags } from '../helpers/routes.ts';
+import type { AssetHtmlTag, SSRRouteManifest } from '../helpers/routes.ts';
+import { assetsToTags } from '../helpers/routes.ts';
 import type { Manifest } from '../ssr-manifest.ts';
 
 export type { AssetHtmlTag };
@@ -34,12 +34,14 @@ const prodAssetsForRequest = (url: string) => {
   const router = createManifestRouter();
 
   const entryAssets = ssrManifest.entry;
-  const reqAssets = router.lookup(u.pathname) || [];
+  const reqAssets = router.lookup(u.pathname) || { assets: [] };
 
-  return assetsToTags([...entryAssets, ...reqAssets], { isDev: false, shouldModulePreload: true });
+  return assetsToTags([...entryAssets, ...reqAssets.assets], { isDev: false, shouldModulePreload: true });
 };
 
-let routerSingleton: RadixRouter<Asset[]>;
+type ExtractRecordValues<T extends Record<string, any>> = T[keyof T];
+
+let routerSingleton: RadixRouter<ExtractRecordValues<SSRRouteManifest>>;
 
 const createManifestRouter = () => {
   routerSingleton = routerSingleton || createRouter({ routes: ssrManifest.routes });

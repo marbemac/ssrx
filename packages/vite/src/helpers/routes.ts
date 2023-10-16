@@ -52,7 +52,7 @@ export type SSRManifest = {
 };
 
 export type SSREntryManifest = Asset[];
-export type SSRRouteManifest = Record<RouteId, Asset[]>;
+export type SSRRouteManifest = Record<RouteId, { assets: Asset[] }>;
 
 export const getRoutesIds = async (
   vite: ViteDevServer,
@@ -63,8 +63,10 @@ export const getRoutesIds = async (
   const result: RouteIdToPaths = {};
 
   for (const route of routes) {
-    let childParentIds = parentIds;
-    const routeId = [parentPath, normalizeRouteId(route.path)].filter(Boolean).join('/');
+    const normalizedRouteId = normalizeRouteId(route.path);
+    const isAbsolute = isAbsoluteRoute(route.path);
+    let childParentIds = isAbsolute ? [] : parentIds;
+    const routeId = (isAbsolute ? [normalizedRouteId] : [parentPath, normalizedRouteId]).filter(Boolean).join('/');
 
     if (route.lazy) {
       try {
@@ -135,7 +137,7 @@ export const generateRoutesManifest = (clientManifest: ViteClientManifest, route
     }
 
     if (assets.length) {
-      result[routeId] = sortAssets(assets);
+      result[routeId] = { assets: sortAssets(assets) };
     }
   }
 
@@ -244,6 +246,12 @@ export const getAssetWeight = (asset: string): number => {
  * Internal below
  * --------------
  */
+
+const isAbsoluteRoute = (routePath?: string) => {
+  if (!routePath) return false;
+
+  return routePath.startsWith('/') ? true : false;
+};
 
 const normalizeRouteId = (routePath?: string) => {
   if (!routePath) return routePath;
