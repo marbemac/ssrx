@@ -62,21 +62,15 @@ type inferProcedures<TObj extends ProcedureRecord> = {
   };
 };
 
-interface TRPCHookResult {
-  trpc: {
-    path: string;
-  };
-}
+/**
+ * @internal
+ */
+export type UseTRPCQueryResult<TData, TError> = UseQueryResult<TData, TError>;
 
 /**
  * @internal
  */
-export type UseTRPCQueryResult<TData, TError> = UseQueryResult<TData, TError> & TRPCHookResult;
-
-/**
- * @internal
- */
-export type UseTRPCInfiniteQueryResult<TData, TError> = UseInfiniteQueryResult<TData, TError> & TRPCHookResult;
+export type UseTRPCInfiniteQueryResult<TData, TError> = UseInfiniteQueryResult<TData, TError>;
 
 /**
  * @internal
@@ -86,8 +80,7 @@ export type UseTRPCMutationResult<TData, TError, TVariables, TContext> = UseMuta
   TError,
   TVariables,
   TContext
-> &
-  TRPCHookResult;
+>;
 
 /**
  * Create strongly typed react hooks

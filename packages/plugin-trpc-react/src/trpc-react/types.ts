@@ -83,7 +83,7 @@ export interface UseTRPCMutationOptions<TInput, TError, TOutput, TContext = unkn
 
 export type FixProcedureInput<T> = T extends void | undefined ? void | undefined : () => T;
 
-export type TRPCFetchQueryOptions<TInput, TError, TOutput> = FetchQueryOptions<TInput, TError, TOutput> &
+export type TRPCFetchQueryOptions<TInput, TError, TOutput> = OmitUseless<FetchQueryOptions<TInput, TError, TOutput>> &
   TRPCRequestOptions;
 
 export type TRPCFetchInfiniteQueryOptions<TInput, TError, TOutput> = FetchInfiniteQueryOptions<

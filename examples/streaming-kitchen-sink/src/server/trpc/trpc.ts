@@ -2,7 +2,19 @@ import { initTRPC, TRPCError } from '@trpc/server';
 
 import type { ReqCtx } from '~/server/middleware/context.ts';
 
-const t = initTRPC.context<ReqCtx>().create();
+const t = initTRPC.context<ReqCtx>().create({
+  errorFormatter(opts) {
+    const { shape, error } = opts;
+
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        issues: error.code === 'BAD_REQUEST' && error.cause instanceof AggregateError ? error.cause.errors : null,
+      },
+    };
+  },
+});
 
 export const router = t.router;
 

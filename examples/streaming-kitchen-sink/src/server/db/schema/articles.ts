@@ -4,12 +4,12 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 
 import { users } from './users.ts';
 
-export const posts = sqliteTable(
-  'posts',
+export const articles = sqliteTable(
+  'articles',
   {
     id: text('id').primaryKey(),
     title: text('title').notNull(),
-    body: text('title').notNull(),
+    body: text('body').notNull(),
     status: text('status', { enum: ['published', 'draft'] })
       .notNull()
       .default('draft'),
@@ -28,8 +28,8 @@ export const posts = sqliteTable(
   },
 );
 
-export type Post = typeof posts.$inferSelect;
-export type InsertPost = typeof posts.$inferInsert;
+export type Article = typeof articles.$inferSelect;
+export type InsertArticle = typeof articles.$inferInsert;
 
-export const insertPostSchema = createInsertSchema(posts);
-export const selectPostSchema = createSelectSchema(posts);
+export const insertArticleSchema = createInsertSchema(articles);
+export const selectArticleSchema = createSelectSchema(articles);

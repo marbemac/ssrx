@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "e7293f81-5985-407a-b388-6257de0b497b",
+  "id": "f22c658f-8b18-4c7a-b73a-574e0cd6c68c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "posts": {
-      "name": "posts",
+    "articles": {
+      "name": "articles",
       "columns": {
         "id": {
           "name": "id",
@@ -16,6 +16,13 @@
         },
         "title": {
           "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "body": {
+          "name": "body",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -62,9 +69,9 @@
         }
       },
       "foreignKeys": {
-        "posts_author_id_users_id_fk": {
-          "name": "posts_author_id_users_id_fk",
-          "tableFrom": "posts",
+        "articles_author_id_users_id_fk": {
+          "name": "articles_author_id_users_id_fk",
+          "tableFrom": "articles",
           "tableTo": "users",
           "columnsFrom": [
             "author_id"
@@ -150,14 +157,14 @@
         },
         "active_expires": {
           "name": "active_expires",
-          "type": "integer",
+          "type": "blob",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "idle_expires": {
           "name": "idle_expires",
-          "type": "integer",
+          "type": "blob",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

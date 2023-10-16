@@ -5,8 +5,8 @@ import { sleep } from '~/utils.ts';
 
 export function Component() {
   return (
-    <>
-      <div>
+    <div className="p-20">
+      <div className="mb-10">
         This example is copied from the @tanstack/query{' '}
         <a href="https://github.com/TanStack/query/tree/beta/examples/react/nextjs-suspense-streaming" target="_blank">
           nextjs-suspense-streaming example
@@ -54,7 +54,7 @@ export function Component() {
           <MyComponent wait={1000} />
         </Suspense>
       </fieldset>
-    </>
+    </div>
   );
 }
 

@@ -1,11 +1,13 @@
 import type { RouteObject } from 'react-router-dom';
 
+import { RouteErrorBoundary } from './components/route-error-boundary.tsx';
 import { Component as RootLayout } from './pages/root.tsx';
 
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <RouteErrorBoundary />,
     children: [
       {
         index: true,
@@ -18,33 +20,22 @@ export const routes: RouteObject[] = [
       },
 
       {
-        path: 'lazy-component',
-        lazy: () => import('~/pages/lazy-component.tsx'),
-      },
-
-      {
-        path: 'admin',
-        lazy: () => import('~/pages/admin.tsx'),
+        path: 'articles',
+        lazy: () => import('~/pages/articles.tsx'),
         children: [
           {
             index: true,
-            lazy: () => import('~/pages/admin._index.tsx'),
+            lazy: () => import('~/pages/articles._index.tsx'),
           },
 
           {
-            path: 'members',
-            lazy: () => import('~/pages/admin.members.tsx'),
-            children: [
-              {
-                index: true,
-                lazy: () => import('~/pages/admin.members._index.tsx'),
-              },
+            path: ':articleId/edit',
+            lazy: () => import('~/pages/articles.$articleId.edit.tsx'),
+          },
 
-              {
-                path: ':memberId',
-                lazy: () => import('~/pages/admin.members.$memberId.tsx'),
-              },
-            ],
+          {
+            path: ':articleId',
+            lazy: () => import('~/pages/articles.$articleId.tsx'),
           },
         ],
       },
