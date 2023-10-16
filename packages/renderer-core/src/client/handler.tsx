@@ -3,7 +3,7 @@ import type { Simplify } from 'type-fest';
 import type { ClientHandlerOpts, RenderPlugin } from '../types.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
-  rootLayout,
+  RootLayout,
   appRenderer,
   plugins,
 }: ClientHandlerOpts<P>) {
@@ -101,8 +101,6 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           throw new Error('No plugin implemented renderApp');
         }
 
-        const RootLayout = rootLayout;
-
         let finalApp;
         if (wrappers.length) {
           for (const i in wrappers) {
@@ -113,7 +111,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             finalApp = Wrap({ children });
           }
         } else {
-          finalApp = AppComp;
+          finalApp = AppComp();
         }
 
         // @ts-expect-error ignore

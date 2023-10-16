@@ -4,7 +4,7 @@ type RootProps = {
   children: any;
 };
 
-export const Root = ({ children }: RootProps) => {
+export const RootLayout = ({ children }: RootProps) => {
   return (
     <NoHydration>
       <html lang="en">

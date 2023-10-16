@@ -2617,7 +2617,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001541":
+"caniuse-lite@npm:^1.0.30001538":
+  version: 1.0.30001549
+  resolution: "caniuse-lite@npm:1.0.30001549"
+  checksum: d061141a9ea653329f4074c6deef20b9d3f3f30099bf6a6e06d02c609d14f59f2b04a2104c175ddee8aaed183a1468b5ffefd4717f625f590ddf165fd43e773b
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001541":
   version: 1.0.30001547
   resolution: "caniuse-lite@npm:1.0.30001547"
   checksum: feadb02a03af1c4f39cb9d603338ba04abc97dcb1bff8d985c1edbd9c9d7f15566654856bda5f60b7adc0ef70c033d66f53790af10ac1b5ba2257a4496d83484
@@ -6292,7 +6299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.31":
+"postcss@npm:8.4.31, postcss@npm:^8.4.23, postcss@npm:^8.4.31":
   version: 8.4.31
   resolution: "postcss@npm:8.4.31"
   dependencies:
@@ -7003,6 +7010,7 @@ __metadata:
     drizzle-valibot: "npm:0.1.1"
     hono: "npm:3.7.6"
     lucia: "npm:2.7.1"
+    postcss: "npm:8.4.31"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-router-dom: "npm:6.16.0"

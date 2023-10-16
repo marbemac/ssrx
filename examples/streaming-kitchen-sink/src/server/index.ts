@@ -36,6 +36,15 @@ const server = new Hono<HonoEnv>()
   )
 
   /**
+   * Just quick demonstration that there is a natural way to mount a more public
+   * facing API as needed. In real-world you'd likely break this out into a separate group
+   * of routes that you mount to the /api root.
+   */
+  .get('/api/auth/me', reqCtxMiddleware, c => {
+    return c.json(c.var.user || null);
+  })
+
+  /**
    * The frontend app
    */
   .get('*', reqCtxMiddleware, async c => {

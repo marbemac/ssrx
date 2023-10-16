@@ -9,8 +9,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 // import { ReactQueryDevtools as QueryDevtools } from '@tanstack/react-query-devtools';
 import { routes } from '~/routes.tsx';
+import type { AppRouter } from '~/server/trpc/index.ts';
 
-import type { AppRouter } from './server/trpc';
 
 const { clientHandler, serverHandler, ctx } = createApp({
   plugins: [

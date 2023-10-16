@@ -6,7 +6,7 @@ import { storage } from './ctx.ts';
 import { injectIntoStream } from './stream-transformer.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
-  rootLayout,
+  RootLayout,
   renderer,
   appRenderer,
   plugins,
@@ -97,8 +97,6 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             throw new Error('No plugin implemented renderApp');
           }
 
-          const RootLayout = rootLayout;
-
           let finalApp;
           if (wrappers.length) {
             for (const i in wrappers) {
@@ -109,7 +107,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
               finalApp = Wrap({ children });
             }
           } else {
-            finalApp = AppComp;
+            finalApp = AppComp();
           }
 
           // @ts-expect-error ignore

@@ -6,6 +6,14 @@ import { sleep } from '~/utils.ts';
 export function Component() {
   return (
     <>
+      <div>
+        This example is copied from the @tanstack/query{' '}
+        <a href="https://github.com/TanStack/query/tree/beta/examples/react/nextjs-suspense-streaming" target="_blank">
+          nextjs-suspense-streaming example
+        </a>
+        . It demonstrates suspended query streaming that starts on the server and continues on the client.
+      </div>
+
       <Suspense fallback={<div>waiting 100....</div>}>
         <MyComponent wait={100} />
       </Suspense>

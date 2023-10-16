@@ -6,13 +6,13 @@ import {
 } from '@super-ssr/renderer-core/server';
 import { renderToStream } from 'solid-js/web';
 
-import { Root } from '../default-root.tsx';
+import { RootLayout } from '../default-root.tsx';
 
 export function createApp<P extends RenderPlugin<any, any>[]>(
-  opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'rootLayout'>,
+  opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'RootLayout'>,
 ) {
   return baseCreateApp({
-    rootLayout: Root,
+    RootLayout,
     renderer: {
       renderToStream: async ({ app }) => {
         const stream = renderToStream(() => app());

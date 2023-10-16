@@ -3,7 +3,7 @@ export type ServerRenderer = {
 };
 
 type BaseHandlerOpts = {
-  rootLayout: (props: { children: JSX.Element }) => JSX.Element;
+  RootLayout: (props: { children: JSX.Element }) => JSX.Element;
   appRenderer?: (props: { req: Request }) => (() => JSX.Element) | Promise<() => JSX.Element>;
 };
 
