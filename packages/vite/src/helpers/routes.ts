@@ -217,7 +217,7 @@ export const assetsToTags = (
 
       return null;
     })
-    .filter(Boolean);
+    .filter(Boolean) as AssetHtmlTag[];
 };
 
 export const sortAssets = (assets: Asset[]): Asset[] => {
