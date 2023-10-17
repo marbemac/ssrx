@@ -5,7 +5,8 @@
 import type { AnyRouter } from '@trpc/server';
 import type { FetchHandlerRequestOptions } from '@trpc/server/adapters/fetch';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import type { Context, Env, MiddlewareHandler } from 'hono';
+import type { Context, Env } from 'hono';
+import { createMiddleware } from 'hono/factory';
 
 type tRPCOptions<HonoEnv extends Env, TrpcCtx = HonoEnv['Variables']> = Omit<
   FetchHandlerRequestOptions<AnyRouter>,
@@ -19,8 +20,8 @@ export const trpcServer = <HonoEnv extends Env, TrpcCtx = HonoEnv['Variables']>(
   endpoint = '/trpc',
   createContext,
   ...rest
-}: tRPCOptions<HonoEnv, TrpcCtx>): MiddlewareHandler => {
-  return async c => {
+}: tRPCOptions<HonoEnv, TrpcCtx>) => {
+  return createMiddleware(async c => {
     const res = await fetchRequestHandler({
       ...rest,
       endpoint,
@@ -29,5 +30,5 @@ export const trpcServer = <HonoEnv extends Env, TrpcCtx = HonoEnv['Variables']>(
     });
 
     return res;
-  };
+  });
 };

@@ -1,4 +1,4 @@
-import type { MiddlewareHandler } from 'hono';
+import { createMiddleware } from 'hono/factory';
 import type { CookieOptions } from 'hono/utils/cookie';
 import type { Session } from 'lucia';
 
@@ -21,9 +21,7 @@ export type ReqCtx = {
   user?: Omit<Session['user'], 'userId'> & { id: Session['userId'] };
 };
 
-export const reqCtxMiddleware: MiddlewareHandler<{
-  Variables: ReqCtx;
-}> = async (c, next) => {
+export const reqCtxMiddleware = createMiddleware<{ Variables: ReqCtx }>(async (c, next) => {
   /**
    * We're accessing db from req ctx rather than importing it directly because
    * this pattern is compatible with edge runtimes (db per request) if that's where
@@ -52,4 +50,4 @@ export const reqCtxMiddleware: MiddlewareHandler<{
   }
 
   await next();
-};
+});

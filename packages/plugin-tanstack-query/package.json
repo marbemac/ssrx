@@ -21,8 +21,8 @@
     "devalue": "^4.3.2"
   },
   "devDependencies": {
-    "@tanstack/query-core": "^5.0.0-rc.12",
-    "@tanstack/query-devtools": "5.0.0-rc.14",
+    "@tanstack/query-core": "^5.0.0",
+    "@tanstack/query-devtools": "^5.0.0",
     "tsup": "7.2.0"
   }
 }
