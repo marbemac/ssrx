@@ -1,5 +1,5 @@
-import { renderAssets } from '@super-ssr/solid';
-import { assetsForRequest } from '@super-ssr/vite/runtime';
+import { renderAssets } from '@ssrx/solid';
+import { assetsForRequest } from '@ssrx/vite/runtime';
 
 import { App } from '~/app.tsx';
 

@@ -1,10 +1,12 @@
 {
-  "name": "@super-ssr/vite",
+  "name": "@ssrx/vite",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
   "keywords": [
-    "vite-plugin"
+    "vite",
+    "vite-plugin",
+    "ssr"
   ],
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",

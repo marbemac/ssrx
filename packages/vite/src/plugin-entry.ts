@@ -23,7 +23,7 @@ export type Opts = {
 
 export { defaultRouterAdapter } from './default-router-adapter.ts';
 
-export const superSsr = ({
+export const ssrx = ({
   routerAdapter = defaultRouterAdapter(),
   routesFile = './src/routes.tsx',
   clientEntry = './src/entry.client.tsx',

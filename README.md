@@ -1,20 +1,20 @@
-# 🚀 @super-ssr
+# 🚀 Welcome to SSRx
 
-Super SSR provides the missing pieces required to create SSR apps with Vite and your third party libraries of choice. It
-is framework agnostic on the client and the server - use React, Solid, Hono, H3, Cloudflare, Bun, you name it.
+SSRx provides the missing pieces required to create SSR apps with Vite and your third party libraries of choice. It is
+framework agnostic on the client and the server - use React, Solid, Hono, H3, Cloudflare, Bun, you name it.
 
-Super SSR is split into two parts - a Vite plugin and a group of packages that help to organize common streaming
-patterns (these are optional!).
+SSRx is split into two parts - a Vite plugin and a group of packages that help to organize common streaming patterns
+(these are optional!).
 
-## `@super-ssr/vite`
+## `@ssrx/vite`
 
-The Super SSR Vite plugin is barebones and (mostly) unopinionated by design. It can be used standalone, see the
+The SSRx Vite plugin is barebones and (mostly) unopinionated by design. It can be used standalone, see the
 [`bun-react-router`](examples/bun-react-router/README.md),
 [`react-react-simple`](examples/react-router-simple/README.md), and
 [`solid-router-simple`](examples/solid-router-simple/README.md) examples.
 
-The goal of `@super-ssr/vite` is to close the small gaps that prevent Vite from being a delightful building block for
-modern SSR apps, not to provide solutions for routing, deployment, etc.
+The goal of `@ssrx/vite` is to close the small gaps that prevent Vite from being a delightful building block for modern
+SSR apps, not to provide solutions for routing, deployment, etc.
 
 **It is:**
 
@@ -30,14 +30,14 @@ modern SSR apps, not to provide solutions for routing, deployment, etc.
 - Generates a `ssr-manifest.json` file during build that maps client route urls -> assets
 - Provides a `assetsForRequest(url: string)` function that returns a list of assets critical to the given request
 
-> ❗ A small disclaimer... what makes Super SSR great is that it doesn't try to do everything. This means Super SSR is
-> intended for a specific audience. If you're looking for something quick and easy, Super SSR might not be for you. If
-> you are looking to build a modern SSR app with your choice of 3rd party libraries for routing, head management, etc,
-> then Super SSR might be right for you.
+> ❗ A small disclaimer... what makes SSRx great is that it doesn't try to do everything. This means SSRx is intended
+> for a specific audience. If you're looking for something quick and easy, SSRx might not be for you. If you are looking
+> to build a modern SSR app with your choice of 3rd party libraries for routing, head management, etc, then SSRx might
+> be right for you.
 
 ### Usage
 
-`@super-ssr/vite` is mostly unopinionated, but does require 3 things:
+`@ssrx/vite` is mostly unopinionated, but does require 3 things:
 
 #### Requirement 1 - a client entry file
 
@@ -57,8 +57,8 @@ A server entry who's default export includes a `fetch` function that accepts a
 [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) and returns a
 [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object with your rendered or streamed app.
 
-> `@super-ssr/vite` is focused on supporting the WinterCG standard. Modern node frameworks such as `Hono` and `h3`, as
-> well as alternative runtimes such as `bun`, `deno`, `cloudflare`, and more should all work well with this pattern.
+> `@ssrx/vite` is focused on supporting the WinterCG standard. Modern node frameworks such as `Hono` and `h3`, as well
+> as alternative runtimes such as `bun`, `deno`, `cloudflare`, and more should all work well with this pattern.
 
 For React, it might look something like this:
 
@@ -82,8 +82,8 @@ export default {
 
 #### Requirement 3 - a routes file
 
-Your routes file should export a `routes` object. By default `@super-ssr/vite` expects the `routes` object to conform to
-the following shape:
+Your routes file should export a `routes` object. By default `@ssrx/vite` expects the `routes` object to conform to the
+following shape:
 
 ```ts
 type Route = {
@@ -107,7 +107,7 @@ your routes config does not - see [adapter-tanstack-router](packages/adapter-tan
 Example:
 
 ```ts
-import { superSsr } from '@super-ssr/vite/plugin';
+import { ssrx } from '@ssrx/vite/plugin';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -116,7 +116,7 @@ export default defineConfig({
 
     // The plugin, with all of it's defaults.
     // You only need to set these options if they deviate from the defaults.
-    superSsr({
+    ssrx({
       routesFile: './src/routes.tsx',
       clientEntry: './src/entry.client.tsx',
       serverFile: './src/server.ts',
@@ -133,25 +133,25 @@ See [`bun-react-router`](examples/bun-react-router/README.md),
 [`react-react-simple`](examples/react-router-simple/README.md), and
 [`solid-router-simple`](examples/solid-router-simple/README.md) for more concrete examples.
 
-## `@super-ssr/renderer`
+## `@ssrx/renderer`
 
-The Super SSR renderer provides building blocks that make it easier to develop streaming SSR apps. It is client and
-server framework agnostic, so long as the server runtime supports web streams and AsyncLocalStorage (node 18+, bun,
-deno, cloudflare, vercel, etc).
+The SSRx renderer provides building blocks that make it easier to develop streaming SSR apps. It is client and server
+framework agnostic, so long as the server runtime supports web streams and AsyncLocalStorage (node 18+, bun, deno,
+cloudflare, vercel, etc).
 
 See the [streaming-kitchen-sink](examples/streaming-kitchen-sink/README.md) example for a look at how everything can
 work together in practice.
 
 ### Usage
 
-`@super-ssr/renderer` exports a `createApp` function that allows you to compose all the pieces necessary to render a SSR
+`@ssrx/renderer` exports a `createApp` function that allows you to compose all the pieces necessary to render a SSR
 streamed application. For example:
 
 **app.tsx**
 
 ```tsx
-// In this case we're using the `react` renderer, which simply wraps @super-ssr/renderer with a react specific stream function
-import { createApp } from '@super-ssr/react';
+// In this case we're using the `react` renderer, which simply wraps @ssrx/renderer with a react specific stream function
+import { createApp } from '@ssrx/react';
 
 export const { clientHandler, serverHandler, ctx } = createApp({
   // Usually a router plugin will provide the appRenderer, but you can always provide your own if needed
@@ -198,7 +198,7 @@ export default {
 ```
 
 With the above steps you get a streaming react app with support for lazy asset preloading. However, plugins are where
-`@super-ssr/renderer` really shines.
+`@ssrx/renderer` really shines.
 
 ### Plugins
 
@@ -260,15 +260,15 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
 
 ### Officially supported renderer packages
 
-- `@super-ssr/renderer`: The core renderer - usually you will use a framework specific package, such as
-  `@super-ssr/react` or `@super-ssr/solid`.
-- `@super-ssr/react`: Wraps `@super-ssr/renderer` for react applications.
-- `@super-ssr/solid`: Wraps `@super-ssr/renderer` for solidjs applications.
-- `@super-ssr/plugin-react-router`
-- `@super-ssr/plugin-solid-router`
-- `@super-ssr/plugin-tanstack-query`
-- `@super-ssr/plugin-trpc-react`
-- `@super-ssr/plugin-unhead`
+- `@ssrx/renderer`: The core renderer - usually you will use a framework specific package, such as `@ssrx/react` or
+  `@ssrx/solid`.
+- `@ssrx/react`: Wraps `@ssrx/renderer` for react applications.
+- `@ssrx/solid`: Wraps `@ssrx/renderer` for solidjs applications.
+- `@ssrx/plugin-react-router`
+- `@ssrx/plugin-solid-router`
+- `@ssrx/plugin-tanstack-query`
+- `@ssrx/plugin-trpc-react`
+- `@ssrx/plugin-unhead`
 
 ## Inspiration
 

@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/react",
+  "name": "@ssrx/react",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -34,8 +34,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@super-ssr/renderer": "latest",
-    "@super-ssr/vite": "latest"
+    "@ssrx/renderer": "latest",
+    "@ssrx/vite": "latest"
   },
   "devDependencies": {
     "react": "18.2.0",

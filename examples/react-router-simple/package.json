@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "@hono/node-server": "1.2.0",
-    "@super-ssr/react": "latest",
+    "@ssrx/react": "latest",
     "hono": "3.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.17.0"
   },
   "devDependencies": {
-    "@super-ssr/vite": "latest",
+    "@ssrx/vite": "latest",
     "@types/react": "18.2.28",
     "@types/react-dom": "18.2.13",
     "@vitejs/plugin-react": "4.1.0",

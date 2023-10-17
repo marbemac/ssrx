@@ -1,4 +1,4 @@
-import { assetsForRequest, renderAssetsToHtml } from '@super-ssr/vite/runtime';
+import { assetsForRequest, renderAssetsToHtml } from '@ssrx/vite/runtime';
 import type { Simplify } from 'type-fest';
 
 import type { RenderPlugin, ServerHandlerOpts } from '../types.ts';

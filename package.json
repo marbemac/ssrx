@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/root",
+  "name": "@ssrx/root",
   "private": true,
   "packageManager": "yarn@4.0.0-rc.40",
   "engines": {
@@ -10,8 +10,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "yarn build && nx watch -p '@super-ssr/*' -- nx run \\$NX_PROJECT_NAME:build",
-    "build": "nx run-many -t build -p '@super-ssr/*'",
+    "dev": "yarn build && nx watch -p '@ssrx/*' -- nx run \\$NX_PROJECT_NAME:build",
+    "build": "nx run-many -t build -p '@ssrx/*'",
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many --target lint --all",
@@ -20,16 +20,16 @@
     "dep-graph": "nx graph"
   },
   "resolutions": {
-    "@super-ssr/adapter-tanstack-router": "workspace:*",
-    "@super-ssr/plugin-react-router": "workspace:*",
-    "@super-ssr/plugin-solid-router": "workspace:*",
-    "@super-ssr/plugin-tanstack-query": "workspace:*",
-    "@super-ssr/plugin-trpc-react": "workspace:*",
-    "@super-ssr/plugin-unhead": "workspace:*",
-    "@super-ssr/react": "workspace:*",
-    "@super-ssr/renderer": "workspace:*",
-    "@super-ssr/solid": "workspace:*",
-    "@super-ssr/vite": "workspace:*"
+    "@ssrx/adapter-tanstack-router": "workspace:*",
+    "@ssrx/plugin-react-router": "workspace:*",
+    "@ssrx/plugin-solid-router": "workspace:*",
+    "@ssrx/plugin-tanstack-query": "workspace:*",
+    "@ssrx/plugin-trpc-react": "workspace:*",
+    "@ssrx/plugin-unhead": "workspace:*",
+    "@ssrx/react": "workspace:*",
+    "@ssrx/renderer": "workspace:*",
+    "@ssrx/solid": "workspace:*",
+    "@ssrx/vite": "workspace:*"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "6.7.5",

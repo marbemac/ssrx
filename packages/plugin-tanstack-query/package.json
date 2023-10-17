@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/plugin-tanstack-query",
+  "name": "@ssrx/plugin-tanstack-query",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -20,7 +20,7 @@
     "@tanstack/query-core": "^5"
   },
   "dependencies": {
-    "@super-ssr/renderer": "latest",
+    "@ssrx/renderer": "latest",
     "devalue": "^4.3.2"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import type { RouteInfo, RouterAdapter } from '@super-ssr/vite/types';
+import type { RouteInfo, RouterAdapter } from '@ssrx/vite/types';
 import type { AnyRoute } from '@tanstack/router-core';
 
 import { transformPath } from './transform-path.ts';

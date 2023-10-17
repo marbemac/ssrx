@@ -1,5 +1,5 @@
-import { renderAssets } from '@super-ssr/react';
-import { assetsForRequest } from '@super-ssr/vite/runtime';
+import { renderAssets } from '@ssrx/react';
+import { assetsForRequest } from '@ssrx/vite/runtime';
 import { StrictMode } from 'react';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
 

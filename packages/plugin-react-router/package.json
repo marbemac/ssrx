@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/plugin-react-router",
+  "name": "@ssrx/plugin-react-router",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -20,7 +20,7 @@
     "react-router-dom": "^6"
   },
   "dependencies": {
-    "@super-ssr/renderer": "latest"
+    "@ssrx/renderer": "latest"
   },
   "devDependencies": {
     "react-router-dom": "6.17.0"

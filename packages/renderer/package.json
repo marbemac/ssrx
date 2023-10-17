@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/renderer",
+  "name": "@ssrx/renderer",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -30,7 +30,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@super-ssr/vite": "workspace:*",
+    "@ssrx/vite": "workspace:*",
     "deepmerge": "4.3.1"
   },
   "devDependencies": {

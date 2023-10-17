@@ -52,7 +52,7 @@ const server = new Hono<HonoEnv>()
       const appStream = await serverHandler({
         req: c.req.raw,
         meta: {
-          // used by @super-ssr/plugin-trpc-react
+          // used by @ssrx/plugin-trpc-react
           trpcCaller: appRouter.createCaller(c.var),
         },
       });

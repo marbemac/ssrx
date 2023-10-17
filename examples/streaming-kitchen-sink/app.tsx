@@ -1,10 +1,10 @@
 import './client/globals.css';
 
-import { reactRouterPlugin } from '@super-ssr/plugin-react-router';
-import { tanstackQueryPlugin } from '@super-ssr/plugin-tanstack-query';
-import { trpcPlugin } from '@super-ssr/plugin-trpc-react';
-import { unheadPlugin } from '@super-ssr/plugin-unhead';
-import { createApp } from '@super-ssr/react';
+import { reactRouterPlugin } from '@ssrx/plugin-react-router';
+import { tanstackQueryPlugin } from '@ssrx/plugin-tanstack-query';
+import { trpcPlugin } from '@ssrx/plugin-trpc-react';
+import { unheadPlugin } from '@ssrx/plugin-unhead';
+import { createApp } from '@ssrx/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 

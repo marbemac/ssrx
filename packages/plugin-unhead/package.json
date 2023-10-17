@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/plugin-unhead",
+  "name": "@ssrx/plugin-unhead",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -17,7 +17,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@super-ssr/renderer": "latest",
+    "@ssrx/renderer": "latest",
     "@unhead/addons": "~1.7.4",
     "@unhead/schema": "~1.7.5",
     "@unhead/ssr": "~1.7.4",

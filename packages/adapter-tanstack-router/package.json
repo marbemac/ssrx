@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/adapter-tanstack-router",
+  "name": "@ssrx/adapter-tanstack-router",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -22,7 +22,7 @@
     "@tanstack/router-core": "<=1"
   },
   "devDependencies": {
-    "@super-ssr/vite": "workspace:*",
+    "@ssrx/vite": "workspace:*",
     "@tanstack/react-router": "0.0.1-beta.194",
     "@tanstack/router-core": "0.0.1-beta.194",
     "react": "18.2.0",

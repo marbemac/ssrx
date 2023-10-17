@@ -1664,11 +1664,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@super-ssr/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
+"@ssrx/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
+  resolution: "@ssrx/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
   dependencies:
-    "@super-ssr/vite": "workspace:*"
+    "@ssrx/vite": "workspace:*"
     "@tanstack/react-router": "npm:0.0.1-beta.194"
     "@tanstack/router-core": "npm:0.0.1-beta.194"
     react: "npm:18.2.0"
@@ -1678,34 +1678,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/plugin-react-router@workspace:*, @super-ssr/plugin-react-router@workspace:packages/plugin-react-router":
+"@ssrx/plugin-react-router@workspace:*, @ssrx/plugin-react-router@workspace:packages/plugin-react-router":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/plugin-react-router@workspace:packages/plugin-react-router"
+  resolution: "@ssrx/plugin-react-router@workspace:packages/plugin-react-router"
   dependencies:
-    "@super-ssr/renderer": "npm:latest"
+    "@ssrx/renderer": "npm:latest"
     react-router-dom: "npm:6.17.0"
   peerDependencies:
     react-router-dom: ^6
   languageName: unknown
   linkType: soft
 
-"@super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router":
+"@ssrx/plugin-solid-router@workspace:packages/plugin-solid-router":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/plugin-solid-router@workspace:packages/plugin-solid-router"
+  resolution: "@ssrx/plugin-solid-router@workspace:packages/plugin-solid-router"
   dependencies:
     "@solidjs/router": "npm:0.8.3"
-    "@super-ssr/renderer": "npm:latest"
+    "@ssrx/renderer": "npm:latest"
     esbuild-plugin-solid: "npm:0.5.0"
   peerDependencies:
     "@solidjs/router": "*"
   languageName: unknown
   linkType: soft
 
-"@super-ssr/plugin-tanstack-query@workspace:*, @super-ssr/plugin-tanstack-query@workspace:packages/plugin-tanstack-query":
+"@ssrx/plugin-tanstack-query@workspace:*, @ssrx/plugin-tanstack-query@workspace:packages/plugin-tanstack-query":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/plugin-tanstack-query@workspace:packages/plugin-tanstack-query"
+  resolution: "@ssrx/plugin-tanstack-query@workspace:packages/plugin-tanstack-query"
   dependencies:
-    "@super-ssr/renderer": "npm:latest"
+    "@ssrx/renderer": "npm:latest"
     "@tanstack/query-core": "npm:^5.0.0"
     "@tanstack/query-devtools": "npm:^5.0.0"
     devalue: "npm:^4.3.2"
@@ -1714,12 +1714,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/plugin-trpc-react@workspace:*, @super-ssr/plugin-trpc-react@workspace:packages/plugin-trpc-react":
+"@ssrx/plugin-trpc-react@workspace:*, @ssrx/plugin-trpc-react@workspace:packages/plugin-trpc-react":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/plugin-trpc-react@workspace:packages/plugin-trpc-react"
+  resolution: "@ssrx/plugin-trpc-react@workspace:packages/plugin-trpc-react"
   dependencies:
-    "@super-ssr/plugin-tanstack-query": "npm:*"
-    "@super-ssr/renderer": "npm:latest"
+    "@ssrx/plugin-tanstack-query": "npm:*"
+    "@ssrx/renderer": "npm:latest"
     "@tanstack/react-query": "npm:^5.0.0"
     "@trpc/client": "npm:^10.40.0"
     "@trpc/server": "npm:^10.40.0"
@@ -1728,11 +1728,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/plugin-unhead@workspace:*, @super-ssr/plugin-unhead@workspace:packages/plugin-unhead":
+"@ssrx/plugin-unhead@workspace:*, @ssrx/plugin-unhead@workspace:packages/plugin-unhead":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/plugin-unhead@workspace:packages/plugin-unhead"
+  resolution: "@ssrx/plugin-unhead@workspace:packages/plugin-unhead"
   dependencies:
-    "@super-ssr/renderer": "npm:latest"
+    "@ssrx/renderer": "npm:latest"
     "@unhead/addons": "npm:~1.7.4"
     "@unhead/schema": "npm:~1.7.5"
     "@unhead/ssr": "npm:~1.7.4"
@@ -1740,12 +1740,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/react@workspace:*, @super-ssr/react@workspace:packages/react":
+"@ssrx/react@workspace:*, @ssrx/react@workspace:packages/react":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/react@workspace:packages/react"
+  resolution: "@ssrx/react@workspace:packages/react"
   dependencies:
-    "@super-ssr/renderer": "npm:latest"
-    "@super-ssr/vite": "npm:latest"
+    "@ssrx/renderer": "npm:latest"
+    "@ssrx/vite": "npm:latest"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
   peerDependencies:
@@ -1754,19 +1754,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/renderer@workspace:*, @super-ssr/renderer@workspace:packages/renderer":
+"@ssrx/renderer@workspace:*, @ssrx/renderer@workspace:packages/renderer":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/renderer@workspace:packages/renderer"
+  resolution: "@ssrx/renderer@workspace:packages/renderer"
   dependencies:
-    "@super-ssr/vite": "workspace:*"
+    "@ssrx/vite": "workspace:*"
     deepmerge: "npm:4.3.1"
     type-fest: "npm:4.4.0"
   languageName: unknown
   linkType: soft
 
-"@super-ssr/root@workspace:.":
+"@ssrx/root@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/root@workspace:."
+  resolution: "@ssrx/root@workspace:."
   dependencies:
     "@typescript-eslint/eslint-plugin": "npm:6.7.5"
     "@typescript-eslint/parser": "npm:6.7.5"
@@ -1784,12 +1784,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/solid@workspace:*, @super-ssr/solid@workspace:packages/solid":
+"@ssrx/solid@workspace:*, @ssrx/solid@workspace:packages/solid":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/solid@workspace:packages/solid"
+  resolution: "@ssrx/solid@workspace:packages/solid"
   dependencies:
-    "@super-ssr/renderer": "npm:latest"
-    "@super-ssr/vite": "npm:latest"
+    "@ssrx/renderer": "npm:latest"
+    "@ssrx/vite": "npm:latest"
     esbuild-plugin-solid: "npm:0.5.0"
     solid-js: "npm:1.8.1"
   peerDependencies:
@@ -1797,9 +1797,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@super-ssr/vite@workspace:*, @super-ssr/vite@workspace:packages/vite":
+"@ssrx/vite@workspace:*, @ssrx/vite@workspace:packages/vite":
   version: 0.0.0-use.local
-  resolution: "@super-ssr/vite@workspace:packages/vite"
+  resolution: "@ssrx/vite@workspace:packages/vite"
   dependencies:
     "@total-typescript/ts-reset": "npm:0.5.1"
     radix3: "npm:^1.1.0"
@@ -2856,8 +2856,8 @@ __metadata:
   resolution: "bun-react-router@workspace:examples/bun-react-router"
   dependencies:
     "@elysiajs/static": "npm:0.7.1"
-    "@super-ssr/react": "npm:latest"
-    "@super-ssr/vite": "npm:latest"
+    "@ssrx/react": "npm:latest"
+    "@ssrx/vite": "npm:latest"
     "@types/react": "npm:18.2.28"
     "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
@@ -6627,8 +6627,8 @@ __metadata:
   resolution: "react-router-simple@workspace:examples/react-router-simple"
   dependencies:
     "@hono/node-server": "npm:1.2.0"
-    "@super-ssr/react": "npm:latest"
-    "@super-ssr/vite": "npm:latest"
+    "@ssrx/react": "npm:latest"
+    "@ssrx/vite": "npm:latest"
     "@types/react": "npm:18.2.28"
     "@types/react-dom": "npm:18.2.13"
     "@vitejs/plugin-react": "npm:4.1.0"
@@ -7093,8 +7093,8 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:1.2.0"
     "@solidjs/router": "npm:0.8.3"
-    "@super-ssr/solid": "npm:latest"
-    "@super-ssr/vite": "npm:latest"
+    "@ssrx/solid": "npm:latest"
+    "@ssrx/vite": "npm:latest"
     hono: "npm:3.8.0"
     solid-js: "npm:1.8.1"
     typescript: "npm:5.2.2"
@@ -7179,12 +7179,12 @@ __metadata:
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@radix-ui/react-toast": "npm:^1.1.5"
     "@radix-ui/react-tooltip": "npm:^1.0.7"
-    "@super-ssr/plugin-react-router": "npm:latest"
-    "@super-ssr/plugin-tanstack-query": "npm:latest"
-    "@super-ssr/plugin-trpc-react": "npm:latest"
-    "@super-ssr/plugin-unhead": "npm:latest"
-    "@super-ssr/react": "npm:latest"
-    "@super-ssr/vite": "npm:latest"
+    "@ssrx/plugin-react-router": "npm:latest"
+    "@ssrx/plugin-tanstack-query": "npm:latest"
+    "@ssrx/plugin-trpc-react": "npm:latest"
+    "@ssrx/plugin-unhead": "npm:latest"
+    "@ssrx/react": "npm:latest"
+    "@ssrx/vite": "npm:latest"
     "@tanstack/react-query": "npm:^5.0.0"
     "@tanstack/react-query-devtools": "npm:^5.0.0"
     "@trpc/server": "npm:10.40.0"

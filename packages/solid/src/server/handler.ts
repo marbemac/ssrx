@@ -3,7 +3,7 @@ import {
   type RenderPlugin,
   type ServerHandlerOpts,
   type SetOptional,
-} from '@super-ssr/renderer/server';
+} from '@ssrx/renderer/server';
 import { renderToStream } from 'solid-js/web';
 
 import { RootLayout } from '../default-root.tsx';

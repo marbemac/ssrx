@@ -15,7 +15,7 @@
 - client routing: `react-router` + `react-router-typesafe-routes`
 - component library: `shadui`
 - metatag management: `unhead`
-- rendering strategy: `streaming` (via `@super-ssr/react`)
+- rendering strategy: `streaming` (via `@ssrx/react`)
 - server framework: `hono`
 - server runtime: `node`
 - data fetching: `@tanstack/query` + `trpc`
