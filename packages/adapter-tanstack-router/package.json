@@ -5,6 +5,11 @@
   "type": "module",
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/adapter-tanstack-router"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -22,7 +27,7 @@
     "@tanstack/router-core": "<=1"
   },
   "devDependencies": {
-    "@ssrx/vite": "workspace:*",
+    "@ssrx/vite": "^0.0.1",
     "@tanstack/react-router": "0.0.1-beta.194",
     "@tanstack/router-core": "0.0.1-beta.194",
     "react": "18.2.0",

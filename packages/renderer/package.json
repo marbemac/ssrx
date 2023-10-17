@@ -5,6 +5,11 @@
   "type": "module",
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/renderer"
+  },
   "exports": {
     ".": {
       "bun": "./src/server/index.ts",
@@ -30,7 +35,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ssrx/vite": "workspace:*",
+    "@ssrx/vite": "^0.0.1",
     "deepmerge": "4.3.1"
   },
   "devDependencies": {

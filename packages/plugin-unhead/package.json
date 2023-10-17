@@ -5,6 +5,11 @@
   "type": "module",
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/plugin-unhead"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -17,7 +22,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ssrx/renderer": "latest",
+    "@ssrx/renderer": "^0.0.1",
     "@unhead/addons": "~1.7.4",
     "@unhead/schema": "~1.7.5",
     "@unhead/ssr": "~1.7.4",

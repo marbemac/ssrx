@@ -5,6 +5,11 @@
   "type": "module",
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/plugin-solid-router"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -20,7 +25,7 @@
     "@solidjs/router": "*"
   },
   "dependencies": {
-    "@ssrx/renderer": "latest"
+    "@ssrx/renderer": "^0.0.1"
   },
   "devDependencies": {
     "@solidjs/router": "0.8.3",
