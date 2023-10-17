@@ -20,7 +20,7 @@
     "react-router-dom": "^6"
   },
   "dependencies": {
-    "@super-ssr/renderer-core": "latest"
+    "@super-ssr/renderer": "latest"
   },
   "devDependencies": {
     "react-router-dom": "6.17.0"

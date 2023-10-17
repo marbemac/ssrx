@@ -1,4 +1,4 @@
-import { defineRenderPlugin } from '@super-ssr/renderer-core';
+import { defineRenderPlugin } from '@super-ssr/renderer';
 import {
   defaultShouldDehydrateQuery,
   dehydrate,

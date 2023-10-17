@@ -20,7 +20,7 @@
     "@solidjs/router": "*"
   },
   "dependencies": {
-    "@super-ssr/renderer-core": "latest"
+    "@super-ssr/renderer": "latest"
   },
   "devDependencies": {
     "@solidjs/router": "0.8.3",

@@ -1,4 +1,4 @@
-import { deepmerge } from '@super-ssr/renderer-core';
+import { deepmerge } from '@super-ssr/renderer';
 import { QueryCache, QueryClient, type QueryClientConfig } from '@tanstack/query-core';
 
 type CreateQueryClientOpts = {

@@ -1,5 +1,5 @@
 import { type RouteDefinition, Router, useRoutes } from '@solidjs/router';
-import { defineRenderPlugin } from '@super-ssr/renderer-core';
+import { defineRenderPlugin } from '@super-ssr/renderer';
 
 export const PLUGIN_ID = 'solidRouter' as const;
 

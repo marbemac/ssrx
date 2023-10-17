@@ -1,4 +1,4 @@
-import { deepmerge, defineRenderPlugin } from '@super-ssr/renderer-core';
+import { deepmerge, defineRenderPlugin } from '@super-ssr/renderer';
 import { InferSeoMetaPlugin } from '@unhead/addons';
 import type {
   ActiveHeadEntry,

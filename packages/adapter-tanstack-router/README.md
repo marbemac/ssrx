@@ -1,32 +1,32 @@
-### TODO
+# @super-ssr/adapter-tanstack-router
 
-Note, the `lazyRouteComponent` included in tanstack/react-router does not preserve the identity of the original dynamic
-import when it assigns to preload.
+This adapter allows you to use tanstack router with `@super-ssr/vite`. It supports code splitting and asset pre-loading
+so long as you leverage the adjusted `lazyRouteComponent` function (see note at end of this readme).
 
-Use the function below instead, which does.
+## Usage
 
-```tsx
-/**
- * Adapted from https://github.com/TanStack/router/blob/806ef336e52d786ea7b5bc5988b96df9526e9218/packages/react-router/src/react.tsx#L266
- *
- * Changed to preserve identity of the importer promise.
- */
-export function lazyRouteComponent<T extends Record<string, any>, TKey extends keyof T = 'default'>(
-  importer: () => Promise<T>,
-  exportName?: TKey,
-): T[TKey] extends (props: infer TProps) => any ? AsyncRouteComponent<TProps> : never {
-  const load = importer;
+```ts
+import { tanstackRouterAdapter } from '@super-ssr/adapter-tanstack-router';
+import { superSsr } from '@super-ssr/vite/plugin';
+import { defineConfig } from 'vite';
 
-  const lazyComp = React.lazy(async () => {
-    const moduleExports = await load();
-    const comp = moduleExports[exportName ?? 'default'];
-    return {
-      default: comp,
-    };
-  });
+export default defineConfig({
+  plugins: [
+    // ... your other plugins
 
-  (lazyComp as any).preload = load;
-
-  return lazyComp as any;
-}
+    superSsr({
+      routerAdapter: tanstackRouterAdapter({
+        // Override this default if needed.. the adapter expects your routes file to export the
+        // route tree on this named export
+        exportName: 'routeTree',
+      }),
+    }),
+  ],
+});
 ```
+
+Note, the `lazyRouteComponent` included in `@tanstack/react-router` does not preserve the identity of the original
+dynamic import when it assigns the preload property.
+
+Import `lazyRouteComponent` from `@super-ssr/adapter-tanstack-router` instead (or copy it into your project, it's a tiny
+function).

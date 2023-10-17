@@ -20,7 +20,7 @@
     "@tanstack/query-core": "^5"
   },
   "dependencies": {
-    "@super-ssr/renderer-core": "latest",
+    "@super-ssr/renderer": "latest",
     "devalue": "^4.3.2"
   },
   "devDependencies": {

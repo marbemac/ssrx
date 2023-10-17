@@ -17,7 +17,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@super-ssr/renderer-core": "latest",
+    "@super-ssr/renderer": "latest",
     "@unhead/addons": "~1.7.4",
     "@unhead/schema": "~1.7.5",
     "@unhead/ssr": "~1.7.4",

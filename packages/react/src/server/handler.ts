@@ -3,7 +3,7 @@ import {
   type RenderPlugin,
   type ServerHandlerOpts,
   type SetOptional,
-} from '@super-ssr/renderer-core/server';
+} from '@super-ssr/renderer/server';
 import rd from 'react-dom/server';
 // @ts-expect-error ignore
 import { renderToReadableStream as fallbackRenderToReadableStream } from 'react-dom/server.browser';

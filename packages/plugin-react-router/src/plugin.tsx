@@ -1,4 +1,4 @@
-import { defineRenderPlugin } from '@super-ssr/renderer-core';
+import { defineRenderPlugin } from '@super-ssr/renderer';
 import type { RouterProviderProps } from 'react-router-dom';
 import { createBrowserRouter, matchRoutes, type RouteObject, RouterProvider } from 'react-router-dom';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';

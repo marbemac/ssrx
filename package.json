@@ -27,7 +27,7 @@
     "@super-ssr/plugin-trpc-react": "workspace:*",
     "@super-ssr/plugin-unhead": "workspace:*",
     "@super-ssr/react": "workspace:*",
-    "@super-ssr/renderer-core": "workspace:*",
+    "@super-ssr/renderer": "workspace:*",
     "@super-ssr/solid": "workspace:*",
     "@super-ssr/vite": "workspace:*"
   },

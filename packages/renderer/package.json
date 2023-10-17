@@ -1,5 +1,5 @@
 {
-  "name": "@super-ssr/renderer-core",
+  "name": "@super-ssr/renderer",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",

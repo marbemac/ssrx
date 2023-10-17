@@ -33,7 +33,7 @@
     "solid-js": "*"
   },
   "dependencies": {
-    "@super-ssr/renderer-core": "latest",
+    "@super-ssr/renderer": "latest",
     "@super-ssr/vite": "latest"
   },
   "devDependencies": {

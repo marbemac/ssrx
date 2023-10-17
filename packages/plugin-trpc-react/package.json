@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@super-ssr/plugin-tanstack-query": "*",
-    "@super-ssr/renderer-core": "latest",
+    "@super-ssr/renderer": "latest",
     "@trpc/client": "^10.40.0",
     "@trpc/server": "^10.40.0"
   },

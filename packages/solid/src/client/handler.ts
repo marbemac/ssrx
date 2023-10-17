@@ -3,7 +3,7 @@ import {
   createApp as baseCreateApp,
   type RenderPlugin,
   type SetOptional,
-} from '@super-ssr/renderer-core/client';
+} from '@super-ssr/renderer/client';
 
 import { RootLayout } from '../default-root.tsx';
 

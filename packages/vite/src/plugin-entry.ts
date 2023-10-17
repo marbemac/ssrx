@@ -21,7 +21,9 @@ export type Opts = {
   runtime?: ServerRuntime;
 };
 
-const plugin = ({
+export { defaultRouterAdapter } from './default-router-adapter.ts';
+
+export const superSsr = ({
   routerAdapter = defaultRouterAdapter(),
   routesFile = './src/routes.tsx',
   clientEntry = './src/entry.client.tsx',
@@ -39,9 +41,7 @@ const plugin = ({
     runtime,
   });
 
-  const router = new Router<any>({
-    normalizeExternalRoutes: routeFile => routerAdapter.normalizeExternalRoutes(routeFile),
-  });
+  const router = new Router<any>({ adapter: routerAdapter });
 
   const manifest = new Manifest({
     config,
@@ -58,5 +58,3 @@ const plugin = ({
     buildPlugin({ config, router, manifest }),
   ];
 };
-
-export default plugin;

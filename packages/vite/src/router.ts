@@ -1,8 +1,3 @@
-import type { RadixRouter } from 'radix3';
-import { createRouter } from 'radix3';
-
-import type { Asset } from './helpers/routes';
-
 export type RouteId = string;
 
 export type RouteInfo = {
@@ -18,32 +13,43 @@ export type MatchedRoute = RouteInfo;
 export type NormalizeExternalRoutesFn<ExternalRoutes> = (routes: ExternalRoutes, parentId?: string) => RouteInfo[];
 
 export type RouterAdapter<ExternalRoutes> = {
+  exportName: string;
   normalizeExternalRoutes: NormalizeExternalRoutesFn<ExternalRoutes>;
 };
 
 export type RouterOpts<ExternalRoutes> = {
-  normalizeExternalRoutes: NormalizeExternalRoutesFn<ExternalRoutes>;
+  adapter: RouterAdapter<ExternalRoutes>;
 };
 
 export class Router<ExternalRoutes> {
-  private _normalizeExternalRoutes: NormalizeExternalRoutesFn<ExternalRoutes>;
-  private _routes: RouteInfo[] = [];
-  private _router: RadixRouter<Asset[]>;
+  #routes: RouteInfo[] = [];
+  // #router: RadixRouter<Asset[]>;
+  #adapter: RouterAdapter<ExternalRoutes>;
 
   constructor(opts: RouterOpts<ExternalRoutes>) {
-    this._normalizeExternalRoutes = opts.normalizeExternalRoutes;
-    this._router = createRouter();
+    this.#adapter = opts.adapter;
+    // this.#router = createRouter();
   }
 
-  public setRoutes = (routes: ExternalRoutes) => {
-    const normalizedRoutes = this._normalizeExternalRoutes(routes);
+  public setRoutes = (routesModule?: unknown) => {
+    if (!routesModule || typeof routesModule !== 'object') {
+      throw new Error('Invalid routes file');
+    }
 
-    this._routes = normalizedRoutes;
+    // @ts-expect-error ignore
+    const externalRoutes = routesModule[this.#adapter.exportName];
+    if (!externalRoutes || typeof externalRoutes !== 'object') {
+      throw new Error(`The '${this.#adapter.exportName}' export in the routes file must be an object`);
+    }
+
+    const normalizedRoutes = this.#adapter.normalizeExternalRoutes(externalRoutes);
+
+    this.#routes = normalizedRoutes;
     // this._router = createRouter({ routes: assignRouteIds(normalizedRoutes) });
   };
 
   get routes() {
-    return this._routes;
+    return this.#routes;
   }
 
   // public getMatchedRoutes = (url: string) => {

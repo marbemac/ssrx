@@ -1,6 +1,6 @@
 import type { TanstackQueryPluginCtx } from '@super-ssr/plugin-tanstack-query';
 import { PLUGIN_ID as QUERY_PLUGIN_ID } from '@super-ssr/plugin-tanstack-query';
-import { defineRenderPlugin } from '@super-ssr/renderer-core';
+import { defineRenderPlugin } from '@super-ssr/renderer';
 import type { HTTPBatchLinkOptions, TRPCLink } from '@trpc/client';
 import { createTRPCUntypedClient } from '@trpc/client';
 import { httpBatchLink } from '@trpc/client';
