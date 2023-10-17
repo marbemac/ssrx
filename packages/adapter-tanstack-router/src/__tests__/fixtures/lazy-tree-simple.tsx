@@ -1,6 +1,6 @@
 import { RootRoute, Route } from '@tanstack/react-router';
 
-import { lazyRouteComponent } from '../lazy-route-component.ts';
+import { lazyRouteComponent } from '../../lazy-route-component.ts';
 import { Component as RootLayout } from './pages/root.tsx';
 
 const rootRoute = new RootRoute({ component: RootLayout });

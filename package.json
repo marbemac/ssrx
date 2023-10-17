@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "yarn build && nx watch -p '@super-ssr/*' -- nx run \\$NX_PROJECT_NAME:build",
     "build": "nx run-many -t build -p '@super-ssr/*'",
+    "typecheck": "nx run-many -t typecheck",
+    "clean": "rimraf node_modules packages/**/dist examples/**/dist packages/**/node_modules examples/**/node_modules",
     "dep-graph": "nx graph"
   },
   "resolutions": {
@@ -24,7 +26,6 @@
     "@super-ssr/vite": "workspace:*"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "~0.5.1",
     "@typescript-eslint/eslint-plugin": "6.7.5",
     "@typescript-eslint/parser": "6.7.5",
     "bun-types": "1.0.6",
@@ -34,10 +35,23 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "nx": "16.10.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.2.2",
-    "vite": "5.0.0-beta.8",
-    "vite-plugin-inspect": "0.7.40"
+    "rimraf": "5.0.5",
+    "typescript": "5.2.2"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 120,
+    "trailingComma": "all",
+    "proseWrap": "always",
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "package*.json",
+        "options": {
+          "printWidth": 1000
+        }
+      }
+    ]
   },
   "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",
   "fig": {
@@ -57,32 +71,9 @@
       "priority": 70
     },
     "upgrade-deps": {
-      "description": "Use this to upgrade any deps except NX",
+      "description": "Use this to upgrade any deps",
       "icon": "⏫",
       "priority": 60
-    },
-    "upgrade-nx": {
-      "description": "Use this to upgrade and migrate NX",
-      "icon": "⤴️",
-      "priority": 59
     }
-  },
-  "prettier": {
-    "arrowParens": "avoid",
-    "printWidth": 120,
-    "trailingComma": "all",
-    "proseWrap": "always",
-    "singleQuote": true,
-    "tailwindFunctions": [
-      "tw"
-    ],
-    "overrides": [
-      {
-        "files": "package*.json",
-        "options": {
-          "printWidth": 1000
-        }
-      }
-    ]
   }
 }

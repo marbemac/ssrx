@@ -3,6 +3,8 @@ import React from 'react';
 
 /**
  * Adapted from https://github.com/TanStack/router/blob/806ef336e52d786ea7b5bc5988b96df9526e9218/packages/react-router/src/react.tsx#L266
+ *
+ * The comp.preload property has been adjusted to maintain a reference to the orginal lazy import function.
  */
 export function lazyRouteComponent<T extends Record<string, any>, TKey extends keyof T = 'default'>(
   importer: () => Promise<T>,

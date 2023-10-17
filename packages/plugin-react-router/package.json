@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "react-router-dom": "6.17.0",
-    "tsup": "7.2.0"
+    "tsup": "7.2.0",
+    "typescript": "5.2.2"
   }
 }

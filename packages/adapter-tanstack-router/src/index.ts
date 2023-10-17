@@ -3,6 +3,8 @@ import type { AnyRoute } from '@tanstack/router-core';
 
 import { transformPath } from './transform-path.ts';
 
+export { lazyRouteComponent } from './lazy-route-component.ts';
+
 export const tanstackRouterAdapter = () => {
   const adapter: RouterAdapter<AnyRoute | AnyRoute[]> = {
     normalizeExternalRoutes(externalRoutes): RouteInfo[] {

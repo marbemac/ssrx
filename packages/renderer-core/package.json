@@ -24,8 +24,6 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest",
-    "test.watch": "vitest watch --update",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -34,6 +32,7 @@
   },
   "devDependencies": {
     "tsup": "7.2.0",
-    "type-fest": "4.4.0"
+    "type-fest": "4.4.0",
+    "typescript": "5.2.2"
   }
 }
