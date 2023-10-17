@@ -7,6 +7,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
+        "parallel": 5,
         "cacheableOperations": ["build", "typecheck", "lint", "format", "build.client", "build.server", "test"]
       }
     }

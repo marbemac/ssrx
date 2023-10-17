@@ -6,6 +6,8 @@
   "keywords": [
     "vite-plugin"
   ],
+  "license": "MIT",
+  "author": "marbemac (https://github.com/marbemac)",
   "exports": {
     "./types": "./src/types.ts",
     "./plugin": {

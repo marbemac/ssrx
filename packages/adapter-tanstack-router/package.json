@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
+  "license": "MIT",
+  "author": "marbemac (https://github.com/marbemac)",
   "exports": {
     ".": {
       "bun": "./src/index.ts",
