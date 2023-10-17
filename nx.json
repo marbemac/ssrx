@@ -1,4 +1,5 @@
 {
+  "extends": "nx/presets/npm.json",
   "affected": {
     "defaultBase": "main"
   },

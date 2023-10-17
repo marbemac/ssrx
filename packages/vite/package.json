@@ -19,9 +19,10 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest",
+    "test": "vitest run",
     "test.watch": "vitest watch --update",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "peerDependencies": {
     "vite": ">=4"
@@ -31,9 +32,6 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "0.5.1",
-    "tsup": "7.2.0",
-    "typescript": "5.2.2",
-    "vite": "5.0.0-beta.8",
-    "vitest": "0.34.6"
+    "vite": "5.0.0-beta.8"
   }
 }

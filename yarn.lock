@@ -1671,14 +1671,8 @@ __metadata:
     "@super-ssr/vite": "workspace:*"
     "@tanstack/react-router": "npm:0.0.1-beta.194"
     "@tanstack/router-core": "npm:0.0.1-beta.194"
-    acorn: "npm:8.10.0"
-    acorn-walk: "npm:^8.2.0"
-    estree-walker: "npm:^3.0.3"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
-    vitest: "npm:0.34.6"
   peerDependencies:
     "@tanstack/router-core": <=1
   languageName: unknown
@@ -1690,8 +1684,6 @@ __metadata:
   dependencies:
     "@super-ssr/renderer-core": "npm:latest"
     react-router-dom: "npm:6.17.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
   peerDependencies:
     react-router-dom: ^6
   languageName: unknown
@@ -1704,8 +1696,6 @@ __metadata:
     "@solidjs/router": "npm:0.8.3"
     "@super-ssr/renderer-core": "npm:latest"
     esbuild-plugin-solid: "npm:0.5.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
   peerDependencies:
     "@solidjs/router": "*"
   languageName: unknown
@@ -1719,8 +1709,6 @@ __metadata:
     "@tanstack/query-core": "npm:^5.0.0"
     "@tanstack/query-devtools": "npm:^5.0.0"
     devalue: "npm:^4.3.2"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
   peerDependencies:
     "@tanstack/query-core": ^5
   languageName: unknown
@@ -1735,8 +1723,6 @@ __metadata:
     "@tanstack/react-query": "npm:^5.0.0"
     "@trpc/client": "npm:^10.40.0"
     "@trpc/server": "npm:^10.40.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
   peerDependencies:
     "@tanstack/react-query": ^5
   languageName: unknown
@@ -1750,8 +1736,6 @@ __metadata:
     "@unhead/addons": "npm:~1.7.4"
     "@unhead/schema": "npm:~1.7.5"
     "@unhead/ssr": "npm:~1.7.4"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
     unhead: "npm:~1.7.4"
   languageName: unknown
   linkType: soft
@@ -1764,8 +1748,6 @@ __metadata:
     "@super-ssr/vite": "npm:latest"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
@@ -1778,9 +1760,27 @@ __metadata:
   dependencies:
     "@super-ssr/vite": "workspace:*"
     deepmerge: "npm:4.3.1"
-    tsup: "npm:7.2.0"
     type-fest: "npm:4.4.0"
+  languageName: unknown
+  linkType: soft
+
+"@super-ssr/root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@super-ssr/root@workspace:."
+  dependencies:
+    "@typescript-eslint/eslint-plugin": "npm:6.7.5"
+    "@typescript-eslint/parser": "npm:6.7.5"
+    bun-types: "npm:1.0.6"
+    eslint: "npm:8.51.0"
+    eslint-config-prettier: "npm:^9.0.0"
+    eslint-plugin-import: "npm:^2.28.1"
+    eslint-plugin-jsx-a11y: "npm:^6.7.1"
+    eslint-plugin-simple-import-sort: "npm:^10.0.0"
+    nx: "npm:16.10.0"
+    rimraf: "npm:5.0.5"
+    tsup: "npm:7.2.0"
     typescript: "npm:5.2.2"
+    vitest: "npm:0.34.6"
   languageName: unknown
   linkType: soft
 
@@ -1792,8 +1792,6 @@ __metadata:
     "@super-ssr/vite": "npm:latest"
     esbuild-plugin-solid: "npm:0.5.0"
     solid-js: "npm:1.8.1"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
   peerDependencies:
     solid-js: "*"
   languageName: unknown
@@ -1805,10 +1803,7 @@ __metadata:
   dependencies:
     "@total-typescript/ts-reset": "npm:0.5.1"
     radix3: "npm:^1.1.0"
-    tsup: "npm:7.2.0"
-    typescript: "npm:5.2.2"
     vite: "npm:5.0.0-beta.8"
-    vitest: "npm:0.34.6"
   peerDependencies:
     vite: ">=4"
   languageName: unknown
@@ -2385,7 +2380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:8.10.0, acorn@npm:^8.10.0, acorn@npm:^8.9.0":
+"acorn@npm:^8.10.0, acorn@npm:^8.9.0":
   version: 8.10.0
   resolution: "acorn@npm:8.10.0"
   bin:
@@ -4177,15 +4172,6 @@ __metadata:
   version: 2.0.2
   resolution: "estree-walker@npm:2.0.2"
   checksum: 6fd7656e20b3c8f1fa74cd3d922e09d2cc9815ba5ea2d4cc0d5f16870b00e4c40d9aaae5efeb26299ea684a89b8e64868f42ecdddd45e8d18283f47098c9943a
-  languageName: node
-  linkType: hard
-
-"estree-walker@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "estree-walker@npm:3.0.3"
-  dependencies:
-    "@types/estree": "npm:^1.0.0"
-  checksum: 0c44966bc57eeafacb2ba2eda8e12e2d7d298fe44bd4e93ad9c9a5c3c6521fac8eb2f3499a500a44dc630e846bc35aff3a50824521bd7c1d767fd4d1d103d3d7
   languageName: node
   linkType: hard
 
@@ -7382,24 +7368,6 @@ __metadata:
   checksum: 1ddbc13461d179c3ac2d8cf7ed8c9f95a075ea819fd5166b515c54dc8687db7592dd92e5a141ec8387b10ce4d0e908ace2ae5f21f5eb28ee115dd5297a9acccd
   languageName: node
   linkType: hard
-
-"super-ssr-monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "super-ssr-monorepo@workspace:."
-  dependencies:
-    "@typescript-eslint/eslint-plugin": "npm:6.7.5"
-    "@typescript-eslint/parser": "npm:6.7.5"
-    bun-types: "npm:1.0.6"
-    eslint: "npm:8.51.0"
-    eslint-config-prettier: "npm:^9.0.0"
-    eslint-plugin-import: "npm:^2.28.1"
-    eslint-plugin-jsx-a11y: "npm:^6.7.1"
-    eslint-plugin-simple-import-sort: "npm:^10.0.0"
-    nx: "npm:16.10.0"
-    rimraf: "npm:5.0.5"
-    typescript: "npm:5.2.2"
-  languageName: unknown
-  linkType: soft
 
 "supports-color@npm:^5.3.0":
   version: 5.5.0

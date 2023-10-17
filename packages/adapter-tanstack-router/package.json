@@ -11,26 +11,19 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest",
+    "test": "vitest run",
     "test.watch": "vitest watch --update",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "peerDependencies": {
     "@tanstack/router-core": "<=1"
-  },
-  "dependencies": {
-    "acorn-walk": "^8.2.0",
-    "estree-walker": "^3.0.3"
   },
   "devDependencies": {
     "@super-ssr/vite": "workspace:*",
     "@tanstack/react-router": "0.0.1-beta.194",
     "@tanstack/router-core": "0.0.1-beta.194",
-    "acorn": "8.10.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tsup": "7.2.0",
-    "typescript": "5.2.2",
-    "vitest": "0.34.6"
+    "react-dom": "18.2.0"
   }
 }

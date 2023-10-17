@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "peerDependencies": {
     "@solidjs/router": "*"
@@ -21,8 +22,6 @@
   },
   "devDependencies": {
     "@solidjs/router": "0.8.3",
-    "esbuild-plugin-solid": "0.5.0",
-    "tsup": "7.2.0",
-    "typescript": "5.2.2"
+    "esbuild-plugin-solid": "0.5.0"
   }
 }

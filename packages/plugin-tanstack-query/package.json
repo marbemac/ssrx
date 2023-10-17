@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "peerDependencies": {
     "@tanstack/query-core": "^5"
@@ -22,8 +23,6 @@
   },
   "devDependencies": {
     "@tanstack/query-core": "^5.0.0",
-    "@tanstack/query-devtools": "^5.0.0",
-    "tsup": "7.2.0",
-    "typescript": "5.2.2"
+    "@tanstack/query-devtools": "^5.0.0"
   }
 }

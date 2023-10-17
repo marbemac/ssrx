@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@super-ssr/renderer-core": "latest",
@@ -19,9 +20,5 @@
     "@unhead/schema": "~1.7.5",
     "@unhead/ssr": "~1.7.4",
     "unhead": "~1.7.4"
-  },
-  "devDependencies": {
-    "tsup": "7.2.0",
-    "typescript": "5.2.2"
   }
 }
