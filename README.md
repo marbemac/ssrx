@@ -149,6 +149,20 @@ cloudflare, vercel, etc).
 See the [streaming-kitchen-sink](examples/streaming-kitchen-sink/README.md) example for a look at how everything can
 work together in practice.
 
+### Directory
+
+| Package                                                         | Release Notes                                                                                                                                                    |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [@ssrx/renderer](packages/renderer)                             | [![@ssrx/renderer version](https://img.shields.io/npm/v/@ssrx/renderer.svg?label=%20)](packages/renderer/CHANGELOG.md)                                           |
+| [@ssrx/react](packages/react)                                   | [![@ssrx/react version](https://img.shields.io/npm/v/@ssrx/react.svg?label=%20)](packages/react/CHANGELOG.md)                                                    |
+| [@ssrx/solid](packages/solid)                                   | [![@ssrx/solid version](https://img.shields.io/npm/v/@ssrx/solid.svg?label=%20)](packages/solid/CHANGELOG.md)                                                    |
+| [@ssrx/plugin-react-router](packages/plugin-react-router)       | [![@ssrx/plugin-react-router version](https://img.shields.io/npm/v/@ssrx/plugin-react-router.svg?label=%20)](packages/solid/CHANGELOG.md)                        |
+| [@ssrx/plugin-solid-router](packages/plugin-solid-router)       | [![@ssrx/plugin-solid-router version](https://img.shields.io/npm/v/@ssrx/plugin-solid-router.svg?label=%20)](packages/plugin-solid-router/CHANGELOG.md)          |
+| [@ssrx/plugin-tanstack-query](packages/plugin-tanstack-query)   | [![@ssrx/plugin-tanstack-query version](https://img.shields.io/npm/v/@ssrx/plugin-tanstack-query.svg?label=%20)](packages/plugin-tanstack-query/CHANGELOG.md)    |
+| [@ssrx/plugin-tanstack-router](packages/plugin-tanstack-router) | [![@ssrx/plugin-tanstack-router version](https://img.shields.io/npm/v/@ssrx/plugin-tanstack-router.svg?label=%20)](packages/plugin-tanstack-router/CHANGELOG.md) |
+| [@ssrx/plugin-trpc-react](packages/plugin-trpc-react)           | [![@ssrx/plugin-trpc-react version](https://img.shields.io/npm/v/@ssrx/plugin-trpc-react.svg?label=%20)](packages/plugin-trpc-react/CHANGELOG.md)                |
+| [@ssrx/plugin-unhead](packages/plugin-unhead)                   | [![@ssrx/plugin-unhead version](https://img.shields.io/npm/v/@ssrx/plugin-unhead.svg?label=%20)](packages/plugin-unhead/CHANGELOG.md)                            |
+
 ### Usage
 
 `@ssrx/renderer` exports a `createApp` function that allows you to compose all the pieces necessary to render a SSR
@@ -264,19 +278,6 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
   };
 };
 ```
-
-### Officially supported renderer packages
-
-- `@ssrx/renderer`: The core renderer - usually you will use a framework specific package, such as `@ssrx/react` or
-  `@ssrx/solid`.
-- `@ssrx/react`: Wraps `@ssrx/renderer` for react applications.
-- `@ssrx/solid`: Wraps `@ssrx/renderer` for solidjs applications.
-- `@ssrx/plugin-react-router`
-- `@ssrx/plugin-solid-router`
-- `@ssrx/plugin-tanstack-query`
-- `@ssrx/plugin-tanstack-router`
-- `@ssrx/plugin-trpc-react`
-- `@ssrx/plugin-unhead`
 
 ## Inspiration
 
