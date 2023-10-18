@@ -168,7 +168,7 @@ async function findDependencies(vite: ViteDevServer, match: string[], ssr: boole
 
 const ASSET_REGEXES = {
   styles: /\.(css|less|sass|scss|styl|stylus|pcss|postcss)$/,
-  external: /\\node_modules\/.*|\\inc\/.*/,
+  external: /\/(node_modules|inc)\/.*/,
   static: /\.(txt|ico|svg|webp|png|jpg|jpeg|gif|mp3)$/,
   runtime: /\.(js|ts|tsx|jsx)$/,
 
