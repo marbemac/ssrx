@@ -7,6 +7,7 @@ import type { ServerRuntime } from './types';
 export type ConfigOpts = {
   root?: string;
   mode?: string;
+  basePath?: string;
   clientOutDir?: string;
   serverOutDir?: string;
   routesFile?: string;
@@ -26,24 +27,36 @@ const RUNTIME_CONDITIONS: Record<ServerRuntime, string[]> = {
 export class Config {
   public root: string;
   public mode: string;
+
   public readonly clientOutDir: string;
   public readonly serverOutDir: string;
   public readonly routesFile: string;
+
+  // relative path to client entry, as it is passed in by end user
   public readonly clientEntry: string;
+
+  // absolute path to the client entry file
+  public readonly clientFile: string;
+
   public readonly serverFile: string;
   public readonly shouldModulePreload: boolean;
   public readonly runtime: ServerRuntime;
 
+  #basePath: string = '';
+
   constructor(opts: ConfigOpts) {
     this.root = normalizePath(opts.root || '');
+    this.mode = opts.mode || 'development';
+    this.basePath = opts.basePath || '/';
+
     this.clientOutDir = opts.clientOutDir || 'dist/client';
     this.serverOutDir = opts.serverOutDir || 'dist/server';
-    this.mode = opts.mode || 'development';
     this.runtime = opts.runtime || 'node';
 
     this.routesFile = normalizePath(path.resolve(path.join(this.root, opts.routesFile || 'src/routes.ts')));
 
-    this.clientEntry = normalizePath(path.resolve(path.join(opts.clientEntry || 'src/entry.client.tsx')));
+    this.clientEntry = opts.clientEntry || 'src/entry.client.tsx';
+    this.clientFile = normalizePath(path.resolve(path.join(this.clientEntry)));
 
     this.serverFile = normalizePath(path.resolve(path.join(opts.serverFile || 'src/server.ts')));
 
@@ -68,5 +81,23 @@ export class Config {
 
   get runtimeConditions() {
     return RUNTIME_CONDITIONS[this.runtime];
+  }
+
+  get basePath() {
+    return this.#basePath;
+  }
+
+  /**
+   * Normalize basePath when we set it. Vite sometimes adds slash at the end turning /foo into /foo/, or //foo etc.
+   * We want to make sure basePath is always normalized to /foo.
+   */
+  set basePath(val: string) {
+    // strip leading and trailing slashes
+    let bp = val ? `/${val.replace(/^\/+|\/+$/g, '')}` : '';
+
+    // if basePath is root /, set it to empty string
+    bp = bp === '/' ? '' : bp;
+
+    this.#basePath = bp;
   }
 }

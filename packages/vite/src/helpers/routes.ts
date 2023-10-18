@@ -241,6 +241,17 @@ export const getAssetWeight = (asset: string): number => {
   }
 };
 
+export const buildAssetUrl = (assetPath: string, basePath?: string) => {
+  // strip leading and trailing slashes
+  const bp = basePath ? basePath.replace(/^\/+|\/+$/g, '') : '';
+  if (!bp) return assetPath;
+
+  // strip leading and trailing slashes
+  const ap = assetPath.replace(/^\/+|\/+$/g, '');
+
+  return `/${bp}/${ap}`;
+};
+
 /**
  * --------------
  * Internal below

@@ -127,9 +127,9 @@ export default defineConfig({
     // The plugin, with all of it's defaults.
     // You only need to set these options if they deviate from the defaults.
     ssrx({
-      routesFile: './src/routes.tsx',
-      clientEntry: './src/entry.client.tsx',
-      serverFile: './src/server.ts',
+      routesFile: 'src/routes.tsx',
+      clientEntry: 'src/entry.client.tsx',
+      serverFile: 'src/server.ts',
       clientOutDir: 'dist/public',
       serverOutDir: 'dist',
       runtime: 'node',
@@ -290,3 +290,4 @@ plugin.
 - https://github.com/Lomray-Software/vite-ssr-boost
 - https://github.com/nksaraf/vinxi
 - https://github.com/fastify/fastify-vite
+- https://github.com/honojs/vite-plugins/tree/main/packages/dev-server

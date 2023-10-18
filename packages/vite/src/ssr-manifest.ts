@@ -8,6 +8,7 @@ import {
   assetsToHtml,
   assetsToTags,
   AssetType,
+  buildAssetUrl,
   emptySSRManifest,
   generateSSRManifest,
   getAssetWeight,
@@ -177,26 +178,24 @@ export class Manifest<ExternalRoutes> {
       throw new Error('Cannot call getAssetsDev() without a vite server');
     }
 
-    const clientEntryId = this.config.clientEntry;
-
     const assets: Asset[] = [];
 
     // push the vite dev entry
     assets.push({
       type: AssetType.script,
-      url: '/@vite/client',
+      url: buildAssetUrl('/@vite/client', this.config.basePath),
       weight: getAssetWeight('script.js'),
     });
 
     // push the main entry
     assets.push({
       type: AssetType.script,
-      url: this.config.clientEntry,
+      url: buildAssetUrl(this.config.clientEntry, this.config.basePath),
       weight: getAssetWeight(this.config.clientEntry),
     });
 
     // styles
-    const styleAssets = await findStylesInModuleGraph(devServer, [clientEntryId], false);
+    const styleAssets = await findStylesInModuleGraph(devServer, [this.config.clientFile], false);
     assets.push(...Object.values(styleAssets));
 
     return assets;

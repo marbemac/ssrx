@@ -8,7 +8,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   entry: ['src/index.ts'],
-  external: ['virtual:super-ssr-manifest'],
+  external: ['virtual:ssrx-manifest'],
   esbuildPlugins: [
     solidPlugin({
       solid: {
