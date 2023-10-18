@@ -20,6 +20,7 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
     configResolved(viteConfig) {
       config.root = viteConfig.root;
       config.mode = viteConfig.mode;
+      config.basePath = viteConfig.base;
     },
   };
 };

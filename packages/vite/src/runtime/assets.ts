@@ -1,6 +1,6 @@
 import type { RadixRouter } from 'radix3';
 import { createRouter } from 'radix3';
-import ssrManifest from 'virtual:super-ssr-manifest';
+import ssrManifest from 'virtual:ssrx-manifest';
 
 import type { AssetHtmlTag, SSRRouteManifest } from '../helpers/routes.ts';
 import { assetsToTags } from '../helpers/routes.ts';

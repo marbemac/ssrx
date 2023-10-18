@@ -12,10 +12,6 @@ import type { ModuleNode, ViteDevServer } from 'vite';
 
 import { type Asset, AssetType, getAssetWeight } from './routes.ts';
 
-// Vite doesn't expose this
-// https://github.com/vitejs/vite/blob/3edd1af56e980aef56641a5a51cf2932bb580d41/packages/vite/src/node/plugins/css.ts#L96
-const STYLE_ASSET_REGEX = /\.(css|less|sass|scss|styl|stylus|pcss|postcss)$/;
-
 export async function findStylesInModuleGraph(vite: ViteDevServer, match: string[], ssr: boolean) {
   const assets: { [id: string]: Asset } = {};
 
@@ -24,7 +20,7 @@ export async function findStylesInModuleGraph(vite: ViteDevServer, match: string
   for (const dep of dependencies) {
     const { file, url } = dep;
 
-    if (file && STYLE_ASSET_REGEX.test(file)) {
+    if (file && ASSET_REGEXES.styles.test(file)) {
       try {
         const mod = await vite.ssrLoadModule(url);
 
@@ -121,6 +117,8 @@ async function findDeps(vite: ViteDevServer, node: ModuleNode, deps: Set<ModuleN
   }
 
   async function add_by_url(url: string, ssr: boolean) {
+    if (!isInternalRuntimeAsset(url)) return;
+
     const node = await getViteModuleNode(vite, url, ssr);
 
     if (node) {
@@ -128,13 +126,15 @@ async function findDeps(vite: ViteDevServer, node: ModuleNode, deps: Set<ModuleN
     }
   }
 
-  if (node.url.endsWith('.css')) {
+  if (ASSET_REGEXES.styles.test(node.url)) {
     return;
   }
 
   if (ssr && node.ssrTransformResult) {
     if (node.ssrTransformResult.deps) {
-      node.ssrTransformResult.deps.forEach(url => branches.push(add_by_url(url, ssr)));
+      node.ssrTransformResult.deps.forEach(url => {
+        branches.push(add_by_url(url, ssr));
+      });
     }
 
     // if (node.ssrTransformResult.dynamicDeps) {
@@ -165,3 +165,60 @@ async function findDependencies(vite: ViteDevServer, match: string[], ssr: boole
 
   return deps;
 }
+
+const ASSET_REGEXES = {
+  styles: /\.(css|less|sass|scss|styl|stylus|pcss|postcss)$/,
+  external: /\\node_modules\/.*|\\inc\/.*/,
+  static: /\.(txt|ico|svg|webp|png|jpg|jpeg|gif|mp3)$/,
+  runtime: /\.(js|ts|tsx|jsx)$/,
+
+  // Vite plugins generally use `/@xyz/...` as the prefix for their assets
+  // SOME vite plugins, however, use a nul character \0, for example this one:
+  // https://github.com/vitejs/vite/blob/main/packages/vite/src/node/plugins/dynamicImportVars.ts#L22
+  vite: /^\/@.+|^\0vite\/.+/,
+};
+
+export const isInternalRuntimeAsset = (assetPath: string) => {
+  return (
+    (ASSET_REGEXES.runtime.test(assetPath) || ASSET_REGEXES.styles.test(assetPath)) &&
+    !ASSET_REGEXES.vite.test(assetPath) &&
+    !ASSET_REGEXES.external.test(assetPath)
+  );
+};
+
+export const isAssetHandledByVite = (assetPath: string, basePath?: string) => {
+  const [reqPath, reqSearch] = assetPath.split('?');
+
+  /**
+   * Vite adds ?import to dynamic imports - we can use this to identify that requests such as:
+   *
+   * const { default: albums } = await import('../data/albums.json');
+   *
+   * should be handled by the vite server.
+   */
+  if (reqSearch === 'import') {
+    return true;
+  }
+
+  const pathname = trimBasePath(reqPath, basePath);
+  if (!pathname) return false;
+
+  return (
+    ASSET_REGEXES.external.test(pathname) ||
+    ASSET_REGEXES.runtime.test(pathname) ||
+    ASSET_REGEXES.vite.test(pathname) ||
+    ASSET_REGEXES.styles.test(pathname) ||
+    ASSET_REGEXES.static.test(pathname)
+  );
+};
+
+const trimBasePath = (reqPath?: string, basePath?: string) => {
+  if (!reqPath) return reqPath;
+
+  if (basePath) {
+    if (reqPath.startsWith(basePath)) {
+      return reqPath.substring(basePath.length);
+    }
+  }
+  return reqPath;
+};

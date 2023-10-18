@@ -1,1 +1,1 @@
-export const PLUGIN_NAMESPACE = 'super-ssr';
+export const PLUGIN_NAMESPACE = 'ssrx';

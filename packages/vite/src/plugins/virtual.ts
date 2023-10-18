@@ -12,7 +12,7 @@ export type VirtualPluginOpts = {
 };
 
 export const virtualPlugin = ({ router, manifest }: VirtualPluginOpts): Plugin => {
-  const prefix = /^virtual:super-ssr-/;
+  const prefix = /^virtual:ssrx-/;
 
   const loadVirtualModule = (virtual: string) => {
     if (virtual === 'routes') {
