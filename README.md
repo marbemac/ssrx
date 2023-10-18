@@ -3,8 +3,11 @@
 SSRx provides the missing pieces required to create SSR apps with Vite and your third party libraries of choice. It is
 framework agnostic on the client and the server - use React, Solid, Hono, H3, Cloudflare, Bun, you name it.
 
-SSRx is split into two parts - a Vite plugin and a group of packages that help to organize common streaming patterns
-(these are optional!).
+SSRx is split into two parts:
+
+1. A Vite plugin to improve the DX of developing SSR apps (can be used on it's own).
+2. A "renderer" that makes it easy to hook into the lifecycle of a streaming SSR app in a framework/library agnostic
+   way.
 
 ## `@ssrx/vite`
 
