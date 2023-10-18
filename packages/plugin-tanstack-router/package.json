@@ -1,5 +1,5 @@
 {
-  "name": "@ssrx/adapter-tanstack-router",
+  "name": "@ssrx/plugin-tanstack-router",
   "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
@@ -8,12 +8,16 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/marbemac/ssrx",
-    "directory": "packages/adapter-tanstack-router"
+    "directory": "packages/plugin-tanstack-router"
   },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
       "import": "./dist/index.js"
+    },
+    "./adapter": {
+      "bun": "./src/adapter.ts",
+      "import": "./dist/adapter.js"
     }
   },
   "scripts": {

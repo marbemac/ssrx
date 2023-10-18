@@ -37,6 +37,13 @@ SSR apps, not to provide solutions for routing, deployment, etc.
 
 ### Usage
 
+First, install deps via yarn, npm, etc, along these lines:
+
+```
+yarn add @ssrx/vite
+yarn add -D vite@5
+```
+
 `@ssrx/vite` is mostly unopinionated, but does require 3 things:
 
 #### Requirement 1 - a client entry file
@@ -267,6 +274,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
 - `@ssrx/plugin-react-router`
 - `@ssrx/plugin-solid-router`
 - `@ssrx/plugin-tanstack-query`
+- `@ssrx/plugin-tanstack-router`
 - `@ssrx/plugin-trpc-react`
 - `@ssrx/plugin-unhead`
 

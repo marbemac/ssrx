@@ -3,8 +3,6 @@ import type { AnyRoute } from '@tanstack/router-core';
 
 import { transformPath } from './transform-path.ts';
 
-export { lazyRouteComponent } from './lazy-route-component.ts';
-
 type TanstackRouterAdapterOpts = {
   /**
    * The name of the export from the routes file.

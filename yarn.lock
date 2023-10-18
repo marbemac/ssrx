@@ -1947,20 +1947,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ssrx/adapter-tanstack-router@workspace:packages/adapter-tanstack-router":
-  version: 0.0.0-use.local
-  resolution: "@ssrx/adapter-tanstack-router@workspace:packages/adapter-tanstack-router"
-  dependencies:
-    "@ssrx/vite": "npm:^0.0.1"
-    "@tanstack/react-router": "npm:0.0.1-beta.194"
-    "@tanstack/router-core": "npm:0.0.1-beta.194"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
-  peerDependencies:
-    "@tanstack/router-core": <=1
-  languageName: unknown
-  linkType: soft
-
 "@ssrx/plugin-react-router@workspace:*, @ssrx/plugin-react-router@workspace:packages/plugin-react-router":
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-react-router@workspace:packages/plugin-react-router"
@@ -1994,6 +1980,20 @@ __metadata:
     devalue: "npm:^4.3.2"
   peerDependencies:
     "@tanstack/query-core": ^5
+  languageName: unknown
+  linkType: soft
+
+"@ssrx/plugin-tanstack-router@workspace:packages/plugin-tanstack-router":
+  version: 0.0.0-use.local
+  resolution: "@ssrx/plugin-tanstack-router@workspace:packages/plugin-tanstack-router"
+  dependencies:
+    "@ssrx/vite": "npm:^0.0.1"
+    "@tanstack/react-router": "npm:0.0.1-beta.194"
+    "@tanstack/router-core": "npm:0.0.1-beta.194"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+  peerDependencies:
+    "@tanstack/router-core": <=1
   languageName: unknown
   linkType: soft
 
