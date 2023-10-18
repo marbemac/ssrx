@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -43,8 +43,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.0.1",
-    "@ssrx/vite": "^0.0.1"
+    "@ssrx/renderer": "^0.1.0",
+    "@ssrx/vite": "^0.1.0"
   },
   "devDependencies": {
     "react": "18.2.0",

@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/renderer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ssrx/vite": "^0.0.1",
+    "@ssrx/vite": "^0.1.0",
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
