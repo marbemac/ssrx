@@ -6,6 +6,8 @@ import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 
 import type { Connect, Plugin, ViteDevServer } from 'vite';
 
+import { isAssetHandledByVite } from '~/helpers/vite.ts';
+
 import type { Config } from '../config.ts';
 import { PLUGIN_NAMESPACE } from '../consts.ts';
 import type { Router } from '../router.ts';
@@ -28,37 +30,32 @@ export const devServerPlugin = ({ config, manifest }: DevServerPluginOpts): Plug
 
       manifest.setViteServer(server);
 
-      server.middlewares.use(await createMiddleware(server, { entry: config.serverFile }));
+      server.middlewares.use(await createMiddleware(server, { config }));
     },
   };
 };
 
 export type DevServerOptions = {
-  entry: string;
-  injectClientScript?: boolean;
-  exclude?: (string | RegExp)[];
-};
-
-const defaultOptions: Required<Omit<DevServerOptions, 'entry'>> = {
-  injectClientScript: true,
-  exclude: ['.*.ts', '.*.tsx', '.*.css', '/@.+', '/node_modules/.*', '/inc/.*', '.*.txt', '.*.ico'],
+  config: Config;
 };
 
 type Fetch = (request: Request) => Promise<Response>;
 
 const SKIP_REQ = Symbol('skip_req');
 
+/*!
+ * Portions of this code are inspired by honojs/vite-plugins
+ *
+ * Credits to Hono:
+ * https://github.com/honojs/vite-plugins
+ */
 async function createMiddleware(server: ViteDevServer, options: DevServerOptions): Promise<Connect.HandleFunction> {
   return async function (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction): Promise<void> {
-    const entry = options.entry;
-    const exclude = options?.exclude ?? defaultOptions.exclude;
+    const { config } = options;
+    const entry = config.serverFile;
 
-    for (const pattern of exclude) {
-      const regExp = new RegExp(`^${pattern}$`);
-      const pathname = req.url?.split('?')[0];
-      if (pathname && regExp.test(pathname)) {
-        return next();
-      }
+    if (isAssetHandledByVite(req.url || '', config.basePath)) {
+      return next();
     }
 
     let app: { fetch: Fetch } | undefined;
@@ -66,18 +63,19 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
     try {
       const appModule = await server.ssrLoadModule(entry, { fixStacktrace: true });
       app = appModule['default'] as { fetch: Fetch };
-
-      if (!app.fetch) {
-        throw new Error(
-          `The 'default' export of your server file ('${entry}') must be an object with a 'fetch' method.`,
-        );
-      }
     } catch (err: any) {
+      res.setHeader('Content-Type', 'text/html');
       return next(err);
     }
 
     if (!app) {
+      res.setHeader('Content-Type', 'text/html');
       return next(new Error(`Failed to find a named export "default" from ${entry}`));
+    } else if (!app.fetch) {
+      res.setHeader('Content-Type', 'text/html');
+      return next(
+        new Error(`The 'default' export of your server file ('${entry}') must be an object with a 'fetch' method.`),
+      );
     }
 
     void getRequestListener(async (request: Request) => {
@@ -88,22 +86,6 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
         // we pass these through to vite to display in the error overlay
         if (response instanceof Error) {
           throw response;
-        }
-
-        if (
-          options?.injectClientScript !== false &&
-          // If the response is a stream, it does not inject the script (end user must handle it themselves):
-          !response.headers.get('transfer-encoding')?.match('chunked') &&
-          response.headers.get('content-type')?.match(/^text\/html/)
-        ) {
-          const body = await response.text();
-          const headers = new Headers(response.headers);
-          headers.delete('content-length');
-
-          return new Response(body, {
-            status: response.status,
-            headers,
-          });
         }
 
         return response;

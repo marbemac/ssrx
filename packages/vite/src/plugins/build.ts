@@ -32,7 +32,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
 
       isSsr = !!env.ssrBuild;
 
-      const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientEntry };
+      const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientFile };
 
       return {
         ssr: {

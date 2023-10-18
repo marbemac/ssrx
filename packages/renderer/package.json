@@ -39,6 +39,6 @@
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
-    "type-fest": "4.4.0"
+    "type-fest": "4.5.0"
   }
 }

@@ -25,9 +25,9 @@ export { defaultRouterAdapter } from './default-router-adapter.ts';
 
 export const ssrx = ({
   routerAdapter = defaultRouterAdapter(),
-  routesFile = './src/routes.tsx',
-  clientEntry = './src/entry.client.tsx',
-  serverFile = './src/server.ts',
+  routesFile = 'src/routes.tsx',
+  clientEntry = 'src/entry.client.tsx',
+  serverFile = 'src/server.ts',
   clientOutDir = 'dist/public',
   serverOutDir = 'dist',
   runtime = 'node',
