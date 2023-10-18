@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/release-debug",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -10,7 +10,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/release-debug"
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "bun": "./src/server/index.ts",
