@@ -1,0 +1,39 @@
+{
+  "id": "7",
+  "name": "Franz Ferdinand",
+  "artist": "Franz Ferdinand",
+  "img": "https://www.theaudiodb.com/images/media/album/thumb/franz-ferdinand-4dd465083a9a8.jpg",
+  "tracks": [
+    { "id": "7-1", "position": 1, "title": "Jacqueline", "length": "3:49" },
+    {
+      "id": "7-2",
+      "position": 2,
+      "title": "Tell Her Tonight",
+      "length": "2:18"
+    },
+    { "id": "7-3", "position": 3, "title": "Take Me Out", "length": "3:57" },
+    {
+      "id": "7-4",
+      "position": 4,
+      "title": "The Dark of the Matinée",
+      "length": "4:03"
+    },
+    { "id": "7-5", "position": 5, "title": "Auf Achse", "length": "4:20" },
+    {
+      "id": "7-6",
+      "position": 6,
+      "title": "Cheating on You",
+      "length": "2:37"
+    },
+    { "id": "7-7", "position": 7, "title": "This Fire", "length": "4:15" },
+    {
+      "id": "7-8",
+      "position": 8,
+      "title": "Darts of Pleasure",
+      "length": "3:00"
+    },
+    { "id": "7-9", "position": 9, "title": "Michael", "length": "3:21" },
+    { "id": "7-10", "position": 10, "title": "Come On Home", "length": "3:46" },
+    { "id": "7-11", "position": 11, "title": "40′", "length": "3:23" }
+  ]
+}

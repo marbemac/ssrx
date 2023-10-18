@@ -1,0 +1,32 @@
+{
+  "name": "react-router-records",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@elysiajs/static": "0.7.1",
+    "@ssrx/plugin-react-router": "latest",
+    "@ssrx/react": "latest",
+    "elysia": "0.7.17",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.17.0"
+  },
+  "devDependencies": {
+    "@ssrx/vite": "latest",
+    "@types/react": "18.2.28",
+    "@types/react-dom": "18.2.13",
+    "@vitejs/plugin-react": "4.1.0",
+    "autoprefixer": "10.4.16",
+    "postcss": "8.4.31",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2",
+    "vite": "5.0.0-beta.8",
+    "vite-tsconfig-paths": "4.2.1"
+  }
+}

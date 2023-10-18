@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.vinyl-animation-in {
+  animation: appear 600ms ease-in-out 300ms forwards;
+}
+.vinyl-animation-in-spinning {
+  animation: appear 600ms ease-in-out 300ms forwards, spin 5s linear infinite;
+}
+.vinyl-animation-out {
+  animation: disappear 300ms ease-in-out forwards;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes appear {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    left: 24%;
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  0% {
+    left: 24%;
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+    opacity: 0;
+  }
+}
+
+a.transitioning .c-card--album,
+.c-record--album {
+  view-transition-name: album-expand;
+}
+
+::view-transition-old(album-expand):not(:only-child),
+::view-transition-new(album-expand):not(:only-child) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+a.transitioning .c-card--vinyl,
+.c-record--vinyl {
+  view-transition-name: vinyl-expand;
+}
+
+::view-transition-old(vinyl-expand):not(:only-child),
+::view-transition-new(vinyl-expand):not(:only-child) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.c-player {
+  view-transition-name: 'player';
+}
+
+::view-transition-old(player) {
+  display: none;
+}
+
+::view-transition-new(player) {
+  animation: none;
+}
