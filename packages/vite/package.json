@@ -10,6 +10,11 @@
   ],
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/vite"
+  },
   "exports": {
     "./types": "./src/types.ts",
     "./plugin": {

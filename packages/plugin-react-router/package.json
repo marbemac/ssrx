@@ -4,7 +4,15 @@
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "react-router"
+  ],
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/plugin-react-router"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -20,7 +28,7 @@
     "react-router-dom": "^6"
   },
   "dependencies": {
-    "@ssrx/renderer": "latest"
+    "@ssrx/renderer": "^0.0.1"
   },
   "devDependencies": {
     "react-router-dom": "6.17.0"

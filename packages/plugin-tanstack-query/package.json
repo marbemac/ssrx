@@ -5,6 +5,11 @@
   "type": "module",
   "license": "MIT",
   "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/plugin-tanstack-query"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -20,7 +25,7 @@
     "@tanstack/query-core": "^5"
   },
   "dependencies": {
-    "@ssrx/renderer": "latest",
+    "@ssrx/renderer": "^0.0.1",
     "devalue": "^4.3.2"
   },
   "devDependencies": {

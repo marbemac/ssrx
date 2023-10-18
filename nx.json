@@ -3,6 +3,10 @@
   "affected": {
     "defaultBase": "main"
   },
+  "workspaceLayout": {
+    "appsDir": "examples",
+    "libsDir": "packages"
+  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
