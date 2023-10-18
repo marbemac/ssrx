@@ -1,0 +1,37 @@
+{
+  "id": "3",
+  "name": "Inside In/Inside Out",
+  "artist": "The Kooks",
+  "img": "https://www.theaudiodb.com/images/media/album/thumb/inside-ininside-out-4e5608971ceb2.jpeg",
+  "tracks": [
+    { "id": "3-1", "position": 1, "title": "Seaside", "length": "1:39" },
+    { "id": "3-2", "position": 2, "title": "See the World", "length": "2:38" },
+    { "id": "3-3", "position": 3, "title": "Sofa Song", "length": "2:13" },
+    { "id": "3-4", "position": 4, "title": "Eddie’s Gun", "length": "2:13" },
+    { "id": "3-5", "position": 5, "title": "Ooh La", "length": "3:29" },
+    {
+      "id": "3-6",
+      "position": 6,
+      "title": "You Don’t Love Me",
+      "length": "2:35"
+    },
+    {
+      "id": "3-7",
+      "position": 7,
+      "title": "She Moves in Her Own Way",
+      "length": "2:49"
+    },
+    { "id": "3-8", "position": 8, "title": "Matchbox", "length": "3:10" },
+    { "id": "3-9", "position": 9, "title": "Naïve", "length": "3:24" },
+    { "id": "3-10", "position": 10, "title": "I Want You", "length": "3:27" },
+    { "id": "3-11", "position": 11, "title": "If Only", "length": "2:01" },
+    {
+      "id": "3-12",
+      "position": 12,
+      "title": "Jackie Big Tees",
+      "length": "2:33"
+    },
+    { "id": "3-13", "position": 13, "title": "Time Awaits", "length": "5:09" },
+    { "id": "3-14", "position": 14, "title": "Got No Love", "length": "3:38" }
+  ]
+}

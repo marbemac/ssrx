@@ -1,0 +1,56 @@
+{
+  "id": "8",
+  "name": "Get Born",
+  "artist": "Jet",
+  "img": "https://www.theaudiodb.com/images/media/album/thumb/get-born-4ddedb9009071.jpg",
+  "tracks": [
+    { "id": "8-1", "position": 1, "title": "Last Chance", "length": "1:52" },
+    {
+      "id": "8-2",
+      "position": 2,
+      "title": "Are You Gonna Be My Girl",
+      "length": "3:34"
+    },
+    { "id": "8-3", "position": 3, "title": "Rollover D.J.", "length": "3:17" },
+    {
+      "id": "8-4",
+      "position": 4,
+      "title": "Look What You’ve Done",
+      "length": "3:51"
+    },
+    {
+      "id": "8-5",
+      "position": 5,
+      "title": "Get What You Need",
+      "length": "4:08"
+    },
+    { "id": "8-6", "position": 6, "title": "Move On", "length": "4:21" },
+    { "id": "8-7", "position": 7, "title": "Radio Song", "length": "4:32" },
+    {
+      "id": "8-8",
+      "position": 8,
+      "title": "Get Me Outta Here",
+      "length": "2:56"
+    },
+    {
+      "id": "8-9",
+      "position": 9,
+      "title": "Cold Hard Peach",
+      "length": "4:03"
+    },
+    {
+      "id": "8-10",
+      "position": 10,
+      "title": "Come Around Again",
+      "length": "4:30"
+    },
+    {
+      "id": "8-11",
+      "position": 11,
+      "title": "Take It or Leave It",
+      "length": "2:23"
+    },
+    { "id": "8-12", "position": 12, "title": "Lazy Gun", "length": "4:42" },
+    { "id": "8-13", "position": 13, "title": "Timothy", "length": "4:30" }
+  ]
+}

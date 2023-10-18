@@ -1,0 +1,62 @@
+{
+  "id": "2",
+  "name": "First Impressions of Earth",
+  "artist": "The Strokes",
+  "img": "https://www.theaudiodb.com/images/media/album/thumb/rqsryv1477576489.jpg",
+  "tracks": [
+    {
+      "id": "2-1",
+      "position": 1,
+      "title": "You Only Live Once",
+      "length": "3:09"
+    },
+    { "id": "2-2", "position": 2, "title": "Juicebox", "length": "3:18" },
+    {
+      "id": "2-3",
+      "position": 3,
+      "title": "Heart in a Cage",
+      "length": "3:27"
+    },
+    { "id": "2-4", "position": 4, "title": "Razorblade", "length": "3:29" },
+    {
+      "id": "2-5",
+      "position": 5,
+      "title": "On the Other Side",
+      "length": "4:39"
+    },
+    {
+      "id": "2-6",
+      "position": 6,
+      "title": "Vision of Division",
+      "length": "4:20"
+    },
+    {
+      "id": "2-7",
+      "position": 7,
+      "title": "Ask Me Anything",
+      "length": "3:13"
+    },
+    {
+      "id": "2-8",
+      "position": 8,
+      "title": "Electricityscape",
+      "length": "3:33"
+    },
+    { "id": "2-9", "position": 9, "title": "Killing Lies", "length": "3:50" },
+    {
+      "id": "2-10",
+      "position": 10,
+      "title": "Fear of Sleep",
+      "length": "4:00"
+    },
+    { "id": "2-11", "position": 11, "title": "15 Minutes", "length": "4:34" },
+    {
+      "id": "2-12",
+      "position": 12,
+      "title": "Ize of the World",
+      "length": "4:29"
+    },
+    { "id": "2-13", "position": 13, "title": "Evening Sun", "length": "3:06" },
+    { "id": "2-14", "position": 14, "title": "Red Light", "length": "3:12" }
+  ]
+}

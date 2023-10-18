@@ -1,0 +1,36 @@
+{
+  "id": "6",
+  "name": "Phrazes for the Young",
+  "artist": "Julian Casablancas",
+  "img": "https://www.theaudiodb.com/images/media/album/thumb/phrazes-for-the-young-52f7faa979a19.jpg",
+  "tracks": [
+    {
+      "id": "6-1",
+      "position": 1,
+      "title": "Out of the Blue",
+      "length": "4:43"
+    },
+    {
+      "id": "6-2",
+      "position": 2,
+      "title": "Left & Right in the Dark",
+      "length": "4:59"
+    },
+    { "id": "6-3", "position": 3, "title": "11th Dimension", "length": "4:06" },
+    {
+      "id": "6-4",
+      "position": 4,
+      "title": "4 Chords of the Apocalypse",
+      "length": "5:02"
+    },
+    { "id": "6-5", "position": 5, "title": "Ludlow St.", "length": "5:45" },
+    {
+      "id": "6-6",
+      "position": 6,
+      "title": "River of Brakelights",
+      "length": "5:13"
+    },
+    { "id": "6-7", "position": 7, "title": "Glass", "length": "5:25" },
+    { "id": "6-8", "position": 8, "title": "Tourist", "length": "5:03" }
+  ]
+}
