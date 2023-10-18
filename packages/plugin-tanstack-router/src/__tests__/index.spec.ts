@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 
-import { tanstackRouterAdapter } from '../index.ts';
+import { tanstackRouterAdapter } from '../adapter.ts';
 import { routeTree as lazyTreeSimple } from './fixtures/lazy-tree-simple.tsx';
 
 it('works', async () => {
