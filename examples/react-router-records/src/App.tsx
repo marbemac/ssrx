@@ -1,33 +1,25 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.css';
 
-import { Component as AlbumComponent, loader as albumLoader } from './routes/Album.tsx';
-import { Component as HomeComponent, loader as homeLoader } from './routes/Home.tsx';
-import Layout from './routes/Layout.tsx';
+import { reactRouterPlugin } from '@ssrx/plugin-react-router';
+import { createApp } from '@ssrx/react';
 
-const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      Component: Layout,
-      children: [
-        {
-          index: true,
-          loader: homeLoader,
-          Component: HomeComponent,
-        },
-        {
-          path: 'album/:id',
-          loader: albumLoader,
-          Component: AlbumComponent,
-        },
-      ],
-    },
-  ],
-  {
-    basename: '/react-router-records',
-  },
+import { routes } from './routes.tsx';
+
+const RootLayout = ({ children }: { children: React.ReactNode }) => (
+  <html lang="en">
+    <head>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width" />
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <title>React Router View Transitions Demo</title>
+    </head>
+    <body className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">{children}</body>
+  </html>
 );
 
-export default function App() {
-  return <RouterProvider router={router} />;
-}
+const { clientHandler, serverHandler, ctx } = createApp({
+  RootLayout,
+  plugins: [reactRouterPlugin({ routes, basename: '/react-router-records' })],
+});
+
+export { clientHandler, ctx, serverHandler };

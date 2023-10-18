@@ -34,8 +34,6 @@ export default function Layout() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentTrack, setCurrentTrack] = React.useState<PlayerTrack | null>(null);
 
-  console.log(isPlaying, currentTrack);
-
   return (
     <PlayerContext.Provider
       value={{
