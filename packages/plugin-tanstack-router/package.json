@@ -11,10 +11,6 @@
     "directory": "packages/plugin-tanstack-router"
   },
   "exports": {
-    ".": {
-      "bun": "./src/index.ts",
-      "import": "./dist/index.js"
-    },
     "./adapter": {
       "bun": "./src/adapter.ts",
       "import": "./dist/adapter.js"
