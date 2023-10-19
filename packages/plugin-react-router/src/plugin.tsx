@@ -1,7 +1,7 @@
 import { defineRenderPlugin } from '@ssrx/renderer';
 import type { RouterProviderProps } from 'react-router-dom';
 import { createBrowserRouter, matchRoutes, type RouteObject, RouterProvider } from 'react-router-dom';
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server.js';
 
 export const PLUGIN_ID = 'reactRouter' as const;
 

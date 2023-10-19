@@ -14,6 +14,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/react"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "bun": "./src/server/index.ts",

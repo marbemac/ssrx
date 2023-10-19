@@ -2121,15 +2121,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ssrx/release-debug@workspace:packages/release-debug":
-  version: 0.0.0-use.local
-  resolution: "@ssrx/release-debug@workspace:packages/release-debug"
-  dependencies:
-    "@ssrx/renderer": "npm:^0.1.0"
-    "@ssrx/vite": "npm:^0.1.0"
-  languageName: unknown
-  linkType: soft
-
 "@ssrx/renderer@workspace:*, @ssrx/renderer@workspace:packages/renderer":
   version: 0.0.0-use.local
   resolution: "@ssrx/renderer@workspace:packages/renderer"
@@ -2181,7 +2172,7 @@ __metadata:
   dependencies:
     "@total-typescript/ts-reset": "npm:0.5.1"
     radix3: "npm:^1.1.0"
-    vite: "npm:5.0.0-beta.10"
+    vite: "npm:5.0.0-beta.11"
   peerDependencies:
     vite: ">=4"
   languageName: unknown
@@ -3310,7 +3301,7 @@ __metadata:
     react-dom: "npm:18.2.0"
     react-router-dom: "npm:6.17.0"
     typescript: "npm:5.2.2"
-    vite: "npm:5.0.0-beta.10"
+    vite: "npm:5.0.0-beta.11"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown
   linkType: soft
@@ -7656,7 +7647,7 @@ __metadata:
     react-router-dom: "npm:6.17.0"
     tailwindcss: "npm:3.3.3"
     typescript: "npm:5.2.2"
-    vite: "npm:5.0.0-beta.10"
+    vite: "npm:5.0.0-beta.11"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown
   linkType: soft
@@ -7676,7 +7667,7 @@ __metadata:
     react-dom: "npm:18.2.0"
     react-router-dom: "npm:6.17.0"
     typescript: "npm:5.2.2"
-    vite: "npm:5.0.0-beta.10"
+    vite: "npm:5.0.0-beta.11"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown
   linkType: soft
@@ -8280,7 +8271,7 @@ __metadata:
     hono: "npm:3.8.1"
     solid-js: "npm:1.8.3"
     typescript: "npm:5.2.2"
-    vite: "npm:5.0.0-beta.10"
+    vite: "npm:5.0.0-beta.11"
     vite-plugin-solid: "npm:2.7.2"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown
@@ -8449,7 +8440,7 @@ __metadata:
     tsx: "npm:3.14.0"
     typescript: "npm:5.2.2"
     valibot: "npm:0.19.0"
-    vite: "npm:5.0.0-beta.10"
+    vite: "npm:5.0.0-beta.11"
     vite-tsconfig-paths: "npm:4.2.1"
   languageName: unknown
   linkType: soft
@@ -9364,9 +9355,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:5.0.0-beta.10":
-  version: 5.0.0-beta.10
-  resolution: "vite@npm:5.0.0-beta.10"
+"vite@npm:5.0.0-beta.11":
+  version: 5.0.0-beta.11
+  resolution: "vite@npm:5.0.0-beta.11"
   dependencies:
     esbuild: "npm:^0.19.3"
     fsevents: "npm:~2.3.3"
@@ -9400,7 +9391,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 9725bcf20cdc11ebfa7d1137ed0e6d25b005a57f74f30089b72b8f179998b44fe69a6ebc4f2b74a76da12f65e991c0e3f9536de4113d335727e124595afa06a3
+  checksum: 26d7ee31d1b46527c8fb5b03e26e767937b18c93bb5f0cfcd14b3ac0b4258f86f24ce3e75bc2862807d2c06cbb6df3fe811d3b50a611dfd7ae0a8ad1ecdac644
   languageName: node
   linkType: hard
 

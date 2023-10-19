@@ -10,6 +10,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/plugin-tanstack-router"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     "./adapter": {
       "bun": "./src/adapter.ts",

@@ -10,6 +10,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/plugin-solid-router"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "bun": "./src/index.ts",

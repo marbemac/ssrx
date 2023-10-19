@@ -13,6 +13,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/plugin-react-router"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "bun": "./src/index.ts",

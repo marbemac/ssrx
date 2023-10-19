@@ -10,6 +10,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/plugin-tanstack-query"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "bun": "./src/index.ts",

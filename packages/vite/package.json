@@ -15,6 +15,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/vite"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     "./types": "./src/types.ts",
     "./plugin": {
@@ -41,6 +45,6 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "0.5.1",
-    "vite": "5.0.0-beta.10"
+    "vite": "5.0.0-beta.11"
   }
 }

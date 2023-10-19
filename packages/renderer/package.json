@@ -10,6 +10,10 @@
     "url": "https://github.com/marbemac/ssrx",
     "directory": "packages/renderer"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "bun": "./src/server/index.ts",
