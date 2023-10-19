@@ -17,6 +17,16 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
 
     enforce: 'pre',
 
+    config() {
+      return {
+        ssr: {
+          // Ensure ssrx packages are processed by the vite pipeline so
+          // that the virtual plugin works
+          noExternal: ['@ssrx/*'],
+        },
+      };
+    },
+
     configResolved(viteConfig) {
       config.root = viteConfig.root;
       config.mode = viteConfig.mode;
