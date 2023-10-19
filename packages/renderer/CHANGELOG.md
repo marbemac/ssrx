@@ -1,5 +1,12 @@
 # @ssrx/renderer
 
+## 0.1.1
+
+### Patch Changes
+
+- [`d63f59c`](https://github.com/marbemac/ssrx/commit/d63f59cf72ccd37ca9682f14108883ae3dd90229) Thanks
+  [@marbemac](https://github.com/marbemac)! - Externalize react
+
 ## 0.1.0
 
 ### Minor Changes
