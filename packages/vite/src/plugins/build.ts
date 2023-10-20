@@ -1,3 +1,4 @@
+import * as fs from 'fs/promises';
 import type { Plugin, ResolvedConfig, UserConfig, ViteDevServer } from 'vite';
 import { createServer } from 'vite';
 
@@ -59,11 +60,6 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
           rollupOptions: {
             input: input as any,
             output,
-
-            /**
-             * This is a cloudflare thing (if using workers rather than pages)
-             */
-            external: ['__STATIC_CONTENT_MANIFEST'],
           },
         },
       } satisfies UserConfig;
@@ -109,6 +105,17 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
     async buildEnd() {
       if (server) {
         await server.close();
+      }
+    },
+
+    async writeBundle() {
+      if (!isSsr) return;
+
+      // cleanup the vite client manifest
+      if (config.viteMajor >= 5) {
+        await fs.rm(manifest.clientManifestDir, { recursive: true });
+      } else {
+        await fs.rm(manifest.clientManifestPath);
       }
     },
   };

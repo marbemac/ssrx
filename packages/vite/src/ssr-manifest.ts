@@ -141,27 +141,29 @@ export class Manifest<ExternalRoutes> {
     });
   }
 
+  get clientManifestDir(): string {
+    return path.resolve(
+      this.config.root,
+      this.config.viteMajor < 5 ? `${this.config.clientOutDir}` : `${this.config.clientOutDir}/.vite`,
+    );
+  }
+
+  get clientManifestPath(): string {
+    return path.join(this.clientManifestDir, this.clientManifestName);
+  }
+
   #loadClientManifest(): ViteClientManifest {
     if (this.#clientManifest) return this.#clientManifest;
 
-    if (!fs.existsSync(this.#clientManifestPath)) {
+    if (!fs.existsSync(this.clientManifestPath)) {
       throw new Error(
-        `Could not load client manifest at '${this.#clientManifestPath}', did you forget to build the client first?`,
+        `Could not load client manifest at '${this.clientManifestPath}', did you forget to build the client first?`,
       );
     }
 
-    this.#clientManifest = JSON.parse(fs.readFileSync(this.#clientManifestPath, 'utf-8')) as ViteClientManifest;
+    this.#clientManifest = JSON.parse(fs.readFileSync(this.clientManifestPath, 'utf-8')) as ViteClientManifest;
 
     return this.#clientManifest!;
-  }
-
-  get #clientManifestPath(): string {
-    return path.resolve(
-      this.config.root,
-      this.config.viteMajor < 5
-        ? `${this.config.clientOutDir}/${this.clientManifestName}`
-        : `${this.config.clientOutDir}/.vite/${this.clientManifestName}`,
-    );
   }
 
   get #ssrManifestPath(): string {

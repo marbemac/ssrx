@@ -3,6 +3,7 @@ import type { Plugin } from 'vite';
 import { Config } from './config.ts';
 import { defaultRouterAdapter } from './default-router-adapter.ts';
 import { buildPlugin } from './plugins/build.ts';
+import { cloudflarePlugin } from './plugins/cloudflare.ts';
 import { configPlugin } from './plugins/config.ts';
 import { devServerPlugin } from './plugins/dev-server.ts';
 import { virtualPlugin } from './plugins/virtual.ts';
@@ -56,5 +57,6 @@ export const ssrx = ({
     virtualPlugin({ config, router, manifest }),
     devServerPlugin({ config, router, manifest }),
     buildPlugin({ config, router, manifest }),
-  ];
+    runtime === 'cf-pages' ? cloudflarePlugin({ config, router, manifest }) : undefined,
+  ].filter(Boolean);
 };

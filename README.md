@@ -143,6 +143,16 @@ See [`bun-react-router`](examples/bun-react-router/README.md),
 [`react-react-simple`](examples/react-router-simple/README.md), and
 [`solid-router-simple`](examples/solid-router-simple/README.md) for more concrete examples.
 
+### Runtimes
+
+The `ssrx` vite plugin accepts a `runtime` option.
+
+Setting the value to `edge` will adjust vite to bundle the server output into a single file, and set resolve conditions
+more appropriate for ssr / server rendering in popular edge environments.
+
+Setting the value to `cf-pages` will adjust the output to be suitable for deployment to Cloudflare Pages, including
+generating sane `_routes.json` and `_headers` defaults.
+
 ## `@ssrx/renderer`
 
 The SSRx renderer provides building blocks that make it easier to develop streaming SSR apps. It is client and server
