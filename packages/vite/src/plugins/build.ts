@@ -36,13 +36,11 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
 
       return {
         ssr: {
-          target: isEdgeRuntime ? 'webworker' : 'node',
-          ssr: {
-            noExternal: isEdgeRuntime ? true : undefined,
-            resolve: {
-              conditions: config.runtimeConditions,
-              externalConditions: config.runtimeConditions,
-            },
+          target: config.ssrTarget,
+          noExternal: config.ssrNoExternal,
+          resolve: {
+            conditions: config.runtimeConditions,
+            externalConditions: config.runtimeConditions,
           },
         },
 
@@ -54,12 +52,18 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
           emptyOutDir: !isSsr,
           rollupOptions: {
             input: input as any,
+
             output: {
               inlineDynamicImports: isSsr && isEdgeRuntime ? true : undefined,
             },
+
+            /**
+             * This is a cloudflare thing (if using workers rather than pages)
+             */
+            external: ['__STATIC_CONTENT_MANIFEST'],
           },
         },
-      };
+      } satisfies UserConfig;
     },
 
     configResolved(c) {

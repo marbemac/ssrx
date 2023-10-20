@@ -10,17 +10,22 @@ import { deleteCookie, setCookie } from '~server/utils/cookies.ts';
 
 type HonoEnv = { Variables: ReqCtx };
 
-const server = new Hono<HonoEnv>()
+const server = new Hono<HonoEnv>();
+
+if (import.meta.env.PROD) {
   /**
    * These two serveStatic's will be used to serve production assets.
    * Vite dev server handles assets during development.
    */
-  .use('/assets/*', serveStatic({ root: './dist/public' }))
-  .use('/favicon.ico', serveStatic({ path: './dist/public/favicon.ico' }))
+  server
+    .use('/assets/*', serveStatic({ root: './dist/public' }))
+    .use('/favicon.ico', serveStatic({ path: './dist/public/favicon.ico' }));
+}
 
-  /**
-   * TRPC
-   */
+/**
+ * TRPC
+ */
+server
   .use(
     '/trpc/*',
     reqCtxMiddleware,

@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite';
+import type { Plugin, UserConfig } from 'vite';
 
 import type { Config } from '../config.ts';
 import { PLUGIN_NAMESPACE } from '../consts.ts';
@@ -24,7 +24,7 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
           // that the virtual plugin works
           noExternal: ['@ssrx/*'],
         },
-      };
+      } satisfies UserConfig;
     },
 
     configResolved(viteConfig) {

@@ -1,4 +1,5 @@
 import * as path from 'path';
+import type { SSROptions } from 'vite';
 import { normalizePath } from 'vite';
 import vitePkg from 'vite/package.json' assert { type: 'json' };
 
@@ -77,6 +78,22 @@ export class Config {
 
   get viteMajor() {
     return parseInt(this.viteVersion.split('.')[0]!);
+  }
+
+  get ssrTarget(): SSROptions['target'] {
+    return this.runtime === 'edge' ? 'webworker' : 'node';
+  }
+
+  get ssrNoExternal(): SSROptions['noExternal'] {
+    return this.runtime === 'edge'
+      ? [
+          /**
+           * 1. When running on the edge, bundle everything except for node built-ins (requiring that their usage is prefixed with node:)
+           * 2. __STATIC_CONTENT_MANIFEST is something CF workers expects, for those using CF
+           */
+          /^(?!node:|__STATIC_CONTENT_MANIFEST).+/,
+        ]
+      : undefined;
   }
 
   get runtimeConditions() {
