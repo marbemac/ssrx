@@ -1,5 +1,17 @@
 # @ssrx/vite
 
+## 0.2.0
+
+### Minor Changes
+
+- [`8bc2654`](https://github.com/marbemac/ssrx/commit/8bc26540aa180f53540307a58d0831a859b893f0) Thanks
+  [@marbemac](https://github.com/marbemac)! - Generate routes and headers for cf pages runtime target
+
+### Patch Changes
+
+- [`8bce0ca`](https://github.com/marbemac/ssrx/commit/8bce0cab6578b742406102013bf69cbce5de3c30) Thanks
+  [@marbemac](https://github.com/marbemac)! - Add cf-pages runtime target
+
 ## 0.1.2
 
 ### Patch Changes

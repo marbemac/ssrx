@@ -1,5 +1,14 @@
 # @ssrx/react
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`8bce0ca`](https://github.com/marbemac/ssrx/commit/8bce0cab6578b742406102013bf69cbce5de3c30),
+  [`8bc2654`](https://github.com/marbemac/ssrx/commit/8bc26540aa180f53540307a58d0831a859b893f0)]:
+  - @ssrx/vite@0.2.0
+  - @ssrx/renderer@0.1.3
+
 ## 0.0.3
 
 ### Patch Changes
