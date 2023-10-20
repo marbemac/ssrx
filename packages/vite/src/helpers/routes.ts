@@ -168,56 +168,69 @@ export const assetsToTags = (
   const isDev = opts?.isDev ?? false;
   const shouldModulePreload = opts?.shouldModulePreload ?? true;
 
-  return assets
-    .map(({ type, url, isPreload, content = '' }) => {
-      switch (type) {
-        case 'style':
-          if (isDev) {
-            return {
-              tag: 'style',
-              attrs: {
-                'data-vite-dev-id': url,
-              },
-              children: content,
-            };
-          } else {
-            return {
-              tag: 'link',
-              attrs: {
-                rel: 'stylesheet',
-                href: url,
-              },
-            };
-          }
+  const tags: AssetHtmlTag[] = [];
 
-        case 'script':
-          if (isPreload && !shouldModulePreload) return null;
+  for (const asset of assets) {
+    const { type, url, isPreload, content = '', isNested } = asset;
 
-          if (isPreload) {
-            return {
-              tag: 'link',
-              attrs: {
-                rel: 'modulepreload',
-                as: 'script',
-                href: url,
-              },
-            };
-          } else {
-            return {
-              tag: 'script',
-              injectTo: 'body' as const,
-              attrs: {
-                defer: true,
-                type: 'module',
-                src: url,
-              },
-            };
-          }
+    if (type === 'style') {
+      if (isDev) {
+        tags.push({
+          tag: 'style',
+          attrs: {
+            'data-vite-dev-id': url,
+          },
+          children: content,
+        });
+      } else {
+        // preload critical entry chunks so that providers like Cloudflare can
+        // add early hints
+        if (!isNested) {
+          tags.push({
+            tag: 'link',
+            attrs: {
+              rel: 'preload',
+              as: 'style',
+              href: url,
+            },
+          });
+        }
+
+        tags.push({
+          tag: 'link',
+          attrs: {
+            rel: 'stylesheet',
+            href: url,
+          },
+        });
       }
+    } else if (type === 'script') {
+      if (isPreload && !shouldModulePreload) continue;
 
-      return null;
-    })
-    .filter(Boolean) as AssetHtmlTag[];
+      if (isPreload) {
+        tags.push({
+          tag: 'link',
+          attrs: {
+            rel: 'modulepreload',
+            as: 'script',
+            href: url,
+          },
+        });
+      } else {
+        tags.push({
+          tag: 'script',
+          injectTo: 'body' as const,
+          attrs: {
+            defer: true,
+            type: 'module',
+            src: url,
+          },
+        });
+      }
+    }
+  }
+
+  return tags;
 };
 
 export const sortAssets = (assets: Asset[]): Asset[] => {
