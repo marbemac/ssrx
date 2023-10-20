@@ -1,5 +1,12 @@
 # @ssrx/vite
 
+## 0.1.2
+
+### Patch Changes
+
+- [`2e3125b`](https://github.com/marbemac/ssrx/commit/2e3125b9763041b8ff3d7bede66b51b56f04628a) Thanks
+  [@marbemac](https://github.com/marbemac)! - Fix support for CF and edge bundles
+
 ## 0.1.1
 
 ### Patch Changes
