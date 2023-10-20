@@ -28,9 +28,9 @@ export const ssrx = ({
   routesFile = 'src/routes.tsx',
   clientEntry = 'src/entry.client.tsx',
   serverFile = 'src/server.ts',
-  clientOutDir = 'dist/public',
-  serverOutDir = 'dist',
   runtime = 'node',
+  clientOutDir,
+  serverOutDir,
 }: Opts = {}): Plugin[] => {
   const config = new Config({
     routesFile,

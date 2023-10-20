@@ -22,6 +22,7 @@ const RUNTIME_CONDITIONS: Record<ServerRuntime, string[]> = {
   bun: ['bun', 'node', 'import'],
   deno: ['deno', 'node', 'import'],
   edge: ['workerd', 'worker', 'edge'],
+  'cf-pages': ['workerd', 'worker', 'edge'],
   node: ['node', 'import'],
 };
 
@@ -29,8 +30,8 @@ export class Config {
   public root: string;
   public mode: string;
 
-  public readonly clientOutDir: string;
-  public readonly serverOutDir: string;
+  #clientOutDir?: string;
+  #serverOutDir?: string;
   public readonly routesFile: string;
 
   // relative path to client entry, as it is passed in by end user
@@ -50,9 +51,9 @@ export class Config {
     this.mode = opts.mode || 'development';
     this.basePath = opts.basePath || '/';
 
-    this.clientOutDir = opts.clientOutDir || 'dist/client';
-    this.serverOutDir = opts.serverOutDir || 'dist/server';
     this.runtime = opts.runtime || 'node';
+    this.#clientOutDir = opts.clientOutDir;
+    this.#serverOutDir = opts.serverOutDir;
 
     this.routesFile = normalizePath(path.resolve(path.join(this.root, opts.routesFile || 'src/routes.ts')));
 
@@ -80,12 +81,40 @@ export class Config {
     return parseInt(this.viteVersion.split('.')[0]!);
   }
 
+  get isEdgeRuntime() {
+    return ['edge', 'cf-pages'].includes(this.runtime);
+  }
+
+  get clientOutDir() {
+    if (this.#clientOutDir) {
+      return this.#clientOutDir;
+    }
+
+    if (this.runtime === 'cf-pages') {
+      return 'dist';
+    }
+
+    return 'dist/public';
+  }
+
+  get serverOutDir() {
+    if (this.#serverOutDir) {
+      return this.#serverOutDir;
+    }
+
+    if (this.runtime === 'cf-pages') {
+      return 'dist';
+    }
+
+    return 'dist';
+  }
+
   get ssrTarget(): SSROptions['target'] {
-    return this.runtime === 'edge' ? 'webworker' : 'node';
+    return this.isEdgeRuntime ? 'webworker' : 'node';
   }
 
   get ssrNoExternal(): SSROptions['noExternal'] {
-    return this.runtime === 'edge'
+    return this.isEdgeRuntime
       ? [
           /**
            * 1. When running on the edge, bundle everything except for node built-ins (requiring that their usage is prefixed with node:)
@@ -94,6 +123,14 @@ export class Config {
           /^(?!node:|__STATIC_CONTENT_MANIFEST).+/,
         ]
       : undefined;
+  }
+
+  get ssrOutputName() {
+    if (this.runtime === 'cf-pages') {
+      return '_worker.js';
+    }
+
+    return undefined;
   }
 
   get runtimeConditions() {

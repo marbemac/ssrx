@@ -15,7 +15,6 @@ export type BuildPluginOpts = {
 export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plugin => {
   let server: ViteDevServer;
   let isSsr = false;
-  const isEdgeRuntime = config.runtime === 'edge';
 
   let viteConfig: UserConfig;
   let resolvedViteConfig: ResolvedConfig;
@@ -33,6 +32,13 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
       isSsr = !!env.ssrBuild;
 
       const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientFile };
+
+      const output: NonNullable<NonNullable<UserConfig['build']>['rollupOptions']>['output'] = {
+        inlineDynamicImports: isSsr && config.isEdgeRuntime ? true : undefined,
+      };
+      if (isSsr && config.ssrOutputName) {
+        output.entryFileNames = config.ssrOutputName;
+      }
 
       return {
         ssr: {
@@ -52,10 +58,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
           emptyOutDir: !isSsr,
           rollupOptions: {
             input: input as any,
-
-            output: {
-              inlineDynamicImports: isSsr && isEdgeRuntime ? true : undefined,
-            },
+            output,
 
             /**
              * This is a cloudflare thing (if using workers rather than pages)
