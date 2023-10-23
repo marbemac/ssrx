@@ -1,5 +1,12 @@
 # @ssrx/renderer
 
+## 0.1.4
+
+### Patch Changes
+
+- [`98fcb32`](https://github.com/marbemac/ssrx/commit/98fcb32fea03456cc13ebbf463a89c14f2d4aa65) Thanks
+  [@marbemac](https://github.com/marbemac)! - Support multiple wrapping plugins
+
 ## 0.1.3
 
 ### Patch Changes
