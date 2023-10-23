@@ -6,9 +6,9 @@ import { trpcPlugin } from '@ssrx/plugin-trpc-react';
 import { unheadPlugin } from '@ssrx/plugin-unhead';
 import { createApp } from '@ssrx/react';
 import { QueryClientProvider } from '@tanstack/react-query';
+// import { ReactQueryDevtools as QueryDevtools } from '@tanstack/react-query-devtools';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 
-// import { ReactQueryDevtools as QueryDevtools } from '@tanstack/react-query-devtools';
 import { routes } from '~client/routes.tsx';
 import type { AppRouter } from '~server/trpc/index.ts';
 
@@ -21,7 +21,8 @@ const { clientHandler, serverHandler, ctx } = createApp({
     tanstackQueryPlugin({
       QueryClientProvider,
 
-      // @TODO: hydration error with devtools atm.. not sure if it's an issue in tanstack query itself or not
+      // @TODO: hydration error with devtools atm..
+      // due to the way react-router works
       // devTools: { QueryDevtools, options: { buttonPosition: 'bottom-right' } },
     }),
     trpcPlugin<AppRouter>(),

@@ -101,20 +101,21 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           throw new Error('No plugin implemented renderApp');
         }
 
-        let finalApp;
+        let finalApp: JSX.Element;
         if (wrappers.length) {
-          for (const i in wrappers) {
-            const Wrap = wrappers[i]!;
-            const nextWrapper = wrappers[Number(i) + 1];
-            const children = nextWrapper || AppComp;
-            // @ts-expect-error ignore
-            finalApp = Wrap({ children });
-          }
+          const wrapFn = (w: typeof wrappers): JSX.Element => {
+            const [child, ...remainingWrappers] = w;
+
+            if (!child) return AppComp!();
+
+            return child({ children: () => wrapFn(remainingWrappers) });
+          };
+
+          finalApp = wrapFn(wrappers);
         } else {
           finalApp = AppComp();
         }
 
-        // @ts-expect-error ignore
         return RootLayout({ children: finalApp });
       };
 
