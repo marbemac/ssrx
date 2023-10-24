@@ -363,13 +363,26 @@ const getManifestModuleAssets = (
   }
 
   if (nestedAssets.length) {
-    nestedAssets.forEach(nestedAsset => {
+    for (const nestedAsset of nestedAssets) {
       const nestedModule = manifest[nestedAsset];
 
       if (nestedModule) {
+        // detect circulars
+        const file = nestedModule.file;
+        if (file) {
+          const type = getAssetType(file);
+          const entryIdentifier = `${type}:${file}`;
+          if (usedAssets.has(entryIdentifier)) {
+            console.warn(
+              `Possible circular import! ${module?.file} imports ${file}, which has already been imported. This might indicate an issue with your code split / chunking strategy, and could lead to problems with load order on the client.`,
+            );
+            continue;
+          }
+        }
+
         Object.assign(assets, getManifestModuleAssets(manifest, nestedModule, usedAssets, true, opts));
       }
-    });
+    }
   }
 
   return assets;

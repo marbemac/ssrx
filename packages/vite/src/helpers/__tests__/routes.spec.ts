@@ -114,6 +114,75 @@ describe('generateEntryManifest()', () => {
       ]
     `);
   });
+
+  it<LocalTestContext>('handles circular manifests', async () => {
+    const clientManifest = JSON.parse(
+      await fs.readFile(path.join(fixturesDir, 'circular-client-manifest.json'), 'utf-8'),
+    );
+
+    const entryManifest = generateEntryManifest(clientManifest as any);
+
+    expect(entryManifest).toMatchInlineSnapshot(`
+      [
+        {
+          "isNested": undefined,
+          "isPreload": true,
+          "type": "style",
+          "url": "/assets/entry.client-9qVV4rFd.css",
+          "weight": 1,
+        },
+        {
+          "isNested": undefined,
+          "isPreload": undefined,
+          "type": "script",
+          "url": "/assets/client-entry-BhGTKJvg.js",
+          "weight": 1.9,
+        },
+        {
+          "isNested": true,
+          "isPreload": true,
+          "type": "script",
+          "url": "/assets/vendor-rendering-2BjEJ2Ip.js",
+          "weight": 2.1,
+        },
+        {
+          "isNested": true,
+          "isPreload": true,
+          "type": "script",
+          "url": "/assets/vendor-g216hCHz.js",
+          "weight": 2.1,
+        },
+        {
+          "isNested": true,
+          "isPreload": true,
+          "type": "script",
+          "url": "/assets/vendor-ssrx-Nzu2mXrL.js",
+          "weight": 2.1,
+        },
+        {
+          "isNested": true,
+          "isPreload": true,
+          "type": "script",
+          "url": "/assets/vendor-router-v1g7o7ah.js",
+          "weight": 2.1,
+        },
+        {
+          "isNested": true,
+          "isPreload": true,
+          "type": "script",
+          "url": "/assets/vendor-ui-gdHMG9_3.js",
+          "weight": 2.1,
+        },
+        {
+          "isNested": true,
+          "isPreload": true,
+          "type": "script",
+          "url": "/assets/vendor-icons-BMU1CElp.js",
+          "weight": 2.1,
+        },
+      ]
+    `);
+  });
 });
 
 describe('generateRoutesManifest()', () => {
