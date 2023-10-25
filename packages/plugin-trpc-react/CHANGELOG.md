@@ -1,5 +1,13 @@
 # @ssrx/plugin-trpc-react
 
+## 0.2.0
+
+### Minor Changes
+
+- [`cec262e`](https://github.com/marbemac/ssrx/commit/cec262ec3c80fba5f5d6c9af066672137e534e1d) Thanks
+  [@marbemac](https://github.com/marbemac)! - Do not make onSuccess decision in trpc react, allow user to pass their own
+  if needed
+
 ## 0.1.0
 
 ### Minor Changes
