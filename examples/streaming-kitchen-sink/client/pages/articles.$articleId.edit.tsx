@@ -81,7 +81,9 @@ const SaveButton = ({
 }) => {
   const { toast } = useToast();
 
-  const mut = ctx.trpc.articles.update.useMutation();
+  const mut = ctx.trpc.articles.update.useMutation({
+    onSuccess: () => Promise.all([ctx.trpc.articles.list.invalidate(), ctx.trpc.articles.$invalidate({ id })]),
+  });
 
   return (
     <Button

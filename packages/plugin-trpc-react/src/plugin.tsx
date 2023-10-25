@@ -8,14 +8,19 @@ import type { AnyRouter } from '@trpc/server';
 import { observable } from '@trpc/server/observable';
 
 import { createTRPCReact } from './trpc-react/index.ts';
+import type { CreateTRPCQueryOptions } from './trpc-react/types.ts';
 
 export const PLUGIN_ID = 'trpc' as const;
 
-export type TrpcPluginOpts = {
+export type TrpcPluginOpts<TRouter extends AnyRouter> = {
   httpBatchLinkOpts?: HTTPBatchLinkOptions;
+  createTRPCQueryOptions?: Partial<Omit<CreateTRPCQueryOptions<TRouter>, 'client' | 'queryClient'>>;
 };
 
-export const trpcPlugin = <TRouter extends AnyRouter>({ httpBatchLinkOpts }: TrpcPluginOpts = {}) => {
+export const trpcPlugin = <TRouter extends AnyRouter>({
+  httpBatchLinkOpts,
+  createTRPCQueryOptions,
+}: TrpcPluginOpts<TRouter> = {}) => {
   return defineRenderPlugin({
     id: PLUGIN_ID,
 
@@ -35,22 +40,7 @@ export const trpcPlugin = <TRouter extends AnyRouter>({ httpBatchLinkOpts }: Trp
         const trpc = createTRPCReact<TRouter>({
           client: trpcClient,
           queryClient,
-          unstable_overrides: {
-            useMutation: {
-              async onSuccess(opts) {
-                // Calls the `onSuccess` defined in the `useQuery()`-options:
-                await opts.originalFn();
-
-                // Simplest cache strategy.. always invalidate active queries after any mutation
-                return queryClient.invalidateQueries({
-                  // mark all queries as stale
-                  type: 'all',
-                  // only immediately refetch active queries
-                  refetchType: 'active',
-                });
-              },
-            },
-          },
+          ...createTRPCQueryOptions,
         });
 
         return { trpc };

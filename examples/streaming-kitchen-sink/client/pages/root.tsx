@@ -76,7 +76,9 @@ const AddArticleButton = ({ onSuccess }: { onSuccess?: (article: RouterOutputs['
   const { data } = ctx.trpc.auth.me.useQuery();
   const isLoggedIn = !!data;
 
-  const mut = ctx.trpc.articles.create.useMutation();
+  const mut = ctx.trpc.articles.create.useMutation({
+    onSuccess: () => ctx.trpc.articles.list.invalidate(),
+  });
 
   const buttonElem = (
     <Button
@@ -138,6 +140,9 @@ const AddArticleButton = ({ onSuccess }: { onSuccess?: (article: RouterOutputs['
 //             username: 'marc',
 //             password: 'password',
 //           });
+
+//           // invalidate the entire query cache on login/logout
+//           void ctx.trpc.$invalidate();
 //         } catch (e: any) {
 //           alert(`Error: ${e.message}`);
 //         }
@@ -150,7 +155,12 @@ const AddArticleButton = ({ onSuccess }: { onSuccess?: (article: RouterOutputs['
 
 const LoginButton = () => {
   const { data, isLoading } = ctx.trpc.auth.me.useQuery();
-  const login = ctx.trpc.auth.login.useMutation();
+  const login = ctx.trpc.auth.login.useMutation({
+    onSuccess: () => {
+      // invalidate the entire query cache on login/logout
+      return ctx.trpc.$invalidate();
+    },
+  });
 
   if (data || isLoading) return null;
 
@@ -169,14 +179,19 @@ const LoginButton = () => {
         }
       }}
     >
-      Login
+      {login.isPending ? 'Logging in...' : 'Login'}
     </Button>
   );
 };
 
 const LogoutButton = () => {
   const { data } = ctx.trpc.auth.me.useQuery();
-  const logout = ctx.trpc.auth.logout.useMutation();
+  const logout = ctx.trpc.auth.logout.useMutation({
+    onSuccess: () => {
+      // invalidate the entire query cache on login/logout
+      return ctx.trpc.$invalidate();
+    },
+  });
 
   if (!data) {
     return null;
@@ -190,12 +205,15 @@ const LogoutButton = () => {
       onClick={async () => {
         try {
           await logout.mutateAsync();
+
+          // invalidate the entire query cache on login/logout
+          void ctx.trpc.$invalidate();
         } catch (e: any) {
           alert(`Error: ${e.message}`);
         }
       }}
     >
-      Hi {data.username} - Logout
+      {logout.isPending ? 'Logging out...' : `Hi ${data.username} - Logout`}
     </Button>
   );
 };

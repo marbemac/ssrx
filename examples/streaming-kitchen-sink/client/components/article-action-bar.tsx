@@ -45,7 +45,9 @@ export const ActionBar = ({
 const ToggleStatusButton = ({ article }: { article: Pick<RouterOutputs['articles']['byId'], 'id' | 'status'> }) => {
   const { toast } = useToast();
 
-  const mut = ctx.trpc.articles.update.useMutation();
+  const mut = ctx.trpc.articles.update.useMutation({
+    onSuccess: () => ctx.trpc.articles.$invalidate(),
+  });
 
   return (
     <Button
@@ -98,7 +100,13 @@ const DeleteButton = ({
 }) => {
   const { toast } = useToast();
 
-  const mut = ctx.trpc.articles.delete.useMutation();
+  const mut = ctx.trpc.articles.delete.useMutation({
+    onSuccess: async () => {
+      if (onSuccess) onSuccess();
+      await ctx.trpc.articles.$invalidate();
+      toast({ description: 'Article deleted' });
+    },
+  });
 
   return (
     <Button
@@ -111,10 +119,6 @@ const DeleteButton = ({
           if (!c) return;
 
           await mut.mutateAsync({ id: article.id });
-
-          if (onSuccess) onSuccess();
-
-          toast({ description: 'Article deleted' });
         } catch (e: any) {
           toast({
             title: 'Error',
