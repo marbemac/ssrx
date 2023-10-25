@@ -1,5 +1,17 @@
 # @ssrx/plugin-trpc-react
 
+## 0.1.0
+
+### Minor Changes
+
+- [`991b34d`](https://github.com/marbemac/ssrx/commit/991b34d3faf0195401ac99a0094718b11db493a5) Thanks
+  [@marbemac](https://github.com/marbemac)! - Expose fetchQuery on the query TRPC client
+
+### Patch Changes
+
+- Updated dependencies [[`991b34d`](https://github.com/marbemac/ssrx/commit/991b34d3faf0195401ac99a0094718b11db493a5)]:
+  - @ssrx/plugin-tanstack-query@0.1.0
+
 ## 0.0.3
 
 ### Patch Changes
