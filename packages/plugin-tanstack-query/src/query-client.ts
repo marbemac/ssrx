@@ -28,10 +28,6 @@ export const createQueryClient = ({ trackedQueries, blockingQueries, clientConfi
       {
         queries: {
           suspense: true,
-          retry: false,
-          staleTime: 1000 * 30,
-          refetchOnReconnect: true,
-          refetchOnWindowFocus: true,
         },
       },
       clientConfig?.defaultOptions || {},

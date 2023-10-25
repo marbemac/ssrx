@@ -58,6 +58,11 @@ export type DecorateProcedure<
         >,
       ) => UseTRPCQueryResult<TData, TRPCClientErrorLike<TProcedure>>;
 
+      fetchQuery<TOutput = inferProcedureOutput<TProcedure>>(
+        input: inferProcedureInput<TProcedure>,
+        opts?: TRPCFetchQueryOptions<inferProcedureInput<TProcedure>, TRPCClientErrorLike<TProcedure>, TOutput>,
+      ): Promise<TOutput>;
+
       /**
        * @link https://react-query.tanstack.com/guides/prefetching
        */

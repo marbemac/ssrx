@@ -114,6 +114,17 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
     });
   }
 
+  function fetchQuery<TPath extends keyof TQueryValues & string, TOutput extends TQueryValues[TPath]['output']>(
+    pathAndInput: [path: TPath, ...args: inferHandlerInput<TQueries[TPath]>],
+    opts?: TRPCFetchQueryOptions<TQueryValues[TPath]['input'], TError, TOutput>,
+  ): Promise<void> {
+    return queryClient.fetchQuery({
+      queryKey: getArrayQueryKey(pathAndInput, 'query'),
+      queryFn: () => (config.client as any).query(...getClientArgs(pathAndInput, opts)),
+      ...(opts as any),
+    });
+  }
+
   function prefetchQuery<TPath extends keyof TQueryValues & string, TOutput extends TQueryValues[TPath]['output']>(
     pathAndInput: [path: TPath, ...args: inferHandlerInput<TQueries[TPath]>],
     opts?: TRPCFetchQueryOptions<TQueryValues[TPath]['input'], TError, TOutput>,
@@ -272,6 +283,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
 
   return {
     invalidate,
+    fetchQuery,
     prefetchQuery,
     ensureQueryData,
     setData: setQueryData,
