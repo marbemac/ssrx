@@ -1,5 +1,15 @@
 # @ssrx/vite
 
+## 0.2.1
+
+### Patch Changes
+
+- [`300f361`](https://github.com/marbemac/ssrx/commit/300f3611325eb34134f37f66313642d9a074b812) Thanks
+  [@marbemac](https://github.com/marbemac)! - Warn on circular client chunk imports
+
+- [`ad52136`](https://github.com/marbemac/ssrx/commit/ad521367cdfb993d91b2af3d994eecf2ebd6b00f) Thanks
+  [@marbemac](https://github.com/marbemac)! - Ensure asset URLs are absolute
+
 ## 0.2.0
 
 ### Minor Changes
