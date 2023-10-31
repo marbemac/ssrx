@@ -31,7 +31,7 @@ export const trpcPlugin = <TRouter extends AnyRouter>({
         const trpcClient = createTRPCUntypedClient({
           links: buildLinks({
             trpcCaller: meta?.['trpcCaller'] as any,
-            httpBatchLinkOpts: httpBatchLinkOpts || {
+            httpBatchLinkOpts: httpBatchLinkOpts ?? {
               url: '/trpc',
             },
           }),
@@ -49,10 +49,10 @@ export const trpcPlugin = <TRouter extends AnyRouter>({
   });
 };
 
-export interface BuildLinksOpts<T extends AnyRouter> {
+export type BuildLinksOpts<T extends AnyRouter> = {
   httpBatchLinkOpts: HTTPBatchLinkOptions;
   trpcCaller?: ReturnType<T['createCaller']>;
-}
+};
 
 export const buildLinks = <T extends AnyRouter>(opts: BuildLinksOpts<T>) => {
   const links: TRPCLink<T>[] = [];
@@ -82,6 +82,7 @@ export const buildLinks = <T extends AnyRouter>(opts: BuildLinksOpts<T>) => {
                 observer.complete();
               })
               .catch(error => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 observer.error(error);
               });
           });

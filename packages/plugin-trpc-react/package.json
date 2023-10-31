@@ -29,15 +29,17 @@
     "lint": "eslint ."
   },
   "peerDependencies": {
-    "@tanstack/react-query": "^5"
-  },
-  "dependencies": {
-    "@ssrx/plugin-tanstack-query": "*",
-    "@ssrx/renderer": "^0.1.0",
+    "@tanstack/react-query": "^5",
     "@trpc/client": "^10.40.0",
     "@trpc/server": "^10.40.0"
   },
+  "dependencies": {
+    "@ssrx/plugin-tanstack-query": "*",
+    "@ssrx/renderer": "^0.1.0"
+  },
   "devDependencies": {
-    "@tanstack/react-query": "^5.0.0"
+    "@tanstack/react-query": "^5.0.0",
+    "@trpc/client": "10.43.0",
+    "@trpc/server": "10.43.0"
   }
 }

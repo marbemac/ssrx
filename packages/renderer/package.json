@@ -16,6 +16,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "node": "./dist/server/index.js",
       "worker": "./dist/server/index.js",
@@ -25,24 +26,28 @@
       "default": "./dist/client/index.js"
     },
     "./client": {
+      "types": "./src/client/index.ts",
       "bun": "./src/client/index.ts",
       "default": "./dist/client/index.js"
     },
     "./server": {
+      "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "default": "./dist/server/index.js"
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "rollup -c",
     "typecheck": "tsc",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ssrx/vite": "^0.2.0",
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
-    "type-fest": "4.5.0"
+    "esbuild": "0.19.5",
+    "rollup": "4.2.0",
+    "rollup-plugin-esbuild": "6.1.0",
+    "type-fest": "4.6.0"
   }
 }

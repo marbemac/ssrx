@@ -77,7 +77,7 @@ export class Manifest<ExternalRoutes> {
   }
 
   get ssrManifest(): SSRManifest {
-    return this.#ssrManifest || { ...emptySSRManifest };
+    return this.#ssrManifest ?? { ...emptySSRManifest };
   }
 
   public async buildSSRManifest({ writeToDisk }: { writeToDisk?: boolean } = {}): Promise<SSRManifest> {
@@ -100,7 +100,7 @@ export class Manifest<ExternalRoutes> {
     return ssrManifest;
   }
 
-  public async getVitePluginAssets(requestUrl: string = '/') {
+  public async getVitePluginAssets(requestUrl = '/') {
     const server = this.viteServer;
     if (!server) return [];
 
@@ -108,7 +108,7 @@ export class Manifest<ExternalRoutes> {
 
     const pluginAssets = [];
     for (const plugin of plugins) {
-      const hook = plugin!.transformIndexHtml;
+      const hook = plugin.transformIndexHtml;
 
       const handler: IndexHtmlTransformHook =
         typeof hook === 'function'
@@ -163,7 +163,7 @@ export class Manifest<ExternalRoutes> {
 
     this.#clientManifest = JSON.parse(fs.readFileSync(this.clientManifestPath, 'utf-8')) as ViteClientManifest;
 
-    return this.#clientManifest!;
+    return this.#clientManifest;
   }
 
   get #ssrManifestPath(): string {

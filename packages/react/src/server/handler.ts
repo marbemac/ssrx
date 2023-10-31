@@ -4,6 +4,8 @@ import {
   type ServerHandlerOpts,
   type SetOptional,
 } from '@ssrx/renderer/server';
+// @ts-expect-error no types
+import isbot from 'isbot-fast';
 import rd from 'react-dom/server';
 // @ts-expect-error ignore
 import { renderToReadableStream as fallbackRenderToReadableStream } from 'react-dom/server.browser';
@@ -16,7 +18,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>(
   return baseCreateApp({
     RootLayout,
     renderer: {
-      renderToStream: ({ app }) => {
+      renderToStream: async ({ app, req }) => {
         /**
          * Infuriatingly, react-dom/server does not include renderToReadableStream in the node production build.
          *
@@ -26,7 +28,25 @@ export function createApp<P extends RenderPlugin<any, any>[]>(
          * with a fallback to the implementation provided by the browser build. This is what we want in the case of node on the server, since we're targeting
          * node versions that support web streams.
          */
-        return rd.renderToReadableStream ? rd.renderToReadableStream(app()) : fallbackRenderToReadableStream(app());
+        const streamFn = rd.renderToReadableStream ?? fallbackRenderToReadableStream;
+
+        const stream = await streamFn(app(), {
+          signal: req.signal,
+          // @TODO better error handling / hooking into the error boundary
+          // onError(error: unknown) {
+          //   // Log streaming rendering errors from inside the shell
+          //   console.error(error);
+          //   responseStatusCode = 500;
+          // }
+        });
+
+        const ua = req.headers.get('user-agent');
+        const isGoogle = ua?.toLowerCase().includes('googlebot') ?? false;
+        if (ua && !isGoogle && isbot(ua)) {
+          await stream.allReady;
+        }
+
+        return stream;
       },
     },
     ...opts,

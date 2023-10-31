@@ -91,7 +91,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
       manifest.setViteServer(server);
 
       const routesModule = await server.ssrLoadModule(config.routesFile, { fixStacktrace: true });
-      await router.setRoutes(routesModule);
+      router.setRoutes(routesModule);
 
       const ssrManifest = await manifest.buildSSRManifest();
 

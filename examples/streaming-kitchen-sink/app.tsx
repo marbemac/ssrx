@@ -5,6 +5,7 @@ import { tanstackQueryPlugin } from '@ssrx/plugin-tanstack-query';
 import { trpcPlugin } from '@ssrx/plugin-trpc-react';
 import { unheadPlugin } from '@ssrx/plugin-unhead';
 import { createApp } from '@ssrx/react';
+import { viteRendererPlugin } from '@ssrx/vite/renderer';
 import { QueryClientProvider } from '@tanstack/react-query';
 // import { ReactQueryDevtools as QueryDevtools } from '@tanstack/react-query-devtools';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
@@ -17,6 +18,7 @@ export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 const { clientHandler, serverHandler, ctx } = createApp({
   plugins: [
+    viteRendererPlugin(),
     unheadPlugin(),
     tanstackQueryPlugin({
       QueryClientProvider,

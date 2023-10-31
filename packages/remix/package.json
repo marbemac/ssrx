@@ -1,0 +1,61 @@
+{
+  "name": "@ssrx/remix",
+  "version": "0.0.4",
+  "sideEffects": false,
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "remix",
+    "ssr"
+  ],
+  "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/remix"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/server.tsx",
+      "bun": "./src/server.tsx",
+      "node": "./dist/server.js",
+      "worker": "./dist/server.js",
+      "workerd": "./dist/server.js",
+      "deno": "./dist/server.js",
+      "edge": "./dist/server.js",
+      "default": "./dist/client.js"
+    },
+    "./client": {
+      "types": "./src/client.tsx",
+      "bun": "./src/client.tsx",
+      "default": "./dist/client.js"
+    },
+    "./server": {
+      "types": "./src/server.tsx",
+      "bun": "./src/server.tsx",
+      "default": "./dist/server.js"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "typecheck": "tsc",
+    "lint": "eslint ."
+  },
+  "peerDependencies": {
+    "@remix-run/react": ">=2.2.0"
+  },
+  "dependencies": {
+    "@ssrx/renderer": "^0.1.3",
+    "isbot-fast": "1.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/react": "2.2.0",
+    "esbuild": "0.19.5",
+    "rollup": "4.2.0",
+    "rollup-plugin-esbuild": "6.1.0"
+  }
+}

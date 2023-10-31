@@ -25,7 +25,7 @@ type DefaultRouterAdapterExternalRoute = {
  */
 export const defaultRouterAdapter = (opts: DefaultRouterAdapterOpts = {}) => {
   const adapter: RouterAdapter<DefaultRouterAdapterExternalRoute | DefaultRouterAdapterExternalRoute[]> = {
-    exportName: opts.exportName || 'routes',
+    exportName: opts.exportName ?? 'routes',
     normalizeExternalRoutes(externalRoutes) {
       return normalizeRoutes(externalRoutes);
     },
@@ -48,7 +48,7 @@ const normalizeRoutes = (
     const path = r.path;
 
     // support lazy (solid-router) and component preload (react-router and tanstack-router)
-    const lazy = r.lazy || r.component?.preload;
+    const lazy = r.lazy ?? r.component?.preload;
 
     // expect child routes to be on the children prop
     const children = Array.isArray(r.children) ? r.children : [];

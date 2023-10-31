@@ -1,9 +1,8 @@
-import { assetsForRequest, renderAssetsToHtml } from '@ssrx/vite/runtime';
 import type { Simplify } from 'type-fest';
 
-import type { RenderPlugin, ServerHandlerOpts } from '../types.ts';
+import type { ClientHandlerFn, RenderPlugin, ServerHandlerFn, ServerHandlerOpts } from '../types.ts';
 import { storage } from './ctx.ts';
-import { injectIntoStream } from './stream-transformer.ts';
+import { injectIntoStream } from './stream-injector.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
   RootLayout,
@@ -16,7 +15,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
   function __getPluginCtx<K extends P[number]['id']>(
     pluginId?: K,
   ): Simplify<ExtractPluginsContext<P> | ExtractPluginContext<P, K>> {
-    const store = storage.getStore()?.pluginCtx || {};
+    const store = storage.getStore()?.pluginCtx ?? {};
 
     if (typeof pluginId !== 'undefined') return store[pluginId] || {};
 
@@ -26,11 +25,124 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
 
   const ctx = new Proxy({} as ExtractPluginsAppContext<P>, {
     get(_target, prop) {
-      const store = storage.getStore()?.appCtx || {};
+      const store = storage.getStore()?.appCtx ?? {};
       // @ts-expect-error ignore
       return store[prop];
     },
   });
+
+  const clientHandler = (() => {
+    throw new Error(
+      'The client handler should not be called on the server. . Something is wrong, make sure you are not calling `appHandler.client()` in code that is included in the server.',
+    );
+  }) as ClientHandlerFn;
+
+  const serverHandler: ServerHandlerFn = async ({ req, meta }) => {
+    const pluginCtx: Record<string, any> = {};
+    for (const p of plugins ?? []) {
+      if (p.createCtx) {
+        pluginCtx[p.id] = p.createCtx({ req, meta });
+      }
+    }
+
+    const appCtx: Record<string, any> = {};
+    for (const p of plugins ?? []) {
+      if (p.hooks?.['app:extendCtx']) {
+        Object.assign(
+          appCtx,
+          p.hooks['app:extendCtx']({
+            ctx: pluginCtx[p.id],
+            meta,
+            getPluginCtx<T>(id: string) {
+              return pluginCtx[id] as T;
+            },
+          }) || {},
+        );
+      }
+    }
+
+    async function createAppStream() {
+      let AppComp = appRenderer ? await appRenderer({ req, meta }) : undefined;
+
+      for (const p of plugins ?? []) {
+        if (!p.hooks?.['app:render']) continue;
+
+        if (AppComp) {
+          throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
+        }
+
+        AppComp = await p.hooks['app:render']({ req, meta });
+
+        break;
+      }
+
+      const wrappers: ((props: { children: () => JSX.Element }) => JSX.Element)[] = [];
+      for (const p of plugins ?? []) {
+        if (!p.hooks?.['app:wrap']) continue;
+
+        wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id] }));
+      }
+
+      const renderApp = () => {
+        if (!AppComp) {
+          throw new Error('No plugin implemented renderApp');
+        }
+
+        let finalApp: JSX.Element;
+        if (wrappers.length) {
+          const wrapFn = (w: typeof wrappers): JSX.Element => {
+            const [child, ...remainingWrappers] = w;
+
+            if (!child) return AppComp!();
+
+            return child({ children: () => wrapFn(remainingWrappers) });
+          };
+
+          finalApp = wrapFn(wrappers);
+        } else {
+          finalApp = AppComp();
+        }
+
+        return RootLayout ? RootLayout({ children: finalApp }) : finalApp;
+      };
+
+      const stream = await renderer.renderToStream({ app: renderApp, req });
+
+      return injectIntoStream(stream, {
+        async emitToDocumentHead() {
+          const work = [];
+          for (const p of plugins ?? []) {
+            if (!p.hooks?.['ssr:emitToHead']) continue;
+
+            work.push(p.hooks['ssr:emitToHead']({ req, ctx: pluginCtx[p.id] }));
+          }
+
+          const html = await Promise.all(work);
+
+          return html.filter(Boolean).join('');
+        },
+
+        async emitBeforeSsrChunk() {
+          const work = [];
+          for (const p of plugins ?? []) {
+            if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
+
+            work.push(p.hooks['ssr:emitBeforeFlush']({ req, ctx: pluginCtx[p.id] }));
+          }
+
+          return (await Promise.all(work)).filter(Boolean).join('');
+        },
+      });
+    }
+
+    /**
+     * Run the rest of the hooks in storage scope so we can access the ctx
+     */
+    const appStream = await storage.run({ appCtx, pluginCtx }, createAppStream);
+    // const appStream = await createAppStream();
+
+    return appStream;
+  };
 
   return {
     ctx,
@@ -38,131 +150,9 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     // for internal debugging
     __getPluginCtx,
 
-    clientHandler: () => {
-      throw new Error(
-        'The client handler should not be called on the server. . Something is wrong, make sure you are not calling `appHandler.client()` in code that is included in the server.',
-      );
-    },
+    clientHandler,
 
-    serverHandler: async ({ req, meta }: { req: Request; meta?: Record<string, unknown> }) => {
-      const assets = await assetsForRequest(req.url);
-
-      const pluginCtx: Record<string, any> = {};
-      for (const p of plugins || []) {
-        if (p.createCtx) {
-          pluginCtx[p.id] = p.createCtx({ req, meta });
-        }
-      }
-
-      const appCtx: Record<string, any> = {};
-      for (const p of plugins || []) {
-        if (p.hooks?.['app:extendCtx']) {
-          Object.assign(
-            appCtx,
-            p.hooks['app:extendCtx']({
-              ctx: pluginCtx[p.id],
-              meta,
-              getPluginCtx<T>(id: string) {
-                return pluginCtx[id] as T;
-              },
-            }) || {},
-          );
-        }
-      }
-
-      async function createAppStream() {
-        let AppComp = appRenderer ? await appRenderer({ req }) : undefined;
-
-        for (const p of plugins || []) {
-          if (!p.hooks?.['app:render']) continue;
-
-          if (AppComp) {
-            throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
-          }
-
-          AppComp = await p.hooks['app:render']({ req });
-
-          break;
-        }
-
-        const wrappers: Array<(props: { children: () => JSX.Element }) => JSX.Element> = [];
-        for (const p of plugins || []) {
-          if (!p.hooks?.['app:wrap']) continue;
-
-          wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id] }));
-        }
-
-        const renderApp = () => {
-          if (!AppComp) {
-            throw new Error('No plugin implemented renderApp');
-          }
-
-          let finalApp: JSX.Element;
-          if (wrappers.length) {
-            const wrapFn = (w: typeof wrappers): JSX.Element => {
-              const [child, ...remainingWrappers] = w;
-
-              if (!child) return AppComp!();
-
-              return child({ children: () => wrapFn(remainingWrappers) });
-            };
-
-            finalApp = wrapFn(wrappers);
-          } else {
-            finalApp = AppComp();
-          }
-
-          return RootLayout({ children: finalApp });
-        };
-
-        return (await renderer.renderToStream({ app: renderApp })).pipeThrough(
-          injectIntoStream({
-            async emitToDocumentHead() {
-              const work = [];
-              for (const p of plugins || []) {
-                if (!p.hooks?.['ssr:emitToHead']) continue;
-
-                work.push(p.hooks['ssr:emitToHead']({ req, ctx: pluginCtx[p.id] }));
-              }
-
-              const html = [renderAssetsToHtml(assets), ...(await Promise.all(work))];
-
-              return html.filter(Boolean).join('');
-            },
-
-            async emitBeforeSsrChunk() {
-              const work = [];
-              for (const p of plugins || []) {
-                if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
-
-                work.push(p.hooks['ssr:emitBeforeFlush']({ req, ctx: pluginCtx[p.id] }));
-              }
-
-              return (await Promise.all(work)).filter(Boolean).join('');
-            },
-
-            async emitToDocumentBody() {
-              const work = [];
-              for (const p of plugins || []) {
-                if (!p.hooks?.['ssr:emitToBody']) continue;
-
-                work.push(p.hooks['ssr:emitToBody']({ req, ctx: pluginCtx[p.id] }));
-              }
-
-              return (await Promise.all(work)).filter(Boolean).join('');
-            },
-          }),
-        );
-      }
-
-      /**
-       * Run the rest of the hooks in storage scope so we can access the ctx
-       */
-      const appStream = await storage.run({ appCtx, pluginCtx }, createAppStream);
-      // const appStream = await createAppStream();
-
-      return appStream;
-    },
+    serverHandler,
   };
 }
 

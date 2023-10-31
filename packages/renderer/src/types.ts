@@ -1,20 +1,33 @@
 export type ServerRenderer = {
-  renderToStream: (props: { app: () => JSX.Element }) => Promise<ReadableStream>;
+  renderToStream: (props: { app: () => JSX.Element; req: Request }) => Promise<ReadableStream>;
 };
 
 type BaseHandlerOpts = {
-  RootLayout: (props: { children: JSX.Element }) => JSX.Element;
-  appRenderer?: (props: { req: Request }) => (() => JSX.Element) | Promise<() => JSX.Element>;
+  RootLayout?: (props: { children: JSX.Element }) => JSX.Element;
+  appRenderer?: (props: {
+    req: Request;
+    meta?: Record<string, unknown>;
+  }) => (() => JSX.Element) | Promise<() => JSX.Element>;
 };
 
 export type ClientHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
   plugins?: P;
 };
 
+export type ClientHandlerFn = () => Promise<() => JSX.Element>;
+
 export type ServerHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
   renderer: ServerRenderer;
   plugins?: P;
 };
+
+export type ServerHandlerFn = ({
+  req,
+  meta,
+}: {
+  req: Request;
+  meta?: Record<string, unknown>;
+}) => Promise<ReadableStream<Uint8Array>>;
 
 export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
   id: Readonly<string>;
@@ -43,7 +56,10 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     /**
      * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
      */
-    'app:render'?: (props: { req: Request }) => (() => JSX.Element) | Promise<() => JSX.Element>;
+    'app:render'?: (props: {
+      req: Request;
+      meta?: Record<string, unknown>;
+    }) => (() => JSX.Element) | Promise<() => JSX.Element>;
 
     /**
      * Return a string or ReactElement to emit some HTML into the document's head.
@@ -58,14 +74,6 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      * framework (react, solid, etc) emits a chunk of the page.
      */
     'ssr:emitBeforeFlush'?: (props: {
-      req: Request;
-      ctx: C;
-    }) => string | void | undefined | Promise<string | void | undefined>;
-
-    /**
-     * Return a string to emit some HTML into the document's body before it is closed.
-     */
-    'ssr:emitToBody'?: (props: {
       req: Request;
       ctx: C;
     }) => string | void | undefined | Promise<string | void | undefined>;

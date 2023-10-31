@@ -1,7 +1,6 @@
 import * as path from 'path';
 import type { SSROptions } from 'vite';
 import { normalizePath } from 'vite';
-import vitePkg from 'vite/package.json' assert { type: 'json' };
 
 import type { ServerRuntime } from './types';
 
@@ -44,7 +43,7 @@ export class Config {
   public readonly shouldModulePreload: boolean;
   public readonly runtime: ServerRuntime;
 
-  #basePath: string = '';
+  #basePath = '';
 
   constructor(opts: ConfigOpts) {
     this.root = normalizePath(opts.root || '');
@@ -74,6 +73,8 @@ export class Config {
   }
 
   get viteVersion() {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const vitePkg = require('vite/package.json');
     return vitePkg.version;
   }
 

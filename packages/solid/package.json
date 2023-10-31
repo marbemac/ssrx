@@ -16,6 +16,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "node": "./dist/server/index.js",
       "worker": "./dist/server/index.js",
@@ -25,10 +26,12 @@
       "default": "./dist/client/index.js"
     },
     "./client": {
+      "types": "./src/client/index.ts",
       "bun": "./src/client/index.ts",
       "default": "./dist/client/index.js"
     },
     "./server": {
+      "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "default": "./dist/server/index.js"
     }
@@ -47,6 +50,6 @@
   },
   "devDependencies": {
     "esbuild-plugin-solid": "0.5.0",
-    "solid-js": "1.8.3"
+    "solid-js": "1.8.5"
   }
 }

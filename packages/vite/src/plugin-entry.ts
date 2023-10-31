@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite';
+import type { PluginOption } from 'vite';
 
 import { Config } from './config.ts';
 import { defaultRouterAdapter } from './default-router-adapter.ts';
@@ -6,6 +6,7 @@ import { buildPlugin } from './plugins/build.ts';
 import { cloudflarePlugin } from './plugins/cloudflare.ts';
 import { configPlugin } from './plugins/config.ts';
 import { devServerPlugin } from './plugins/dev-server.ts';
+import { emptyModulesPlugin } from './plugins/modules.ts';
 import { virtualPlugin } from './plugins/virtual.ts';
 import type { RouterAdapter } from './router.ts';
 import { Router } from './router.ts';
@@ -32,7 +33,7 @@ export const ssrx = ({
   runtime = 'node',
   clientOutDir,
   serverOutDir,
-}: Opts = {}): Plugin[] => {
+}: Opts = {}): PluginOption[] => {
   const config = new Config({
     routesFile,
     clientEntry,
@@ -54,6 +55,7 @@ export const ssrx = ({
 
   return [
     configPlugin({ config, router, manifest }),
+    emptyModulesPlugin(),
     virtualPlugin({ config, router, manifest }),
     devServerPlugin({ config, router, manifest }),
     buildPlugin({ config, router, manifest }),

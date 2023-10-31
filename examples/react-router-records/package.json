@@ -14,21 +14,21 @@
     "@hono/node-server": "1.2.0",
     "@ssrx/plugin-react-router": "latest",
     "@ssrx/react": "latest",
-    "hono": "3.8.1",
+    "hono": "3.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.17.0"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
-    "@types/react": "18.2.29",
+    "@types/react": "18.2.33",
     "@types/react-dom": "18.2.14",
     "@vitejs/plugin-react": "4.1.0",
     "autoprefixer": "10.4.16",
     "postcss": "8.4.31",
-    "tailwindcss": "3.3.3",
+    "tailwindcss": "3.3.5",
     "typescript": "5.2.2",
-    "vite": "5.0.0-beta.11",
+    "vite": "5.0.0-beta.14",
     "vite-tsconfig-paths": "4.2.1"
   }
 }

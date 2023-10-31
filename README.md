@@ -3,11 +3,11 @@
 SSRx provides the missing pieces required to create SSR apps with Vite and your third party libraries of choice. It is
 framework agnostic on the client and the server - use React, Solid, Hono, H3, Cloudflare, Bun, you name it.
 
-SSRx is split into two parts:
+SSRx is split into two parts that can be used independently, or together:
 
 1. A Vite plugin to improve the DX of developing SSR apps (can be used on it's own).
-2. A "renderer" that makes it easy to hook into the lifecycle of a streaming SSR app in a framework/library agnostic
-   way.
+2. A "renderer" that establishes some patterns to hook into the lifecycle of streaming SSR apps in a framework/library
+   agnostic way. A handful of renderer plugins for common libraries are maintained in this repo.
 
 ## `@ssrx/vite`
 
@@ -159,8 +159,8 @@ The SSRx renderer provides building blocks that make it easier to develop stream
 framework agnostic, so long as the server runtime supports web streams and AsyncLocalStorage (node 18+, bun, deno,
 cloudflare, vercel, etc).
 
-See the [streaming-kitchen-sink](examples/streaming-kitchen-sink/README.md) example for a look at how everything can
-work together in practice.
+See the [streaming-kitchen-sink](examples/streaming-kitchen-sink/README.md) and
+[remix-vite](examples/remix-vite/README.md) examples for a look at how everything can work together in practice.
 
 ### Directory
 
@@ -168,6 +168,7 @@ work together in practice.
 | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [@ssrx/renderer](packages/renderer)                             | [![@ssrx/renderer version](https://img.shields.io/npm/v/@ssrx/renderer.svg?label=%20)](packages/renderer/CHANGELOG.md)                                           |
 | [@ssrx/react](packages/react)                                   | [![@ssrx/react version](https://img.shields.io/npm/v/@ssrx/react.svg?label=%20)](packages/react/CHANGELOG.md)                                                    |
+| [@ssrx/remix](packages/remix)                                   | [![@ssrx/remix version](https://img.shields.io/npm/v/@ssrx/remix.svg?label=%20)](packages/remix/CHANGELOG.md)                                                    |
 | [@ssrx/solid](packages/solid)                                   | [![@ssrx/solid version](https://img.shields.io/npm/v/@ssrx/solid.svg?label=%20)](packages/solid/CHANGELOG.md)                                                    |
 | [@ssrx/plugin-react-router](packages/plugin-react-router)       | [![@ssrx/plugin-react-router version](https://img.shields.io/npm/v/@ssrx/plugin-react-router.svg?label=%20)](packages/solid/CHANGELOG.md)                        |
 | [@ssrx/plugin-solid-router](packages/plugin-solid-router)       | [![@ssrx/plugin-solid-router version](https://img.shields.io/npm/v/@ssrx/plugin-solid-router.svg?label=%20)](packages/plugin-solid-router/CHANGELOG.md)          |
@@ -195,8 +196,11 @@ export const { clientHandler, serverHandler, ctx } = createApp({
       <div>My App</div>,
 
   plugins: [
-    // ... your plugins, or 3rd party plugins
-    // more on the plugin shape below
+    // IF you are using `@ssrx/vite`, this plugin injects js/css assets into your html
+    // (import { viteRendererPlugin } from '@ssrx/vite/renderer')
+    // viteRendererPlugin(),
+    //
+    // ... your plugins, or 3rd party plugins more on the plugin shape below
   ],
 });
 ```
@@ -240,7 +244,8 @@ Plugins can:
 
 - Hook into the client and server rendering in a standardized way
 - Extend a typesafe `ctx` object that is made available on the client and the server, even outside of the rendering tree
-  (for example in router loader functions)
+  (for example in router loader functions). This is accomplished via a proxy that is exposed on the window in the client
+  context, and via async local storage on the server.
 
 **Plugin Shape**
 
@@ -283,11 +288,6 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      * framework (react, solid, etc) emits a chunk of the page.
      */
     'ssr:emitBeforeFlush'?: Function;
-
-    /**
-     * Return a string to emit some HTML into the document's body before it is closed.
-     */
-    'ssr:emitToBody'?: Function;
   };
 };
 ```

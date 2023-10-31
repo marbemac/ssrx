@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["types/*", "**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "paths": {
+      "~app": ["./app/app.ts"],
+      "~api/*": ["./api/*"],
+      "~/*": ["./app/*"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-remix-routes-plugin"
+      }
+    ]
+  }
+}

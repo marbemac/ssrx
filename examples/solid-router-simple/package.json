@@ -16,13 +16,13 @@
     "@hono/node-server": "1.2.0",
     "@solidjs/router": "0.8.3",
     "@ssrx/solid": "latest",
-    "hono": "3.8.1",
-    "solid-js": "1.8.3"
+    "hono": "3.9.0",
+    "solid-js": "1.8.5"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
     "typescript": "5.2.2",
-    "vite": "5.0.0-beta.11",
+    "vite": "5.0.0-beta.14",
     "vite-plugin-solid": "2.7.2",
     "vite-tsconfig-paths": "4.2.1"
   }

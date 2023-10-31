@@ -2,14 +2,12 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Http2ServerRequest, Http2ServerResponse } from 'node:http2';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 
 import type { Connect, Plugin, ViteDevServer } from 'vite';
 
-import { isAssetHandledByVite } from '~/helpers/vite.ts';
-
 import type { Config } from '../config.ts';
 import { PLUGIN_NAMESPACE } from '../consts.ts';
+import { isAssetHandledByVite } from '../helpers/vite.ts';
 import type { Router } from '../router.ts';
 import type { Manifest } from '../ssr-manifest.ts';
 
@@ -49,12 +47,13 @@ const SKIP_REQ = Symbol('skip_req');
  * Credits to Hono:
  * https://github.com/honojs/vite-plugins
  */
-async function createMiddleware(server: ViteDevServer, options: DevServerOptions): Promise<Connect.HandleFunction> {
+function createMiddleware(server: ViteDevServer, options: DevServerOptions): Promise<Connect.HandleFunction> {
+  // @ts-expect-error ignore
   return async function (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction): Promise<void> {
     const { config } = options;
     const entry = config.serverFile;
 
-    if (isAssetHandledByVite(req.url || '', config.basePath)) {
+    if (isAssetHandledByVite(req.url ?? '', config.basePath)) {
       return next();
     }
 
@@ -92,7 +91,7 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
       } catch (err: any) {
         console.error(`There was an unhandled error in your server fetch handler.`);
 
-        server.ssrFixStacktrace(err);
+        server.ssrFixStacktrace(err as Error);
         next(err);
 
         return SKIP_REQ;
@@ -101,14 +100,14 @@ async function createMiddleware(server: ViteDevServer, options: DevServerOptions
   };
 }
 
-type FetchCallback = (request: Request) => Promise<unknown> | unknown;
+type FetchCallback = (request: Request) => unknown;
 
 /**
  * Adapted from https://github.com/honojs/node-server/blob/main/src/listener.ts
  */
 const getRequestListener = (fetchCallback: FetchCallback) => {
   return async (incoming: IncomingMessage | Http2ServerRequest, outgoing: ServerResponse | Http2ServerResponse) => {
-    const method = incoming.method || 'GET';
+    const method = incoming.method ?? 'GET';
     const url = `http://${incoming.headers.host}${incoming.url}`;
 
     const headerRecord: [string, string][] = [];
@@ -148,17 +147,17 @@ const getRequestListener = (fetchCallback: FetchCallback) => {
       }
     }
 
-    const contentType = res.headers.get('content-type') || '';
+    const contentType = res.headers.get('content-type') ?? '';
     // nginx buffering variant
-    const buffering = res.headers.get('x-accel-buffering') || '';
+    const buffering = res.headers.get('x-accel-buffering') ?? '';
     const contentEncoding = res.headers.get('content-encoding');
     const contentLength = res.headers.get('content-length');
     const transferEncoding = res.headers.get('transfer-encoding');
 
     for (const [k, v] of res.headers) {
       if (k === 'set-cookie') {
-        // node native Headers.prototype has getSetCookie method
-        outgoing.setHeader(k, (res.headers as any).getSetCookie(k));
+        // @ts-expect-error node native Headers.prototype has getSetCookie method
+        outgoing.setHeader(k, (res.headers as Headers).getSetCookie(k));
       } else {
         outgoing.setHeader(k, v);
       }
@@ -176,13 +175,13 @@ const getRequestListener = (fetchCallback: FetchCallback) => {
          * we assume that the response should be streamed.
          */
         if (
-          contentEncoding ||
-          transferEncoding ||
-          contentLength ||
-          /^no$/i.test(buffering) ||
+          contentEncoding ??
+          transferEncoding ??
+          contentLength ??
+          /^no$/i.test(buffering) ??
           !/^(application\/json\b|text\/(?!event-stream\b))/i.test(contentType)
         ) {
-          await pipeline(Readable.fromWeb(res.body as NodeReadableStream), outgoing);
+          await pipeline(Readable.fromWeb(res.body), outgoing);
         } else {
           const text = await res.text();
           outgoing.setHeader('Content-Length', Buffer.byteLength(text));

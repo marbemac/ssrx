@@ -31,14 +31,9 @@ export const virtualPlugin = ({ router, manifest }: VirtualPluginOpts): Plugin =
 
     enforce: 'pre',
 
-    resolveId(id, importer, { ssr }) {
-      const isSsr = !!ssr;
+    resolveId(id) {
       const [, virtual] = id.split(prefix);
       if (virtual) {
-        if (!isSsr) {
-          throw new Error(`The ${id} virtual module cannot be imported on the client`);
-        }
-
         return id;
       }
 
