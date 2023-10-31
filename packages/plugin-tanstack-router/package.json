@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-tanstack-router",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "@tanstack/router-core": "<=1"
   },
   "devDependencies": {
-    "@ssrx/vite": "^0.2.0",
+    "@ssrx/vite": "^0.3.0",
     "@tanstack/react-router": "0.0.1-beta.194",
     "@tanstack/router-core": "0.0.1-beta.194",
     "react": "18.2.0",

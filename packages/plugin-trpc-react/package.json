@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-trpc-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@ssrx/plugin-tanstack-query": "*",
-    "@ssrx/renderer": "^0.1.0"
+    "@ssrx/renderer": "^0.2.0"
   },
   "devDependencies": {
     "@tanstack/react-query": "^5.0.0",
