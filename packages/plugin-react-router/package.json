@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-react-router",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "react-router-dom": "^6"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.2.0"
+    "@ssrx/renderer": "^0.3.0"
   },
   "devDependencies": {
     "react-router-dom": "6.21.1"
