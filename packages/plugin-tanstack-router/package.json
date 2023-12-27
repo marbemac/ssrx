@@ -28,12 +28,11 @@
     "lint": "eslint ."
   },
   "peerDependencies": {
-    "@tanstack/router-core": "<=1"
+    "@tanstack/react-router": "<=1"
   },
   "devDependencies": {
     "@ssrx/vite": "^0.3.0",
-    "@tanstack/react-router": "0.0.1-beta.194",
-    "@tanstack/router-core": "0.0.1-beta.194",
+    "@tanstack/react-router": "1.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }

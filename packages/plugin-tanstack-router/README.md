@@ -6,8 +6,8 @@ The runtime plugin is not yet implemented.
 
 ## Router Adapter
 
-The router adapter allows you to use tanstack router with `@ssrx/vite`. It supports code splitting and asset pre-loading so
-long as you leverage the adjusted `lazyRouteComponent` function (see note at end of this readme).
+The router adapter allows you to use tanstack router with `@ssrx/vite`. It supports code splitting and asset pre-loading
+so long as you leverage the adjusted `lazyRouteComponent` function (see note at end of this readme).
 
 ### Usage
 
@@ -38,7 +38,7 @@ Use the below version in your project:
 
 ```tsx
 /**
- * Adapted from https://github.com/TanStack/router/blob/806ef336e52d786ea7b5bc5988b96df9526e9218/packages/react-router/src/react.tsx#L266
+ * Adapted from https://github.com/TanStack/router/blob/main/packages/react-router/src/lazyRouteComponent.tsx
  *
  * The comp.preload property has been adjusted to maintain a reference to the orginal lazy import function.
  */
@@ -60,5 +60,4 @@ export function lazyRouteComponent<T extends Record<string, any>, TKey extends k
 
   return lazyComp as any;
 }
-
 ```

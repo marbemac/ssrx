@@ -1,5 +1,5 @@
 import type { RouteInfo, RouterAdapter } from '@ssrx/vite/types';
-import type { AnyRoute } from '@tanstack/router-core';
+import type { AnyRoute } from '@tanstack/react-router';
 
 import { transformPath } from './transform-path.ts';
 
@@ -31,8 +31,6 @@ const normalizeRoutes = (externalRoutes: AnyRoute | AnyRoute[]): RouteInfo[] => 
     const path = transformPath(r.path || r.options.path);
     const component = r.options.component;
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore ignore any type issues here
     const lazy = component?.preload;
 
     return {

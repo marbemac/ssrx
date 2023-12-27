@@ -11,6 +11,8 @@ SSRx is split into two parts that can be used independently, or together:
 
 ## `@ssrx/vite`
 
+> ❗ Remix is transitioning to Vite, so for Vite + React projects I now recommend Remix as the best-in-class option.
+
 The SSRx Vite plugin is barebones and (mostly) unopinionated by design. It can be used standalone, see the
 [`bun-react-router`](examples/bun-react-router/README.md),
 [`react-react-simple`](examples/react-router-simple/README.md), and
