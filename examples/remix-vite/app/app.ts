@@ -20,7 +20,6 @@ const { clientHandler, serverHandler, ctx } = createApp({
       queryClientConfig: {
         defaultOptions: {
           queries: {
-            suspense: true,
             retry: false,
             staleTime: 1000 * 60,
             refetchOnReconnect: true,

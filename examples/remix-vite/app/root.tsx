@@ -48,7 +48,7 @@ const AppContainer = () => {
             </NavLink>
 
             <NavLink to={$path('/articles')} className={linkClass}>
-              Articles 2
+              Articles
             </NavLink>
 
             <NavLink to={$path('/wait')} className={linkClass}>

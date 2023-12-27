@@ -30,8 +30,8 @@
     "@ssrx/remix": "workspace:*",
     "@ssrx/renderer": "workspace:*",
     "@ssrx/solid": "workspace:*",
-    "@ssrx/vite": "workspace:*",
-    "@remix-run/dev": "file:.yalc/@remix-run/dev"
+    "@ssrx/trpc-react-query": "workspace:*",
+    "@ssrx/vite": "workspace:*"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.5.0",

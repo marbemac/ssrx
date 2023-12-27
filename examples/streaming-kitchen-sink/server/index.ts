@@ -5,7 +5,7 @@ import { Hono } from 'hono';
 import { serverHandler } from '~app';
 import { type ReqCtx, reqCtxMiddleware } from '~server/middleware/context.ts';
 import { trpcServer } from '~server/middleware/trpc.ts';
-import { appRouter } from '~server/trpc/index.ts';
+import { appRouter, createCaller } from '~server/trpc/index.ts';
 import { deleteCookie, setCookie } from '~server/utils/cookies.ts';
 
 type HonoEnv = { Variables: ReqCtx };
@@ -58,7 +58,7 @@ server
         req: c.req.raw,
         meta: {
           // used by @ssrx/plugin-trpc-react
-          trpcCaller: appRouter.createCaller(c.var),
+          trpcCaller: createCaller(c.var),
         },
       });
 

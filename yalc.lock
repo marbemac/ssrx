@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "@remix-run/dev": {
-      "signature": "dbca81764aea04533d6247b122d1500e",
-      "pure": true
-    }
-  }
-}
