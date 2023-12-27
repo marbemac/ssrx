@@ -27,7 +27,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["bun-types", "vite/client"],
+    "types": ["vite/client", "bun-types"],
     "allowImportingTsExtensions": true,
     "moduleDetection": "force"
   }
