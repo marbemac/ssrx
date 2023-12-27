@@ -2441,7 +2441,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-react-router@workspace:packages/plugin-react-router"
   dependencies:
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     react-router-dom: "npm:6.21.1"
   peerDependencies:
     react-router-dom: ^6
@@ -2453,7 +2453,7 @@ __metadata:
   resolution: "@ssrx/plugin-solid-router@workspace:packages/plugin-solid-router"
   dependencies:
     "@solidjs/router": "npm:0.8.4"
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     esbuild-plugin-solid: "npm:0.5.0"
   peerDependencies:
     "@solidjs/router": "*"
@@ -2464,7 +2464,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-tanstack-query@workspace:packages/plugin-tanstack-query"
   dependencies:
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     "@tanstack/query-core": "npm:^5.14.2"
     "@tanstack/query-devtools": "npm:^5.15.0"
     devalue: "npm:^4.3.2"
@@ -2477,7 +2477,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-tanstack-router@workspace:packages/plugin-tanstack-router"
   dependencies:
-    "@ssrx/vite": "npm:^0.3.0"
+    "@ssrx/vite": "npm:^0.4.0"
     "@tanstack/react-router": "npm:1.0.0"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -2491,7 +2491,7 @@ __metadata:
   resolution: "@ssrx/plugin-trpc-react@workspace:packages/plugin-trpc-react"
   dependencies:
     "@ssrx/plugin-tanstack-query": "npm:*"
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     "@ssrx/trpc-react-query": "npm:*"
     "@tanstack/react-query": "npm:^5.15.0"
     "@trpc/client": "npm:10.45.0"
@@ -2507,7 +2507,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-unhead@workspace:packages/plugin-unhead"
   dependencies:
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     "@unhead/addons": "npm:~1.8.9"
     "@unhead/schema": "npm:~1.8.9"
     "@unhead/ssr": "npm:~1.8.9"
@@ -2519,8 +2519,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/react@workspace:packages/react"
   dependencies:
-    "@ssrx/renderer": "npm:^0.2.0"
-    "@ssrx/vite": "npm:^0.3.0"
+    "@ssrx/renderer": "npm:^0.3.0"
+    "@ssrx/vite": "npm:^0.4.0"
     esbuild: "npm:0.19.10"
     isbot-fast: "npm:1.2.0"
     react: "npm:18.2.0"
@@ -2538,7 +2538,7 @@ __metadata:
   resolution: "@ssrx/remix@workspace:packages/remix"
   dependencies:
     "@remix-run/react": "npm:2.4.1"
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     esbuild: "npm:0.19.10"
     isbot-fast: "npm:1.2.0"
     rollup: "npm:4.9.1"
@@ -2592,8 +2592,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/solid@workspace:packages/solid"
   dependencies:
-    "@ssrx/renderer": "npm:^0.2.0"
-    "@ssrx/vite": "npm:^0.3.0"
+    "@ssrx/renderer": "npm:^0.3.0"
+    "@ssrx/vite": "npm:^0.4.0"
     esbuild-plugin-solid: "npm:0.5.0"
     solid-js: "npm:1.8.7"
   peerDependencies:
@@ -2618,7 +2618,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/vite@workspace:packages/vite"
   dependencies:
-    "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/renderer": "npm:^0.3.0"
     "@total-typescript/ts-reset": "npm:~0.5.1"
     esbuild: "npm:0.19.10"
     radix3: "npm:^1.1.0"
