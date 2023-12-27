@@ -1,9 +1,8 @@
-import { wrap } from '@decs/typeschema';
 import { TRPCError } from '@trpc/server';
 import { SqliteError } from 'better-sqlite3';
 import type { CookieOptions } from 'hono/utils/cookie';
 import { LuciaError } from 'lucia';
-import { maxLength, minLength, object, string } from 'valibot';
+import { maxLength, minLength, object, parse, string } from 'valibot';
 
 import { auth } from '~server/auth.ts';
 import { createDbId } from '~server/db/ids.ts';
@@ -21,89 +20,93 @@ export const authRouter = router({
     return ctx.user || null;
   }),
 
-  signup: publicProcedure.input(wrap(SignupSchema)).mutation(async ({ input, ctx }) => {
-    const { username, password } = input;
+  signup: publicProcedure
+    .input(i => parse(SignupSchema, i))
+    .mutation(async ({ input, ctx }) => {
+      const { username, password } = input;
 
-    try {
-      const user = await auth.createUser({
-        userId: `u_${createDbId()}`,
-        key: {
-          providerId: 'username', // auth method
-          providerUserId: username.toLowerCase(), // unique id when using "username" auth method
-          password, // hashed by Lucia
-        },
-        attributes: {
-          username,
-        },
-      });
+      try {
+        const user = await auth.createUser({
+          userId: `u_${createDbId()}`,
+          key: {
+            providerId: 'username', // auth method
+            providerUserId: username.toLowerCase(), // unique id when using "username" auth method
+            password, // hashed by Lucia
+          },
+          attributes: {
+            username,
+          },
+        });
 
-      const session = await auth.createSession({
-        userId: user.userId,
-        attributes: {},
-      });
+        const session = await auth.createSession({
+          userId: user.userId,
+          attributes: {},
+        });
 
-      const sessionCookie = auth.createSessionCookie(session);
-      const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
-      ctx.setCookie(sessionCookie.name, sessionCookie.value, {
-        ...cookieAttrs,
-        sameSite: sameSiteLuciaToHono(sameSite),
-      });
-    } catch (e) {
-      if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+        const sessionCookie = auth.createSessionCookie(session);
+        const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
+        ctx.setCookie(sessionCookie.name, sessionCookie.value, {
+          ...cookieAttrs,
+          sameSite: sameSiteLuciaToHono(sameSite),
+        });
+      } catch (e) {
+        if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Username already exists.',
+            cause: e,
+          });
+        }
+
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Username already exists.',
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unknown error occurred.',
           cause: e,
         });
       }
-
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'An unknown error occurred.',
-        cause: e,
-      });
-    }
-
-    return null;
-  }),
-
-  login: publicProcedure.input(wrap(LoginSchema)).mutation(async ({ input, ctx }) => {
-    const { username, password } = input;
-
-    try {
-      // find user by key
-      // and validate password
-      const key = await auth.useKey('username', username.toLowerCase(), password);
-
-      const session = await auth.createSession({
-        userId: key.userId,
-        attributes: {},
-      });
-
-      const sessionCookie = auth.createSessionCookie(session);
-      const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
-      ctx.setCookie(sessionCookie.name, sessionCookie.value, {
-        ...cookieAttrs,
-        sameSite: sameSiteLuciaToHono(sameSite),
-      });
 
       return null;
-    } catch (e) {
-      if (e instanceof LuciaError && (e.message === 'AUTH_INVALID_KEY_ID' || e.message === 'AUTH_INVALID_PASSWORD')) {
+    }),
+
+  login: publicProcedure
+    .input(i => parse(LoginSchema, i))
+    .mutation(async ({ input, ctx }) => {
+      const { username, password } = input;
+
+      try {
+        // find user by key
+        // and validate password
+        const key = await auth.useKey('username', username.toLowerCase(), password);
+
+        const session = await auth.createSession({
+          userId: key.userId,
+          attributes: {},
+        });
+
+        const sessionCookie = auth.createSessionCookie(session);
+        const { sameSite, ...cookieAttrs } = sessionCookie.attributes;
+        ctx.setCookie(sessionCookie.name, sessionCookie.value, {
+          ...cookieAttrs,
+          sameSite: sameSiteLuciaToHono(sameSite),
+        });
+
+        return null;
+      } catch (e) {
+        if (e instanceof LuciaError && (e.message === 'AUTH_INVALID_KEY_ID' || e.message === 'AUTH_INVALID_PASSWORD')) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Incorrect username or password.',
+            cause: e,
+          });
+        }
+
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Incorrect username or password.',
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unknown error occurred.',
           cause: e,
         });
       }
-
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'An unknown error occurred.',
-        cause: e,
-      });
-    }
-  }),
+    }),
 
   logout: protectedProcedure.mutation(async ({ ctx }) => {
     // make sure to invalidate the current session!

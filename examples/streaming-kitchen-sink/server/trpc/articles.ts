@@ -1,11 +1,10 @@
-import { wrap } from '@decs/typeschema';
 import { TRPCError } from '@trpc/server';
 import { desc, eq, or } from 'drizzle-orm';
-import { object, omit, partial, pick } from 'valibot';
+import { object, omit, parse, partial, pick } from 'valibot';
 
+import { sleep } from '~client/utils.ts';
 import { createDbId } from '~server/db/ids.ts';
 import { articles, insertArticleSchema, selectArticleSchema } from '~server/db/schema/index.ts';
-import { sleep } from '~client/utils.ts';
 
 import { protectedProcedure, publicProcedure, router } from './trpc.ts';
 
@@ -25,23 +24,25 @@ export const articlesRouter = router({
       .execute();
   }),
 
-  byId: publicProcedure.input(wrap(pick(selectArticleSchema, ['id']))).query(async ({ input, ctx }) => {
-    await sleep(500);
+  byId: publicProcedure
+    .input(i => parse(pick(selectArticleSchema, ['id']), i))
+    .query(async ({ input, ctx }) => {
+      await sleep(500);
 
-    const article = (await ctx.db.select().from(articles).where(eq(articles.id, input.id)).execute())[0];
-    if (!article || (article.status === 'draft' && article.authorId !== ctx.user?.id)) {
-      throw new TRPCError({ code: 'NOT_FOUND' });
-    }
+      const article = (await ctx.db.select().from(articles).where(eq(articles.id, input.id)).execute())[0];
+      if (!article || (article.status === 'draft' && article.authorId !== ctx.user?.id)) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
 
-    return article;
-  }),
+      return article;
+    }),
 
   /**
    * Mutations
    */
 
   create: protectedProcedure
-    .input(wrap(omit(insertArticleSchema, ['id', 'authorId'])))
+    .input(i => parse(omit(insertArticleSchema, ['id', 'authorId']), i))
     .mutation(async ({ input, ctx }) => {
       const article = await ctx.db
         .insert(articles)
@@ -57,12 +58,13 @@ export const articlesRouter = router({
     }),
 
   update: protectedProcedure
-    .input(
-      wrap(
+    .input(i =>
+      parse(
         object({
           lookup: pick(insertArticleSchema, ['id']),
           set: partial(pick(insertArticleSchema, ['title', 'body', 'status'])),
         }),
+        i,
       ),
     )
     .mutation(async ({ input: { lookup, set }, ctx }) => {
@@ -84,14 +86,16 @@ export const articlesRouter = router({
       return article[0];
     }),
 
-  delete: protectedProcedure.input(wrap(pick(selectArticleSchema, ['id']))).mutation(async ({ input: { id }, ctx }) => {
-    const existing = (await ctx.db.select().from(articles).where(eq(articles.id, id)).execute())[0];
-    if (!existing || existing.authorId !== ctx.user.id) {
-      throw new TRPCError({ code: 'NOT_FOUND' });
-    }
+  delete: protectedProcedure
+    .input(i => parse(pick(selectArticleSchema, ['id']), i))
+    .mutation(async ({ input: { id }, ctx }) => {
+      const existing = (await ctx.db.select().from(articles).where(eq(articles.id, id)).execute())[0];
+      if (!existing || existing.authorId !== ctx.user.id) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
 
-    await ctx.db.delete(articles).where(eq(articles.id, id)).execute();
+      await ctx.db.delete(articles).where(eq(articles.id, id)).execute();
 
-    return null;
-  }),
+      return null;
+    }),
 });
