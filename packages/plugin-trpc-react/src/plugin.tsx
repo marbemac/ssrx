@@ -1,14 +1,12 @@
 import type { TanstackQueryPluginCtx } from '@ssrx/plugin-tanstack-query';
 import { PLUGIN_ID as QUERY_PLUGIN_ID } from '@ssrx/plugin-tanstack-query';
 import { defineRenderPlugin } from '@ssrx/renderer';
+import { type CreateTRPCQueryOptions, createTRPCReact } from '@ssrx/trpc-react-query';
 import type { HTTPBatchLinkOptions, TRPCLink } from '@trpc/client';
 import { createTRPCUntypedClient } from '@trpc/client';
 import { httpBatchLink } from '@trpc/client';
 import type { AnyRouter } from '@trpc/server';
 import { observable } from '@trpc/server/observable';
-
-import { createTRPCReact } from './trpc-react/index.ts';
-import type { CreateTRPCQueryOptions } from './trpc-react/types.ts';
 
 export const PLUGIN_ID = 'trpc' as const;
 

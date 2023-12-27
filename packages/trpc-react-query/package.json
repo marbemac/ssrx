@@ -1,17 +1,19 @@
 {
-  "name": "@ssrx/plugin-trpc-react",
-  "version": "0.3.0",
+  "name": "@ssrx/trpc-react-query",
+  "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
   "keywords": [
-    "trpc"
+    "trpc",
+    "react",
+    "react-query"
   ],
   "author": "marbemac (https://github.com/marbemac)",
   "repository": {
     "type": "git",
     "url": "https://github.com/marbemac/ssrx",
-    "directory": "packages/plugin-trpc-react"
+    "directory": "packages/trpc-react-query"
   },
   "files": [
     "dist",
@@ -30,13 +32,7 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5",
-    "@trpc/client": "^10",
-    "@trpc/server": "^10"
-  },
-  "dependencies": {
-    "@ssrx/plugin-tanstack-query": "*",
-    "@ssrx/renderer": "^0.2.0",
-    "@ssrx/trpc-react-query": "*"
+    "react": "*"
   },
   "devDependencies": {
     "@tanstack/react-query": "^5.15.0",

@@ -2615,13 +2615,14 @@ __metadata:
   dependencies:
     "@ssrx/plugin-tanstack-query": "npm:*"
     "@ssrx/renderer": "npm:^0.2.0"
+    "@ssrx/trpc-react-query": "npm:*"
     "@tanstack/react-query": "npm:^5.15.0"
     "@trpc/client": "npm:10.45.0"
     "@trpc/server": "npm:10.45.0"
   peerDependencies:
     "@tanstack/react-query": ^5
-    "@trpc/client": ^10.40.0
-    "@trpc/server": ^10.40.0
+    "@trpc/client": ^10
+    "@trpc/server": ^10
   languageName: unknown
   linkType: soft
 
@@ -2719,6 +2720,19 @@ __metadata:
     solid-js: "npm:1.8.7"
   peerDependencies:
     solid-js: "*"
+  languageName: unknown
+  linkType: soft
+
+"@ssrx/trpc-react-query@npm:*, @ssrx/trpc-react-query@workspace:packages/trpc-react-query":
+  version: 0.0.0-use.local
+  resolution: "@ssrx/trpc-react-query@workspace:packages/trpc-react-query"
+  dependencies:
+    "@tanstack/react-query": "npm:^5.15.0"
+    "@trpc/client": "npm:10.45.0"
+    "@trpc/server": "npm:10.45.0"
+  peerDependencies:
+    "@tanstack/react-query": ^5
+    react: "*"
   languageName: unknown
   linkType: soft
 
@@ -4252,9 +4266,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001565":
-  version: 1.0.30001571
-  resolution: "caniuse-lite@npm:1.0.30001571"
-  checksum: 98a4f82bc969e7037ddafd1d9a8683b14b611b4e471d09e1e5825b0dbe9ea38460aa53538e830912f15f3ed43ce5f3e24133537bbd38ea9a36f263a46ec969b9
+  version: 1.0.30001572
+  resolution: "caniuse-lite@npm:1.0.30001572"
+  checksum: 28f83cd32224c35bb237ec9128ff676bb2cbbf099a45cfe4110ab60fa4ac6245a93579e7f19e048210ac84ea768988b7dfc67feb8768f4fcf7dc70bcaee268f5
   languageName: node
   linkType: hard
 
