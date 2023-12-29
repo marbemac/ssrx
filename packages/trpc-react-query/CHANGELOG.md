@@ -1,5 +1,12 @@
 # @ssrx/trpc-react
 
+## 0.1.2
+
+### Patch Changes
+
+- [`a4ebe64`](https://github.com/marbemac/ssrx/commit/a4ebe64d5b8f8c5e62182b3224dd36c4c73ba2b1) Thanks
+  [@marbemac](https://github.com/marbemac)! - Extend QueryObserverOptions in useQuery
+
 ## 0.1.1
 
 ### Patch Changes
