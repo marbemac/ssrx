@@ -174,13 +174,16 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
     pathAndInput: [path: TPath, ...args: inferHandlerInput<TQueries[TPath]>],
     opts?: UseTRPCQueryOptions<TPath, TQueryValues[TPath]['input'], TQueryFnData, TData, TError>,
   ): UseTRPCQueryResult<TData, TError> {
-    return __useQuery({
-      queryKey: getArrayQueryKey(pathAndInput, 'query'),
-      queryFn: () => {
-        return (config.client as any).query(...getClientArgs(pathAndInput, opts));
+    return __useQuery(
+      {
+        queryKey: getArrayQueryKey(pathAndInput, 'query'),
+        queryFn: () => {
+          return (config.client as any).query(...getClientArgs(pathAndInput, opts));
+        },
+        ...(opts as any),
       },
-      ...(opts as any),
-    }) as UseTRPCQueryResult<TData, TError>;
+      queryClient,
+    ) as UseTRPCQueryResult<TData, TError>;
   }
 
   function useMutation<TPath extends keyof TMutationValues & string, TContext = unknown>(
@@ -191,22 +194,25 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
 
     const defaultOpts = queryClient.getMutationDefaults([actualPath.split('.')]);
 
-    return __useMutation({
-      ...opts,
-      mutationKey: [actualPath.split('.')],
-      mutationFn: input => {
-        return (config.client as any).mutation(...getClientArgs([actualPath, input], opts));
-      },
-      onSuccess(...args) {
-        const originalFn = () => opts?.onSuccess?.(...args) ?? defaultOpts?.onSuccess?.(...args);
+    return __useMutation(
+      {
+        ...opts,
+        mutationKey: [actualPath.split('.')],
+        mutationFn: input => {
+          return (config.client as any).mutation(...getClientArgs([actualPath, input], opts));
+        },
+        onSuccess(...args) {
+          const originalFn = () => opts?.onSuccess?.(...args) ?? defaultOpts?.onSuccess?.(...args);
 
-        return mutationSuccessOverride({
-          originalFn,
-          queryClient,
-          meta: opts?.meta ?? defaultOpts?.meta ?? {},
-        });
+          return mutationSuccessOverride({
+            originalFn,
+            queryClient,
+            meta: opts?.meta ?? defaultOpts?.meta ?? {},
+          });
+        },
       },
-    }) as UseTRPCMutationResult<TMutationValues[TPath]['output'], TError, TMutationValues[TPath]['input'], TContext>;
+      queryClient,
+    ) as UseTRPCMutationResult<TMutationValues[TPath]['output'], TError, TMutationValues[TPath]['input'], TContext>;
   }
 
   /**
@@ -267,18 +273,21 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
       TError
     >,
   ): UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError> {
-    return __useInfiniteQuery({
-      queryKey: getArrayQueryKey(pathAndInput, 'infinite'),
-      queryFn: queryFunctionContext => {
-        const actualInput = {
-          ...((pathAndInput[1] as any) ?? {}),
-          cursor: queryFunctionContext.pageParam,
-        };
+    return __useInfiniteQuery(
+      {
+        queryKey: getArrayQueryKey(pathAndInput, 'infinite'),
+        queryFn: queryFunctionContext => {
+          const actualInput = {
+            ...((pathAndInput[1] as any) ?? {}),
+            cursor: queryFunctionContext.pageParam,
+          };
 
-        return (config.client as any).query(...getClientArgs([pathAndInput[0], actualInput], opts));
+          return (config.client as any).query(...getClientArgs([pathAndInput[0], actualInput], opts));
+        },
+        ...(opts as any),
       },
-      ...(opts as any),
-    }) as UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError>;
+      queryClient,
+    ) as UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError>;
   }
 
   return {
