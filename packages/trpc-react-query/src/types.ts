@@ -5,7 +5,7 @@ import type {
   MutationOptions,
   QueryClient,
   QueryKey,
-  QueryOptions,
+  QueryObserverOptions,
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import type { TRPCRequestOptions, TRPCUntypedClient } from '@trpc/client';
@@ -57,7 +57,7 @@ export type CreateQueryOptions<
   TError = unknown,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
-> = OmitUseless<QueryOptions<TQueryFnData, TError, TData, TQueryKey>>;
+> = OmitUseless<QueryObserverOptions<TQueryFnData, TError, TData, TQueryKey>>;
 
 export type CreateInfiniteQueryOptions<
   TQueryFnData = unknown,
