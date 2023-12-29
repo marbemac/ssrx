@@ -1,5 +1,12 @@
 # @ssrx/trpc-react
 
+## 0.1.1
+
+### Patch Changes
+
+- [`8fe572b`](https://github.com/marbemac/ssrx/commit/8fe572b87f0bf2f86d51933f97118beeec44413b) Thanks
+  [@marbemac](https://github.com/marbemac)! - Remove reliance on react-query context.
+
 ## 0.1.0
 
 ### Minor Changes
