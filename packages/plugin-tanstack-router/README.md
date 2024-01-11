@@ -2,7 +2,7 @@
 
 ## Plugin
 
-The runtime plugin is not yet implemented.
+The runtime plugin, that would let you specify a [custom runtime target]([url](https://github.com/marbemac/ssrx#runtimes)) apart from Node.js, like an Edge runtime, is not yet implemented.
 
 ## Router Adapter
 
