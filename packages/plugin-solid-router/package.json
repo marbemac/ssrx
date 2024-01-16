@@ -33,7 +33,7 @@
     "@ssrx/renderer": "^0.3.0"
   },
   "devDependencies": {
-    "@solidjs/router": "0.8.4",
+    "@solidjs/router": "0.10.9",
     "esbuild-plugin-solid": "0.5.0"
   }
 }

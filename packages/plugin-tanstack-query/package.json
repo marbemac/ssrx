@@ -33,7 +33,7 @@
     "devalue": "^4.3.2"
   },
   "devDependencies": {
-    "@tanstack/query-core": "^5.14.2",
-    "@tanstack/query-devtools": "^5.15.0"
+    "@tanstack/query-core": "^5.17.14",
+    "@tanstack/query-devtools": "^5.17.7"
   }
 }

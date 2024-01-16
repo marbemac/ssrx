@@ -55,10 +55,10 @@
     "isbot-fast": "1.2.0"
   },
   "devDependencies": {
-    "esbuild": "0.19.10",
+    "esbuild": "0.19.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "rollup": "4.9.1",
+    "rollup": "4.9.5",
     "rollup-plugin-esbuild": "6.1.0"
   }
 }

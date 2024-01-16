@@ -13,17 +13,17 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@hono/node-server": "1.3.3",
-    "@solidjs/router": "0.8.4",
+    "@hono/node-server": "1.4.0",
+    "@solidjs/router": "0.10.9",
     "@ssrx/solid": "latest",
-    "hono": "3.11.11",
-    "solid-js": "1.8.7"
+    "hono": "3.12.5",
+    "solid-js": "1.8.11"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
     "typescript": "5.3.3",
-    "vite": "5.0.10",
+    "vite": "5.0.11",
     "vite-plugin-solid": "2.8.0",
-    "vite-tsconfig-paths": "4.2.2"
+    "vite-tsconfig-paths": "4.2.3"
   }
 }
