@@ -11053,9 +11053,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-router-streaming@workspace:examples/streaming-kitchen-sink":
+"react-router-streaming@workspace:examples/react-router-streaming":
   version: 0.0.0-use.local
-  resolution: "react-router-streaming@workspace:examples/streaming-kitchen-sink"
+  resolution: "react-router-streaming@workspace:examples/react-router-streaming"
   dependencies:
     "@hono/node-server": "npm:1.4.0"
     "@lucia-auth/adapter-sqlite": "npm:2.0.1"
