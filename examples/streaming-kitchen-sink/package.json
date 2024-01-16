@@ -1,5 +1,5 @@
 {
-  "name": "streaming-kitchen-sink",
+  "name": "react-router-streaming",
   "version": "0.0.0",
   "private": true,
   "sideEffects": false,

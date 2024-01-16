@@ -161,7 +161,7 @@ The SSRx renderer provides building blocks that make it easier to develop stream
 framework agnostic, so long as the server runtime supports web streams and AsyncLocalStorage (node 18+, bun, deno,
 cloudflare, vercel, etc).
 
-See the [streaming-kitchen-sink](examples/streaming-kitchen-sink/README.md) and
+See the [react-router-streaming](examples/react-router-streaming/README.md) and
 [remix-vite](examples/remix-vite/README.md) examples for a look at how everything can work together in practice.
 
 ### Directory

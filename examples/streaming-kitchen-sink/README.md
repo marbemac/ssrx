@@ -1,4 +1,4 @@
-# streaming-kitchen-sink
+# react-router-streaming
 
 **Features**
 
@@ -26,6 +26,6 @@
 
 All of these commands are expecting you to be in the root of this repo:
 
-- dev: `yarn nx run streaming-kitchen-sink:dev`
-- build: `yarn nx run streaming-kitchen-sink:build`
-- start: `yarn nx run streaming-kitchen-sink:start`
+- dev: `yarn nx run react-router-streaming:dev`
+- build: `yarn nx run react-router-streaming:build`
+- start: `yarn nx run react-router-streaming:start`
