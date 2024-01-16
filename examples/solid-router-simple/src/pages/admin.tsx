@@ -1,8 +1,9 @@
 import './admin.css';
 
-import { A, Outlet } from '@solidjs/router';
+import { A } from '@solidjs/router';
+import type { ParentProps } from 'solid-js';
 
-export default function Component() {
+export default function Component(props: ParentProps) {
   return (
     <>
       <h2>Admin Area</h2>
@@ -17,9 +18,7 @@ export default function Component() {
         </A>
       </nav>
 
-      <div class="admin-content">
-        <Outlet />
-      </div>
+      <div class="admin-content">{props.children}</div>
     </>
   );
 }

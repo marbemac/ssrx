@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@hono/node-server": "1.4.0",
+    "@solidjs/meta": "~0.29.3",
     "@solidjs/router": "0.10.9",
     "@ssrx/solid": "latest",
     "hono": "3.12.5",

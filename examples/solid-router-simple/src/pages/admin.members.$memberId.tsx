@@ -1,5 +1,5 @@
 import { useParams } from '@solidjs/router';
-import { createResource } from 'solid-js';
+import { createResource, Suspense } from 'solid-js';
 
 import { getMember, sleep } from '~/utils.ts';
 
@@ -16,5 +16,9 @@ export default function Component() {
 
   const [data] = createResource(() => params.memberId, loader);
 
-  return <div>Member: {data()?.data?.name}</div>;
+  return (
+    <Suspense fallback="Loading...">
+      <div>Member: {data()?.data?.name}</div>
+    </Suspense>
+  );
 }

@@ -1,47 +1,44 @@
 import type { RouteDefinition } from '@solidjs/router';
 import { lazy } from 'solid-js';
 
-import { Component as RootLayout } from './pages/root.tsx';
+import { loader as homeLoader } from '~/pages/_index/loader.ts';
 
-export const routes: RouteDefinition = {
-  path: '/',
-  element: RootLayout,
-  children: [
-    {
-      path: '/',
-      component: lazy(() => import('~/pages/_index.tsx')),
-    },
+export const routes: RouteDefinition[] = [
+  {
+    path: '/',
+    load: homeLoader,
+    component: lazy(() => import('~/pages/_index/route.tsx')),
+  },
 
-    {
-      path: 'lazy-component',
-      component: lazy(() => import('~/pages/lazy-component.tsx')),
-    },
+  {
+    path: 'lazy-component',
+    component: lazy(() => import('~/pages/lazy-component.tsx')),
+  },
 
-    {
-      path: 'admin',
-      component: lazy(() => import('~/pages/admin.tsx')),
-      children: [
-        {
-          path: '',
-          component: lazy(() => import('~/pages/admin._index.tsx')),
-        },
+  {
+    path: 'admin',
+    component: lazy(() => import('~/pages/admin.tsx')),
+    children: [
+      {
+        path: '',
+        component: lazy(() => import('~/pages/admin._index.tsx')),
+      },
 
-        {
-          path: 'members',
-          component: lazy(() => import('~/pages/admin.members.tsx')),
-          children: [
-            {
-              path: '',
-              component: lazy(() => import('~/pages/admin.members._index.tsx')),
-            },
+      {
+        path: 'members',
+        component: lazy(() => import('~/pages/admin.members.tsx')),
+        children: [
+          {
+            path: '',
+            component: lazy(() => import('~/pages/admin.members._index.tsx')),
+          },
 
-            {
-              path: ':memberId',
-              component: lazy(() => import('~/pages/admin.members.$memberId.tsx')),
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+          {
+            path: ':memberId',
+            component: lazy(() => import('~/pages/admin.members.$memberId.tsx')),
+          },
+        ],
+      },
+    ],
+  },
+];

@@ -2680,6 +2680,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solidjs/meta@npm:~0.29.3":
+  version: 0.29.3
+  resolution: "@solidjs/meta@npm:0.29.3"
+  peerDependencies:
+    solid-js: ">=1.8.4"
+  checksum: f9a01d61e852ef5a3fcadf9c2893b8e44ed2e7df26e3d396a8a4a38a2f1bd110e89b90bdc32fd584ae40a867d38f4f1c5ceb99c7c84026de1bfafab9f8c66881
+  languageName: node
+  linkType: hard
+
 "@solidjs/router@npm:0.10.9":
   version: 0.10.9
   resolution: "@solidjs/router@npm:0.10.9"
@@ -12021,6 +12030,7 @@ __metadata:
   resolution: "solid-router-simple@workspace:examples/solid-router-simple"
   dependencies:
     "@hono/node-server": "npm:1.4.0"
+    "@solidjs/meta": "npm:~0.29.3"
     "@solidjs/router": "npm:0.10.9"
     "@ssrx/solid": "npm:latest"
     "@ssrx/vite": "npm:latest"
