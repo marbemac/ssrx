@@ -62,7 +62,7 @@ server
         },
       });
 
-      return new Response(appStream);
+      return new Response(appStream, { headers: { 'Content-Type': 'text/html' } });
     } catch (err: any) {
       /**
        * Handle react-router redirects
