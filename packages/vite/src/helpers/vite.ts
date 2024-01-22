@@ -12,7 +12,17 @@ import type { ModuleNode, ViteDevServer } from 'vite';
 
 import { type Asset, AssetType, getAssetWeight } from './routes.ts';
 
-export async function findStylesInModuleGraph(vite: ViteDevServer, match: string[], ssr: boolean) {
+export async function findStylesInModuleGraph({
+  vite,
+  match,
+  ssr,
+  cssModules,
+}: {
+  vite: ViteDevServer;
+  match: string[];
+  ssr: boolean;
+  cssModules: Record<string, string>;
+}) {
   const assets: { [id: string]: Asset } = {};
 
   const dependencies = await findDependencies(vite, match, ssr);
@@ -22,9 +32,7 @@ export async function findStylesInModuleGraph(vite: ViteDevServer, match: string
 
     if (file && ASSET_REGEXES.styles.test(file)) {
       try {
-        const mod = await vite.ssrLoadModule(url);
-
-        const code = mod['default'];
+        const code = isCssModulesFile(file) ? cssModules[file] : (await vite.ssrLoadModule(url))['default'];
 
         assets[file] = {
           type: AssetType.style,
@@ -167,7 +175,8 @@ async function findDependencies(vite: ViteDevServer, match: string[], ssr: boole
 }
 
 const ASSET_REGEXES = {
-  styles: /\.(css|less|sass|scss|styl|stylus|pcss|postcss)$/,
+  styles: /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
+  cssModules: /\.module\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
   external: /\/(node_modules|inc)\/.*/,
   static: /\.(txt|ico|svg|webp|png|jpg|jpeg|gif|mp3)$/,
   runtime: /\.(js|ts|tsx|jsx)$/,
@@ -177,6 +186,8 @@ const ASSET_REGEXES = {
   // https://github.com/vitejs/vite/blob/main/packages/vite/src/node/plugins/dynamicImportVars.ts#L22
   vite: /^\/@.+|^\0vite\/.+/,
 };
+
+export const isCssModulesFile = (assetPath: string) => ASSET_REGEXES.cssModules.test(assetPath);
 
 export const isInternalRuntimeAsset = (assetPath: string) => {
   return (
