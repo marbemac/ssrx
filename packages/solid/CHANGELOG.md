@@ -1,5 +1,15 @@
 # @ssrx/solid
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`b9b25b3`](https://github.com/marbemac/ssrx/commit/b9b25b37fecc4a443599d59d73dfdf506769517d),
+  [`c44d7bf`](https://github.com/marbemac/ssrx/commit/c44d7bf463ff41eeb53ea4bd79580a9d8ce87471),
+  [`db81922`](https://github.com/marbemac/ssrx/commit/db819220a1ed2006c8e2bdbd50ff6d6ab6d40b16),
+  [`dc4b723`](https://github.com/marbemac/ssrx/commit/dc4b723b031fc89e36beff8c1b1bde0b64283673)]:
+  - @ssrx/vite@0.5.0
+
 ## 0.3.0
 
 ### Minor Changes
