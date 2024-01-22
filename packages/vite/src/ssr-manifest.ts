@@ -142,10 +142,7 @@ export class Manifest<ExternalRoutes> {
   }
 
   get clientManifestDir(): string {
-    return path.resolve(
-      this.config.root,
-      this.config.viteMajor < 5 ? `${this.config.clientOutDir}` : `${this.config.clientOutDir}/.vite`,
-    );
+    return path.resolve(this.config.root, `${this.config.clientOutDir}/.vite`);
   }
 
   get clientManifestPath(): string {

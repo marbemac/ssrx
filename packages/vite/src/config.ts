@@ -72,16 +72,6 @@ export class Config {
     return this.mode === 'production';
   }
 
-  get viteVersion() {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const vitePkg = require('vite/package.json');
-    return vitePkg.version;
-  }
-
-  get viteMajor() {
-    return parseInt(this.viteVersion.split('.')[0]!);
-  }
-
   get isEdgeRuntime() {
     return ['edge', 'cf-pages'].includes(this.runtime);
   }
