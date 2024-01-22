@@ -20,7 +20,7 @@
     "debug": "tsx debug.ts"
   },
   "dependencies": {
-    "@hono/node-server": "1.4.0",
+    "@hono/node-server": "1.4.1",
     "@lucia-auth/adapter-sqlite": "2.0.1",
     "@paralleldrive/cuid2": "2.2.2",
     "@radix-ui/react-slot": "^1.0.2",
@@ -31,25 +31,25 @@
     "@ssrx/plugin-trpc-react": "latest",
     "@ssrx/plugin-unhead": "latest",
     "@ssrx/react": "latest",
-    "@tanstack/react-query": "^5.17.14",
-    "@tanstack/react-query-devtools": "^5.17.14",
+    "@tanstack/react-query": "^5.17.19",
+    "@tanstack/react-query-devtools": "^5.17.21",
     "@trpc/server": "10.45.0",
-    "better-sqlite3": "9.2.2",
+    "better-sqlite3": "9.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "drizzle-orm": "0.29.3",
     "drizzle-valibot": "0.1.1",
-    "hono": "3.12.5",
+    "hono": "3.12.6",
     "lucia": "2.7.6",
-    "lucide-react": "^0.311.0",
+    "lucide-react": "^0.314.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "4.0.12",
-    "react-router-dom": "6.21.2",
+    "react-router-dom": "6.21.3",
     "react-router-typesafe-routes": "1.2.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "valibot": "0.25.0"
+    "valibot": "0.26.0"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
@@ -57,14 +57,14 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@vitejs/plugin-react": "4.2.1",
-    "autoprefixer": "10.4.16",
+    "autoprefixer": "10.4.17",
     "drizzle-kit": "0.20.13",
     "postcss": "8.4.33",
     "rollup-plugin-analyzer": "4.0.0",
     "tailwindcss": "3.3.5",
     "tsx": "4.7.0",
     "typescript": "5.3.3",
-    "vite": "5.0.11",
-    "vite-tsconfig-paths": "4.2.3"
+    "vite": "5.0.12",
+    "vite-tsconfig-paths": "4.3.1"
   }
 }

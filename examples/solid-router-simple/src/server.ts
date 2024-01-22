@@ -20,13 +20,19 @@ const server = new Hono()
       const html = await renderToStringAsync(() => app);
 
       return c.html(html);
-    } catch (err) {
+    } catch (err: any) {
       /**
        * Handle redirects
        */
       if (err instanceof Response && err.status >= 300 && err.status <= 399) {
         return c.redirect(err.headers.get('Location') || '/', err.status);
       }
+
+      /**
+       * In development, pass the error back to the vite dev server to display in the
+       * error overlay
+       */
+      if (import.meta.env.DEV) return err;
 
       throw err;
     }
