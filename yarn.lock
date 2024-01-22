@@ -2477,7 +2477,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-tanstack-router@workspace:packages/plugin-tanstack-router"
   dependencies:
-    "@ssrx/vite": "npm:^0.4.0"
+    "@ssrx/vite": "npm:^0.5.0"
     "@tanstack/react-router": "npm:1.0.0"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -2520,7 +2520,7 @@ __metadata:
   resolution: "@ssrx/react@workspace:packages/react"
   dependencies:
     "@ssrx/renderer": "npm:^0.3.0"
-    "@ssrx/vite": "npm:^0.4.0"
+    "@ssrx/vite": "npm:^0.5.0"
     esbuild: "npm:0.19.10"
     isbot-fast: "npm:1.2.0"
     react: "npm:18.2.0"
@@ -2593,7 +2593,7 @@ __metadata:
   resolution: "@ssrx/solid@workspace:packages/solid"
   dependencies:
     "@ssrx/renderer": "npm:^0.3.0"
-    "@ssrx/vite": "npm:^0.4.0"
+    "@ssrx/vite": "npm:^0.5.0"
     esbuild-plugin-solid: "npm:0.5.0"
     solid-js: "npm:1.8.7"
   peerDependencies:
