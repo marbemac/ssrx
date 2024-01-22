@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/solid",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@ssrx/renderer": "^0.3.0",
-    "@ssrx/vite": "^0.4.0"
+    "@ssrx/vite": "^0.5.0"
   },
   "devDependencies": {
     "esbuild-plugin-solid": "0.5.0",
