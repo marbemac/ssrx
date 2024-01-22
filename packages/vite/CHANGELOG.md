@@ -1,5 +1,24 @@
 # @ssrx/vite
 
+## 0.5.0
+
+### Minor Changes
+
+- [`c44d7bf`](https://github.com/marbemac/ssrx/commit/c44d7bf463ff41eeb53ea4bd79580a9d8ce87471) Thanks
+  [@marbemac](https://github.com/marbemac)! - Dropped support for vite 4
+
+- [`db81922`](https://github.com/marbemac/ssrx/commit/db819220a1ed2006c8e2bdbd50ff6d6ab6d40b16) Thanks
+  [@marbemac](https://github.com/marbemac)! - Support CSS modules.
+
+### Patch Changes
+
+- [`b9b25b3`](https://github.com/marbemac/ssrx/commit/b9b25b37fecc4a443599d59d73dfdf506769517d) Thanks
+  [@marbemac](https://github.com/marbemac)! - Fixed ssr build issue due to Vite v5 breaking change from rc -> stable
+
+- [`dc4b723`](https://github.com/marbemac/ssrx/commit/dc4b723b031fc89e36beff8c1b1bde0b64283673) Thanks
+  [@marbemac](https://github.com/marbemac)! - Response base resolve conditions in ssr conditions during builds. Fixes an
+  issue with solidjs.
+
 ## 0.4.0
 
 ### Minor Changes

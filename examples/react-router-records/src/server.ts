@@ -31,7 +31,7 @@ server.get('*', async c => {
   try {
     const appStream = await serverHandler({ req: c.req.raw });
 
-    return new Response(appStream);
+    return new Response(appStream, { headers: { 'Content-Type': 'text/html' } });
   } catch (err: any) {
     /**
      * Handle react-router redirects

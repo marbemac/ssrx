@@ -34,6 +34,9 @@ export class Manifest<ExternalRoutes> {
   #ssrManifest?: SSRManifest;
   readonly ssrManifestName = 'ssr-manifest.json';
 
+  // id (asset path) => strified css module
+  readonly cssModules: Record<string, string> = {};
+
   constructor(opts: ManifestOpts<ExternalRoutes>) {
     this.router = opts.router;
     this.config = opts.config;
@@ -142,10 +145,7 @@ export class Manifest<ExternalRoutes> {
   }
 
   get clientManifestDir(): string {
-    return path.resolve(
-      this.config.root,
-      this.config.viteMajor < 5 ? `${this.config.clientOutDir}` : `${this.config.clientOutDir}/.vite`,
-    );
+    return path.resolve(this.config.root, `${this.config.clientOutDir}/.vite`);
   }
 
   get clientManifestPath(): string {
@@ -197,7 +197,12 @@ export class Manifest<ExternalRoutes> {
     });
 
     // styles
-    const styleAssets = await findStylesInModuleGraph(devServer, [this.config.clientFile], false);
+    const styleAssets = await findStylesInModuleGraph({
+      vite: devServer,
+      match: [this.config.clientFile],
+      ssr: false,
+      cssModules: this.cssModules,
+    });
     assets.push(...Object.values(styleAssets));
 
     return assets;

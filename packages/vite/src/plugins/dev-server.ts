@@ -7,7 +7,7 @@ import type { Connect, Plugin, ViteDevServer } from 'vite';
 
 import type { Config } from '../config.ts';
 import { PLUGIN_NAMESPACE } from '../consts.ts';
-import { isAssetHandledByVite } from '../helpers/vite.ts';
+import { isAssetHandledByVite, isCssModulesFile } from '../helpers/vite.ts';
 import type { Router } from '../router.ts';
 import type { Manifest } from '../ssr-manifest.ts';
 
@@ -29,6 +29,12 @@ export const devServerPlugin = ({ config, manifest }: DevServerPluginOpts): Plug
       manifest.setViteServer(server);
 
       server.middlewares.use(await createMiddleware(server, { config }));
+    },
+
+    transform(code, id) {
+      if (isCssModulesFile(id)) {
+        manifest.cssModules[id] = code;
+      }
     },
   };
 };
@@ -131,7 +137,6 @@ const getRequestListener = (fetchCallback: FetchCallback) => {
     let res: Response;
 
     try {
-      // @ts-expect-error ignore
       const possibleRes = (await fetchCallback(new Request(url.toString(), init))) as any;
 
       if (possibleRes === SKIP_REQ) return;

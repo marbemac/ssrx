@@ -20,12 +20,12 @@ export const cloudflarePlugin = ({ config }: BuildPluginOpts): Plugin => {
   return {
     name: `${PLUGIN_NAMESPACE}:cloudflare`,
 
-    apply(config, env) {
+    apply(c, env) {
       return env.command === 'build';
     },
 
     config(c, env) {
-      isSsr = !!env.ssrBuild;
+      isSsr = !!env.isSsrBuild;
 
       return {
         build: {

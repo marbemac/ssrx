@@ -23,14 +23,14 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
   return {
     name: `${PLUGIN_NAMESPACE}:build`,
 
-    apply(config, env) {
+    apply(c, env) {
       return env.command === 'build';
     },
 
     config(c, env) {
       viteConfig = c;
 
-      isSsr = !!env.ssrBuild;
+      isSsr = !!env.isSsrBuild;
 
       const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientFile };
 
@@ -41,13 +41,15 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
         output.entryFileNames = config.ssrOutputName;
       }
 
+      const ssrConditions = [...(c.resolve?.conditions || []), ...config.runtimeConditions];
+
       return {
         ssr: {
           target: config.ssrTarget,
           noExternal: config.ssrNoExternal,
           resolve: {
-            conditions: config.runtimeConditions,
-            externalConditions: config.runtimeConditions,
+            conditions: ssrConditions,
+            externalConditions: ssrConditions,
           },
         },
 
@@ -112,11 +114,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
       if (!isSsr) return;
 
       // cleanup the vite client manifest
-      if (config.viteMajor >= 5) {
-        await fs.rm(manifest.clientManifestDir, { recursive: true });
-      } else {
-        await fs.rm(manifest.clientManifestPath);
-      }
+      await fs.rm(manifest.clientManifestDir, { recursive: true });
     },
   };
 };
