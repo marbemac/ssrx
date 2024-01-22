@@ -30,7 +30,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
     config(c, env) {
       viteConfig = c;
 
-      isSsr = !!env.ssrBuild;
+      isSsr = !!env.isSsrBuild;
 
       const input = isSsr ? { server: config.serverFile } : { 'client-entry': config.clientFile };
 
