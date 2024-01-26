@@ -2,6 +2,9 @@ import type { Plugin } from 'vite';
 
 import { PLUGIN_NAMESPACE } from '../consts.ts';
 
+/**
+ * @TODO preserve named exports, check out how remix does it with esModuleLexer.
+ */
 export const emptyModulesPlugin = (): Plugin[] => {
   return [
     {

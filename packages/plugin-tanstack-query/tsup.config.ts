@@ -7,4 +7,11 @@ export default defineConfig({
   clean: true,
   external: ['react'],
   entry: ['src/index.ts'],
+  outExtension: () => ({
+    // Our output includes preserved jsx, so we need to rename the output to .jsx for downstream tooling to work
+    js: `.jsx`,
+  }),
+  esbuildOptions: options => {
+    options.jsx = 'preserve';
+  },
 });

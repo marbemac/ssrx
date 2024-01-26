@@ -48,14 +48,15 @@
     "vite": ">=4"
   },
   "dependencies": {
+    "@hono/node-server": "^1.5.0",
     "@ssrx/renderer": "^0.3.0",
     "radix3": "^1.1.0"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "~0.5.1",
-    "esbuild": "0.19.11",
+    "esbuild": "0.19.12",
     "rollup": "4.9.6",
-    "rollup-plugin-esbuild": "6.1.0",
+    "rollup-plugin-esbuild": "6.1.1",
     "vite": "5.0.12"
   }
 }

@@ -68,7 +68,7 @@ export const tanstackQueryPlugin = ({
       const blockingQueries = new Map<string, Promise<void>>();
       const queryClient = createQueryClient({ trackedQueries, blockingQueries, clientConfig: queryClientConfig });
 
-      if (!import.meta.env.SSR) {
+      if (!import.meta.env.SSR && !skipHydration) {
         // hydrate on the client
         hydrateStreamingData({ queryClient });
       }

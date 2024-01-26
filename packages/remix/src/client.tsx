@@ -1,3 +1,5 @@
+import './namespace.ts';
+
 import { RemixBrowser } from '@remix-run/react';
 import {
   type ClientHandlerOpts,

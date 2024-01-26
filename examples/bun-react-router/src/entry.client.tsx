@@ -8,7 +8,6 @@ import { routes } from '~/routes.tsx';
 void hydrate();
 
 async function hydrate() {
-  // @ts-expect-error ignore
   const lazyMatches = matchRoutes(routes, window.location)?.filter(m => m.route.lazy);
 
   // Load the lazy matches and update the routes before creating your router
@@ -26,7 +25,6 @@ async function hydrate() {
 
   startTransition(() => {
     hydrateRoot(
-      // @ts-expect-error ignore
       document,
       <StrictMode>
         <App>

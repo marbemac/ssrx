@@ -27,13 +27,13 @@
     "lint": "eslint ."
   },
   "peerDependencies": {
-    "@solidjs/router": "*"
+    "@solidjs/router": ">=0.10"
   },
   "dependencies": {
     "@ssrx/renderer": "^0.3.0"
   },
   "devDependencies": {
-    "@solidjs/router": "0.10.9",
+    "@solidjs/router": "0.10.10",
     "esbuild-plugin-solid": "0.5.0"
   }
 }

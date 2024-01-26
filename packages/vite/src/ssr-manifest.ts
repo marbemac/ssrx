@@ -135,6 +135,7 @@ export class Manifest<ExternalRoutes> {
 
     return pluginAssets.map((asset, index) => {
       return {
+        injectTo: asset.tag === 'script' ? 'body' : undefined,
         ...asset,
         attrs: {
           ...asset.attrs,

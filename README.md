@@ -11,7 +11,8 @@ SSRx is split into two parts that can be used independently, or together:
 
 ## `@ssrx/vite`
 
-> ❗ Remix is transitioning to Vite, so for Vite + React projects I now recommend Remix as the best-in-class option.
+> ❗ Remix is transitioning to Vite, so for Vite + React Router projects I now recommend Remix as the best-in-class
+> option.
 
 The SSRx Vite plugin is barebones and (mostly) unopinionated by design. It can be used standalone, see the
 [`bun-react-router`](examples/bun-react-router/README.md),
@@ -161,7 +162,7 @@ The SSRx renderer provides building blocks that make it easier to develop stream
 framework agnostic, so long as the server runtime supports web streams and AsyncLocalStorage (node 18+, bun, deno,
 cloudflare, vercel, etc).
 
-See the [react-router-streaming](examples/react-router-streaming/README.md) and
+See the [react-router-kitchen-sink](examples/react-router-kitchen-sink/README.md) and
 [remix-vite](examples/remix-vite/README.md) examples for a look at how everything can work together in practice.
 
 ### Directory
@@ -282,15 +283,31 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'app:render'?: Function;
 
     /**
-     * Return a string or ReactElement to emit some HTML into the document's head.
+     * Return a string to emit some HTML just before the document's closing </head> tag.
+     *
+     * Triggers once per request.
      */
     'ssr:emitToHead'?: Function;
 
     /**
      * Return a string to emit into the SSR stream just before the rendering
      * framework (react, solid, etc) emits a chunk of the page.
+     *
+     * Triggers one or more times per request.
      */
     'ssr:emitBeforeFlush'?: Function;
+
+    /**
+     * Return a string to emit some HTML to the document body, after the client renderer's first flush.
+     *
+     * Triggers once per request.
+     */
+    'ssr:emitToBody'?: Function;
+
+    /**
+     * Runs when the stream is done processing.
+     */
+    'ssr:completed'?: Function;
   };
 };
 ```

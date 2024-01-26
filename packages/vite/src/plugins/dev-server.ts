@@ -1,8 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import type { Http2ServerRequest, Http2ServerResponse } from 'node:http2';
-import { Readable } from 'node:stream';
-import { pipeline } from 'node:stream/promises';
 
+import { getRequestListener } from '@hono/node-server';
 import type { Connect, Plugin, ViteDevServer } from 'vite';
 
 import type { Config } from '../config.ts';
@@ -45,8 +43,6 @@ export type DevServerOptions = {
 
 type Fetch = (request: Request) => Promise<Response>;
 
-const SKIP_REQ = Symbol('skip_req');
-
 /*!
  * Portions of this code are inspired by honojs/vite-plugins
  *
@@ -83,8 +79,8 @@ function createMiddleware(server: ViteDevServer, options: DevServerOptions): Pro
       );
     }
 
-    void getRequestListener(async (request: Request) => {
-      try {
+    void getRequestListener(
+      async (request: Request) => {
         const response = await app!.fetch(request);
 
         // Allow the server to pass rendering errors through in development
@@ -94,117 +90,18 @@ function createMiddleware(server: ViteDevServer, options: DevServerOptions): Pro
         }
 
         return response;
-      } catch (err: any) {
+      },
+      /**
+       * Our version of getRequestListener() is a bit different from the original.
+       *
+       * It accepts a second argument which allows us to pass errors through to the vite middleware.
+       */
+      err => {
         console.error(`There was an unhandled error in your server fetch handler.`);
 
         server.ssrFixStacktrace(err as Error);
         next(err);
-
-        return SKIP_REQ;
-      }
-    })(req, res);
+      },
+    )(req, res);
   };
 }
-
-type FetchCallback = (request: Request) => unknown;
-
-/**
- * Adapted from https://github.com/honojs/node-server/blob/main/src/listener.ts
- */
-const getRequestListener = (fetchCallback: FetchCallback) => {
-  return async (incoming: IncomingMessage | Http2ServerRequest, outgoing: ServerResponse | Http2ServerResponse) => {
-    const method = incoming.method ?? 'GET';
-    const url = `http://${incoming.headers.host}${incoming.url}`;
-
-    const headerRecord: [string, string][] = [];
-    const len = incoming.rawHeaders.length;
-    for (let i = 0; i < len; i += 2) {
-      headerRecord.push([incoming.rawHeaders[i]!, incoming.rawHeaders[i + 1]!]);
-    }
-
-    const init = {
-      method: method,
-      headers: headerRecord,
-    } as RequestInit;
-
-    if (!(method === 'GET' || method === 'HEAD')) {
-      // lazy-consume request body
-      init.body = Readable.toWeb(incoming) as ReadableStream<Uint8Array>;
-      // node 18 fetch needs half duplex mode when request body is stream
-      (init as any).duplex = 'half';
-    }
-
-    let res: Response;
-
-    try {
-      const possibleRes = (await fetchCallback(new Request(url.toString(), init))) as any;
-
-      if (possibleRes === SKIP_REQ) return;
-
-      res = possibleRes as Response;
-    } catch (e: unknown) {
-      res = new Response(null, { status: 500 });
-      if (e instanceof Error) {
-        // timeout error emits 504 timeout
-        if (e.name === 'TimeoutError' || e.constructor.name === 'TimeoutError') {
-          res = new Response(null, { status: 504 });
-        }
-      }
-    }
-
-    const contentType = res.headers.get('content-type') ?? '';
-    // nginx buffering variant
-    const buffering = res.headers.get('x-accel-buffering') ?? '';
-    const contentEncoding = res.headers.get('content-encoding');
-    const contentLength = res.headers.get('content-length');
-    const transferEncoding = res.headers.get('transfer-encoding');
-
-    for (const [k, v] of res.headers) {
-      if (k === 'set-cookie') {
-        // @ts-expect-error node native Headers.prototype has getSetCookie method
-        outgoing.setHeader(k, (res.headers as Headers).getSetCookie(k));
-      } else {
-        outgoing.setHeader(k, v);
-      }
-    }
-    outgoing.statusCode = res.status;
-
-    if (res.body) {
-      try {
-        /**
-         * If content-encoding is set, we assume that the response should be not decoded.
-         * Else if transfer-encoding is set, we assume that the response should be streamed.
-         * Else if content-length is set, we assume that the response content has been taken care of.
-         * Else if x-accel-buffering is set to no, we assume that the response should be streamed.
-         * Else if content-type is not application/json nor text/* but can be text/event-stream,
-         * we assume that the response should be streamed.
-         */
-        if (
-          contentEncoding ??
-          transferEncoding ??
-          contentLength ??
-          /^no$/i.test(buffering) ??
-          !/^(application\/json\b|text\/(?!event-stream\b))/i.test(contentType)
-        ) {
-          await pipeline(Readable.fromWeb(res.body), outgoing);
-        } else {
-          const text = await res.text();
-          outgoing.setHeader('Content-Length', Buffer.byteLength(text));
-          outgoing.end(text);
-        }
-      } catch (e: unknown) {
-        const err = (e instanceof Error ? e : new Error('unknown error', { cause: e })) as Error & {
-          code: string;
-        };
-        if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') {
-          console.info('The user aborted a request.');
-        } else {
-          console.error(e);
-          outgoing.destroy(err);
-        }
-      }
-    } else {
-      outgoing.end();
-    }
-  };
-};

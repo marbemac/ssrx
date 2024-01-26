@@ -4,6 +4,7 @@ import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 
 import { serverHandler } from './app.tsx';
+import { routes } from './routes.tsx';
 
 const server = new Hono();
 
@@ -29,7 +30,10 @@ if (import.meta.env.PROD) {
 
 server.get('*', async c => {
   try {
-    const appStream = await serverHandler({ req: c.req.raw });
+    const appStream = await serverHandler({
+      req: c.req.raw,
+      renderProps: { routes, basename: '/react-router-records' },
+    });
 
     return new Response(appStream, { headers: { 'Content-Type': 'text/html' } });
   } catch (err: any) {

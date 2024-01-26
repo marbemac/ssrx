@@ -1,3 +1,5 @@
+import './namespace.ts';
+
 import { RemixServer } from '@remix-run/react';
 import type { EntryContext } from '@remix-run/react/dist/entry';
 import type { RenderPlugin, ServerHandlerOpts, SetOptional } from '@ssrx/renderer/server';
@@ -8,6 +10,14 @@ import rd from 'react-dom/server';
 // @ts-expect-error ignore
 import { renderToReadableStream as fallbackRenderToReadableStream } from 'react-dom/server.browser';
 
+declare global {
+  namespace SSRx {
+    interface ReqMeta {
+      entryContext: EntryContext;
+    }
+  }
+}
+
 export function createApp<P extends RenderPlugin<any, any>[]>(
   opts: SetOptional<ServerHandlerOpts<P>, 'appRenderer' | 'renderer'> & { abortDelay?: number } = {},
 ) {
@@ -15,9 +25,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>(
     appRenderer:
       ({ req, meta }) =>
       () => {
-        return (
-          <RemixServer context={meta?.['remixContext'] as EntryContext} url={req.url} abortDelay={opts.abortDelay} />
-        );
+        return <RemixServer context={meta!.entryContext} url={req.url} abortDelay={opts.abortDelay} />;
       },
 
     renderer: {

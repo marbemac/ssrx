@@ -1,32 +1,39 @@
+import type { SSRx } from './namespace.ts';
+
+type ConfigBuiltIn = {
+  jsxElement: unknown;
+};
+
+export type Config = ConfigBuiltIn & SSRx.Config;
+
 export type ServerRenderer = {
-  renderToStream: (props: { app: () => JSX.Element; req: Request }) => Promise<ReadableStream>;
+  renderToStream: (props: { app: () => Config['jsxElement']; req: Request }) => Promise<ReadableStream>;
 };
 
 type BaseHandlerOpts = {
-  RootLayout?: (props: { children: JSX.Element }) => JSX.Element;
+  RootLayout?: (props: { children: Config['jsxElement'] }) => Config['jsxElement'];
   appRenderer?: (props: {
     req: Request;
-    meta?: Record<string, unknown>;
-  }) => (() => JSX.Element) | Promise<() => JSX.Element>;
+    renderProps: SSRx.RenderProps;
+    meta?: SSRx.ReqMeta;
+  }) => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
 };
 
 export type ClientHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
   plugins?: P;
 };
 
-export type ClientHandlerFn = () => Promise<() => JSX.Element>;
+export type ClientHandlerFn = (props?: { renderProps?: SSRx.RenderProps }) => Promise<() => Config['jsxElement']>;
 
 export type ServerHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
   renderer: ServerRenderer;
   plugins?: P;
 };
 
-export type ServerHandlerFn = ({
-  req,
-  meta,
-}: {
+export type ServerHandlerFn = (props: {
   req: Request;
-  meta?: Record<string, unknown>;
+  renderProps?: SSRx.RenderProps;
+  meta?: SSRx.ReqMeta;
 }) => Promise<ReadableStream<Uint8Array>>;
 
 export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
@@ -35,7 +42,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
   /**
    * Create a context object that will be passed to all of this plugin's hooks.
    */
-  createCtx?: (props: { req: Request; meta?: Record<string, unknown> }) => C;
+  createCtx?: (props: { req: Request; meta?: SSRx.ReqMeta }) => C;
 
   hooks?: {
     /**
@@ -45,24 +52,30 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'app:extendCtx'?: (props: {
       ctx: C;
       getPluginCtx: <T extends Record<string, unknown>>(id: string) => T;
-      meta?: Record<string, unknown>;
+      meta?: SSRx.ReqMeta;
     }) => AC;
 
     /**
      * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
      */
-    'app:wrap'?: (props: { req: Request; ctx: C }) => (props: { children: () => JSX.Element }) => JSX.Element;
+    'app:wrap'?: (props: {
+      req: Request;
+      ctx: C;
+    }) => (props: { children: () => Config['jsxElement'] }) => Config['jsxElement'];
 
     /**
      * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
      */
     'app:render'?: (props: {
       req: Request;
-      meta?: Record<string, unknown>;
-    }) => (() => JSX.Element) | Promise<() => JSX.Element>;
+      renderProps: SSRx.RenderProps;
+      meta?: SSRx.ReqMeta;
+    }) => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
 
     /**
-     * Return a string or ReactElement to emit some HTML into the document's head.
+     * Return a string to emit some HTML just before the document's closing </head> tag.
+     *
+     * Triggers once per request.
      */
     'ssr:emitToHead'?: (props: {
       req: Request;
@@ -72,6 +85,8 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     /**
      * Return a string to emit into the SSR stream just before the rendering
      * framework (react, solid, etc) emits a chunk of the page.
+     *
+     * Triggers one or more times per request.
      */
     'ssr:emitBeforeFlush'?: (props: {
       req: Request;
@@ -79,7 +94,17 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     }) => string | void | undefined | Promise<string | void | undefined>;
 
     /**
-     * @TODO: not actually implemented yet
+     * Return a string to emit some HTML to the document body, after the client renderer's first flush.
+     *
+     * Triggers once per request.
+     */
+    'ssr:emitToBody'?: (props: {
+      req: Request;
+      ctx: C;
+    }) => string | void | undefined | Promise<string | void | undefined>;
+
+    /**
+     * Runs when the stream is done processing.
      */
     'ssr:completed'?: (props: { req: Request; ctx: C }) => void | Promise<void>;
   };

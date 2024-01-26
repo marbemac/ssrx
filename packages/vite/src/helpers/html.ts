@@ -16,8 +16,6 @@ export const injectAssetsIntoHtml = (html: string, tags: AssetHtmlTag[]): string
   for (const tag of tags) {
     if (tag.injectTo === 'body') {
       bodyTags.push(tag);
-    } else if (tag.injectTo === 'body-prepend') {
-      bodyPrependTags.push(tag);
     } else if (tag.injectTo === 'head') {
       headTags.push(tag);
     } else {
@@ -138,4 +136,38 @@ function serializeAttrs(attrs: AssetHtmlTag['attrs']): string {
 
 function incrementIndent(indent: string = '') {
   return `${indent}${indent[0] === '\t' ? '\t' : '  '}`;
+}
+
+export function mergeScriptTags(scriptTags: AssetHtmlTag[]): AssetHtmlTag | null {
+  let async = false;
+  let injectTo: AssetHtmlTag['injectTo'] | undefined = undefined;
+  const children: string[] = [];
+
+  for (const tag of scriptTags) {
+    if (tag.attrs?.['async']) {
+      async = true;
+    }
+
+    if (tag.injectTo && !injectTo) {
+      injectTo = tag.injectTo;
+    }
+
+    if (tag.children) {
+      children.push(tag.children);
+    } else if (tag.attrs?.['src']) {
+      children.push(`import("${tag.attrs?.['src']}");`);
+    }
+  }
+
+  if (!children.length) return null;
+
+  return {
+    tag: 'script',
+    injectTo,
+    children: children.join('\n'),
+    attrs: {
+      type: 'module',
+      ...(async ? { async: true } : {}),
+    },
+  };
 }

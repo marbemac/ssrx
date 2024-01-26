@@ -1,6 +1,6 @@
 import type { Simplify } from 'type-fest';
 
-import type { ClientHandlerFn, RenderPlugin, ServerHandlerFn, ServerHandlerOpts } from '../types.ts';
+import type { ClientHandlerFn, Config, RenderPlugin, ServerHandlerFn, ServerHandlerOpts } from '../types.ts';
 import { storage } from './ctx.ts';
 import { injectIntoStream } from './stream-injector.ts';
 
@@ -37,7 +37,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     );
   }) as ClientHandlerFn;
 
-  const serverHandler: ServerHandlerFn = async ({ req, meta }) => {
+  const serverHandler: ServerHandlerFn = async ({ req, meta, renderProps = {} }) => {
     const pluginCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
       if (p.createCtx) {
@@ -62,7 +62,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     }
 
     async function createAppStream() {
-      let AppComp = appRenderer ? await appRenderer({ req, meta }) : undefined;
+      let AppComp = appRenderer ? await appRenderer({ req, meta, renderProps }) : undefined;
 
       for (const p of plugins ?? []) {
         if (!p.hooks?.['app:render']) continue;
@@ -71,12 +71,12 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
         }
 
-        AppComp = await p.hooks['app:render']({ req, meta });
+        AppComp = await p.hooks['app:render']({ req, meta, renderProps });
 
         break;
       }
 
-      const wrappers: ((props: { children: () => JSX.Element }) => JSX.Element)[] = [];
+      const wrappers: ((props: { children: () => Config['jsxElement'] }) => Config['jsxElement'])[] = [];
       for (const p of plugins ?? []) {
         if (!p.hooks?.['app:wrap']) continue;
 
@@ -88,9 +88,9 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           throw new Error('No plugin implemented renderApp');
         }
 
-        let finalApp: JSX.Element;
+        let finalApp: Config['jsxElement'];
         if (wrappers.length) {
-          const wrapFn = (w: typeof wrappers): JSX.Element => {
+          const wrapFn = (w: typeof wrappers): Config['jsxElement'] => {
             const [child, ...remainingWrappers] = w;
 
             if (!child) return AppComp!();
@@ -113,9 +113,10 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           const work = [];
           for (const p of plugins ?? []) {
             if (!p.hooks?.['ssr:emitToHead']) continue;
-
             work.push(p.hooks['ssr:emitToHead']({ req, ctx: pluginCtx[p.id] }));
           }
+
+          if (!work.length) return '';
 
           const html = await Promise.all(work);
 
@@ -126,11 +127,38 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           const work = [];
           for (const p of plugins ?? []) {
             if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
-
             work.push(p.hooks['ssr:emitBeforeFlush']({ req, ctx: pluginCtx[p.id] }));
           }
 
+          if (!work.length) return '';
+
           return (await Promise.all(work)).filter(Boolean).join('');
+        },
+
+        async emitToDocumentBody() {
+          const work = [];
+          for (const p of plugins ?? []) {
+            if (!p.hooks?.['ssr:emitToBody']) continue;
+            work.push(p.hooks['ssr:emitToBody']({ req, ctx: pluginCtx[p.id] }));
+          }
+
+          if (!work.length) return '';
+
+          const html = await Promise.all(work);
+
+          return html.filter(Boolean).join('');
+        },
+
+        async onStreamComplete() {
+          const work = [];
+          for (const p of plugins ?? []) {
+            if (!p.hooks?.['ssr:completed']) continue;
+            work.push(p.hooks['ssr:completed']({ req, ctx: pluginCtx[p.id] }));
+          }
+
+          if (!work.length) return;
+
+          await Promise.all(work);
         },
       });
     }

@@ -1,26 +1,22 @@
-import { type RouteDefinition, Router, useRoutes } from '@solidjs/router';
+import type { RouterProps } from '@solidjs/router';
+import { Router } from '@solidjs/router';
 import { defineRenderPlugin } from '@ssrx/renderer';
 
 export const PLUGIN_ID = 'solidRouter' as const;
 
-export type SolidRouterPluginOpts = {
-  routes: RouteDefinition;
-};
+declare global {
+  namespace SSRx {
+    interface RenderProps extends RouterProps {}
+  }
+}
 
-export const solidRouterPlugin = ({ routes }: SolidRouterPluginOpts) => {
+export const solidRouterPlugin = () => {
   return defineRenderPlugin({
     id: PLUGIN_ID,
 
     hooks: {
-      'app:wrap':
-        ({ req }) =>
-        ({ children }) =>
-          <Router url={req.url}>{children()}</Router>,
-
-      'app:render': () => () => {
-        const Routes = useRoutes(routes);
-
-        return <Routes />;
+      'app:render': ({ req, renderProps }) => {
+        return () => <Router url={req.url} {...renderProps} />;
       },
     },
   });

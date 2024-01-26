@@ -3,6 +3,7 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 
 import { serverHandler } from '~app';
+import { routes } from '~client/routes.tsx';
 import { type ReqCtx, reqCtxMiddleware } from '~server/middleware/context.ts';
 import { trpcServer } from '~server/middleware/trpc.ts';
 import { appRouter, createCaller } from '~server/trpc/index.ts';
@@ -56,6 +57,7 @@ server
     try {
       const appStream = await serverHandler({
         req: c.req.raw,
+        renderProps: { routes },
         meta: {
           // used by @ssrx/plugin-trpc-react
           trpcCaller: createCaller(c.var),

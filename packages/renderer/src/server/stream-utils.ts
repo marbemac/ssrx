@@ -5,6 +5,7 @@
  * https://github.com/vercel/next.js/blob/canary/packages/next/src/server/stream-utils/node-web-streams-helper.ts
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sleep = (n = 2000) => new Promise(r => setTimeout(r, n));
 
 export function chainTransformers<T>(
@@ -20,7 +21,8 @@ export function chainTransformers<T>(
   return stream;
 }
 
-export function createHeadInsertionTransformStream(
+export function createTagInsertionStream(
+  tag: string,
   insert: () => Promise<string> | string,
 ): TransformStream<Uint8Array, Uint8Array> {
   let inserted = false;
@@ -31,7 +33,7 @@ export function createHeadInsertionTransformStream(
 
   return new TransformStream({
     async transform(chunk, controller) {
-      // While react is flushing chunks, we don't apply insertions
+      // While the client is flushing chunks, we don't apply insertions
       if (freezing) {
         controller.enqueue(chunk);
         return;
@@ -42,17 +44,23 @@ export function createHeadInsertionTransformStream(
         freezing = true;
       } else {
         const content = decoder.decode(chunk);
-        const index = content.indexOf('</head>');
+        const index = content.indexOf(tag);
         if (index !== -1) {
           const html = await insert();
 
-          // console.log('createHeadInsertionTransformStream', html, content);
-          // console.log('\n\n--------\n\n');
+          if (html) {
+            const insertedContent = content.slice(0, index) + html + content.slice(index);
+            controller.enqueue(encoder.encode(insertedContent));
+            freezing = true;
+            inserted = true;
 
-          const insertedHeadContent = content.slice(0, index) + html + content.slice(index);
-          controller.enqueue(encoder.encode(insertedHeadContent));
-          freezing = true;
-          inserted = true;
+            // console.log('createTagInsertionStream', {
+            //   tag,
+            //   chunk: `${content.slice(0, 100)} ... ${content.slice(-100)}`,
+            //   htmlToInsert: html,
+            // });
+            // console.log('\n\n--------\n\n');
+          }
         }
       }
 
@@ -67,37 +75,91 @@ export function createHeadInsertionTransformStream(
   });
 }
 
-export function createInsertedHTMLStream(
+export function createBodyInsertionStream(
   insert: () => Promise<string> | string,
+): TransformStream<Uint8Array, Uint8Array> {
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+
+  let done = false;
+
+  return new TransformStream({
+    transform: async (chunk, controller) => {
+      let insertedChunk = false;
+
+      if (!done) {
+        const html = await insert();
+        if (html) {
+          const content = decoder.decode(chunk);
+
+          const insertedContent = content + html;
+          controller.enqueue(encoder.encode(insertedContent));
+          insertedChunk = true;
+          done = true;
+
+          // console.log('createBodyInsertionStream', {
+          //   chunk: `${content.slice(0, 100)} ... ${content.slice(-100)}`,
+          //   htmlToInsert: html,
+          // });
+          // console.log('\n\n--------\n\n');
+        }
+      }
+
+      if (!insertedChunk) {
+        controller.enqueue(chunk);
+      }
+    },
+  });
+}
+
+export function createHTMLInsertionStream(
+  insert: () => Promise<string> | string,
+  { loc = 'before' }: { loc?: 'before' | 'after' } = {},
 ): TransformStream<Uint8Array, Uint8Array> {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
   return new TransformStream({
     transform: async (chunk, controller) => {
-      let inserted = false;
+      let insertedChunk = false;
 
       const html = await insert();
       if (html) {
         const content = decoder.decode(chunk);
 
-        // If the chunk includes the start of the doc, insert it first
-        // This can happen if consumer called something like stream.allReady
-        // createMoveSuffixStream will handle making sure inserted content is
-        // moved above the closing body tag
+        /**
+         * If the chunk includes the start of the doc, insert it first, regardless of loc.
+         * This can happen if consumer called something like stream.allReady.
+         *
+         * createMoveSuffixStream will handle making sure inserted content is moved above the closing body tag
+         */
         const index = content.indexOf('<!DOCTYPE');
         if (index > -1) {
+          const insertedContent = content + html;
+          controller.enqueue(encoder.encode(insertedContent));
+        } else {
+          if (loc === 'before') {
+            controller.enqueue(encoder.encode(html));
+          }
+
           controller.enqueue(chunk);
-          inserted = true;
+
+          if (loc === 'after') {
+            controller.enqueue(encoder.encode(html));
+          }
         }
 
-        controller.enqueue(encoder.encode(html));
+        insertedChunk = true;
 
-        // console.log('createInsertedHTMLStream', { html, content: decoder.decode(chunk) });
+        // console.log('createHTMLInsertionStream', {
+        //   loc,
+        //   chunk: `${content.slice(0, 100)} ... ${content.slice(-100)}`,
+        //   htmlToInsert: html,
+        // });
         // console.log('\n\n--------\n\n');
       }
 
-      if (!inserted) {
+      if (!insertedChunk) {
         controller.enqueue(chunk);
       }
     },
@@ -109,7 +171,10 @@ export function createInsertedHTMLStream(
  * like `</body></html><script>...</script>` will be transformed to
  * `<script>...</script></body></html>`.
  */
-export function createMoveSuffixStream(suffix: string): TransformStream<Uint8Array, Uint8Array> {
+export function createMoveSuffixStream(
+  suffix: string,
+  onComplete?: () => Promise<void> | void,
+): TransformStream<Uint8Array, Uint8Array> {
   let foundSuffix = false;
 
   const encoder = new TextEncoder();
@@ -150,10 +215,15 @@ export function createMoveSuffixStream(suffix: string): TransformStream<Uint8Arr
         controller.enqueue(chunk);
       }
     },
-    flush(controller) {
+
+    async flush(controller) {
       // Even if we didn't find the suffix, the HTML is not valid if we don't
       // add it, so insert it at the end.
       controller.enqueue(encoder.encode(suffix));
+
+      if (onComplete) {
+        void onComplete();
+      }
     },
   });
 }

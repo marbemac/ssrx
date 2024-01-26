@@ -39,9 +39,9 @@ export type AssetHtmlTag = {
   children?: string;
 
   /**
-   * @default 'head-prepend'
+   * @default 'head'
    */
-  injectTo?: 'head' | 'body' | 'head-prepend' | 'body-prepend';
+  injectTo?: 'head' | 'body';
 };
 
 type RouteIdToPaths = Record<RouteId, string[]>;
@@ -221,7 +221,7 @@ export const assetsToTags = (
           tag: 'script',
           injectTo: 'body' as const,
           attrs: {
-            defer: true,
+            async: true,
             type: 'module',
             src: url,
           },

@@ -3,17 +3,18 @@ import './app.css';
 import { MetaProvider, Title } from '@solidjs/meta';
 import { A, Router } from '@solidjs/router';
 import type { JSX } from 'solid-js';
-import { HydrationScript, Suspense } from 'solid-js/web';
+import { HydrationScript, NoHydration, Suspense } from 'solid-js/web';
 
 import { ErrorBoundary } from '~/components/ErrorBoundary.tsx';
 import { routes } from '~/routes.tsx';
 
 type AppProps = {
   url?: string;
-  head?: JSX.Element;
+  headTags?: () => JSX.Element;
+  bodyTags?: () => JSX.Element;
 };
 
-export function App({ url, head }: AppProps) {
+export function App({ url, headTags, bodyTags }: AppProps) {
   console.log('App.render');
 
   return (
@@ -22,9 +23,11 @@ export function App({ url, head }: AppProps) {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {head}
+        <NoHydration>
+          {headTags?.()}
 
-        <HydrationScript />
+          <HydrationScript />
+        </NoHydration>
       </head>
 
       <body>
@@ -58,6 +61,8 @@ export function App({ url, head }: AppProps) {
             {routes}
           </Router>
         </ErrorBoundary>
+
+        <NoHydration>{bodyTags?.()}</NoHydration>
       </body>
     </html>
   );

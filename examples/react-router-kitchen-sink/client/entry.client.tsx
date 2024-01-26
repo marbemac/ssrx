@@ -3,15 +3,15 @@ import { hydrateRoot } from 'react-dom/client';
 
 import { clientHandler } from '~app';
 
+import { routes } from './routes.tsx';
+
 async function hydrate() {
-  const renderApp = await clientHandler();
+  const renderApp = await clientHandler({
+    renderProps: { routes },
+  });
 
   startTransition(() => {
-    hydrateRoot(
-      // @ts-expect-error ignore
-      document,
-      <StrictMode>{renderApp()}</StrictMode>,
-    );
+    hydrateRoot(document, <StrictMode>{renderApp()}</StrictMode>);
   });
 }
 

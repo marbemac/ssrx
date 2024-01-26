@@ -19,7 +19,16 @@ export const viteRendererPlugin = () =>
 
         const assets = await assetsForRequest(req.url);
 
-        return renderAssetsToHtml(assets);
+        return renderAssetsToHtml(assets.headAssets);
+      },
+
+      'ssr:emitToBody': async ({ req }) => {
+        const { assetsForRequest } = await import('./assets.server.ts');
+        const { renderAssetsToHtml } = await import('./html.server.ts');
+
+        const assets = await assetsForRequest(req.url);
+
+        return renderAssetsToHtml(assets.bodyAssets);
       },
     },
   });

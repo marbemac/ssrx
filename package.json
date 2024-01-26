@@ -17,6 +17,7 @@
     "dep-graph": "nx graph"
   },
   "resolutions": {
+    "@hono/node-server": "file:.yalc/@hono/node-server",
     "@ssrx/adapter-tanstack-router": "workspace:*",
     "@ssrx/plugin-react-router": "workspace:*",
     "@ssrx/plugin-solid-router": "workspace:*",
@@ -36,7 +37,6 @@
     "@typescript-eslint/eslint-plugin": "6.19.1",
     "@typescript-eslint/parser": "6.19.1",
     "@yarnpkg/types": "~4.0.0",
-    "bun-types": "1.0.25",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-import-resolver-typescript": "3.6.1",
@@ -51,7 +51,7 @@
     "rimraf": "5.0.5",
     "tsup": "8.0.1",
     "typescript": "5.3.3",
-    "vitest": "1.2.1"
+    "vitest": "1.2.2"
   },
   "prettier": {
     "arrowParens": "avoid",

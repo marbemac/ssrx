@@ -14,7 +14,7 @@
     "strict": true,
     "target": "esnext",
     "module": "esnext",
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -23,11 +23,11 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["vite/client", "bun-types"],
+    "types": ["vite/client"],
     "allowImportingTsExtensions": true,
     "moduleDetection": "force"
   }

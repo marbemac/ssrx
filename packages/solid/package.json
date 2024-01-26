@@ -18,22 +18,22 @@
     ".": {
       "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
-      "node": "./dist/server/index.js",
-      "worker": "./dist/server/index.js",
-      "workerd": "./dist/server/index.js",
-      "deno": "./dist/server/index.js",
-      "edge": "./dist/server/index.js",
-      "default": "./dist/client/index.js"
+      "node": "./dist/server/index.jsx",
+      "worker": "./dist/server/index.jsx",
+      "workerd": "./dist/server/index.jsx",
+      "deno": "./dist/server/index.jsx",
+      "edge": "./dist/server/index.jsx",
+      "default": "./dist/client/index.jsx"
     },
     "./client": {
       "types": "./src/client/index.ts",
       "bun": "./src/client/index.ts",
-      "default": "./dist/client/index.js"
+      "default": "./dist/client/index.jsx"
     },
     "./server": {
       "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
-      "default": "./dist/server/index.js"
+      "default": "./dist/server/index.jsx"
     }
   },
   "scripts": {
@@ -49,7 +49,6 @@
     "@ssrx/vite": "^0.5.0"
   },
   "devDependencies": {
-    "esbuild-plugin-solid": "0.5.0",
-    "solid-js": "1.8.11"
+    "solid-js": "1.8.12"
   }
 }

@@ -45,9 +45,10 @@
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
-    "esbuild": "0.19.11",
+    "@types/node": "20.11.7",
+    "esbuild": "0.19.12",
     "rollup": "4.9.6",
-    "rollup-plugin-esbuild": "6.1.0",
-    "type-fest": "4.10.0"
+    "rollup-plugin-esbuild": "6.1.1",
+    "type-fest": "4.10.1"
   }
 }

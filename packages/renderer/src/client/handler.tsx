@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { Simplify } from 'type-fest';
 
-import type { ClientHandlerFn, ClientHandlerOpts, RenderPlugin, ServerHandlerFn } from '../types.ts';
+import type { ClientHandlerFn, ClientHandlerOpts, Config, RenderPlugin, ServerHandlerFn } from '../types.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
   RootLayout,
   appRenderer,
   plugins,
 }: ClientHandlerOpts<P>) {
-  // @ts-expect-error ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const req = new Request(`${window.location.pathname}${window.location.search}`);
 
@@ -40,7 +39,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     );
   }) as ServerHandlerFn;
 
-  const clientHandler: ClientHandlerFn = async () => {
+  const clientHandler: ClientHandlerFn = async ({ renderProps = {} } = {}) => {
     const pluginCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
       if (p.createCtx) {
@@ -66,7 +65,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     // @ts-expect-error ignore
     window.__PAGE_CTX__ = { pluginCtx, appCtx };
 
-    let AppComp = appRenderer ? await appRenderer({ req }) : undefined;
+    let AppComp = appRenderer ? await appRenderer({ req, renderProps }) : undefined;
 
     for (const p of plugins ?? []) {
       if (!p.hooks?.['app:render']) continue;
@@ -75,7 +74,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
         throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
       }
 
-      AppComp = await p.hooks['app:render']({ req });
+      AppComp = await p.hooks['app:render']({ req, renderProps });
 
       break;
     }
@@ -84,7 +83,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       throw new Error('No plugin implemented renderApp');
     }
 
-    const wrappers: ((props: { children: () => JSX.Element }) => JSX.Element)[] = [];
+    const wrappers: ((props: { children: () => Config['jsxElement'] }) => Config['jsxElement'])[] = [];
     for (const p of plugins ?? []) {
       if (!p.hooks?.['app:wrap']) continue;
 
@@ -96,9 +95,9 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
         throw new Error('No plugin implemented renderApp');
       }
 
-      let finalApp: JSX.Element;
+      let finalApp: Config['jsxElement'];
       if (wrappers.length) {
-        const wrapFn = (w: typeof wrappers): JSX.Element => {
+        const wrapFn = (w: typeof wrappers): Config['jsxElement'] => {
           const [child, ...remainingWrappers] = w;
 
           if (!child) return AppComp!();

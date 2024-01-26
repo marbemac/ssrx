@@ -4,8 +4,6 @@ import { reactRouterPlugin } from '@ssrx/plugin-react-router';
 import { createApp } from '@ssrx/react';
 import { viteRendererPlugin } from '@ssrx/vite/renderer';
 
-import { routes } from './routes.tsx';
-
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
     <head>
@@ -20,7 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
 
 const { clientHandler, serverHandler, ctx } = createApp({
   RootLayout,
-  plugins: [viteRendererPlugin(), reactRouterPlugin({ routes, basename: '/react-router-records' })],
+  plugins: [viteRendererPlugin(), reactRouterPlugin()],
 });
 
 export { clientHandler, ctx, serverHandler };

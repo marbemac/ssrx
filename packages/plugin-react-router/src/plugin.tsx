@@ -1,22 +1,28 @@
 import { defineRenderPlugin } from '@ssrx/renderer';
-import type { RouterProviderProps } from 'react-router-dom';
-import { createBrowserRouter, matchRoutes, type RouteObject, RouterProvider } from 'react-router-dom';
+import type { RouteObject, RouterProviderProps } from 'react-router-dom';
+import { createBrowserRouter, matchRoutes, RouterProvider } from 'react-router-dom';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server.js';
 
 export const PLUGIN_ID = 'reactRouter' as const;
 
-export type ReactRouterPluginOpts = {
-  routes: RouteObject[];
-  basename?: string;
-  client?: { providerProps?: Omit<RouterProviderProps, 'router'> };
-};
+declare global {
+  namespace SSRx {
+    interface RenderProps {
+      routes: RouteObject[];
+      basename?: string;
+      client?: { providerProps?: Omit<RouterProviderProps, 'router'> };
+    }
+  }
+}
 
-export const reactRouterPlugin = ({ routes, client, basename }: ReactRouterPluginOpts) =>
+export const reactRouterPlugin = () =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
     hooks: {
-      'app:render': async ({ req }) => {
+      'app:render': async ({ req, renderProps }) => {
+        const { routes, basename, client } = renderProps;
+
         /**
          * SERVER
          */
@@ -36,11 +42,7 @@ export const reactRouterPlugin = ({ routes, client, basename }: ReactRouterPlugi
            * CLIENT
            */
 
-          const lazyMatches = matchRoutes(
-            routes,
-            // @ts-expect-error ignore
-            window.location,
-          )?.filter(m => m.route.lazy);
+          const lazyMatches = matchRoutes(routes, window.location)?.filter(m => m.route.lazy);
 
           // Load the lazy matches and update the routes before creating your router
           // so we can hydrate the SSR-rendered content synchronously

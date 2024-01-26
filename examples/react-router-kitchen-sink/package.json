@@ -1,5 +1,5 @@
 {
-  "name": "react-router-streaming",
+  "name": "react-router-kitchen-sink",
   "version": "0.0.0",
   "private": true,
   "sideEffects": false,
@@ -20,7 +20,7 @@
     "debug": "tsx debug.ts"
   },
   "dependencies": {
-    "@hono/node-server": "1.4.1",
+    "@hono/node-server": "^1.5.0",
     "@lucia-auth/adapter-sqlite": "2.0.1",
     "@paralleldrive/cuid2": "2.2.2",
     "@radix-ui/react-slot": "^1.0.2",
@@ -39,9 +39,9 @@
     "clsx": "^2.1.0",
     "drizzle-orm": "0.29.3",
     "drizzle-valibot": "0.1.1",
-    "hono": "3.12.6",
+    "hono": "3.12.7",
     "lucia": "2.7.6",
-    "lucide-react": "^0.314.0",
+    "lucide-react": "^0.316.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "4.0.12",
@@ -49,11 +49,11 @@
     "react-router-typesafe-routes": "1.2.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "valibot": "0.26.0"
+    "valibot": "0.27.0"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
-    "@types/better-sqlite3": "7.6.8",
+    "@types/better-sqlite3": "7.6.9",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@vitejs/plugin-react": "4.2.1",

@@ -7,5 +7,12 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["bun-react-router", "react-router-simple", "solid-router-simple", "react-router-streaming", "remix-vite"]
+  "ignore": [
+    "bun-react-router",
+    "react-router-kitchen-sink",
+    "react-router-records",
+    "react-router-simple",
+    "remix-vite",
+    "solid-router-simple"
+  ]
 }

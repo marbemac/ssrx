@@ -15,6 +15,14 @@ export type TrpcPluginOpts<TRouter extends AnyRouter> = {
   createTRPCQueryOptions?: Partial<Omit<CreateTRPCQueryOptions<TRouter>, 'client' | 'queryClient'>>;
 };
 
+declare global {
+  namespace SSRx {
+    interface ReqMeta {
+      trpcCaller: ReturnType<AnyRouter['createCaller']>;
+    }
+  }
+}
+
 export const trpcPlugin = <TRouter extends AnyRouter>({
   httpBatchLinkOpts,
   createTRPCQueryOptions,
@@ -28,7 +36,7 @@ export const trpcPlugin = <TRouter extends AnyRouter>({
 
         const trpcClient = createTRPCUntypedClient({
           links: buildLinks({
-            trpcCaller: meta?.['trpcCaller'] as any,
+            trpcCaller: meta?.trpcCaller,
             httpBatchLinkOpts: httpBatchLinkOpts ?? {
               url: '/trpc',
             },
