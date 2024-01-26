@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
-import { renderToStringAsync } from 'solid-js/web';
+import { renderToStream } from 'solid-js/web';
 
 import * as entry from '~/entry.server.tsx';
 
@@ -17,9 +17,11 @@ const server = new Hono()
     try {
       const { app } = await entry.render(c.req.raw);
 
-      const html = await renderToStringAsync(() => app);
+      const htmlStream = renderToStream(() => app());
+      const { readable, writable } = new TransformStream();
+      htmlStream.pipeTo(writable);
 
-      return c.html(html);
+      return new Response(readable, { headers: { 'Content-Type': 'text/html' } });
     } catch (err: any) {
       /**
        * Handle redirects

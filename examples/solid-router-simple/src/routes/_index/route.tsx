@@ -15,11 +15,13 @@ export default function Component() {
 
       <p>This home route simply loads some data (with a simulated delay) and displays it.</p>
 
-      <Suspense fallback="Loading...">
-        <p>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div>
           Loader Data: <span class={styles['data']}>{data()?.data}</span>
-        </p>
+        </div>
       </Suspense>
+
+      <br />
 
       <div>
         <Counter />

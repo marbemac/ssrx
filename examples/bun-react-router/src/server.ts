@@ -2,7 +2,7 @@ import { staticPlugin } from '@elysiajs/static';
 import { Elysia } from 'elysia';
 import { renderToString } from 'react-dom/server';
 
-import * as entry from '~/entry.server.tsx';
+import { render as renderApp } from '~/entry.server.tsx';
 
 const server = new Elysia();
 
@@ -18,16 +18,12 @@ if (import.meta.env.PROD) {
 
 server.get('*', async c => {
   try {
-    const { app } = await entry.render(c.request);
+    const { app } = await renderApp(c.request);
 
     const html = renderToString(app);
 
-    return new Response(html, {
-      headers: {
-        'Content-Type': 'text/html',
-      },
-    });
-  } catch (err) {
+    return new Response(html, { headers: { 'Content-Type': 'text/html' } });
+  } catch (err: any) {
     /**
      * Handle react-router redirects
      */
@@ -36,6 +32,12 @@ server.get('*', async c => {
       c.set.redirect = err.headers.get('Location') || '/';
       return;
     }
+
+    /**
+     * In development, pass the error back to the vite dev server to display in the
+     * vite error overlay
+     */
+    if (import.meta.env.DEV) return err;
 
     throw err;
   }

@@ -20,7 +20,7 @@ export async function render(req: Request) {
 
   const app = (
     <StrictMode>
-      <App head={renderAssets(assets)}>
+      <App headTags={renderAssets(assets.headAssets)} bodyTags={renderAssets(assets.bodyAssets)}>
         <StaticRouterProvider router={router} context={context} nonce="the-nonce" />
       </App>
     </StrictMode>

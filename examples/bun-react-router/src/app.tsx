@@ -2,20 +2,24 @@ import './app.css';
 
 type AppProps = {
   children: React.ReactNode;
-  head?: React.ReactNode;
+  headTags?: React.ReactNode;
+  bodyTags?: React.ReactNode;
 };
 
-export function App({ children, head }: AppProps) {
+export function App({ children, headTags, bodyTags }: AppProps) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {head}
+        {headTags}
       </head>
 
-      <body>{children}</body>
+      <body>
+        {children}
+        {bodyTags}
+      </body>
     </html>
   );
 }

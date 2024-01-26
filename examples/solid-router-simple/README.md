@@ -4,7 +4,7 @@
 
 - client framework: `solid`
 - client routing: `solid-router`
-- rendering strategy: `async`
+- rendering strategy: `streaming`
 - server framework: `hono`
 - server runtime: `node`
 

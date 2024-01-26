@@ -2,8 +2,8 @@
 
 This example leverages Remix's new Vite plugin.
 
-Makes it simple to use `@tanstack/query` + `trpc` in an isomorphic way, alongside all of the great functionality Remix
-already offers.
+Makes it simple to use `@tanstack/query` + `trpc` in an isomorphic way, with streaming, alongside all of the great
+functionality Remix already offers.
 
 **Usage**
 
