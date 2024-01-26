@@ -120,11 +120,11 @@ export const generateRoutesManifest = (clientManifest: ViteClientManifest, route
   for (const [routeId, routePaths] of Object.entries(routeIds)) {
     const assets: Asset[] = [];
 
-    const usedAssets = new Set<string>();
-
     for (const routePath of routePaths) {
       const routeMeta = clientManifest[routePath];
       if (!routeMeta) continue;
+
+      const usedAssets = new Set<string>();
 
       assets.push(
         ...Object.values(
@@ -234,7 +234,14 @@ export const assetsToTags = (
 };
 
 export const sortAssets = (assets: Asset[]): Asset[] => {
-  return assets.sort((a, b) =>
+  // remove duplicates
+  const assetMap = assets.reduce((res, asset) => {
+    res[asset.url] = asset;
+    return res;
+  }, {} as Record<string, Asset>);
+
+  // sort
+  return Object.values(assetMap).sort((a, b) =>
     a.weight === b.weight ? Number(a.isNested || false) - Number(b.isNested || false) : a.weight - b.weight,
   );
 };

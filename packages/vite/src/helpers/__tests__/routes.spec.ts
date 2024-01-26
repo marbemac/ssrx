@@ -362,4 +362,83 @@ describe('generateRoutesManifest()', () => {
       }
     `);
   });
+
+  it<LocalTestContext>('does not include duplicates when nested route depends on the same asset as its parent', async () => {
+    const routeIds = {
+      '/one': ['src/routes/one.tsx'],
+      '/one/two': ['src/routes/one.tsx', 'src/routes/one.two.tsx'],
+    };
+
+    const clientManifest = {
+      'utils.js': { file: 'assets/utils.js' },
+      'src/entry.client.tsx': {
+        dynamicImports: ['src/routes/one.tsx', 'src/routes/one.two.tsx'],
+        file: 'assets/client-entry.js',
+        isEntry: true,
+        src: 'src/entry.client.tsx',
+      },
+      'src/routes/one.tsx': {
+        file: 'assets/one.js',
+        imports: ['src/entry.client.tsx', 'utils.js'],
+        isDynamicEntry: true,
+        src: 'src/routes/one.tsx',
+      },
+      'src/routes/one.two.tsx': {
+        file: 'assets/one.two.js',
+        imports: ['src/entry.client.tsx', 'utils.js'],
+        isDynamicEntry: true,
+        src: 'src/routes/one.two.tsx',
+      },
+    };
+
+    const routeManifest = generateRoutesManifest(clientManifest as any, routeIds);
+
+    expect(routeManifest).toMatchInlineSnapshot(`
+      {
+        "/one": {
+          "assets": [
+            {
+              "isNested": false,
+              "isPreload": true,
+              "type": "script",
+              "url": "/assets/one.js",
+              "weight": 2.1,
+            },
+            {
+              "isNested": true,
+              "isPreload": true,
+              "type": "script",
+              "url": "/assets/utils.js",
+              "weight": 2.1,
+            },
+          ],
+        },
+        "/one/two": {
+          "assets": [
+            {
+              "isNested": false,
+              "isPreload": true,
+              "type": "script",
+              "url": "/assets/one.js",
+              "weight": 2.1,
+            },
+            {
+              "isNested": false,
+              "isPreload": true,
+              "type": "script",
+              "url": "/assets/one.two.js",
+              "weight": 2.1,
+            },
+            {
+              "isNested": true,
+              "isPreload": true,
+              "type": "script",
+              "url": "/assets/utils.js",
+              "weight": 2.1,
+            },
+          ],
+        },
+      }
+    `);
+  });
 });
