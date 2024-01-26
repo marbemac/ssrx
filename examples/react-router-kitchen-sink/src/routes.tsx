@@ -1,8 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
 import { route } from 'react-router-typesafe-routes/dom';
 
-import { RouteErrorBoundary } from '~client/components/route-error-boundary.tsx';
-import { Component as RootLayout } from '~client/pages/root.tsx';
+import { RouteErrorBoundary } from '~/components/route-error-boundary.tsx';
+import { Component as RootLayout } from '~/routes/root.tsx';
 
 export const paths = {
   Wait: route('wait'),
@@ -24,31 +24,31 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        lazy: () => import('~client/pages/_index.tsx'),
+        lazy: () => import('~/routes/_index.tsx'),
       },
 
       {
         path: paths.Wait.path,
-        lazy: () => import('~client/pages/wait.tsx'),
+        lazy: () => import('~/routes/wait.tsx'),
       },
 
       {
         path: paths.Articles.path,
-        lazy: () => import('~client/pages/articles.tsx'),
+        lazy: () => import('~/routes/articles.tsx'),
         children: [
           {
             index: true,
-            lazy: () => import('~client/pages/articles._index.tsx'),
+            lazy: () => import('~/routes/articles._index.tsx'),
           },
 
           {
             path: paths.Article.Edit.path,
-            lazy: () => import('~client/pages/articles.$articleId.edit.tsx'),
+            lazy: () => import('~/routes/articles.$articleId.edit.tsx'),
           },
 
           {
             path: paths.Article.path,
-            lazy: () => import('~client/pages/articles.$articleId.tsx'),
+            lazy: () => import('~/routes/articles.$articleId.tsx'),
           },
         ],
       },

@@ -2,9 +2,9 @@ import { TRPCError } from '@trpc/server';
 import { desc, eq, or } from 'drizzle-orm';
 import { object, omit, parse, partial, pick } from 'valibot';
 
-import { sleep } from '~client/utils.ts';
-import { createDbId } from '~server/db/ids.ts';
-import { articles, insertArticleSchema, selectArticleSchema } from '~server/db/schema/index.ts';
+import { sleep } from '~/utils.ts';
+import { createDbId } from '~/api/db/ids.ts';
+import { articles, insertArticleSchema, selectArticleSchema } from '~/api/db/schema/index.ts';
 
 import { protectedProcedure, publicProcedure, router } from './trpc.ts';
 

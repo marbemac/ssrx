@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import type { Params } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { ctx, type RouterInputs, type RouterOutputs } from '~app';
-import { ActionBar } from '~client/components/article-action-bar.tsx';
-import { QueryBoundary } from '~client/components/query-boundary.tsx';
-import { Button } from '~client/components/ui/button.tsx';
-import { Input } from '~client/components/ui/input.tsx';
-import { Textarea } from '~client/components/ui/textarea.tsx';
-import { useToast } from '~client/components/ui/use-toast.ts';
-import { paths } from '~client/routes.tsx';
+import { ctx, type RouterInputs, type RouterOutputs } from '~/app.tsx';
+import { ActionBar } from '~/components/article-action-bar.tsx';
+import { QueryBoundary } from '~/components/query-boundary.tsx';
+import { Button } from '~/components/ui/button.tsx';
+import { Input } from '~/components/ui/input.tsx';
+import { Textarea } from '~/components/ui/textarea.tsx';
+import { useToast } from '~/components/ui/use-toast.ts';
+import { paths } from '~/routes.tsx';
 
 export async function loader({ params: { articleId } }: { params: Params<'articleId'> }) {
   void ctx.trpc.articles.byId.prefetchQuery({ id: articleId! }, { meta: { deferStream: true } });

@@ -2,7 +2,7 @@
 
 declare namespace Lucia {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  type Auth = import('~server/auth.ts').Auth;
+  type Auth = import('~/api/auth.ts').Auth;
 
   type DatabaseUserAttributes = {
     username: string;

@@ -2,12 +2,12 @@ import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 
-import { serverHandler } from '~app';
-import { routes } from '~client/routes.tsx';
-import { type ReqCtx, reqCtxMiddleware } from '~server/middleware/context.ts';
-import { trpcServer } from '~server/middleware/trpc.ts';
-import { appRouter, createCaller } from '~server/trpc/index.ts';
-import { deleteCookie, setCookie } from '~server/utils/cookies.ts';
+import { type ReqCtx, reqCtxMiddleware } from '~/api/middleware/context.ts';
+import { trpcServer } from '~/api/middleware/trpc.ts';
+import { appRouter, createCaller } from '~/api/trpc/index.ts';
+import { deleteCookie, setCookie } from '~/api/utils/cookies.ts';
+import { serverHandler } from '~/app.tsx';
+import { routes } from '~/routes.tsx';
 
 type HonoEnv = { Variables: ReqCtx };
 

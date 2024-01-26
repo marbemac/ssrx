@@ -1,9 +1,9 @@
 import { Link, Outlet, useParams } from 'react-router-dom';
 
-import { ctx, type RouterOutputs } from '~app';
-import { QueryBoundary } from '~client/components/query-boundary.tsx';
-import { paths } from '~client/routes.tsx';
-import { cn } from '~client/utils.ts';
+import { ctx, type RouterOutputs } from '~/app.tsx';
+import { QueryBoundary } from '~/components/query-boundary.tsx';
+import { paths } from '~/routes.tsx';
+import { cn } from '~/utils.ts';
 
 export async function loader() {
   void ctx.trpc.articles.list.prefetchQuery();

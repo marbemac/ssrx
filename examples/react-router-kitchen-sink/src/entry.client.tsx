@@ -1,7 +1,7 @@
 import { startTransition, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
-import { clientHandler } from '~app';
+import { clientHandler } from '~/app.tsx';
 
 import { routes } from './routes.tsx';
 

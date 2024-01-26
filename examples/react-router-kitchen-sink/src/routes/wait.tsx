@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
-import { Counter } from '~client/components/counter.tsx';
-import { sleep } from '~client/utils.ts';
+import { Counter } from '~/components/counter.tsx';
+import { sleep } from '~/utils.ts';
 
 export function Component() {
   return (

@@ -2,9 +2,9 @@ import { createMiddleware } from 'hono/factory';
 import type { CookieOptions } from 'hono/utils/cookie';
 import type { Session } from 'lucia';
 
-import { auth } from '~server/auth.ts';
-import { db } from '~server/db/client.ts';
-import { deleteCookie, getCookie, setCookie } from '~server/utils/cookies.ts';
+import { auth } from '~/api/auth.ts';
+import { db } from '~/api/db/client.ts';
+import { deleteCookie, getCookie, setCookie } from '~/api/utils/cookies.ts';
 
 /**
  * The properties available on `c.var` in hono, or `ctx` in trpc.

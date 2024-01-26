@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-import type { RouterOutputs } from '~app';
-import { ctx } from '~app';
-import { Button } from '~client/components/ui/button.tsx';
-import { useToast } from '~client/components/ui/use-toast.ts';
-import { paths } from '~client/routes.tsx';
+import type { RouterOutputs } from '~/app.tsx';
+import { ctx } from '~/app.tsx';
+import { Button } from '~/components/ui/button.tsx';
+import { useToast } from '~/components/ui/use-toast.ts';
+import { paths } from '~/routes.tsx';
 
 export const ActionBar = ({
   article,

@@ -1,4 +1,4 @@
-import { ctx } from '~app';
+import { ctx } from '~/app.tsx';
 
 export function Component() {
   ctx.useHead({ title: 'Home' });

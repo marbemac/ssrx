@@ -6,7 +6,7 @@ import { betterSqlite3 } from '@lucia-auth/adapter-sqlite';
 import { lucia } from 'lucia';
 import { hono } from 'lucia/middleware';
 
-import { sqliteDatabase } from '~server/db/client.ts';
+import { sqliteDatabase } from '~/api/db/client.ts';
 
 export type Auth = typeof auth;
 

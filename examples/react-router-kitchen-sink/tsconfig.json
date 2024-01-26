@@ -3,9 +3,7 @@
   "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "paths": {
-      "~app": ["./app.tsx"],
-      "~client/*": ["./client/*"],
-      "~server/*": ["./server/*"]
+      "~/*": ["./src/*"]
     }
   }
 }

@@ -4,9 +4,9 @@ import type { CookieOptions } from 'hono/utils/cookie';
 import { LuciaError } from 'lucia';
 import { maxLength, minLength, object, parse, string } from 'valibot';
 
-import { auth } from '~server/auth.ts';
-import { createDbId } from '~server/db/ids.ts';
-import { protectedProcedure, publicProcedure, router } from '~server/trpc/trpc.ts';
+import { auth } from '~/api/auth.ts';
+import { createDbId } from '~/api/db/ids.ts';
+import { protectedProcedure, publicProcedure, router } from '~/api/trpc/trpc.ts';
 
 const SignupSchema = object({
   username: string([minLength(4), maxLength(31)]),

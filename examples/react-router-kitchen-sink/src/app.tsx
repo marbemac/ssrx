@@ -1,4 +1,4 @@
-import './client/globals.css';
+import './globals.css';
 
 import { reactRouterPlugin } from '@ssrx/plugin-react-router';
 import { tanstackQueryPlugin } from '@ssrx/plugin-tanstack-query';
@@ -10,7 +10,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 // import { ReactQueryDevtools as QueryDevtools } from '@tanstack/react-query-devtools';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 
-import type { AppRouter } from '~server/trpc/index.ts';
+import type { AppRouter } from '~/api/trpc/index.ts';
 
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;

@@ -1,10 +1,10 @@
 import type { Params } from 'react-router-dom';
 import { useTypedParams } from 'react-router-typesafe-routes/dom';
 
-import { ctx, type RouterOutputs } from '~app';
-import { ActionBar } from '~client/components/article-action-bar.tsx';
-import { QueryBoundary } from '~client/components/query-boundary.tsx';
-import { paths } from '~client/routes.tsx';
+import { ctx, type RouterOutputs } from '~/app.tsx';
+import { ActionBar } from '~/components/article-action-bar.tsx';
+import { QueryBoundary } from '~/components/query-boundary.tsx';
+import { paths } from '~/routes.tsx';
 
 export async function loader({ params: { articleId } }: { params: Params<'articleId'> }) {
   void ctx.trpc.articles.byId.prefetchQuery({ id: articleId! }, { meta: { deferStream: true } });

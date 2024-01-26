@@ -9,9 +9,9 @@ export default defineConfig({
     tsconfigPaths(),
     react(),
     ssrx({
-      serverFile: 'server/index.tsx',
-      clientEntry: 'client/entry.client.tsx',
-      routesFile: 'client/routes.tsx',
+      serverFile: 'src/server.tsx',
+      clientEntry: 'src/entry.client.tsx',
+      routesFile: 'src/routes.tsx',
     }),
   ],
 });

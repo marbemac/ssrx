@@ -1,6 +1,6 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 
-import type { ReqCtx } from '~server/middleware/context.ts';
+import type { ReqCtx } from '~/api/middleware/context.ts';
 
 const t = initTRPC.context<ReqCtx>().create({
   errorFormatter(opts) {

@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 import { NavLink, Outlet, ScrollRestoration, useNavigate } from 'react-router-dom';
 
-import { ctx, type RouterOutputs } from '~app';
-import { Button } from '~client/components/ui/button.tsx';
-import { Toaster } from '~client/components/ui/toaster.tsx';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~client/components/ui/tooltip.tsx';
-import { useToast } from '~client/components/ui/use-toast.ts';
-import { paths } from '~client/routes.tsx';
-import { cn } from '~client/utils.ts';
+import { ctx, type RouterOutputs } from '~/app.tsx';
+import { Button } from '~/components/ui/button.tsx';
+import { Toaster } from '~/components/ui/toaster.tsx';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip.tsx';
+import { useToast } from '~/components/ui/use-toast.ts';
+import { paths } from '~/routes.tsx';
+import { cn } from '~/utils.ts';
 
 export function Component() {
   // https://unhead.unjs.io/usage/guides/template-params#separator
