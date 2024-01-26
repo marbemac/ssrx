@@ -5,7 +5,7 @@ import { rand, sleep } from '~/utils.ts';
 export const getHomeData = cache(async () => {
   console.log('call getHomeData()');
 
-  await sleep(2000);
+  await sleep(500);
 
   return { data: `Home loader - random value ${rand()}.` };
 }, 'home');

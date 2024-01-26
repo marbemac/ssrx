@@ -7,8 +7,8 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "concurrently \"remix-routes -w\" \"vite dev\"",
-    "build": "remix-routes && vite build && vite build --ssr",
+    "dev": "concurrently \"remix-routes -w\" \"remix vite:dev\"",
+    "build": "remix-routes && remix vite:build",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },

@@ -19,6 +19,7 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
 
     config() {
       return {
+        appType: 'custom',
         ssr: {
           // Ensure ssrx packages are processed by the vite pipeline so
           // that the virtual plugin works

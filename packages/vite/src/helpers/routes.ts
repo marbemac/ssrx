@@ -377,9 +377,6 @@ const getManifestModuleAssets = (
           const type = getAssetType(file);
           const entryIdentifier = `${type}:${file}`;
           if (usedAssets.has(entryIdentifier)) {
-            console.warn(
-              `Possible circular import! ${module?.file} imports ${file}, which has already been imported. This might indicate an issue with your code split / chunking strategy, and could lead to problems with load order on the client.`,
-            );
             continue;
           }
         }

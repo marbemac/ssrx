@@ -61,7 +61,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
           emptyOutDir: !isSsr,
           rollupOptions: {
             input: input as any,
-            output,
+            output: Object.keys(output).length === 0 ? undefined : output,
           },
         },
       } satisfies UserConfig;
