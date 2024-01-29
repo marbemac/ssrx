@@ -17,11 +17,10 @@
     "dep-graph": "nx graph"
   },
   "resolutions": {
-    "@hono/node-server": "file:.yalc/@hono/node-server",
-    "@ssrx/adapter-tanstack-router": "workspace:*",
     "@ssrx/plugin-react-router": "workspace:*",
     "@ssrx/plugin-solid-router": "workspace:*",
     "@ssrx/plugin-tanstack-query": "workspace:*",
+    "@ssrx/plugin-tanstack-router": "workspace:*",
     "@ssrx/plugin-trpc-react": "workspace:*",
     "@ssrx/plugin-unhead": "workspace:*",
     "@ssrx/react": "workspace:*",
@@ -34,8 +33,8 @@
   "devDependencies": {
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
-    "@typescript-eslint/eslint-plugin": "6.19.1",
-    "@typescript-eslint/parser": "6.19.1",
+    "@typescript-eslint/eslint-plugin": "6.20.0",
+    "@typescript-eslint/parser": "6.20.0",
     "@yarnpkg/types": "~4.0.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",

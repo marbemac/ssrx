@@ -43,12 +43,6 @@ export type DevServerOptions = {
 
 type Fetch = (request: Request) => Promise<Response>;
 
-/*!
- * Portions of this code are inspired by honojs/vite-plugins
- *
- * Credits to Hono:
- * https://github.com/honojs/vite-plugins
- */
 function createMiddleware(server: ViteDevServer, options: DevServerOptions): Promise<Connect.HandleFunction> {
   // @ts-expect-error ignore
   return async function (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction): Promise<void> {
@@ -91,16 +85,13 @@ function createMiddleware(server: ViteDevServer, options: DevServerOptions): Pro
 
         return response;
       },
-      /**
-       * Our version of getRequestListener() is a bit different from the original.
-       *
-       * It accepts a second argument which allows us to pass errors through to the vite middleware.
-       */
-      err => {
-        console.error(`There was an unhandled error in your server fetch handler.`);
+      {
+        errorHandler: err => {
+          console.error(`There was an unhandled error in your server fetch handler.`);
 
-        server.ssrFixStacktrace(err as Error);
-        next(err);
+          server.ssrFixStacktrace(err as Error);
+          next(err);
+        },
       },
     )(req, res);
   };

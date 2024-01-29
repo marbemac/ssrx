@@ -15,7 +15,7 @@
   "dependencies": {
     "@elysiajs/static": "0.8.1",
     "@ssrx/react": "latest",
-    "elysia": "0.8.14",
+    "elysia": "0.8.15",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.21.3"

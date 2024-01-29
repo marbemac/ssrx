@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@ssrx/vite": "^0.5.0",
-    "@tanstack/react-router": "1.12.12",
+    "@tanstack/react-router": "1.15.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }

@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@remix-run/react": "2.5.1",
-    "esbuild": "0.19.12",
+    "esbuild": "0.20.0",
     "rollup": "4.9.6",
     "rollup-plugin-esbuild": "6.1.1"
   }
