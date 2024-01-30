@@ -1,0 +1,29 @@
+{
+  "name": "@ssrx/streaming",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "type": "module",
+  "license": "MIT",
+  "author": "marbemac (https://github.com/marbemac)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marbemac/ssrx",
+    "directory": "packages/streaming"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc",
+    "lint": "eslint ."
+  }
+}

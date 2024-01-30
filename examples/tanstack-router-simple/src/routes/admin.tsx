@@ -13,7 +13,7 @@ function AdminLayout() {
   return (
     <>
       <nav className="border-b flex gap-3 pb-5">
-        <Link to="/admin" className="[&.active]:font-bold">
+        <Link to="/admin" className="[&.active]:font-bold" activeOptions={{ exact: true }}>
           Admin Home
         </Link>
 

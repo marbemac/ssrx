@@ -4,9 +4,9 @@ import {
   type ServerHandlerOpts,
   type SetOptional,
 } from '@ssrx/renderer/server';
-import { renderToStream } from 'solid-js/web';
 
 import { RootLayout } from '../default-root.tsx';
+import { renderToStream } from './stream.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>(
   opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'RootLayout'>,
@@ -14,12 +14,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>(
   return baseCreateApp({
     RootLayout,
     renderer: {
-      renderToStream: async ({ app }) => {
-        const stream = renderToStream(() => app());
-        const { readable, writable } = new TransformStream();
-        stream.pipeTo(writable);
-        return readable;
-      },
+      renderToStream,
     },
     ...opts,
   });

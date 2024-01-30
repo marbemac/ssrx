@@ -27,6 +27,7 @@
     "@ssrx/remix": "workspace:*",
     "@ssrx/renderer": "workspace:*",
     "@ssrx/solid": "workspace:*",
+    "@ssrx/streaming": "workspace:*",
     "@ssrx/trpc-react-query": "workspace:*",
     "@ssrx/vite": "workspace:*"
   },

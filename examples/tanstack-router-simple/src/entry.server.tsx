@@ -1,4 +1,4 @@
-import { renderAssets } from '@ssrx/react';
+import { renderAssets } from '@ssrx/react/server';
 import { assetsForRequest } from '@ssrx/vite/runtime';
 import { createMemoryHistory, RouterProvider } from '@tanstack/react-router';
 
@@ -27,5 +27,5 @@ export async function render(req: Request) {
 
   const app = <RouterProvider router={router} />;
 
-  return { app };
+  return { app, router };
 }

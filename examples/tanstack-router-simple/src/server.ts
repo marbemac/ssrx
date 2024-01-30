@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
+import { renderToStream } from '@ssrx/react/server';
 import { Hono } from 'hono';
-import { renderToString } from 'react-dom/server';
 
 import * as entry from '~/entry.server.tsx';
 
@@ -15,18 +15,33 @@ const server = new Hono()
 
   .get('*', async c => {
     try {
-      const { app } = await entry.render(c.req.raw);
+      const { app, router } = await entry.render(c.req.raw);
 
-      const html = renderToString(app);
+      const { stream, statusCode } = await renderToStream({
+        app: () => app,
+        req: c.req.raw,
+        injectToStream: {
+          async emitBeforeSsrChunk() {
+            const injectorPromises = router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
+            const injectors = await Promise.all(injectorPromises);
+            router.injectedHtml = [];
+            return injectors.join('');
+          },
+        },
+      });
 
-      return c.html(html);
-    } catch (err) {
+      let status = statusCode();
+
+      // Handle redirects
+      if (router.hasNotFoundMatch() && status !== 500) status = 404;
+
+      return new Response(stream, { status, headers: { 'Content-Type': 'text/html' } });
+    } catch (err: any) {
       /**
-       * Handle react-router redirects
+       * In development, pass the error back to the vite dev server to display in the
+       * vite error overlay
        */
-      if (err instanceof Response && err.status >= 300 && err.status <= 399) {
-        return c.redirect(err.headers.get('Location') || '/', err.status);
-      }
+      if (import.meta.env.DEV) return err;
 
       throw err;
     }

@@ -36,6 +36,10 @@ function RootComponent() {
             Lazy Component
           </Link>
 
+          <Link to="/redirect" className="[&.active]:font-bold">
+            Redirect
+          </Link>
+
           <Link to="/admin" className="[&.active]:font-bold">
             Admin
           </Link>

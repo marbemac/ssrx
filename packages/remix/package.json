@@ -49,8 +49,8 @@
     "@remix-run/react": ">=2.2.0"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.3.0",
-    "isbot-fast": "1.2.0"
+    "@ssrx/react": "^0.2.1",
+    "@ssrx/renderer": "^0.3.0"
   },
   "devDependencies": {
     "@remix-run/react": "2.5.1",

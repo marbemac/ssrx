@@ -2,7 +2,6 @@ import type { Simplify } from 'type-fest';
 
 import type { ClientHandlerFn, Config, RenderPlugin, ServerHandlerFn, ServerHandlerOpts } from '../types.ts';
 import { storage } from './ctx.ts';
-import { injectIntoStream } from './stream-injector.ts';
 
 export function createApp<P extends RenderPlugin<any, any>[]>({
   RootLayout,
@@ -106,59 +105,61 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
         return RootLayout ? RootLayout({ children: finalApp }) : finalApp;
       };
 
-      const stream = await renderer.renderToStream({ app: renderApp, req });
+      return renderer.renderToStream({
+        app: renderApp,
+        req,
+        injectToStream: {
+          async emitToDocumentHead() {
+            const work = [];
+            for (const p of plugins ?? []) {
+              if (!p.hooks?.['ssr:emitToHead']) continue;
+              work.push(p.hooks['ssr:emitToHead']({ req, ctx: pluginCtx[p.id] }));
+            }
 
-      return injectIntoStream(stream, {
-        async emitToDocumentHead() {
-          const work = [];
-          for (const p of plugins ?? []) {
-            if (!p.hooks?.['ssr:emitToHead']) continue;
-            work.push(p.hooks['ssr:emitToHead']({ req, ctx: pluginCtx[p.id] }));
-          }
+            if (!work.length) return '';
 
-          if (!work.length) return '';
+            const html = await Promise.all(work);
 
-          const html = await Promise.all(work);
+            return html.filter(Boolean).join('');
+          },
 
-          return html.filter(Boolean).join('');
-        },
+          async emitBeforeSsrChunk() {
+            const work = [];
+            for (const p of plugins ?? []) {
+              if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
+              work.push(p.hooks['ssr:emitBeforeFlush']({ req, ctx: pluginCtx[p.id] }));
+            }
 
-        async emitBeforeSsrChunk() {
-          const work = [];
-          for (const p of plugins ?? []) {
-            if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
-            work.push(p.hooks['ssr:emitBeforeFlush']({ req, ctx: pluginCtx[p.id] }));
-          }
+            if (!work.length) return '';
 
-          if (!work.length) return '';
+            return (await Promise.all(work)).filter(Boolean).join('');
+          },
 
-          return (await Promise.all(work)).filter(Boolean).join('');
-        },
+          async emitToDocumentBody() {
+            const work = [];
+            for (const p of plugins ?? []) {
+              if (!p.hooks?.['ssr:emitToBody']) continue;
+              work.push(p.hooks['ssr:emitToBody']({ req, ctx: pluginCtx[p.id] }));
+            }
 
-        async emitToDocumentBody() {
-          const work = [];
-          for (const p of plugins ?? []) {
-            if (!p.hooks?.['ssr:emitToBody']) continue;
-            work.push(p.hooks['ssr:emitToBody']({ req, ctx: pluginCtx[p.id] }));
-          }
+            if (!work.length) return '';
 
-          if (!work.length) return '';
+            const html = await Promise.all(work);
 
-          const html = await Promise.all(work);
+            return html.filter(Boolean).join('');
+          },
 
-          return html.filter(Boolean).join('');
-        },
+          async onStreamComplete() {
+            const work = [];
+            for (const p of plugins ?? []) {
+              if (!p.hooks?.['ssr:completed']) continue;
+              work.push(p.hooks['ssr:completed']({ req, ctx: pluginCtx[p.id] }));
+            }
 
-        async onStreamComplete() {
-          const work = [];
-          for (const p of plugins ?? []) {
-            if (!p.hooks?.['ssr:completed']) continue;
-            work.push(p.hooks['ssr:completed']({ req, ctx: pluginCtx[p.id] }));
-          }
+            if (!work.length) return;
 
-          if (!work.length) return;
-
-          await Promise.all(work);
+            await Promise.all(work);
+          },
         },
       });
     }
@@ -166,10 +167,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     /**
      * Run the rest of the hooks in storage scope so we can access the ctx
      */
-    const appStream = await storage.run({ appCtx, pluginCtx }, createAppStream);
-    // const appStream = await createAppStream();
-
-    return appStream;
+    return storage.run({ appCtx, pluginCtx }, createAppStream);
   };
 
   return {

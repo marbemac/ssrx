@@ -7,7 +7,7 @@ import {
   createTagInsertionStream,
 } from './stream-utils.ts';
 
-type InjectIntoStreamOpts = {
+export type InjectIntoStreamOpts = {
   emitToDocumentHead?: () => Promise<string> | string;
   emitBeforeSsrChunk?: () => Promise<string> | string;
   emitToDocumentBody?: () => Promise<string> | string;

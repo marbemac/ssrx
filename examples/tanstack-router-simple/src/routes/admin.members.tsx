@@ -4,7 +4,6 @@ import { getMembers, sleep } from '~/utils.ts';
 
 export const Route = createFileRoute('/admin/members')({
   loader: async () => {
-    console.log('admin loader');
     await sleep();
 
     return {

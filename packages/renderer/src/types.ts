@@ -1,3 +1,5 @@
+import type { InjectIntoStreamOpts } from '@ssrx/streaming';
+
 import type { SSRx } from './namespace.ts';
 
 type ConfigBuiltIn = {
@@ -6,8 +8,15 @@ type ConfigBuiltIn = {
 
 export type Config = ConfigBuiltIn & SSRx.Config;
 
+export type RenderToStreamFn<O extends object = object> = (props: {
+  app: () => Config['jsxElement'];
+  req: Request;
+  injectToStream?: InjectIntoStreamOpts;
+  opts?: O;
+}) => Promise<{ stream: ReadableStream; statusCode: () => number }>;
+
 export type ServerRenderer = {
-  renderToStream: (props: { app: () => Config['jsxElement']; req: Request }) => Promise<ReadableStream>;
+  renderToStream: RenderToStreamFn;
 };
 
 type BaseHandlerOpts = {
@@ -34,7 +43,7 @@ export type ServerHandlerFn = (props: {
   req: Request;
   renderProps?: SSRx.RenderProps;
   meta?: SSRx.ReqMeta;
-}) => Promise<ReadableStream<Uint8Array>>;
+}) => Promise<{ stream: ReadableStream<Uint8Array>; statusCode: () => number }>;
 
 export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
   id: Readonly<string>;
