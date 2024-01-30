@@ -13,6 +13,7 @@
     "react-router-records",
     "react-router-simple",
     "remix-vite",
-    "solid-router-simple"
+    "solid-router-simple",
+    "tanstack-router-simple"
   ]
 }

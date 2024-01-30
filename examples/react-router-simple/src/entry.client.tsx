@@ -1,4 +1,4 @@
-import { startTransition, StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { createBrowserRouter, matchRoutes, RouterProvider } from 'react-router-dom';
 
@@ -23,14 +23,12 @@ async function hydrate() {
 
   const router = createBrowserRouter(routes);
 
-  startTransition(() => {
-    hydrateRoot(
-      document,
-      <StrictMode>
-        <App>
-          <RouterProvider router={router} fallbackElement={null} />
-        </App>
-      </StrictMode>,
-    );
-  });
+  hydrateRoot(
+    document,
+    <StrictMode>
+      <App>
+        <RouterProvider router={router} fallbackElement={null} />
+      </App>
+    </StrictMode>,
+  );
 }

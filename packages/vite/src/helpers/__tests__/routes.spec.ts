@@ -30,7 +30,7 @@ describe('getRoutesIds()', () => {
   it<LocalTestContext>('handles lazy nested layouts', async ({ vite }) => {
     const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'lazy-route-tree', 'routes.tsx'));
 
-    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+    const routeIds = await getRoutesIds({ vite, routes: lazyLoad['routes'], clientManifestSources: new Set() });
 
     expect(routeIds).toMatchInlineSnapshot(`
       {
@@ -61,7 +61,7 @@ describe('getRoutesIds()', () => {
   it<LocalTestContext>('handles lazy routes with indirect dynamic import', async ({ vite }) => {
     const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'lazy-route-tree', 'lazy-indirect-routes.tsx'));
 
-    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+    const routeIds = await getRoutesIds({ vite, routes: lazyLoad['routes'], clientManifestSources: new Set() });
 
     expect(routeIds).toMatchInlineSnapshot(`
       {
@@ -75,7 +75,7 @@ describe('getRoutesIds()', () => {
   it<LocalTestContext>('handles absolute route paths', async ({ vite }) => {
     const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'lazy-route-tree', 'absolute-routes.tsx'));
 
-    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+    const routeIds = await getRoutesIds({ vite, routes: lazyLoad['routes'], clientManifestSources: new Set() });
 
     expect(routeIds).toMatchInlineSnapshot(`
       {
@@ -105,7 +105,7 @@ describe('generateSSRManifest()', () => {
   it<LocalTestContext>('ensures route chunks do not duplicate entry chunks', async ({ vite }) => {
     const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'reused-chunk-tree', 'routes.tsx'));
 
-    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+    const routeIds = await getRoutesIds({ vite, routes: lazyLoad['routes'], clientManifestSources: new Set() });
 
     const clientManifest = JSON.parse(
       await fs.readFile(path.join(fixturesDir, 'reused-chunk-tree/client-manifest.json'), 'utf-8'),
@@ -228,7 +228,7 @@ describe('generateRoutesManifest()', () => {
   it<LocalTestContext>('maps route ids to assets correctly', async ({ vite }) => {
     const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'lazy-route-tree', 'routes.tsx'));
 
-    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+    const routeIds = await getRoutesIds({ vite, routes: lazyLoad['routes'], clientManifestSources: new Set() });
 
     const clientManifest = JSON.parse(
       await fs.readFile(path.join(fixturesDir, 'lazy-route-tree/client-manifest.json'), 'utf-8'),

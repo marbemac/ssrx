@@ -47,7 +47,7 @@ const normalizeRoutes = (
     // grab path from path property without transformation (so must conform to expectations of https://github.com/unjs/radix3)
     const path = r.path;
 
-    // support lazy (solid-router) and component preload (react-router and tanstack-router)
+    // support lazy (solid-router) and component preload (react-router)
     const lazy = r.lazy ?? r.component?.preload;
 
     // expect child routes to be on the children prop

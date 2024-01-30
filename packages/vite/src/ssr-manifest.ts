@@ -12,6 +12,7 @@ import {
   emptySSRManifest,
   generateSSRManifest,
   getAssetWeight,
+  getClientManifestSources,
   getRoutesIds,
 } from './helpers/routes.ts';
 import { findStylesInModuleGraph } from './helpers/vite.ts';
@@ -91,7 +92,11 @@ export class Manifest<ExternalRoutes> {
 
     const clientManifest = this.#loadClientManifest();
     const routes = this.router.routes;
-    const routeIds = await getRoutesIds(viteServer, routes);
+    const routeIds = await getRoutesIds({
+      vite: viteServer,
+      routes,
+      clientManifestSources: getClientManifestSources(clientManifest),
+    });
     const ssrManifest = generateSSRManifest(clientManifest, routeIds);
 
     if (writeToDisk) {

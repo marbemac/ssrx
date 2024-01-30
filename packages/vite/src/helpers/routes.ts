@@ -7,12 +7,15 @@ export type ViteClientManifest = {
     assets: string[];
     css: string[];
     file: string;
-    isEntry?: boolean;
     imports: string[];
+    src?: string;
+    isEntry?: boolean;
     dynamicImports?: string[];
     isDynamicEntry?: boolean;
   };
 };
+
+export type ClientManifestSources = Set<string>;
 
 export enum AssetType {
   style = 'style',
@@ -54,12 +57,19 @@ export type SSRManifest = {
 export type SSREntryManifest = Asset[];
 export type SSRRouteManifest = Record<RouteId, { assets: Asset[] }>;
 
-export const getRoutesIds = async (
-  vite: ViteDevServer,
-  routes: RouteInfo[],
-  parentIds: string[] = [],
-  parentPath?: string,
-): Promise<RouteIdToPaths> => {
+export const getRoutesIds = async ({
+  vite,
+  clientManifestSources,
+  routes,
+  parentIds = [],
+  parentPath,
+}: {
+  vite: ViteDevServer;
+  clientManifestSources: ClientManifestSources;
+  routes: RouteInfo[];
+  parentIds?: string[];
+  parentPath?: string;
+}): Promise<RouteIdToPaths> => {
   const result: RouteIdToPaths = {};
 
   for (const route of routes) {
@@ -75,7 +85,7 @@ export const getRoutesIds = async (
       try {
         const resolvedRoute = await route.lazy();
 
-        const id = await getModuleBySsrReference(vite, resolvedRoute);
+        const id = await getModuleBySsrReference(vite, resolvedRoute, clientManifestSources);
         if (!id) throw new Error('Could not find reference');
 
         mod = await vite.moduleGraph.getModuleById(id);
@@ -111,7 +121,16 @@ export const getRoutesIds = async (
     }
 
     if (route.children) {
-      Object.assign(result, await getRoutesIds(vite, route.children, childParentIds, routeId));
+      Object.assign(
+        result,
+        await getRoutesIds({
+          vite,
+          clientManifestSources,
+          routes: route.children,
+          parentIds: childParentIds,
+          parentPath: routeId,
+        }),
+      );
     }
   }
 
@@ -303,6 +322,15 @@ export const buildAssetUrl = (assetPath: string, basePath?: string) => {
   return `/${[bp, ap].filter(Boolean).join('/')}`;
 };
 
+export const getClientManifestSources = (clientManifest: ViteClientManifest) => {
+  return new Set(
+    Object.values(clientManifest)
+      // ensure absolute, to match with how vite formats the "url" node property in it's module graph
+      .map(m => (m.src && !m.src.startsWith('/') ? `/${m.src}` : m.src))
+      .filter(Boolean),
+  );
+};
+
 /**
  * --------------
  * Internal below
@@ -435,13 +463,19 @@ const getManifestModuleAssets = ({
   return assets;
 };
 
-const getModuleBySsrReference = async (vite: ViteDevServer, mod: unknown) => {
-  for (const [id, value] of vite.moduleGraph.idToModuleMap.entries()) {
+/**
+ * This helper attempts to locate a module in the Vite module graph by reference.
+ */
+const getModuleBySsrReference = async (vite: ViteDevServer, mod: unknown, moduleUrlAllowList?: Set<string>) => {
+  for (const value of vite.moduleGraph.idToModuleMap.values()) {
+    // only consider modules that are in the allow list
+    if (!value.id || (moduleUrlAllowList && !moduleUrlAllowList.has(value.url))) continue;
+
     if (!value.ssrModule) {
-      await vite.ssrLoadModule(id);
+      await vite.ssrLoadModule(value.id);
     }
 
-    if (value.ssrModule === mod) return id;
+    if (value.ssrModule === mod) return value.id;
   }
 
   return null;

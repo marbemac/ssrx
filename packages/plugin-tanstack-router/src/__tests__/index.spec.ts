@@ -1,9 +1,9 @@
 import { expect, it } from 'vitest';
 
 import { tanstackRouterAdapter } from '../adapter.ts';
-import { routeTree as lazyTreeSimple } from './fixtures/lazy-tree-simple.tsx';
+import { routeTree as lazyTreeSimple } from './fixtures/lazy-tree.tsx';
 
-it('works', async () => {
+it('sets lazy fns correctly', async () => {
   const adapter = tanstackRouterAdapter();
   const routes = adapter.normalizeExternalRoutes(lazyTreeSimple);
 
@@ -15,6 +15,11 @@ it('works', async () => {
             "children": undefined,
             "lazy": [Function],
             "path": "",
+          },
+          {
+            "children": undefined,
+            "lazy": [Function],
+            "path": "expensive",
           },
           {
             "children": undefined,
