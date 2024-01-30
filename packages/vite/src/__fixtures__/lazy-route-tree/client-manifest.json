@@ -16,81 +16,81 @@
   "src/__fixtures__/lazy-route-tree/entry.client.tsx": {
     "css": ["assets/entry.client.css"],
     "dynamicImports": [
-      "src/__fixtures__/lazy-route-tree/pages/_index.tsx",
-      "src/__fixtures__/lazy-route-tree/pages/lazy-component.tsx",
-      "src/__fixtures__/lazy-route-tree/pages/admin.tsx",
-      "src/__fixtures__/lazy-route-tree/pages/admin._index.tsx",
-      "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx",
-      "src/__fixtures__/lazy-route-tree/pages/admin.members._index.tsx",
-      "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.tsx"
+      "src/__fixtures__/lazy-route-tree/routes/_index.tsx",
+      "src/__fixtures__/lazy-route-tree/routes/lazy-component.tsx",
+      "src/__fixtures__/lazy-route-tree/routes/admin.tsx",
+      "src/__fixtures__/lazy-route-tree/routes/admin._index.tsx",
+      "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx",
+      "src/__fixtures__/lazy-route-tree/routes/admin.members._index.tsx",
+      "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.tsx"
     ],
-    "file": "assets/main-.js",
+    "file": "assets/main.js",
     "isEntry": true,
     "src": "src/__fixtures__/lazy-route-tree/entry.client.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/_index.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/_index.tsx": {
     "css": ["assets/_index.css"],
     "file": "assets/_index.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/_index.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/_index.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin._index.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/admin._index.tsx": {
     "file": "assets/admin._index.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin._index.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin._index.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.css": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.css": {
     "file": "assets/admin.css",
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.css"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.css"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.css": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.css": {
     "file": "assets/admin.members._memberId.css",
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.css"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.css"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.tsx": {
     "css": ["assets/admin.members._memberId.css"],
     "file": "assets/admin.members._memberId.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.members._index.css": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.members._index.css": {
     "file": "assets/admin.members._index.css",
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.members._index.css"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.members._index.css"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.members._index.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.members._index.tsx": {
     "css": ["assets/admin.members._index.css"],
     "file": "assets/admin.members._index.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.members._index.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.members._index.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.members.css": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.members.css": {
     "file": "assets/admin.members.css",
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.members.css"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.members.css"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx": {
     "css": ["assets/admin.members.css"],
     "file": "assets/admin.members.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/admin.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/admin.tsx": {
     "css": ["assets/admin.css"],
     "file": "assets/admin.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/admin.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/admin.tsx"
   },
-  "src/__fixtures__/lazy-route-tree/pages/lazy-component.tsx": {
+  "src/__fixtures__/lazy-route-tree/routes/lazy-component.tsx": {
     "css": ["assets/_index.css"],
     "dynamicImports": ["src/__fixtures__/lazy-route-tree/components/heavy-component.tsx"],
     "file": "assets/lazy-component.js",
     "imports": ["src/__fixtures__/lazy-route-tree/entry.client.tsx"],
     "isDynamicEntry": true,
-    "src": "src/__fixtures__/lazy-route-tree/pages/lazy-component.tsx"
+    "src": "src/__fixtures__/lazy-route-tree/routes/lazy-component.tsx"
   }
 }

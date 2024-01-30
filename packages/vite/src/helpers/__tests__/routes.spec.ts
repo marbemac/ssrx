@@ -4,7 +4,7 @@ import type { ViteDevServer } from 'vite';
 import { createServer as createViteServer } from 'vite';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { generateEntryManifest, generateRoutesManifest, getRoutesIds } from '../routes.ts';
+import { generateEntryManifest, generateRoutesManifest, generateSSRManifest, getRoutesIds } from '../routes.ts';
 
 type LocalTestContext = {
   vite: ViteDevServer;
@@ -35,24 +35,38 @@ describe('getRoutesIds()', () => {
     expect(routeIds).toMatchInlineSnapshot(`
       {
         "/": [
-          "src/__fixtures__/lazy-route-tree/pages/_index.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/_index.tsx",
         ],
         "/admin": [
-          "src/__fixtures__/lazy-route-tree/pages/admin.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin._index.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin._index.tsx",
         ],
         "/admin/members": [
-          "src/__fixtures__/lazy-route-tree/pages/admin.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin.members._index.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members._index.tsx",
         ],
         "/admin/members/:memberId": [
-          "src/__fixtures__/lazy-route-tree/pages/admin.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.tsx",
         ],
         "/lazy-component": [
-          "src/__fixtures__/lazy-route-tree/pages/lazy-component.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/lazy-component.tsx",
+        ],
+      }
+    `);
+  });
+
+  it<LocalTestContext>('handles lazy routes with indirect dynamic import', async ({ vite }) => {
+    const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'lazy-route-tree', 'lazy-indirect-routes.tsx'));
+
+    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+
+    expect(routeIds).toMatchInlineSnapshot(`
+      {
+        "/": [
+          "src/__fixtures__/lazy-route-tree/routes/_index.tsx",
         ],
       }
     `);
@@ -66,31 +80,56 @@ describe('getRoutesIds()', () => {
     expect(routeIds).toMatchInlineSnapshot(`
       {
         "/": [
-          "src/__fixtures__/lazy-route-tree/pages/_index.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/_index.tsx",
         ],
         "/admin/logs": [
-          "src/__fixtures__/lazy-route-tree/pages/lazy-component.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/lazy-component.tsx",
         ],
         "/lazy-component": [
-          "src/__fixtures__/lazy-route-tree/pages/lazy-component.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/lazy-component.tsx",
         ],
         "/secret-admin/members": [
-          "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin.members._index.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members._index.tsx",
         ],
         "/secret-admin/members/:memberId": [
-          "src/__fixtures__/lazy-route-tree/pages/admin.members.tsx",
-          "src/__fixtures__/lazy-route-tree/pages/admin.members.$memberId.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members.tsx",
+          "src/__fixtures__/lazy-route-tree/routes/admin.members.$memberId.tsx",
         ],
       }
     `);
   });
 });
 
+describe('generateSSRManifest()', () => {
+  it<LocalTestContext>('ensures route chunks do not duplicate entry chunks', async ({ vite }) => {
+    const lazyLoad = await vite.ssrLoadModule(path.join(fixturesDir, 'reused-chunk-tree', 'routes.tsx'));
+
+    const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
+
+    const clientManifest = JSON.parse(
+      await fs.readFile(path.join(fixturesDir, 'reused-chunk-tree/client-manifest.json'), 'utf-8'),
+    );
+
+    const ssrManifest = generateSSRManifest(clientManifest as any, routeIds);
+
+    const entryAssetUrls = ssrManifest.entry.map(a => a.url);
+    expect(entryAssetUrls.includes('/assets/vendor-rendering.js')).toBe(true);
+
+    // the route chunks should not include the entry chunks
+
+    const aboutAssetUrls = ssrManifest.routes['/about']!.assets.map(a => a.url);
+    expect(aboutAssetUrls.includes('/assets/vendor-rendering.js')).toBe(false);
+
+    const aboutNestedAssetUrls = ssrManifest.routes['/about/nested']!.assets.map(a => a.url);
+    expect(aboutNestedAssetUrls.includes('/assets/vendor-rendering.js')).toBe(false);
+  });
+});
+
 describe('generateEntryManifest()', () => {
   it<LocalTestContext>('maps route ids to assets correctly', async () => {
     const clientManifest = JSON.parse(
-      await fs.readFile(path.join(fixturesDir, 'lazy-route-tree/example-client-manifest.json'), 'utf-8'),
+      await fs.readFile(path.join(fixturesDir, 'lazy-route-tree/client-manifest.json'), 'utf-8'),
     );
 
     const entryManifest = generateEntryManifest(clientManifest as any);
@@ -98,17 +137,17 @@ describe('generateEntryManifest()', () => {
     expect(entryManifest).toMatchInlineSnapshot(`
       [
         {
-          "isNested": undefined,
+          "isNested": false,
           "isPreload": true,
           "type": "style",
           "url": "/assets/entry.client.css",
           "weight": 1,
         },
         {
-          "isNested": undefined,
+          "isNested": false,
           "isPreload": undefined,
           "type": "script",
-          "url": "/assets/main-.js",
+          "url": "/assets/main.js",
           "weight": 1.9,
         },
       ]
@@ -125,14 +164,14 @@ describe('generateEntryManifest()', () => {
     expect(entryManifest).toMatchInlineSnapshot(`
       [
         {
-          "isNested": undefined,
+          "isNested": false,
           "isPreload": true,
           "type": "style",
           "url": "/assets/entry.client-9qVV4rFd.css",
           "weight": 1,
         },
         {
-          "isNested": undefined,
+          "isNested": false,
           "isPreload": undefined,
           "type": "script",
           "url": "/assets/client-entry-BhGTKJvg.js",
@@ -192,7 +231,7 @@ describe('generateRoutesManifest()', () => {
     const routeIds = await getRoutesIds(vite, lazyLoad['routes']);
 
     const clientManifest = JSON.parse(
-      await fs.readFile(path.join(fixturesDir, 'lazy-route-tree/example-client-manifest.json'), 'utf-8'),
+      await fs.readFile(path.join(fixturesDir, 'lazy-route-tree/client-manifest.json'), 'utf-8'),
     );
 
     const routeManifest = generateRoutesManifest(clientManifest as any, routeIds);

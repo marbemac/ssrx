@@ -1,0 +1,44 @@
+{
+  "chunks/_vendor-rendering.js": {
+    "file": "assets/vendor-rendering.js"
+  },
+  "chunks/_route-rendering.js": {
+    "file": "assets/route-rendering.js"
+  },
+  "src/__fixtures__/reused-chunk-tree/components/heavy-component.tsx": {
+    "file": "assets/heavy-component.js",
+    "imports": ["chunks/_vendor-rendering.js"],
+    "isDynamicEntry": true,
+    "src": "src/__fixtures__/reused-chunk-tree/components/heavy-component.tsx"
+  },
+  "src/__fixtures__/reused-chunk-tree/entry.client.tsx": {
+    "dynamicImports": [
+      "src/__fixtures__/reused-chunk-tree/components/heavy-component.tsx",
+      "src/__fixtures__/reused-chunk-tree/routes/about.lazy.tsx"
+    ],
+    "file": "assets/client-entry.js",
+    "imports": ["chunks/_vendor-rendering.js"],
+    "isEntry": true,
+    "src": "src/__fixtures__/reused-chunk-tree/entry.client.tsx"
+  },
+  "src/__fixtures__/reused-chunk-tree/routes/about.lazy.tsx": {
+    "file": "assets/about.lazy.js",
+    "imports": [
+      "chunks/_vendor-rendering.js",
+      "src/__fixtures__/reused-chunk-tree/entry.client.tsx",
+      "chunks/_route-rendering.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/__fixtures__/reused-chunk-tree/routes/about.lazy.tsx"
+  },
+  "src/__fixtures__/reused-chunk-tree/routes/about.nested.lazy.tsx": {
+    "file": "assets/about.nested.lazy.js",
+    "imports": [
+      "chunks/_vendor-rendering.js",
+      "src/__fixtures__/reused-chunk-tree/entry.client.tsx",
+      "chunks/_route-rendering.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/routes/about.nested.lazy.tsx"
+  }
+}

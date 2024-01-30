@@ -1,6 +1,6 @@
 import './routes.css';
 
-import { Component as RootLayout } from './pages/root.tsx';
+import { Component as RootLayout } from './routes/root.tsx';
 
 export const routes = [
   {
@@ -9,31 +9,31 @@ export const routes = [
     children: [
       {
         index: true,
-        lazy: () => import('./pages/_index.tsx'),
+        lazy: () => import('./routes/_index.tsx'),
       },
       {
         path: 'lazy-component',
-        lazy: () => import('./pages/lazy-component.tsx'),
+        lazy: () => import('./routes/lazy-component.tsx'),
       },
       {
         path: 'admin',
-        lazy: () => import('./pages/admin.tsx'),
+        lazy: () => import('./routes/admin.tsx'),
         children: [
           {
             index: true,
-            lazy: () => import('./pages/admin._index.tsx'),
+            lazy: () => import('./routes/admin._index.tsx'),
           },
           {
             path: 'members',
-            lazy: () => import('./pages/admin.members.tsx'),
+            lazy: () => import('./routes/admin.members.tsx'),
             children: [
               {
                 index: true,
-                lazy: () => import('./pages/admin.members._index.tsx'),
+                lazy: () => import('./routes/admin.members._index.tsx'),
               },
               {
                 path: ':memberId',
-                lazy: () => import('./pages/admin.members.$memberId.tsx'),
+                lazy: () => import('./routes/admin.members.$memberId.tsx'),
               },
             ],
           },

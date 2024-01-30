@@ -4,11 +4,11 @@ export const routes = [
     children: [
       {
         index: true,
-        lazy: () => import('./pages/_index.tsx'),
+        lazy: () => import('./routes/_index.tsx'),
       },
       {
         path: 'lazy-component',
-        lazy: () => import('./pages/lazy-component.tsx'),
+        lazy: () => import('./routes/lazy-component.tsx'),
       },
       {
         path: 'admin',
@@ -18,19 +18,19 @@ export const routes = [
           },
           {
             path: 'logs',
-            lazy: () => import('./pages/lazy-component.tsx'),
+            lazy: () => import('./routes/lazy-component.tsx'),
           },
           {
             path: '/secret-admin/members',
-            lazy: () => import('./pages/admin.members.tsx'),
+            lazy: () => import('./routes/admin.members.tsx'),
             children: [
               {
                 index: true,
-                lazy: () => import('./pages/admin.members._index.tsx'),
+                lazy: () => import('./routes/admin.members._index.tsx'),
               },
               {
                 path: ':memberId',
-                lazy: () => import('./pages/admin.members.$memberId.tsx'),
+                lazy: () => import('./routes/admin.members.$memberId.tsx'),
               },
             ],
           },

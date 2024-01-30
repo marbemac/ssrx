@@ -1,4 +1,4 @@
-import type { ViteDevServer } from 'vite';
+import type { ModuleNode, ViteDevServer } from 'vite';
 
 import type { RouteId, RouteInfo } from '../router.ts';
 
@@ -69,18 +69,44 @@ export const getRoutesIds = async (
     const routeId = (isAbsolute ? [normalizedRouteId] : [parentPath, normalizedRouteId]).filter(Boolean).join('/');
 
     if (route.lazy) {
+      let mod: ModuleNode | undefined;
+
+      // first try lookup by reference
       try {
         const resolvedRoute = await route.lazy();
 
         const id = await getModuleBySsrReference(vite, resolvedRoute);
         if (!id) throw new Error('Could not find reference');
 
-        const mod = await vite.moduleGraph.getModuleById(id);
+        mod = await vite.moduleGraph.getModuleById(id);
+      } catch {
+        // noop
+      }
 
+      // second attempt to lookup by import path on the fn string
+      // this can happen if the route lazy fn does not return the dynamic import a dynamic import (e.g. `() => import('./foo').then((r) => r.Component)`)
+      if (!mod) {
+        try {
+          const importPath = route.lazy.toString().split('dynamic_import__("')[1]?.split('")')[0];
+          if (importPath) {
+            const resolvedId = await vite.pluginContainer.resolveId(importPath, undefined, {
+              ssr: true,
+            });
+
+            if (resolvedId?.id) {
+              mod = await vite.moduleGraph.getModuleById(resolvedId?.id);
+            }
+          }
+        } catch {
+          // noop
+        }
+      }
+
+      if (mod) {
         childParentIds = [...parentIds, normalizeRouteId(mod!.url)!];
         result[`/${routeId}`] = childParentIds;
-      } catch (e) {
-        console.error('Failed to load route:', route.path, e);
+      } else {
+        console.error(`Failed to load lazy route, could not locate module '${route.path}'`);
       }
     }
 
@@ -98,9 +124,12 @@ export const emptySSRManifest: SSRManifest = {
 };
 
 export const generateSSRManifest = (clientManifest: ViteClientManifest, routeIds: RouteIdToPaths) => {
+  const entry = generateEntryManifest(clientManifest);
+  const entryUrls = entry.map(e => e.url.replace(/^\//, ''));
+
   return {
-    entry: generateEntryManifest(clientManifest),
-    routes: generateRoutesManifest(clientManifest, routeIds),
+    entry,
+    routes: generateRoutesManifest(clientManifest, routeIds, entryUrls),
   };
 };
 
@@ -110,10 +139,14 @@ export const generateEntryManifest = (clientManifest: ViteClientManifest) => {
     throw new Error('Could not find a main entry in the client manifest');
   }
 
-  return sortAssets(Object.values(getManifestModuleAssets(clientManifest, entry)));
+  return sortAssets(Object.values(getManifestModuleAssets({ manifest: clientManifest, module: entry })));
 };
 
-export const generateRoutesManifest = (clientManifest: ViteClientManifest, routeIds: RouteIdToPaths) => {
+export const generateRoutesManifest = (
+  clientManifest: ViteClientManifest,
+  routeIds: RouteIdToPaths,
+  ignoreAssetUrls?: string[],
+) => {
   const result: SSRRouteManifest = {};
 
   // accumulate route assets
@@ -124,11 +157,12 @@ export const generateRoutesManifest = (clientManifest: ViteClientManifest, route
       const routeMeta = clientManifest[routePath];
       if (!routeMeta) continue;
 
-      const usedAssets = new Set<string>();
-
       assets.push(
         ...Object.values(
-          getManifestModuleAssets(clientManifest, routeMeta, usedAssets, false, {
+          getManifestModuleAssets({
+            manifest: clientManifest,
+            module: routeMeta,
+            usedAssets: new Set<string>(ignoreAssetUrls),
             skipEntry: true,
             includeDynamic: true,
           }),
@@ -319,17 +353,22 @@ const getAssetType = (asset: string): AssetType | null => {
   }
 };
 
-const getManifestModuleAssets = (
-  manifest: ViteClientManifest,
-  module: ViteClientManifest[string],
-  usedAssets: Set<string> = new Set(),
-  isNested?: boolean,
-  opts?: {
-    skipEntry?: boolean;
-    includeDynamic?: boolean;
-  },
-): Record<string, Asset> => {
-  if (module.isEntry && opts?.skipEntry) return {};
+const getManifestModuleAssets = ({
+  manifest,
+  module,
+  usedAssets = new Set(),
+  isNested = false,
+  skipEntry,
+  includeDynamic,
+}: {
+  manifest: ViteClientManifest;
+  module: ViteClientManifest[string];
+  usedAssets?: Set<string>;
+  isNested?: boolean;
+  skipEntry?: boolean;
+  includeDynamic?: boolean;
+}): Record<string, Asset> => {
+  if (module.isEntry && skipEntry) return {};
 
   const rootAssets = [...(module?.assets ?? []), ...(module?.css ?? []), module?.file];
 
@@ -338,11 +377,10 @@ const getManifestModuleAssets = (
       const type = getAssetType(asset);
       const isEntry = module.isEntry && module.file === asset;
       const isDynamic = module.isDynamicEntry && module.file === asset;
-      const entryIdentifier = `${type}:${asset}`;
 
       // only keep asset files, no dupes
-      if (type && !usedAssets.has(entryIdentifier) && (!isEntry || !opts?.skipEntry)) {
-        usedAssets.add(entryIdentifier);
+      if (type && !usedAssets.has(asset) && (!isEntry || !skipEntry)) {
+        usedAssets.add(asset);
 
         const weight = isEntry ? 1.9 : getAssetWeight(asset);
         const nestedWeight = isNested ? 0.1 : 0;
@@ -362,7 +400,7 @@ const getManifestModuleAssets = (
   }, {} as Record<string, Asset>);
 
   const nestedAssets = [...(module?.imports ?? [])];
-  if (opts?.includeDynamic && module?.dynamicImports) {
+  if (includeDynamic && module?.dynamicImports) {
     nestedAssets.push(...module.dynamicImports);
   }
 
@@ -371,17 +409,25 @@ const getManifestModuleAssets = (
       const nestedModule = manifest[nestedAsset];
 
       if (nestedModule) {
-        // detect circulars
+        // detect circulars and certain classes of dupes
         const file = nestedModule.file;
         if (file) {
-          const type = getAssetType(file);
-          const entryIdentifier = `${type}:${file}`;
-          if (usedAssets.has(entryIdentifier)) {
+          if (usedAssets.has(file)) {
             continue;
           }
         }
 
-        Object.assign(assets, getManifestModuleAssets(manifest, nestedModule, usedAssets, true, opts));
+        Object.assign(
+          assets,
+          getManifestModuleAssets({
+            manifest,
+            module: nestedModule,
+            usedAssets,
+            isNested: true,
+            includeDynamic,
+            skipEntry,
+          }),
+        );
       }
     }
   }
