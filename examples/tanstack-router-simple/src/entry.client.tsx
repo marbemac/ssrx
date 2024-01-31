@@ -7,7 +7,6 @@ import { createRouter } from '~/router.tsx';
 void render();
 
 async function render() {
-  // Create a new router instance
   const router = createRouter();
 
   if (!router.state.lastUpdated) {

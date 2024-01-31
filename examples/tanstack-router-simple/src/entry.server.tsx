@@ -22,7 +22,7 @@ export async function render(req: Request) {
 
   router.update({ history: memoryHistory });
 
-  // Since we're using renderToString, Wait for the router to finish loading
+  // Wait for critical, non-deferred data
   await router.load();
 
   const app = <RouterProvider router={router} />;
