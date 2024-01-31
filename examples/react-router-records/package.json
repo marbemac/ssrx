@@ -14,7 +14,7 @@
     "@hono/node-server": "^1.7.0",
     "@ssrx/plugin-react-router": "latest",
     "@ssrx/react": "latest",
-    "hono": "3.12.8",
+    "hono": "3.12.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.21.3"

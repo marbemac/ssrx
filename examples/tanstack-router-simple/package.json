@@ -21,7 +21,7 @@
     "@tanstack/react-router-server": "1.15.7",
     "@tanstack/router-devtools": "1.15.7",
     "@tanstack/router-vite-plugin": "1.15.4",
-    "hono": "3.12.8",
+    "hono": "3.12.9",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
