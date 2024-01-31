@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-tanstack-query",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "@tanstack/query-core": "^5"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.3.0",
+    "@ssrx/renderer": "^0.4.0",
     "devalue": "^4.3.2"
   },
   "devDependencies": {

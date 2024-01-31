@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/remix",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -49,8 +49,8 @@
     "@remix-run/react": ">=2.2.0"
   },
   "dependencies": {
-    "@ssrx/react": "^0.2.1",
-    "@ssrx/renderer": "^0.3.0"
+    "@ssrx/react": "^0.3.0",
+    "@ssrx/renderer": "^0.4.0"
   },
   "devDependencies": {
     "@remix-run/react": "2.5.1",
