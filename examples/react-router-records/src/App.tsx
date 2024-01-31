@@ -1,8 +1,7 @@
 import './index.css';
 
 import { reactRouterPlugin } from '@ssrx/plugin-react-router';
-import { createApp } from '@ssrx/react';
-import { assetsPlugin } from '@ssrx/vite/renderer';
+import { assetsPlugin, createApp } from '@ssrx/react';
 
 export const { clientHandler, serverHandler, ctx } = createApp({
   RootLayout,

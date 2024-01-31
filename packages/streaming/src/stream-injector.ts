@@ -15,6 +15,7 @@ export type InjectIntoStreamOpts = {
 };
 
 export function injectIntoStream(
+  req: Request,
   renderStream: ReadableStream,
   { emitToDocumentHead, emitBeforeSsrChunk, emitToDocumentBody, onStreamComplete }: InjectIntoStreamOpts,
 ): ReadableStream<Uint8Array> {

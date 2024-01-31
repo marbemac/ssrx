@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@ssrx/streaming": "^0.1.0",
+    "@ssrx/vite": "^0.5.0",
     "deepmerge": "4.3.1"
   },
   "devDependencies": {

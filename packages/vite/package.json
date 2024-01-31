@@ -30,11 +30,6 @@
       "types": "./src/runtime/index.ts",
       "bun": "./src/runtime/index.ts",
       "import": "./dist/runtime/index.js"
-    },
-    "./renderer": {
-      "types": "./src/runtime/renderer.ts",
-      "bun": "./src/runtime/renderer.ts",
-      "import": "./dist/runtime/renderer.js"
     }
   },
   "scripts": {
@@ -49,7 +44,6 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.7.0",
-    "@ssrx/renderer": "^0.3.0",
     "radix3": "^1.1.0"
   },
   "devDependencies": {

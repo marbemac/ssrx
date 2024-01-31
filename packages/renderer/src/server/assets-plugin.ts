@@ -1,8 +1,6 @@
-import { defineRenderPlugin } from '@ssrx/renderer';
+import type { AssetHtmlTag } from '@ssrx/vite/runtime';
 
-import type { AssetHtmlTag } from './assets.server.ts';
-
-export const PLUGIN_ID = 'viteAssets' as const;
+import { ASSETS_PLUGIN_ID, defineRenderPlugin } from '../common.ts';
 
 export type AssetsPluginCtx = {
   assets: AssetHtmlTag[];
@@ -10,12 +8,11 @@ export type AssetsPluginCtx = {
 
 export const assetsPlugin = () =>
   defineRenderPlugin({
-    id: PLUGIN_ID,
+    id: ASSETS_PLUGIN_ID,
 
     hooks: {
       'ssr:emitToHead': async ({ req }) => {
-        const { assetsForRequest } = await import('./assets.server.ts');
-        const { renderAssetsToHtml } = await import('./html.server.ts');
+        const { assetsForRequest, renderAssetsToHtml } = await import('@ssrx/vite/runtime');
 
         const assets = await assetsForRequest(req.url);
 
@@ -23,8 +20,7 @@ export const assetsPlugin = () =>
       },
 
       'ssr:emitToBody': async ({ req }) => {
-        const { assetsForRequest } = await import('./assets.server.ts');
-        const { renderAssetsToHtml } = await import('./html.server.ts');
+        const { assetsForRequest, renderAssetsToHtml } = await import('@ssrx/vite/runtime');
 
         const assets = await assetsForRequest(req.url);
 

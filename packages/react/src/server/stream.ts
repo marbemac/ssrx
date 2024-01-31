@@ -39,7 +39,7 @@ export const renderToStream: RenderToStreamFn<RenderToReadableStreamOptions> = a
     },
   });
 
-  const stream = injectToStream ? injectIntoStream(originalStream, injectToStream) : originalStream;
+  const stream = injectToStream ? injectIntoStream(req, originalStream, injectToStream) : originalStream;
 
   const ua = req.headers.get('user-agent');
   const isGoogle = ua?.toLowerCase().includes('googlebot') ?? false;

@@ -20,7 +20,7 @@ export type ServerRenderer = {
 };
 
 type BaseHandlerOpts = {
-  RootLayout?: (props: { children: Config['jsxElement'] }) => Config['jsxElement'];
+  RootLayout?: null | false | ((props: { children: Config['jsxElement'] }) => Config['jsxElement']);
   appRenderer?: (props: {
     req: Request;
     renderProps: SSRx.RenderProps;

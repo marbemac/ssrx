@@ -3539,6 +3539,7 @@ __metadata:
   resolution: "@ssrx/renderer@workspace:packages/renderer"
   dependencies:
     "@ssrx/streaming": "npm:^0.1.0"
+    "@ssrx/vite": "npm:^0.5.0"
     "@types/node": "npm:20.11.13"
     deepmerge: "npm:4.3.1"
     esbuild: "npm:0.20.0"
@@ -3612,7 +3613,6 @@ __metadata:
   resolution: "@ssrx/vite@workspace:packages/vite"
   dependencies:
     "@hono/node-server": "npm:^1.7.0"
-    "@ssrx/renderer": "npm:^0.3.0"
     "@total-typescript/ts-reset": "npm:~0.5.1"
     esbuild: "npm:0.20.0"
     radix3: "npm:^1.1.0"
@@ -14864,6 +14864,33 @@ __metadata:
   checksum: a57c0a9cdba9db19097e34e25b7e4690fab43f31ba200afc3bb9635a03036ca93e9884a17b616fb8a2486d57d2ecc9a06862ce4685b3ace57f7a67436e7594a0
   languageName: node
   linkType: hard
+
+"tanstack-router-kitchen-sink@workspace:examples/tanstack-router-kitchen-sink":
+  version: 0.0.0-use.local
+  resolution: "tanstack-router-kitchen-sink@workspace:examples/tanstack-router-kitchen-sink"
+  dependencies:
+    "@hono/node-server": "npm:^1.7.0"
+    "@ssrx/plugin-tanstack-router": "npm:latest"
+    "@ssrx/react": "npm:latest"
+    "@ssrx/vite": "npm:latest"
+    "@tanstack/react-router": "npm:1.15.7"
+    "@tanstack/react-router-server": "npm:1.15.7"
+    "@tanstack/router-devtools": "npm:1.15.7"
+    "@tanstack/router-vite-plugin": "npm:1.15.4"
+    "@types/react": "npm:18.2.48"
+    "@types/react-dom": "npm:18.2.18"
+    "@vitejs/plugin-react": "npm:4.2.1"
+    autoprefixer: "npm:10.4.17"
+    hono: "npm:3.12.8"
+    postcss: "npm:8.4.33"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    tailwindcss: "npm:3.3.5"
+    typescript: "npm:5.3.3"
+    vite: "npm:5.0.12"
+    vite-tsconfig-paths: "npm:4.3.1"
+  languageName: unknown
+  linkType: soft
 
 "tanstack-router-simple@workspace:examples/tanstack-router-simple":
   version: 0.0.0-use.local
