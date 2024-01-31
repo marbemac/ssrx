@@ -20,7 +20,7 @@ export const reactRouterPlugin = () =>
     id: PLUGIN_ID,
 
     hooks: {
-      'app:render': async ({ req, renderProps }) => {
+      renderApp: async ({ req, renderProps }) => {
         const { routes, basename, client } = renderProps;
 
         /**

@@ -21,7 +21,7 @@ const server = new Hono()
         app: () => app,
         req: c.req.raw,
         injectToStream: {
-          async emitBeforeSsrChunk() {
+          async emitBeforeStreamChunk() {
             const injectorPromises = router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
             const injectors = await Promise.all(injectorPromises);
             router.injectedHtml = [];

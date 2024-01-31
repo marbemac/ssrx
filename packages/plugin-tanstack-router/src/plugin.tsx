@@ -17,7 +17,7 @@ export const tanstackRouterPlugin = () =>
     id: PLUGIN_ID,
 
     hooks: {
-      'app:render': async ({ req, renderProps }) => {
+      renderApp: async ({ req, renderProps }) => {
         const { router } = renderProps;
 
         /**
@@ -48,7 +48,7 @@ export const tanstackRouterPlugin = () =>
         }
       },
 
-      'ssr:emitBeforeFlush': async ({ renderProps }) => {
+      emitBeforeStreamChunk: async ({ renderProps }) => {
         const injectorPromises = renderProps.router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
         const injectors = await Promise.all(injectorPromises);
         renderProps.router.injectedHtml = [];

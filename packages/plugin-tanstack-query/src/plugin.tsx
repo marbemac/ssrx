@@ -60,32 +60,32 @@ export const tanstackQueryPlugin = ({ provider, skipHydration, queryClientConfig
     },
 
     hooks: {
-      'app:extendCtx': ({ ctx }) => {
+      extendAppCtx: ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryPluginCtx;
 
         return { queryClient };
       },
 
-      'app:wrap': ({ ctx }) => {
+      wrapApp: ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryPluginCtx;
 
         return ({ children }) => provider({ children: children(), queryClient });
       },
 
-      'ssr:emitToHead': () => {
+      emitToDocumentHead: () => {
         if (skipHydration) return;
 
         /**
          * $TQD is the global we'll use to track the queries
          * - see hydrate.ts for how the client uses this
-         * - see emitBeforeSsrChunk() to see how the server uses this
+         * - see emitBeforeStreamChunk() to see how the server uses this
          */
         const html: string[] = [`$TQD = [];`, `$TQS = data => $TQD.push(data);`];
 
         return `<script>${html.join('')}</script>`;
       },
 
-      'ssr:emitBeforeFlush': async ({ ctx }) => {
+      emitBeforeStreamChunk: async ({ ctx }) => {
         if (skipHydration) return;
 
         const { blockingQueries, trackedQueries, queryClient } = ctx as TanstackQueryPluginCtx;
@@ -118,7 +118,7 @@ export const tanstackQueryPlugin = ({ provider, skipHydration, queryClientConfig
         return `<script>${[`$TQS(${dehydratedString})`].join('')}</script>`;
       },
 
-      'ssr:completed': ({ ctx }) => {
+      onStreamComplete: ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryPluginCtx;
 
         queryClient.clear();

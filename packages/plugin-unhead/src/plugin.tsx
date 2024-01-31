@@ -41,13 +41,13 @@ export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
     },
 
     hooks: {
-      'app:extendCtx': ({ ctx }) => {
+      extendAppCtx: ({ ctx }) => {
         const { head } = ctx as UnheadPluginCtx;
 
         return { useHead: createUseHead(head as any), useSeoMeta: createUseSeoMeta(head as any) };
       },
 
-      'ssr:emitToHead': async ({ ctx }) => {
+      emitToDocumentHead: async ({ ctx }) => {
         const { head } = ctx as UnheadPluginCtx;
 
         const { headTags } = await renderSSRHead(head);

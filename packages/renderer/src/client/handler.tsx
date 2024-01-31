@@ -43,16 +43,16 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     const pluginCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
       if (p.createCtx) {
-        pluginCtx[p.id] = p.createCtx({ req, renderProps });
+        pluginCtx[p.id] = await p.createCtx({ req, renderProps });
       }
     }
 
     const appCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
-      if (p.hooks?.['app:extendCtx']) {
+      if (p.hooks?.extendAppCtx) {
         Object.assign(
           appCtx,
-          p.hooks['app:extendCtx']({
+          p.hooks.extendAppCtx({
             ctx: pluginCtx[p.id],
             getPluginCtx<T>(id: string) {
               return pluginCtx[id] as T;
@@ -68,13 +68,13 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     let AppComp = appRenderer ? await appRenderer({ req, renderProps }) : undefined;
 
     for (const p of plugins ?? []) {
-      if (!p.hooks?.['app:render']) continue;
+      if (!p.hooks?.renderApp) continue;
 
       if (AppComp) {
         throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
       }
 
-      AppComp = await p.hooks['app:render']({ req, ctx: pluginCtx[p.id], renderProps });
+      AppComp = await p.hooks.renderApp({ req, ctx: pluginCtx[p.id], renderProps });
 
       break;
     }
@@ -85,9 +85,9 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
 
     const wrappers: ((props: { children: () => Config['jsxElement'] }) => Config['jsxElement'])[] = [];
     for (const p of plugins ?? []) {
-      if (!p.hooks?.['app:wrap']) continue;
+      if (!p.hooks?.wrapApp) continue;
 
-      wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id], renderProps }));
+      wrappers.push(p.hooks.wrapApp({ req, ctx: pluginCtx[p.id], renderProps }));
     }
 
     const renderApp = () => {
@@ -158,6 +158,6 @@ type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
 
 type ExtractPluginAppContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
   Extract<T[number], { id: K }>['hooks']
->['app:extendCtx'] extends (...args: any[]) => infer R
+>['extendAppCtx'] extends (...args: any[]) => infer R
   ? R
   : never;

@@ -275,24 +275,24 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      * Extend the app ctx object with additional properties. Consider this "external" context - it is made available
      * to the end application on the server and the client.
      */
-    'app:extendCtx'?: Function;
+    extendAppCtx?: Function;
 
     /**
      * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
      */
-    'app:wrap'?: Function;
+    wrapApp?: Function;
 
     /**
      * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
      */
-    'app:render'?: Function;
+    renderApp?: Function;
 
     /**
      * Return a string to emit some HTML into the SSR stream just before the document's closing </head> tag.
      *
      * Triggers once per request.
      */
-    'ssr:emitToHead'?: Function;
+    emitToDocumentHead?: Function;
 
     /**
      * Return a string to emit into the SSR stream just before the rendering
@@ -300,19 +300,19 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      *
      * Triggers one or more times per request.
      */
-    'ssr:emitBeforeFlush'?: Function;
+    emitBeforeStreamChunk?: Function;
 
     /**
      * Return a string to emit some HTML to the document body, after the client renderer's first flush.
      *
      * Triggers once per request.
      */
-    'ssr:emitToBody'?: Function;
+    emitToDocumentBody?: Function;
 
     /**
      * Runs when the stream is done processing.
      */
-    'ssr:completed'?: Function;
+    onStreamComplete?: Function;
   };
 };
 ```

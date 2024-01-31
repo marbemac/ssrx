@@ -1,4 +1,4 @@
-import type { InjectIntoStreamOpts } from '@ssrx/streaming';
+import type { StreamInjectorOpts } from '@ssrx/streaming';
 
 import type { SSRx } from './namespace.ts';
 
@@ -11,7 +11,7 @@ export type Config = ConfigBuiltIn & SSRx.Config;
 export type RenderToStreamFn<O extends object = object> = (props: {
   app: () => Config['jsxElement'];
   req: Request;
-  injectToStream?: InjectIntoStreamOpts;
+  injectToStream?: StreamInjectorOpts;
   opts?: O;
 }) => Promise<{ stream: ReadableStream; statusCode: () => number }>;
 
@@ -51,14 +51,14 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
   /**
    * Create a context object that will be passed to all of this plugin's hooks.
    */
-  createCtx?: (props: { req: Request; meta?: SSRx.ReqMeta; renderProps: SSRx.RenderProps }) => C;
+  createCtx?: (props: { req: Request; meta?: SSRx.ReqMeta; renderProps: SSRx.RenderProps }) => C | Promise<C>;
 
   hooks?: {
     /**
      * Extend the app ctx object with additional properties. The app ctx object is made available
-     * to the end application on the server and the client.
+     * to the end application on the server and the client, and to subsequent plugins.
      */
-    'app:extendCtx'?: (props: {
+    extendAppCtx?: (props: {
       ctx: C;
       getPluginCtx: <T extends Record<string, unknown>>(id: string) => T;
       meta?: SSRx.ReqMeta;
@@ -67,7 +67,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     /**
      * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
      */
-    'app:wrap'?: (props: {
+    wrapApp?: (props: {
       req: Request;
       ctx: C;
       renderProps: SSRx.RenderProps;
@@ -77,7 +77,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     /**
      * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
      */
-    'app:render'?: (props: {
+    renderApp?: (props: {
       req: Request;
       ctx: C;
       renderProps: SSRx.RenderProps;
@@ -89,7 +89,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      *
      * Triggers once per request.
      */
-    'ssr:emitToHead'?: (props: {
+    emitToDocumentHead?: (props: {
       req: Request;
       ctx: C;
       renderProps: SSRx.RenderProps;
@@ -102,7 +102,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      *
      * Triggers one or more times per request.
      */
-    'ssr:emitBeforeFlush'?: (props: {
+    emitBeforeStreamChunk?: (props: {
       req: Request;
       ctx: C;
       renderProps: SSRx.RenderProps;
@@ -114,7 +114,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      *
      * Triggers once per request.
      */
-    'ssr:emitToBody'?: (props: {
+    emitToDocumentBody?: (props: {
       req: Request;
       ctx: C;
       renderProps: SSRx.RenderProps;
@@ -124,7 +124,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     /**
      * Runs when the stream is done processing.
      */
-    'ssr:completed'?: (props: {
+    onStreamComplete?: (props: {
       req: Request;
       ctx: C;
       renderProps: SSRx.RenderProps;

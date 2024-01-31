@@ -31,7 +31,7 @@ export const trpcPlugin = <TRouter extends AnyRouter>({
     id: PLUGIN_ID,
 
     hooks: {
-      'app:extendCtx': ({ getPluginCtx, meta }) => {
+      extendAppCtx: ({ getPluginCtx, meta }) => {
         const { queryClient } = getPluginCtx<TanstackQueryPluginCtx>(QUERY_PLUGIN_ID);
 
         const trpcClient = createTRPCUntypedClient({

@@ -15,7 +15,7 @@ export const solidRouterPlugin = () => {
     id: PLUGIN_ID,
 
     hooks: {
-      'app:render': ({ req, renderProps }) => {
+      renderApp: ({ req, renderProps }) => {
         return () => <Router url={req.url} {...renderProps} />;
       },
     },

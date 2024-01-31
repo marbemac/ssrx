@@ -40,16 +40,16 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     const pluginCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
       if (p.createCtx) {
-        pluginCtx[p.id] = p.createCtx({ req, meta, renderProps });
+        pluginCtx[p.id] = await p.createCtx({ req, meta, renderProps });
       }
     }
 
     const appCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
-      if (p.hooks?.['app:extendCtx']) {
+      if (p.hooks?.extendAppCtx) {
         Object.assign(
           appCtx,
-          p.hooks['app:extendCtx']({
+          p.hooks.extendAppCtx({
             ctx: pluginCtx[p.id],
             meta,
             getPluginCtx<T>(id: string) {
@@ -64,22 +64,22 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       let AppComp = appRenderer ? await appRenderer({ req, meta, renderProps }) : undefined;
 
       for (const p of plugins ?? []) {
-        if (!p.hooks?.['app:render']) continue;
+        if (!p.hooks?.renderApp) continue;
 
         if (AppComp) {
           throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
         }
 
-        AppComp = await p.hooks['app:render']({ req, meta, ctx: pluginCtx[p.id], renderProps });
+        AppComp = await p.hooks.renderApp({ req, meta, ctx: pluginCtx[p.id], renderProps });
 
         break;
       }
 
       const wrappers: ((props: { children: () => Config['jsxElement'] }) => Config['jsxElement'])[] = [];
       for (const p of plugins ?? []) {
-        if (!p.hooks?.['app:wrap']) continue;
+        if (!p.hooks?.wrapApp) continue;
 
-        wrappers.push(p.hooks['app:wrap']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
+        wrappers.push(p.hooks.wrapApp({ req, meta, ctx: pluginCtx[p.id], renderProps }));
       }
 
       const renderApp = () => {
@@ -109,56 +109,58 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
         app: renderApp,
         req,
         injectToStream: {
-          async emitToDocumentHead() {
-            const work = [];
-            for (const p of plugins ?? []) {
-              if (!p.hooks?.['ssr:emitToHead']) continue;
-              work.push(p.hooks['ssr:emitToHead']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
-            }
+          hooks: {
+            async emitToDocumentHead() {
+              const work = [];
+              for (const p of plugins ?? []) {
+                if (!p.hooks?.emitToDocumentHead) continue;
+                work.push(p.hooks.emitToDocumentHead({ req, meta, ctx: pluginCtx[p.id], renderProps }));
+              }
 
-            if (!work.length) return '';
+              if (!work.length) return '';
 
-            const html = await Promise.all(work);
+              const html = await Promise.all(work);
 
-            return html.filter(Boolean).join('');
-          },
+              return html.filter(Boolean).join('');
+            },
 
-          async emitBeforeSsrChunk() {
-            const work = [];
-            for (const p of plugins ?? []) {
-              if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
-              work.push(p.hooks['ssr:emitBeforeFlush']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
-            }
+            async emitBeforeStreamChunk() {
+              const work = [];
+              for (const p of plugins ?? []) {
+                if (!p.hooks?.emitBeforeStreamChunk) continue;
+                work.push(p.hooks.emitBeforeStreamChunk({ req, meta, ctx: pluginCtx[p.id], renderProps }));
+              }
 
-            if (!work.length) return '';
+              if (!work.length) return '';
 
-            return (await Promise.all(work)).filter(Boolean).join('');
-          },
+              return (await Promise.all(work)).filter(Boolean).join('');
+            },
 
-          async emitToDocumentBody() {
-            const work = [];
-            for (const p of plugins ?? []) {
-              if (!p.hooks?.['ssr:emitToBody']) continue;
-              work.push(p.hooks['ssr:emitToBody']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
-            }
+            async emitToDocumentBody() {
+              const work = [];
+              for (const p of plugins ?? []) {
+                if (!p.hooks?.emitToDocumentBody) continue;
+                work.push(p.hooks.emitToDocumentBody({ req, meta, ctx: pluginCtx[p.id], renderProps }));
+              }
 
-            if (!work.length) return '';
+              if (!work.length) return '';
 
-            const html = await Promise.all(work);
+              const html = await Promise.all(work);
 
-            return html.filter(Boolean).join('');
-          },
+              return html.filter(Boolean).join('');
+            },
 
-          async onStreamComplete() {
-            const work = [];
-            for (const p of plugins ?? []) {
-              if (!p.hooks?.['ssr:completed']) continue;
-              work.push(p.hooks['ssr:completed']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
-            }
+            async onStreamComplete() {
+              const work = [];
+              for (const p of plugins ?? []) {
+                if (!p.hooks?.onStreamComplete) continue;
+                work.push(p.hooks.onStreamComplete({ req, meta, ctx: pluginCtx[p.id], renderProps }));
+              }
 
-            if (!work.length) return;
+              if (!work.length) return;
 
-            await Promise.all(work);
+              await Promise.all(work);
+            },
           },
         },
       });
@@ -212,6 +214,6 @@ type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
 
 type ExtractPluginAppContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
   Extract<T[number], { id: K }>['hooks']
->['app:extendCtx'] extends (...args: any[]) => infer R
+>['extendAppCtx'] extends (...args: any[]) => infer R
   ? R
   : never;
