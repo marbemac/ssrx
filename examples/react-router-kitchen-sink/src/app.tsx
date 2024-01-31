@@ -20,7 +20,9 @@ export const { clientHandler, serverHandler, ctx } = createApp({
     assetsPlugin(),
     unheadPlugin(),
     tanstackQueryPlugin({
-      QueryClientProvider,
+      provider: ({ children, queryClient }) => (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      ),
 
       queryClientConfig: {
         defaultOptions: {

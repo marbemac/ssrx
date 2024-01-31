@@ -33,6 +33,7 @@
     "@ssrx/react": "latest",
     "@tanstack/react-query": "^5.18.0",
     "@tanstack/react-query-devtools": "^5.18.0",
+    "@trpc/client": "10.45.0",
     "@trpc/server": "10.45.0",
     "better-sqlite3": "9.3.0",
     "class-variance-authority": "^0.7.0",

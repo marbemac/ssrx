@@ -43,7 +43,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     const pluginCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
       if (p.createCtx) {
-        pluginCtx[p.id] = p.createCtx({ req });
+        pluginCtx[p.id] = p.createCtx({ req, renderProps });
       }
     }
 
@@ -74,7 +74,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
         throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
       }
 
-      AppComp = await p.hooks['app:render']({ req, renderProps });
+      AppComp = await p.hooks['app:render']({ req, ctx: pluginCtx[p.id], renderProps });
 
       break;
     }
@@ -87,7 +87,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     for (const p of plugins ?? []) {
       if (!p.hooks?.['app:wrap']) continue;
 
-      wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id] }));
+      wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id], renderProps }));
     }
 
     const renderApp = () => {

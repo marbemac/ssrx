@@ -1,3 +1,4 @@
+import type { Config } from '@ssrx/renderer';
 import { defineRenderPlugin } from '@ssrx/renderer';
 import {
   defaultShouldDehydrateQuery,
@@ -6,7 +7,6 @@ import {
   type QueryClient,
   type QueryClientConfig,
 } from '@tanstack/query-core';
-import type { TanstackQueryDevtoolsConfig } from '@tanstack/query-devtools';
 import { stringify } from 'devalue';
 
 import { hydrateStreamingData } from './hydrate.ts';
@@ -18,7 +18,7 @@ type TanstackQueryPluginOpts = {
   /**
    * The QueryClientProvider from whichever version of tanstack query you are using (react-query, solid-query, etc)
    */
-  QueryClientProvider: any;
+  provider: (props: { children: Config['jsxElement']; queryClient: QueryClient }) => Config['jsxElement'];
 
   /**
    * If your adapter handles hydration itself (solidjs, for example), set this to true.
@@ -29,18 +29,6 @@ type TanstackQueryPluginOpts = {
    * Override the default query client config
    */
   queryClientConfig?: QueryClientConfig;
-
-  devTools?: {
-    /**
-     * The QueryDevtools from whichever version of tanstack query you are using (ReactQueryDevtools, SolidQueryDevtools, etc)
-     */
-    QueryDevtools: any;
-
-    /**
-     * Options to pass to the QueryDevtools
-     */
-    options?: Pick<TanstackQueryDevtoolsConfig, 'initialIsOpen' | 'buttonPosition' | 'position' | 'errorTypes'>;
-  };
 };
 
 export type TanstackQueryPluginCtx = {
@@ -54,12 +42,7 @@ declare global {
   export let $TQS: (data: DehydratedState) => void;
 }
 
-export const tanstackQueryPlugin = ({
-  QueryClientProvider,
-  skipHydration,
-  queryClientConfig,
-  devTools,
-}: TanstackQueryPluginOpts) =>
+export const tanstackQueryPlugin = ({ provider, skipHydration, queryClientConfig }: TanstackQueryPluginOpts) =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
@@ -86,12 +69,7 @@ export const tanstackQueryPlugin = ({
       'app:wrap': ({ ctx }) => {
         const { queryClient } = ctx as TanstackQueryPluginCtx;
 
-        return ({ children }) => (
-          <QueryClientProvider client={queryClient}>
-            {children()}
-            {devTools ? <devTools.QueryDevtools {...devTools.options} /> : null}
-          </QueryClientProvider>
-        );
+        return ({ children }) => provider({ children: children(), queryClient });
       },
 
       'ssr:emitToHead': () => {

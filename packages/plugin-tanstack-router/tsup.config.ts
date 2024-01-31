@@ -1,10 +1,9 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  dts: true,
   format: 'esm',
   sourcemap: true,
   clean: true,
   external: ['react'],
-  entry: ['src/adapter.ts'],
+  entry: ['src/index.ts', 'src/adapter.ts'],
 });

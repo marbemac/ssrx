@@ -53,7 +53,6 @@ function RootComponent() {
 
         <DehydrateRouter />
 
-        {/* There is a bug in tanstack router atm that causes issues when loading ssr lazy route w devtools */}
         <TanStackRouterDevtools />
 
         {bodyTags?.()}

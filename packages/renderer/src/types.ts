@@ -51,7 +51,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
   /**
    * Create a context object that will be passed to all of this plugin's hooks.
    */
-  createCtx?: (props: { req: Request; meta?: SSRx.ReqMeta }) => C;
+  createCtx?: (props: { req: Request; meta?: SSRx.ReqMeta; renderProps: SSRx.RenderProps }) => C;
 
   hooks?: {
     /**
@@ -70,6 +70,8 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'app:wrap'?: (props: {
       req: Request;
       ctx: C;
+      renderProps: SSRx.RenderProps;
+      meta?: SSRx.ReqMeta;
     }) => (props: { children: () => Config['jsxElement'] }) => Config['jsxElement'];
 
     /**
@@ -77,6 +79,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
      */
     'app:render'?: (props: {
       req: Request;
+      ctx: C;
       renderProps: SSRx.RenderProps;
       meta?: SSRx.ReqMeta;
     }) => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
@@ -89,6 +92,8 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'ssr:emitToHead'?: (props: {
       req: Request;
       ctx: C;
+      renderProps: SSRx.RenderProps;
+      meta?: SSRx.ReqMeta;
     }) => string | void | undefined | Promise<string | void | undefined>;
 
     /**
@@ -100,6 +105,8 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'ssr:emitBeforeFlush'?: (props: {
       req: Request;
       ctx: C;
+      renderProps: SSRx.RenderProps;
+      meta?: SSRx.ReqMeta;
     }) => string | void | undefined | Promise<string | void | undefined>;
 
     /**
@@ -110,12 +117,19 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'ssr:emitToBody'?: (props: {
       req: Request;
       ctx: C;
+      renderProps: SSRx.RenderProps;
+      meta?: SSRx.ReqMeta;
     }) => string | void | undefined | Promise<string | void | undefined>;
 
     /**
      * Runs when the stream is done processing.
      */
-    'ssr:completed'?: (props: { req: Request; ctx: C }) => void | Promise<void>;
+    'ssr:completed'?: (props: {
+      req: Request;
+      ctx: C;
+      renderProps: SSRx.RenderProps;
+      meta?: SSRx.ReqMeta;
+    }) => void | Promise<void>;
   };
 };
 

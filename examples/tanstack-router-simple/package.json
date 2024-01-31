@@ -16,6 +16,7 @@
     "@hono/node-server": "^1.7.0",
     "@ssrx/plugin-tanstack-router": "latest",
     "@ssrx/react": "latest",
+    "@ssrx/vite": "latest",
     "@tanstack/react-router": "1.15.7",
     "@tanstack/react-router-server": "1.15.7",
     "@tanstack/router-devtools": "1.15.7",
@@ -25,7 +26,6 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@ssrx/vite": "latest",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@vitejs/plugin-react": "4.2.1",

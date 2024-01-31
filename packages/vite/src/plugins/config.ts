@@ -23,7 +23,12 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
         ssr: {
           // Ensure ssrx packages are processed by the vite pipeline so
           // that the virtual plugin works
-          noExternal: ['@ssrx/*'],
+          noExternal: [/@ssrx/],
+        },
+
+        optimizeDeps: {
+          // Exclude all virtual modules from the vite dep optimization
+          exclude: ['virtual:ssrx-manifest', 'virtual:ssrx-routes'],
         },
       } satisfies UserConfig;
     },

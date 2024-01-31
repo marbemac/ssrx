@@ -3452,7 +3452,6 @@ __metadata:
   dependencies:
     "@ssrx/renderer": "npm:^0.3.0"
     "@tanstack/query-core": "npm:^5.18.0"
-    "@tanstack/query-devtools": "npm:^5.18.0"
     devalue: "npm:^4.3.2"
   peerDependencies:
     "@tanstack/query-core": ^5
@@ -3639,7 +3638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-devtools@npm:5.18.0, @tanstack/query-devtools@npm:^5.18.0":
+"@tanstack/query-devtools@npm:5.18.0":
   version: 5.18.0
   resolution: "@tanstack/query-devtools@npm:5.18.0"
   checksum: 10911b5b6251726c4cc5969ec098f65c8feb0b56623fb6bbb50d494f8f2d5e830a1ade30cd019289e3b5da4d40bcc4582029aedd5c9e27b10e026016c285fce9
@@ -13181,6 +13180,7 @@ __metadata:
     "@ssrx/vite": "npm:latest"
     "@tanstack/react-query": "npm:^5.18.0"
     "@tanstack/react-query-devtools": "npm:^5.18.0"
+    "@trpc/client": "npm:10.45.0"
     "@trpc/server": "npm:10.45.0"
     "@types/better-sqlite3": "npm:7.6.9"
     "@types/react": "npm:18.2.48"
@@ -13540,6 +13540,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.18.0"
     "@tanstack/react-query-devtools": "npm:^5.18.0"
     "@total-typescript/ts-reset": "npm:~0.5.1"
+    "@trpc/client": "npm:10.45.0"
     "@trpc/server": "npm:10.45.0"
     "@types/better-sqlite3": "npm:7.6.9"
     "@types/react": "npm:18.2.48"

@@ -5,8 +5,8 @@ framework agnostic on the client and the server - use React, Solid, Hono, H3, Cl
 
 SSRx is split into two parts that can be used independently, or together:
 
-1. A Vite plugin to improve the DX of developing SSR apps (can be used on it's own).
-2. A "renderer" that establishes some patterns to hook into the lifecycle of streaming SSR apps in a framework/library
+1. `@ssrx/vite` - a Vite plugin to improve the DX of developing SSR apps (can be used on it's own).
+2. `@ssrx/renderer` - establishes some patterns to hook into the lifecycle of streaming SSR apps in a framework/library
    agnostic way. A handful of renderer plugins for common libraries are maintained in this repo.
 
 ## `@ssrx/vite`
@@ -35,12 +35,12 @@ SSR apps, not to provide solutions for routing, deployment, etc.
 - Typescript + HMR support on the client AND server
 - Elimates FOUC css issues during development
 - Generates a `ssr-manifest.json` file during build that maps client route urls -> assets
-- Provides a `assetsForRequest(url: string)` function that returns a list of assets critical to the given request
+- Provides a `assetsForRequest(url: string)` function on the server that returns a list of assets critical to the given
+  request (along with preload links, etc)
 
-> ❗ A small disclaimer... what makes SSRx great is that it doesn't try to do everything. This means SSRx is intended
-> for a specific audience. If you're looking for something quick and easy, SSRx might not be for you. If you are looking
-> to build a modern SSR app with your choice of 3rd party libraries for routing, head management, etc, then SSRx might
-> be right for you.
+> ❗ A small disclaimer... SSRx intentionally does not try to do everything and is intended for a specific audience. If
+> you're looking for a full-fledged framework, SSRx might not be for you. If you are looking to build a modern SSR app
+> with your choice of 3rd party libraries for routing, head management, etc, then SSRx might be right for you.
 
 ### Usage
 
@@ -114,7 +114,7 @@ type Route = {
 ```
 
 `react-router` and `solid-router` both conform to this shape out of the box. You can provide your own `routerAdapter` if
-your routes config does not - see [adapter-tanstack-router](packages/adapter-tanstack-router/README.md) for an example.
+your routes config does not - see [plugin-tanstack-router](packages/plugin-tanstack-router/README.md) for an example.
 
 #### Finally, update your vite.config.js
 
@@ -144,7 +144,8 @@ export default defineConfig({
 ```
 
 See [`bun-react-router`](examples/bun-react-router/README.md),
-[`react-react-simple`](examples/react-router-simple/README.md), and
+[`react-router-simple`](examples/react-router-simple/README.md),
+[`tanstack-router-simple`](examples/tanstack-router-simple/README.md), and
 [`solid-router-simple`](examples/solid-router-simple/README.md) for more concrete examples.
 
 ### Runtimes
@@ -193,6 +194,7 @@ streamed application. For example:
 ```tsx
 // In this case we're using the `react` renderer, which simply wraps @ssrx/renderer with a react specific stream function
 import { createApp } from '@ssrx/react';
+import { assetsPlugin } from '@ssrx/vite/renderer';
 
 export const { clientHandler, serverHandler, ctx } = createApp({
   // Usually a router plugin will provide the appRenderer, but you can always provide your own if needed
@@ -202,11 +204,10 @@ export const { clientHandler, serverHandler, ctx } = createApp({
       <div>My App</div>,
 
   plugins: [
-    // IF you are using `@ssrx/vite`, this plugin injects js/css assets into your html
-    // (import { assetsPlugin } from '@ssrx/vite/renderer')
-    // assetsPlugin(),
-    //
-    // ... your plugins, or 3rd party plugins more on the plugin shape below
+    // If you are also using `@ssrx/vite`, this plugin automatically injects js/css assets into your html stream
+    assetsPlugin(),
+
+    // ... your plugins, or 3rd party plugins. More on the plugin shape below
   ],
 });
 ```
@@ -218,13 +219,13 @@ import { hydrateRoot } from 'react-dom/client';
 
 import { clientHandler } from './app.tsx';
 
-async function hydrate() {
-  const renderApp = await clientHandler();
-
-  hydrateRoot(document, renderApp());
-}
-
 void hydrate();
+
+async function hydrate() {
+  const app = await clientHandler();
+
+  hydrateRoot(document, app());
+}
 ```
 
 **server.ts**
@@ -234,9 +235,9 @@ import { serverHandler } from '~/app.tsx';
 
 export default {
   fetch(req: Request) {
-    const appStream = await serverHandler({ req });
+    const { stream, statusCode } = await serverHandler({ req });
 
-    return new Response(appStream);
+    return new Response(stream, { status: statusCode(), headers: { 'Content-Type': 'text/html' } });
   },
 };
 ```
@@ -263,13 +264,16 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
   id: string;
 
   /**
-   * Create a context object that will be passed to all of this plugin's hooks.
+   * Create a context object that will be passed to all of this plugin's hooks. Consider this "internal" context meant
+   * for use in this plugin.
+   *
+   * Called once per request.
    */
   createCtx?: Function;
 
   hooks?: {
     /**
-     * Extend the app ctx object with additional properties. The app ctx object is made available
+     * Extend the app ctx object with additional properties. Consider this "external" context - it is made available
      * to the end application on the server and the client.
      */
     'app:extendCtx'?: Function;
@@ -285,7 +289,7 @@ export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<st
     'app:render'?: Function;
 
     /**
-     * Return a string to emit some HTML just before the document's closing </head> tag.
+     * Return a string to emit some HTML into the SSR stream just before the document's closing </head> tag.
      *
      * Triggers once per request.
      */

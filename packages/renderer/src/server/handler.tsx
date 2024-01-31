@@ -40,7 +40,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
     const pluginCtx: Record<string, any> = {};
     for (const p of plugins ?? []) {
       if (p.createCtx) {
-        pluginCtx[p.id] = p.createCtx({ req, meta });
+        pluginCtx[p.id] = p.createCtx({ req, meta, renderProps });
       }
     }
 
@@ -70,7 +70,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
           throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
         }
 
-        AppComp = await p.hooks['app:render']({ req, meta, renderProps });
+        AppComp = await p.hooks['app:render']({ req, meta, ctx: pluginCtx[p.id], renderProps });
 
         break;
       }
@@ -79,7 +79,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
       for (const p of plugins ?? []) {
         if (!p.hooks?.['app:wrap']) continue;
 
-        wrappers.push(p.hooks['app:wrap']({ req, ctx: pluginCtx[p.id] }));
+        wrappers.push(p.hooks['app:wrap']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
       }
 
       const renderApp = () => {
@@ -113,7 +113,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             const work = [];
             for (const p of plugins ?? []) {
               if (!p.hooks?.['ssr:emitToHead']) continue;
-              work.push(p.hooks['ssr:emitToHead']({ req, ctx: pluginCtx[p.id] }));
+              work.push(p.hooks['ssr:emitToHead']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
             }
 
             if (!work.length) return '';
@@ -127,7 +127,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             const work = [];
             for (const p of plugins ?? []) {
               if (!p.hooks?.['ssr:emitBeforeFlush']) continue;
-              work.push(p.hooks['ssr:emitBeforeFlush']({ req, ctx: pluginCtx[p.id] }));
+              work.push(p.hooks['ssr:emitBeforeFlush']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
             }
 
             if (!work.length) return '';
@@ -139,7 +139,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             const work = [];
             for (const p of plugins ?? []) {
               if (!p.hooks?.['ssr:emitToBody']) continue;
-              work.push(p.hooks['ssr:emitToBody']({ req, ctx: pluginCtx[p.id] }));
+              work.push(p.hooks['ssr:emitToBody']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
             }
 
             if (!work.length) return '';
@@ -153,7 +153,7 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
             const work = [];
             for (const p of plugins ?? []) {
               if (!p.hooks?.['ssr:completed']) continue;
-              work.push(p.hooks['ssr:completed']({ req, ctx: pluginCtx[p.id] }));
+              work.push(p.hooks['ssr:completed']({ req, meta, ctx: pluginCtx[p.id], renderProps }));
             }
 
             if (!work.length) return;
