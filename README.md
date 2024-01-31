@@ -16,7 +16,8 @@ SSRx is split into two parts that can be used independently, or together:
 
 The SSRx Vite plugin is barebones and (mostly) unopinionated by design. It can be used standalone, see the
 [`bun-react-router`](examples/bun-react-router/README.md),
-[`react-router-simple`](examples/react-router-simple/README.md), and
+[`react-router-simple`](examples/react-router-simple/README.md),
+[`tanstack-router-simple`](examples/tanstack-router-simple/README.md), and
 [`solid-router-simple`](examples/solid-router-simple/README.md) examples.
 
 The goal of `@ssrx/vite` is to close the small gaps that prevent Vite from being a delightful building block for modern
@@ -202,8 +203,8 @@ export const { clientHandler, serverHandler, ctx } = createApp({
 
   plugins: [
     // IF you are using `@ssrx/vite`, this plugin injects js/css assets into your html
-    // (import { viteRendererPlugin } from '@ssrx/vite/renderer')
-    // viteRendererPlugin(),
+    // (import { assetsPlugin } from '@ssrx/vite/renderer')
+    // assetsPlugin(),
     //
     // ... your plugins, or 3rd party plugins more on the plugin shape below
   ],

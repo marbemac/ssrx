@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
+import { renderToStream } from '@ssrx/solid/server';
 import { Hono } from 'hono';
-import { renderToStream } from 'solid-js/web';
 
 import * as entry from '~/entry.server.tsx';
 
@@ -17,11 +17,9 @@ const server = new Hono()
     try {
       const { app } = await entry.render(c.req.raw);
 
-      const htmlStream = renderToStream(() => app());
-      const { readable, writable } = new TransformStream();
-      htmlStream.pipeTo(writable);
+      const { stream, statusCode } = await renderToStream({ app, req: c.req.raw });
 
-      return new Response(readable, { headers: { 'Content-Type': 'text/html' } });
+      return new Response(stream, { status: statusCode(), headers: { 'Content-Type': 'text/html' } });
     } catch (err: any) {
       /**
        * Handle redirects
@@ -31,8 +29,7 @@ const server = new Hono()
       }
 
       /**
-       * In development, pass the error back to the vite dev server to display in the
-       * error overlay
+       * In development, pass the error back to the vite dev server to display in the error overlay
        */
       if (import.meta.env.DEV) return err;
 

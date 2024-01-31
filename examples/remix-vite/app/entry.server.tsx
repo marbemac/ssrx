@@ -13,7 +13,7 @@ export default async function handleRequest(
 ) {
   const reqCtx = await createReqCtx(request, responseHeaders);
 
-  const stream = await serverHandler({
+  const { stream } = await serverHandler({
     req: request,
     meta: {
       // used by @ssrx/remix

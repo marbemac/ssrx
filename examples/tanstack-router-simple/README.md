@@ -4,7 +4,7 @@
 
 - client framework: `tanstack`
 - client routing: `tanstack-router`
-- rendering strategy: `sync`
+- rendering strategy: `streaming`
 - server framework: `hono`
 - server runtime: `node`
 

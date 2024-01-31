@@ -2,13 +2,13 @@ import { defineRenderPlugin } from '@ssrx/renderer';
 
 import type { AssetHtmlTag } from './assets.server.ts';
 
-export const PLUGIN_ID = 'viteRenderer' as const;
+export const PLUGIN_ID = 'viteAssets' as const;
 
-export type ViteRendererPluginCtx = {
+export type AssetsPluginCtx = {
   assets: AssetHtmlTag[];
 };
 
-export const viteRendererPlugin = () =>
+export const assetsPlugin = () =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 

@@ -125,35 +125,6 @@ const AddArticleButton = ({ onSuccess }: { onSuccess?: (article: RouterOutputs['
   );
 };
 
-// const SignupButton = () => {
-//   const { data, isLoading } = ctx.trpc.auth.me.useQuery();
-//   const signup = ctx.trpc.auth.signup.useMutation();
-
-//   if (data || isLoading) return null;
-
-//   return (
-//     <Button
-//       size="sm"
-//       disabled={signup.isPending}
-//       onClick={async () => {
-//         try {
-//           await signup.mutateAsync({
-//             username: 'marc',
-//             password: 'password',
-//           });
-
-//           // invalidate the entire query cache on login/logout
-//           void ctx.trpc.$invalidate();
-//         } catch (e: any) {
-//           alert(`Error: ${e.message}`);
-//         }
-//       }}
-//     >
-//       Signup
-//     </Button>
-//   );
-// };
-
 const LoginButton = () => {
   const { data, isLoading } = ctx.trpc.auth.me.useQuery();
   const login = ctx.trpc.auth.login.useMutation({

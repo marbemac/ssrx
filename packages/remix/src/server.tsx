@@ -1,5 +1,6 @@
 import './namespace.ts';
 
+import type { RemixServerProps } from '@remix-run/react';
 import { RemixServer } from '@remix-run/react';
 import type { EntryContext } from '@remix-run/react/dist/entry';
 import { renderToStream } from '@ssrx/react/server';
@@ -15,7 +16,7 @@ declare global {
 }
 
 export function createApp<P extends RenderPlugin<any, any>[]>(
-  opts: SetOptional<ServerHandlerOpts<P>, 'appRenderer' | 'renderer'> & { abortDelay?: number } = {},
+  opts: SetOptional<ServerHandlerOpts<P>, 'appRenderer' | 'renderer'> & Pick<RemixServerProps, 'abortDelay'> = {},
 ) {
   return baseCreateApp({
     appRenderer:

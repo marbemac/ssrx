@@ -55,7 +55,7 @@ server
    */
   .get('*', reqCtxMiddleware, async c => {
     try {
-      const appStream = await serverHandler({
+      const { stream, statusCode } = await serverHandler({
         req: c.req.raw,
         renderProps: { routes },
         meta: {
@@ -64,7 +64,7 @@ server
         },
       });
 
-      return new Response(appStream, { headers: { 'Content-Type': 'text/html' } });
+      return new Response(stream, { status: statusCode(), headers: { 'Content-Type': 'text/html' } });
     } catch (err: any) {
       /**
        * Handle react-router redirects
@@ -74,8 +74,7 @@ server
       }
 
       /**
-       * In development, pass the error back to the vite dev server to display in the
-       * error overlay
+       * In development, pass the error back to the vite dev server to display in the error overlay
        */
       if (import.meta.env.DEV) return err;
 

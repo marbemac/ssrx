@@ -30,12 +30,12 @@ if (import.meta.env.PROD) {
 
 server.get('*', async c => {
   try {
-    const appStream = await serverHandler({
+    const { stream, statusCode } = await serverHandler({
       req: c.req.raw,
       renderProps: { routes, basename: '/react-router-records' },
     });
 
-    return new Response(appStream, { headers: { 'Content-Type': 'text/html' } });
+    return new Response(stream, { status: statusCode(), headers: { 'Content-Type': 'text/html' } });
   } catch (err: any) {
     /**
      * Handle react-router redirects
