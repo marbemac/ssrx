@@ -43,6 +43,7 @@ export const tanstackRouterPlugin = () =>
                */
 
               if (!router.state.lastUpdated) {
+                await router.load(); // needed until https://github.com/TanStack/router/issues/1115 is resolved
                 void router.hydrate();
               }
 

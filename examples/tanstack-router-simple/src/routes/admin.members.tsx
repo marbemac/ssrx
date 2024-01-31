@@ -3,6 +3,7 @@ import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 import { getMembers, sleep } from '~/utils.ts';
 
 export const Route = createFileRoute('/admin/members')({
+  component: AdminMembers,
   loader: async () => {
     await sleep();
 
@@ -10,7 +11,6 @@ export const Route = createFileRoute('/admin/members')({
       members: getMembers(),
     };
   },
-  component: AdminMembers,
 });
 
 function AdminMembers() {

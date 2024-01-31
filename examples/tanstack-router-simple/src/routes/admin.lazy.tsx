@@ -1,12 +1,7 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
+import { createLazyFileRoute, Link, Outlet } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/admin')({
+export const Route = createLazyFileRoute('/admin')({
   component: AdminLayout,
-  meta: () => [
-    {
-      title: 'Admin',
-    },
-  ],
 });
 
 function AdminLayout() {

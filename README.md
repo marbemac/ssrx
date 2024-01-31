@@ -255,64 +255,69 @@ Plugins can:
 
 **Plugin Shape**
 
-The snippet below has been simplified - see the [renderer types](packages/renderer/src/types.ts) file for the full
-plugin signature.
+See the [renderer types](packages/renderer/src/types.ts) file for the full plugin signature.
 
 ```ts
-export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
+export type RenderPlugin = {
   id: string;
 
   /**
-   * Create a context object that will be passed to all of this plugin's hooks. Consider this "internal" context meant
-   * for use in this plugin.
-   *
    * Called once per request.
    */
-  createCtx?: Function;
+  hooksForReq: (props: {
+    req: Request;
+    meta?: SSRx.ReqMeta;
+    renderProps: SSRx.RenderProps;
+    ctx: Record<string, unknown>;
+  }) => {
+    // Called on the client and the server
+    common?: {
+      /**
+       * Extend the app ctx object with additional properties. Consider this "external" context - it is made available
+       * to the end application on the server and the client.
+       */
+      extendAppCtx?: () => Record<string, unknown>;
 
-  hooks?: {
-    /**
-     * Extend the app ctx object with additional properties. Consider this "external" context - it is made available
-     * to the end application on the server and the client.
-     */
-    extendAppCtx?: Function;
+      /**
+       * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
+       */
+      wrapApp?: (props: { children: () => Config['jsxElement'] }) => Config['jsxElement'];
 
-    /**
-     * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
-     */
-    wrapApp?: Function;
+      /**
+       * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
+       */
+      renderApp?: () => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
+    };
 
-    /**
-     * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
-     */
-    renderApp?: Function;
+    // Only called on the server
+    server?: {
+      /**
+       * Return a string to emit some HTML into the SSR stream just before the document's closing </head> tag.
+       *
+       * Triggers once per request.
+       */
+      emitToDocumentHead?: Promise<string | undefined> | string | undefined;
 
-    /**
-     * Return a string to emit some HTML into the SSR stream just before the document's closing </head> tag.
-     *
-     * Triggers once per request.
-     */
-    emitToDocumentHead?: Function;
+      /**
+       * Return a string to emit into the SSR stream just before the rendering
+       * framework (react, solid, etc) emits a chunk of the page.
+       *
+       * Triggers one or more times per request.
+       */
+      emitBeforeStreamChunk?: Promise<string | undefined> | string | undefined;
 
-    /**
-     * Return a string to emit into the SSR stream just before the rendering
-     * framework (react, solid, etc) emits a chunk of the page.
-     *
-     * Triggers one or more times per request.
-     */
-    emitBeforeStreamChunk?: Function;
+      /**
+       * Return a string to emit some HTML to the document body, after the client renderer's first flush.
+       *
+       * Triggers once per request.
+       */
+      emitToDocumentBody?: Promise<string | undefined> | string | undefined;
 
-    /**
-     * Return a string to emit some HTML to the document body, after the client renderer's first flush.
-     *
-     * Triggers once per request.
-     */
-    emitToDocumentBody?: Function;
-
-    /**
-     * Runs when the stream is done processing.
-     */
-    onStreamComplete?: Function;
+      /**
+       * Runs when the stream is done processing.
+       */
+      onStreamComplete?: Promise<void> | void;
+    };
   };
 };
 ```

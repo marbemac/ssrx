@@ -118,6 +118,8 @@ export const getRoutesIds = async ({
       } else {
         console.error(`Failed to load lazy route, could not locate module '${route.path}'`);
       }
+    } else if (childParentIds.length) {
+      result[`/${routeId}`] = childParentIds;
     }
 
     if (route.children) {

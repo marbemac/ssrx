@@ -27,7 +27,8 @@ const normalizeRoutes = (externalRoutes: AnyRoute | AnyRoute[]): RouteInfo[] => 
   const routes = Array.isArray(externalRoutes) ? externalRoutes : [externalRoutes];
 
   return routes.map(r => ({
-    path: transformPath(r.path), // convert tanstack path syntax to syntax compatible with radix3 (mostly $ -> :)
+    // @ts-expect-error tanstack/router seem off here... r.path actually doesn't exist, and r.options.path does
+    path: transformPath(r.path || r.options.path), // convert tanstack path syntax to syntax compatible with radix3 (mostly $ -> :)
     lazy: r.lazyFn || r.options.component?.preload, // cover the two ways of setting up lazy routes in tanstack
     children: r.children ? normalizeRoutes(r.children) : undefined,
   }));
