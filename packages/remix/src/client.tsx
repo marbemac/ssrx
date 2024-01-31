@@ -1,5 +1,3 @@
-import './namespace.ts';
-
 import type { RemixServerProps } from '@remix-run/react';
 import { RemixBrowser } from '@remix-run/react';
 import {
@@ -9,7 +7,7 @@ import {
   type SetOptional,
 } from '@ssrx/renderer/client';
 
-export function createApp<P extends RenderPlugin<any, any>[]>(
+export function createApp<P extends RenderPlugin<any>[]>(
   opts: SetOptional<ClientHandlerOpts<P>, 'appRenderer'> & Pick<RemixServerProps, 'abortDelay'>,
 ) {
   return baseCreateApp({

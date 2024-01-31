@@ -8,27 +8,23 @@ import {
 } from './stream-utils.ts';
 
 export type StreamInjectorHooks = {
-  emitToDocumentHead?: () => Promise<string> | string;
-  emitBeforeStreamChunk?: () => Promise<string> | string;
-  emitToDocumentBody?: () => Promise<string> | string;
+  emitToDocumentHead?: () => Promise<string | undefined> | string | undefined;
+  emitBeforeStreamChunk?: () => Promise<string | undefined> | string | undefined;
+  emitToDocumentBody?: () => Promise<string | undefined> | string | undefined;
   onStreamComplete?: () => Promise<void> | void;
-};
-
-export type StreamInjectorOpts = {
-  hooks: StreamInjectorHooks | StreamInjectorHooks[];
 };
 
 export function injectIntoStream(
   req: Request,
   renderStream: ReadableStream,
-  opts: StreamInjectorOpts,
+  originalHooks: StreamInjectorHooks | StreamInjectorHooks[],
 ): ReadableStream<Uint8Array> {
   const headFns: NonNullable<StreamInjectorHooks['emitToDocumentHead']>[] = [];
   const chunkFns: NonNullable<StreamInjectorHooks['emitBeforeStreamChunk']>[] = [];
   const bodyFns: NonNullable<StreamInjectorHooks['emitToDocumentBody']>[] = [];
   const completeFns: NonNullable<StreamInjectorHooks['onStreamComplete']>[] = [];
 
-  const hooks = Array.isArray(opts.hooks) ? opts.hooks : [opts.hooks];
+  const hooks = Array.isArray(originalHooks) ? originalHooks : [originalHooks];
   for (const hook of hooks) {
     if (hook.emitToDocumentHead) headFns.push(hook.emitToDocumentHead);
     if (hook.emitBeforeStreamChunk) chunkFns.push(hook.emitBeforeStreamChunk);
@@ -49,7 +45,7 @@ export function injectIntoStream(
       : null,
 
     // Insert arbitrary HTML into the document body on first flush (triggers once)
-    chunkFns.length
+    bodyFns.length
       ? createBodyInsertionStream(async () => {
           const work = bodyFns.map(fn => fn());
           return (await Promise.all(work)).filter(Boolean).join('');
@@ -57,7 +53,7 @@ export function injectIntoStream(
       : null,
 
     // Insert generated tags on flush (can trigger 1-n times)
-    bodyFns.length
+    chunkFns.length
       ? createHTMLInsertionStream(
           async () => {
             const work = chunkFns.map(fn => fn());

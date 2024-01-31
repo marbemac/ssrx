@@ -7,7 +7,7 @@ import {
 
 import { RootLayout } from '../default-root.tsx';
 
-export function createApp<P extends RenderPlugin<any, any>[]>(opts: SetOptional<ClientHandlerOpts<P>, 'RootLayout'>) {
+export function createApp<P extends RenderPlugin<any>[]>(opts: SetOptional<ClientHandlerOpts<P>, 'RootLayout'>) {
   return baseCreateApp({
     RootLayout,
     ...opts,

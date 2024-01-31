@@ -1,28 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { Simplify } from 'type-fest';
 
-import type { ClientHandlerFn, ClientHandlerOpts, Config, RenderPlugin, ServerHandlerFn } from '../types.ts';
+import type {
+  ClientHandlerFn,
+  ClientHandlerOpts,
+  CommonHooks,
+  Config,
+  RenderPlugin,
+  ServerHandlerFn,
+} from '../types.ts';
 
-export function createApp<P extends RenderPlugin<any, any>[]>({
-  RootLayout,
-  appRenderer,
-  plugins,
-}: ClientHandlerOpts<P>) {
+export function createApp<P extends RenderPlugin<any>[]>({ RootLayout, appRenderer, plugins }: ClientHandlerOpts<P>) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const req = new Request(`${window.location.pathname}${window.location.search}`);
-
-  function __getPluginCtx<K extends P[number]['id']>(pluginId: K): Simplify<ExtractPluginContext<P, K>>;
-  function __getPluginCtx<K extends P[number]['id']>(pluginId?: K): Simplify<ExtractPluginsContext<P>>;
-  function __getPluginCtx<K extends P[number]['id']>(
-    pluginId?: K,
-  ): Simplify<ExtractPluginsContext<P> | ExtractPluginContext<P, K>> {
-    // @ts-expect-error ignore, complicated
-    const store = window.__PAGE_CTX__?.pluginCtx || {};
-
-    if (typeof pluginId !== 'undefined') return store[pluginId] || {};
-
-    return store;
-  }
 
   const ctx = new Proxy({} as ExtractPluginsAppContext<P>, {
     get(_target, prop) {
@@ -40,54 +30,51 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
   }) as ServerHandlerFn;
 
   const clientHandler: ClientHandlerFn = async ({ renderProps = {} } = {}) => {
-    const pluginCtx: Record<string, any> = {};
+    const appCtx: Record<string, any> = {};
+
+    const commonHooks = {
+      extendCtx: [] as NonNullable<CommonHooks['extendCtx']>[],
+      renderApp: [] as NonNullable<CommonHooks['renderApp']>[],
+      wrapApp: [] as NonNullable<CommonHooks['wrapApp']>[],
+    };
+
     for (const p of plugins ?? []) {
-      if (p.createCtx) {
-        pluginCtx[p.id] = await p.createCtx({ req, renderProps });
+      if (p.hooksForReq) {
+        const hooks = await p?.hooksForReq({ req, renderProps, ctx: appCtx });
+        if (!hooks) continue;
+
+        if (hooks.common) {
+          for (const name in hooks.common) {
+            const hook = hooks.common[name as keyof CommonHooks];
+            if (!hook) continue;
+            commonHooks[name as keyof CommonHooks]!.push(hook as any);
+          }
+        }
       }
     }
 
-    const appCtx: Record<string, any> = {};
-    for (const p of plugins ?? []) {
-      if (p.hooks?.extendAppCtx) {
-        Object.assign(
-          appCtx,
-          p.hooks.extendAppCtx({
-            ctx: pluginCtx[p.id],
-            getPluginCtx<T>(id: string) {
-              return pluginCtx[id] as T;
-            },
-          }) || {},
-        );
-      }
+    for (const fn of commonHooks.extendCtx ?? []) {
+      Object.assign(appCtx, fn() || {});
     }
 
     // @ts-expect-error ignore
-    window.__PAGE_CTX__ = { pluginCtx, appCtx };
+    window.__PAGE_CTX__ = { appCtx };
 
     let AppComp = appRenderer ? await appRenderer({ req, renderProps }) : undefined;
 
-    for (const p of plugins ?? []) {
-      if (!p.hooks?.renderApp) continue;
-
+    for (const fn of commonHooks.renderApp ?? []) {
       if (AppComp) {
-        throw new Error('Only one plugin can implement renderApp. Use wrapApp instead.');
+        throw new Error('Only one plugin can implement app:render. app:wrap might be what you are looking for.');
       }
 
-      AppComp = await p.hooks.renderApp({ req, ctx: pluginCtx[p.id], renderProps });
+      AppComp = await fn();
 
       break;
     }
 
-    if (!AppComp) {
-      throw new Error('No plugin implemented renderApp');
-    }
-
     const wrappers: ((props: { children: () => Config['jsxElement'] }) => Config['jsxElement'])[] = [];
-    for (const p of plugins ?? []) {
-      if (!p.hooks?.wrapApp) continue;
-
-      wrappers.push(p.hooks.wrapApp({ req, ctx: pluginCtx[p.id], renderProps }));
+    for (const fn of commonHooks.wrapApp ?? []) {
+      wrappers.push(fn());
     }
 
     const renderApp = () => {
@@ -119,9 +106,6 @@ export function createApp<P extends RenderPlugin<any, any>[]>({
   return {
     ctx,
 
-    // for internal debugging
-    __getPluginCtx,
-
     serverHandler,
 
     clientHandler,
@@ -138,17 +122,7 @@ type Flatten<T> = {
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
 
-type ExtractPluginsContext<T extends RenderPlugin<any, any>[]> = {
-  [K in T[number]['id']]: ExtractPluginContext<T, K>;
-};
-
-type ExtractPluginContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
-  Extract<T[number], { id: K }>
->['createCtx'] extends (...args: any[]) => infer R
-  ? R
-  : never;
-
-type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
+type ExtractPluginsAppContext<T extends RenderPlugin<any>[]> = Simplify<
   UnionToIntersection<
     Flatten<{
       [K in T[number]['id']]: ExtractPluginAppContext<T, K>;
@@ -156,8 +130,12 @@ type ExtractPluginsAppContext<T extends RenderPlugin<any, any>[]> = Simplify<
   >
 >;
 
-type ExtractPluginAppContext<T extends RenderPlugin<any, any>[], K extends T[number]['id']> = NonNullable<
-  Extract<T[number], { id: K }>['hooks']
->['extendAppCtx'] extends (...args: any[]) => infer R
+type ExtractPluginAppContext<T extends RenderPlugin<any>[], K extends T[number]['id']> = ExtractPluginExtendCtxFn<
+  Extract<T[number], { id: K }>
+> extends (...args: any[]) => infer R
   ? R
   : never;
+
+type ExtractPluginExtendCtxFn<T extends RenderPlugin<any>> = NonNullable<
+  NonNullable<Awaited<ReturnType<NonNullable<T['hooksForReq']>>>>['common']
+>['extendCtx'];

@@ -20,14 +20,21 @@ const server = new Hono()
       const { stream, statusCode } = await renderToStream({
         app: () => app,
         req: c.req.raw,
-        injectToStream: {
-          async emitBeforeStreamChunk() {
-            const injectorPromises = router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
-            const injectors = await Promise.all(injectorPromises);
-            router.injectedHtml = [];
-            return injectors.join('');
+        injectToStream: [
+          /**
+           * Automatically inject assets into the stream if preferred, vs manually adding them to the head/body through route context
+           * import { injectAssetsToStream } from @ssrx/react/server;
+           */
+          // await injectAssetsToStream({ req: c.req.raw }),
+          {
+            async emitBeforeStreamChunk() {
+              const injectorPromises = router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
+              const injectors = await Promise.all(injectorPromises);
+              router.injectedHtml = [];
+              return injectors.join('');
+            },
           },
-        },
+        ],
       });
 
       let status = statusCode();

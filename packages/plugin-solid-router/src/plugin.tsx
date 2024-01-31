@@ -14,10 +14,12 @@ export const solidRouterPlugin = () => {
   return defineRenderPlugin({
     id: PLUGIN_ID,
 
-    hooks: {
-      renderApp: ({ req, renderProps }) => {
-        return () => <Router url={req.url} {...renderProps} />;
-      },
+    hooksForReq: ({ req, renderProps }) => {
+      return {
+        common: {
+          renderApp: () => () => <Router url={req.url} {...renderProps} />,
+        },
+      };
     },
   });
 };

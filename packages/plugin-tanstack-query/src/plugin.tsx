@@ -33,8 +33,6 @@ type TanstackQueryPluginOpts = {
 
 export type TanstackQueryPluginCtx = {
   queryClient: QueryClient;
-  trackedQueries: Set<string>;
-  blockingQueries: Map<string, Promise<void>>;
 };
 
 declare global {
@@ -43,10 +41,10 @@ declare global {
 }
 
 export const tanstackQueryPlugin = ({ provider, skipHydration, queryClientConfig }: TanstackQueryPluginOpts) =>
-  defineRenderPlugin({
+  defineRenderPlugin<TanstackQueryPluginCtx>({
     id: PLUGIN_ID,
 
-    createCtx: (): TanstackQueryPluginCtx => {
+    hooksForReq: () => {
       const trackedQueries = new Set<string>();
       const blockingQueries = new Map<string, Promise<void>>();
       const queryClient = createQueryClient({ trackedQueries, blockingQueries, clientConfig: queryClientConfig });
@@ -56,72 +54,64 @@ export const tanstackQueryPlugin = ({ provider, skipHydration, queryClientConfig
         hydrateStreamingData({ queryClient });
       }
 
-      return { trackedQueries, blockingQueries, queryClient };
-    },
+      return {
+        common: {
+          extendCtx: () => ({ queryClient }),
+          wrapApp:
+            () =>
+            ({ children }) =>
+              provider({ children: children(), queryClient }),
+        },
 
-    hooks: {
-      extendAppCtx: ({ ctx }) => {
-        const { queryClient } = ctx as TanstackQueryPluginCtx;
+        server: {
+          emitToDocumentHead: () => {
+            if (skipHydration) return;
 
-        return { queryClient };
-      },
+            /**
+             * $TQD is the global we'll use to track the queries
+             * - see hydrate.ts for how the client uses this
+             * - see emitBeforeStreamChunk() to see how the server uses this
+             */
+            const html: string[] = [`$TQD = [];`, `$TQS = data => $TQD.push(data);`];
 
-      wrapApp: ({ ctx }) => {
-        const { queryClient } = ctx as TanstackQueryPluginCtx;
-
-        return ({ children }) => provider({ children: children(), queryClient });
-      },
-
-      emitToDocumentHead: () => {
-        if (skipHydration) return;
-
-        /**
-         * $TQD is the global we'll use to track the queries
-         * - see hydrate.ts for how the client uses this
-         * - see emitBeforeStreamChunk() to see how the server uses this
-         */
-        const html: string[] = [`$TQD = [];`, `$TQS = data => $TQD.push(data);`];
-
-        return `<script>${html.join('')}</script>`;
-      },
-
-      emitBeforeStreamChunk: async ({ ctx }) => {
-        if (skipHydration) return;
-
-        const { blockingQueries, trackedQueries, queryClient } = ctx as TanstackQueryPluginCtx;
-
-        // If there are any queries marked with deferStream, block the stream until they are completed
-        if (blockingQueries.size) {
-          await Promise.allSettled(blockingQueries.values());
-          blockingQueries.clear();
-        }
-
-        if (!trackedQueries.size) return;
-
-        /**
-         * Dehydrated state of the client where we only include the queries
-         * that were added/updated since the last flush
-         */
-        const shouldDehydrate = defaultShouldDehydrateQuery;
-
-        const dehydratedState = dehydrate(queryClient, {
-          shouldDehydrateQuery(query) {
-            return trackedQueries.has(query.queryHash) && shouldDehydrate(query);
+            return `<script>${html.join('')}</script>`;
           },
-        });
-        trackedQueries.clear();
 
-        if (!dehydratedState.queries.length) return;
+          emitBeforeStreamChunk: async () => {
+            if (skipHydration) return;
 
-        const dehydratedString = JSON.stringify(stringify(dehydratedState));
+            // If there are any queries marked with deferStream, block the stream until they are completed
+            if (blockingQueries.size) {
+              await Promise.allSettled(blockingQueries.values());
+              blockingQueries.clear();
+            }
 
-        return `<script>${[`$TQS(${dehydratedString})`].join('')}</script>`;
-      },
+            if (!trackedQueries.size) return;
 
-      onStreamComplete: ({ ctx }) => {
-        const { queryClient } = ctx as TanstackQueryPluginCtx;
+            /**
+             * Dehydrated state of the client where we only include the queries
+             * that were added/updated since the last flush
+             */
+            const shouldDehydrate = defaultShouldDehydrateQuery;
 
-        queryClient.clear();
-      },
+            const dehydratedState = dehydrate(queryClient, {
+              shouldDehydrateQuery(query) {
+                return trackedQueries.has(query.queryHash) && shouldDehydrate(query);
+              },
+            });
+            trackedQueries.clear();
+
+            if (!dehydratedState.queries.length) return;
+
+            const dehydratedString = JSON.stringify(stringify(dehydratedState));
+
+            return `<script>${[`$TQS(${dehydratedString})`].join('')}</script>`;
+          },
+
+          onStreamComplete: () => {
+            queryClient.clear();
+          },
+        },
+      };
     },
   });

@@ -19,46 +19,50 @@ export const reactRouterPlugin = () =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
-    hooks: {
-      renderApp: async ({ req, renderProps }) => {
-        const { routes, basename, client } = renderProps;
+    hooksForReq: ({ req, renderProps }) => {
+      return {
+        common: {
+          renderApp: async () => {
+            const { routes, basename, client } = renderProps;
 
-        /**
-         * SERVER
-         */
-        if (import.meta.env.SSR) {
-          const { query, dataRoutes } = createStaticHandler(routes, { basename });
-          const context = await query(req);
+            /**
+             * SERVER
+             */
+            if (import.meta.env.SSR) {
+              const { query, dataRoutes } = createStaticHandler(routes, { basename });
+              const context = await query(req);
 
-          if (context instanceof Response) {
-            throw context;
-          }
+              if (context instanceof Response) {
+                throw context;
+              }
 
-          const router = createStaticRouter(dataRoutes, context);
+              const router = createStaticRouter(dataRoutes, context);
 
-          return () => <StaticRouterProvider router={router} context={context} />;
-        } else {
-          /**
-           * CLIENT
-           */
+              return () => <StaticRouterProvider router={router} context={context} />;
+            } else {
+              /**
+               * CLIENT
+               */
 
-          const lazyMatches = matchRoutes(routes, window.location)?.filter(m => m.route.lazy);
+              const lazyMatches = matchRoutes(routes, window.location)?.filter(m => m.route.lazy);
 
-          // Load the lazy matches and update the routes before creating your router
-          // so we can hydrate the SSR-rendered content synchronously
-          if (lazyMatches && lazyMatches?.length > 0) {
-            await Promise.all(
-              lazyMatches.map(async m => {
-                const routeModule = await m.route.lazy!();
-                Object.assign(m.route, { ...routeModule, lazy: undefined });
-              }),
-            );
-          }
+              // Load the lazy matches and update the routes before creating your router
+              // so we can hydrate the SSR-rendered content synchronously
+              if (lazyMatches && lazyMatches?.length > 0) {
+                await Promise.all(
+                  lazyMatches.map(async m => {
+                    const routeModule = await m.route.lazy!();
+                    Object.assign(m.route, { ...routeModule, lazy: undefined });
+                  }),
+                );
+              }
 
-          const router = createBrowserRouter(routes, { basename });
+              const router = createBrowserRouter(routes, { basename });
 
-          return () => <RouterProvider {...client?.providerProps} router={router} />;
-        }
-      },
+              return () => <RouterProvider {...client?.providerProps} router={router} />;
+            }
+          },
+        },
+      };
     },
   });

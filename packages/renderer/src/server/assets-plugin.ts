@@ -12,12 +12,9 @@ export const assetsPlugin = () =>
   defineRenderPlugin({
     id: ASSETS_PLUGIN_ID,
 
-    createCtx: ({ req }) => assetsForRequest(req.url),
-
-    hooks: {
-      emitToDocumentHead: ({ ctx }) => renderAssetsToHtml((ctx as AssetsPluginCtx).headAssets),
-      emitToDocumentBody: ({ ctx }) => renderAssetsToHtml((ctx as AssetsPluginCtx).bodyAssets),
-    },
+    hooksForReq: async ({ req }) => ({
+      server: await injectAssetsToStream({ req }),
+    }),
   });
 
 export const injectAssetsToStream = async ({ req }: { req: Request }) => {

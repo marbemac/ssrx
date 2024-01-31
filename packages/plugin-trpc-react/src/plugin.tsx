@@ -1,6 +1,6 @@
 import type { TanstackQueryPluginCtx } from '@ssrx/plugin-tanstack-query';
-import { PLUGIN_ID as QUERY_PLUGIN_ID } from '@ssrx/plugin-tanstack-query';
 import { defineRenderPlugin } from '@ssrx/renderer';
+import type { CreateTRPCReact } from '@ssrx/trpc-react-query';
 import { type CreateTRPCQueryOptions, createTRPCReact } from '@ssrx/trpc-react-query';
 import type { HTTPBatchLinkOptions, TRPCLink } from '@trpc/client';
 import { createTRPCUntypedClient } from '@trpc/client';
@@ -27,30 +27,34 @@ export const trpcPlugin = <TRouter extends AnyRouter>({
   httpBatchLinkOpts,
   createTRPCQueryOptions,
 }: TrpcPluginOpts<TRouter> = {}) => {
-  return defineRenderPlugin({
+  return defineRenderPlugin<{ trpc: CreateTRPCReact<TRouter> }>({
     id: PLUGIN_ID,
 
-    hooks: {
-      extendAppCtx: ({ getPluginCtx, meta }) => {
-        const { queryClient } = getPluginCtx<TanstackQueryPluginCtx>(QUERY_PLUGIN_ID);
+    hooksForReq: ({ meta, ctx }) => {
+      return {
+        common: {
+          extendCtx: () => {
+            const { queryClient } = ctx as TanstackQueryPluginCtx;
 
-        const trpcClient = createTRPCUntypedClient({
-          links: buildLinks({
-            trpcCaller: meta?.trpcCaller,
-            httpBatchLinkOpts: httpBatchLinkOpts ?? {
-              url: '/trpc',
-            },
-          }),
-        });
+            const trpcClient = createTRPCUntypedClient({
+              links: buildLinks({
+                trpcCaller: meta?.trpcCaller,
+                httpBatchLinkOpts: httpBatchLinkOpts ?? {
+                  url: '/trpc',
+                },
+              }),
+            });
 
-        const trpc = createTRPCReact<TRouter>({
-          client: trpcClient,
-          queryClient,
-          ...createTRPCQueryOptions,
-        });
+            const trpc = createTRPCReact<TRouter>({
+              client: trpcClient,
+              queryClient,
+              ...createTRPCQueryOptions,
+            });
 
-        return { trpc };
-      },
+            return { trpc };
+          },
+        },
+      };
     },
   });
 };

@@ -1,4 +1,4 @@
-import type { StreamInjectorOpts } from '@ssrx/streaming';
+import type { StreamInjectorHooks } from '@ssrx/streaming';
 
 import type { SSRx } from './namespace.ts';
 
@@ -11,7 +11,7 @@ export type Config = ConfigBuiltIn & SSRx.Config;
 export type RenderToStreamFn<O extends object = object> = (props: {
   app: () => Config['jsxElement'];
   req: Request;
-  injectToStream?: StreamInjectorOpts;
+  injectToStream?: StreamInjectorHooks | StreamInjectorHooks[];
   opts?: O;
 }) => Promise<{ stream: ReadableStream; statusCode: () => number }>;
 
@@ -28,13 +28,13 @@ type BaseHandlerOpts = {
   }) => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
 };
 
-export type ClientHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
+export type ClientHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts & {
   plugins?: P;
 };
 
 export type ClientHandlerFn = (props?: { renderProps?: SSRx.RenderProps }) => Promise<() => Config['jsxElement']>;
 
-export type ServerHandlerOpts<P extends RenderPlugin<any, any>[]> = BaseHandlerOpts & {
+export type ServerHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts & {
   renderer: ServerRenderer;
   plugins?: P;
 };
@@ -45,92 +45,44 @@ export type ServerHandlerFn = (props: {
   meta?: SSRx.ReqMeta;
 }) => Promise<{ stream: ReadableStream<Uint8Array>; statusCode: () => number }>;
 
-export type RenderPlugin<C extends Record<string, unknown>, AC extends Record<string, unknown>> = {
-  id: Readonly<string>;
+export type CommonHooks<AC extends Record<string, unknown> = Record<string, unknown>> = {
+  /**
+   * Extend the app ctx object with additional properties. The app ctx object is made available
+   * to the end application on the server and the client, and to subsequent plugins.
+   */
+  extendCtx?: () => AC;
 
   /**
-   * Create a context object that will be passed to all of this plugin's hooks.
+   * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
    */
-  createCtx?: (props: { req: Request; meta?: SSRx.ReqMeta; renderProps: SSRx.RenderProps }) => C | Promise<C>;
+  wrapApp?: () => (props: { children: () => Config['jsxElement'] }) => Config['jsxElement'];
 
-  hooks?: {
-    /**
-     * Extend the app ctx object with additional properties. The app ctx object is made available
-     * to the end application on the server and the client, and to subsequent plugins.
-     */
-    extendAppCtx?: (props: {
-      ctx: C;
-      getPluginCtx: <T extends Record<string, unknown>>(id: string) => T;
-      meta?: SSRx.ReqMeta;
-    }) => AC;
+  /**
+   * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
+   */
+  renderApp?: () => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
+};
 
-    /**
-     * Wrap the app component with a higher-order component. This is useful for wrapping the app with providers, etc.
-     */
-    wrapApp?: (props: {
-      req: Request;
-      ctx: C;
-      renderProps: SSRx.RenderProps;
-      meta?: SSRx.ReqMeta;
-    }) => (props: { children: () => Config['jsxElement'] }) => Config['jsxElement'];
+export type ServerHooks = StreamInjectorHooks;
 
-    /**
-     * Render the final inner-most app component. Only one plugin may do this - usually a routing plugin.
-     */
-    renderApp?: (props: {
-      req: Request;
-      ctx: C;
-      renderProps: SSRx.RenderProps;
-      meta?: SSRx.ReqMeta;
-    }) => (() => Config['jsxElement']) | Promise<() => Config['jsxElement']>;
+export type RenderPlugin<AC extends Record<string, unknown>> = {
+  id: Readonly<string>;
 
-    /**
-     * Return a string to emit some HTML just before the document's closing </head> tag.
-     *
-     * Triggers once per request.
-     */
-    emitToDocumentHead?: (props: {
-      req: Request;
-      ctx: C;
-      renderProps: SSRx.RenderProps;
-      meta?: SSRx.ReqMeta;
-    }) => string | void | undefined | Promise<string | void | undefined>;
-
-    /**
-     * Return a string to emit into the SSR stream just before the rendering
-     * framework (react, solid, etc) emits a chunk of the page.
-     *
-     * Triggers one or more times per request.
-     */
-    emitBeforeStreamChunk?: (props: {
-      req: Request;
-      ctx: C;
-      renderProps: SSRx.RenderProps;
-      meta?: SSRx.ReqMeta;
-    }) => string | void | undefined | Promise<string | void | undefined>;
-
-    /**
-     * Return a string to emit some HTML to the document body, after the client renderer's first flush.
-     *
-     * Triggers once per request.
-     */
-    emitToDocumentBody?: (props: {
-      req: Request;
-      ctx: C;
-      renderProps: SSRx.RenderProps;
-      meta?: SSRx.ReqMeta;
-    }) => string | void | undefined | Promise<string | void | undefined>;
-
-    /**
-     * Runs when the stream is done processing.
-     */
-    onStreamComplete?: (props: {
-      req: Request;
-      ctx: C;
-      renderProps: SSRx.RenderProps;
-      meta?: SSRx.ReqMeta;
-    }) => void | Promise<void>;
-  };
+  hooksForReq?: (props: {
+    req: Request;
+    meta?: SSRx.ReqMeta;
+    renderProps: SSRx.RenderProps;
+    ctx: Record<string, unknown>;
+  }) =>
+    | null
+    | {
+        common?: CommonHooks<AC>;
+        server?: ServerHooks;
+      }
+    | Promise<null | {
+        common?: CommonHooks<AC>;
+        server?: ServerHooks;
+      }>;
 };
 
 /**

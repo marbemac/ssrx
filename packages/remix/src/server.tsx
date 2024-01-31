@@ -1,5 +1,3 @@
-import './namespace.ts';
-
 import type { RemixServerProps } from '@remix-run/react';
 import { RemixServer } from '@remix-run/react';
 import type { EntryContext } from '@remix-run/react/dist/entry';
@@ -15,7 +13,7 @@ declare global {
   }
 }
 
-export function createApp<P extends RenderPlugin<any, any>[]>(
+export function createApp<P extends RenderPlugin<any>[]>(
   opts: SetOptional<ServerHandlerOpts<P>, 'appRenderer' | 'renderer'> & Pick<RemixServerProps, 'abortDelay'> = {},
 ) {
   return baseCreateApp({

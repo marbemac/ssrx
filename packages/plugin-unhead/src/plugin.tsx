@@ -19,15 +19,11 @@ export type UnheadPluginOpts = {
   createHeadOptions?: CreateHeadOptions;
 };
 
-export type UnheadPluginCtx = {
-  head: Unhead<SchemaAugmentations>;
-};
-
 export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
-    createCtx: (): UnheadPluginCtx => {
+    hooksForReq: () => {
       const head: Unhead<SchemaAugmentations> = createHead(
         deepmerge(
           {
@@ -37,23 +33,19 @@ export const unheadPlugin = (opts: UnheadPluginOpts = {}) =>
         ),
       );
 
-      return { head };
-    },
+      return {
+        common: {
+          extendCtx: () => ({ useHead: createUseHead(head as any), useSeoMeta: createUseSeoMeta(head as any) }),
+        },
 
-    hooks: {
-      extendAppCtx: ({ ctx }) => {
-        const { head } = ctx as UnheadPluginCtx;
+        server: {
+          emitToDocumentHead: async () => {
+            const { headTags } = await renderSSRHead(head);
 
-        return { useHead: createUseHead(head as any), useSeoMeta: createUseSeoMeta(head as any) };
-      },
-
-      emitToDocumentHead: async ({ ctx }) => {
-        const { head } = ctx as UnheadPluginCtx;
-
-        const { headTags } = await renderSSRHead(head);
-
-        return headTags;
-      },
+            return headTags;
+          },
+        },
+      };
     },
   });
 

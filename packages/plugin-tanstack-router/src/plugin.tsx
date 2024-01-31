@@ -16,43 +16,49 @@ export const tanstackRouterPlugin = () =>
   defineRenderPlugin({
     id: PLUGIN_ID,
 
-    hooks: {
-      renderApp: async ({ req, renderProps }) => {
-        const { router } = renderProps;
+    hooksForReq: ({ req, renderProps }) => {
+      return {
+        common: {
+          renderApp: async () => {
+            const { router } = renderProps;
 
-        /**
-         * SERVER
-         */
-        if (import.meta.env.SSR) {
-          const url = new URL(req.url);
-          const memoryHistory = createMemoryHistory({
-            initialEntries: [url.pathname + url.search],
-          });
+            /**
+             * SERVER
+             */
+            if (import.meta.env.SSR) {
+              const url = new URL(req.url);
+              const memoryHistory = createMemoryHistory({
+                initialEntries: [url.pathname + url.search],
+              });
 
-          router.update({ history: memoryHistory });
+              router.update({ history: memoryHistory });
 
-          // Wait for the router to finish loading critical data
-          await router.load();
+              // Wait for the router to finish loading critical data
+              await router.load();
 
-          return () => <RouterProvider router={router} />;
-        } else {
-          /**
-           * CLIENT
-           */
+              return () => <RouterProvider router={router} />;
+            } else {
+              /**
+               * CLIENT
+               */
 
-          if (!router.state.lastUpdated) {
-            void router.hydrate();
-          }
+              if (!router.state.lastUpdated) {
+                void router.hydrate();
+              }
 
-          return () => <RouterProvider router={router} />;
-        }
-      },
+              return () => <RouterProvider router={router} />;
+            }
+          },
+        },
 
-      emitBeforeStreamChunk: async ({ renderProps }) => {
-        const injectorPromises = renderProps.router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
-        const injectors = await Promise.all(injectorPromises);
-        renderProps.router.injectedHtml = [];
-        return injectors.join('');
-      },
+        server: {
+          emitBeforeStreamChunk: async () => {
+            const injectorPromises = renderProps.router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
+            const injectors = await Promise.all(injectorPromises);
+            renderProps.router.injectedHtml = [];
+            return injectors.join('');
+          },
+        },
+      };
     },
   });

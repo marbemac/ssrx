@@ -8,7 +8,7 @@ import {
 import { RootLayout } from '../default-root.tsx';
 import { renderToStream } from './stream.ts';
 
-export function createApp<P extends RenderPlugin<any, any>[]>(
+export function createApp<P extends RenderPlugin<any>[]>(
   opts: SetOptional<ServerHandlerOpts<P>, 'renderer' | 'RootLayout'>,
 ) {
   return baseCreateApp({
