@@ -35,6 +35,11 @@ export const trpcPlugin = <TRouter extends AnyRouter>({
         common: {
           extendCtx: () => {
             const { queryClient } = ctx as TanstackQueryPluginCtx;
+            if (!queryClient) {
+              throw new Error(
+                'trpcPlugin error: queryClient is not available, make sure the tanstackQueryPlugin is added before the trpcPlugin.',
+              );
+            }
 
             const trpcClient = createTRPCUntypedClient({
               links: buildLinks({

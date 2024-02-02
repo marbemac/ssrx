@@ -146,12 +146,8 @@ type ExtractPluginsAppContext<T extends RenderPlugin<any>[]> = Simplify<
   >
 >;
 
-type ExtractPluginAppContext<T extends RenderPlugin<any>[], K extends T[number]['id']> = ExtractPluginExtendCtxFn<
+type ExtractPluginAppContext<T extends RenderPlugin<any>[], K extends T[number]['id']> = ExtractGenericArg1<
   Extract<T[number], { id: K }>
-> extends (...args: any[]) => infer R
-  ? R
-  : never;
+>;
 
-type ExtractPluginExtendCtxFn<T extends RenderPlugin<any>> = NonNullable<
-  NonNullable<Awaited<ReturnType<NonNullable<T['hooksForReq']>>>>['common']
->['extendCtx'];
+type ExtractGenericArg1<T> = T extends RenderPlugin<infer X> ? X : never;
