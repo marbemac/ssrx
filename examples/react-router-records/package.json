@@ -14,14 +14,14 @@
     "@hono/node-server": "^1.7.0",
     "@ssrx/plugin-react-router": "latest",
     "@ssrx/react": "latest",
-    "hono": "3.12.9",
+    "hono": "3.12.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.21.3"
+    "react-router-dom": "6.22.0"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
-    "@types/react": "18.2.48",
+    "@types/react": "18.2.51",
     "@types/react-dom": "18.2.18",
     "@vitejs/plugin-react": "4.2.1",
     "autoprefixer": "10.4.17",

@@ -2,8 +2,7 @@ import type { EntryContext } from '@remix-run/server-runtime';
 
 import { createReqCtx } from '~api/middleware/context.ts';
 import { createCaller } from '~api/trpc/index.ts';
-
-import { serverHandler } from './app.ts';
+import { serverHandler } from '~app';
 
 export default async function handleRequest(
   request: Request,

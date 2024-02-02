@@ -1,5 +1,4 @@
 import type { AssetHtmlTag } from '@ssrx/vite/runtime';
-import { assetsForRequest, renderAssetsToHtml } from '@ssrx/vite/runtime';
 
 import { ASSETS_PLUGIN_ID, defineRenderPlugin } from '../common.ts';
 
@@ -18,6 +17,8 @@ export const assetsPlugin = () =>
   });
 
 export const injectAssetsToStream = async ({ req }: { req: Request }) => {
+  const { assetsForRequest, renderAssetsToHtml } = await import('@ssrx/vite/runtime');
+
   const assets = await assetsForRequest(req.url);
 
   return {

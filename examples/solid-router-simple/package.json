@@ -17,7 +17,7 @@
     "@solidjs/meta": "~0.29.3",
     "@solidjs/router": "0.11.2",
     "@ssrx/solid": "latest",
-    "hono": "3.12.9",
+    "hono": "3.12.10",
     "solid-js": "1.8.12"
   },
   "devDependencies": {

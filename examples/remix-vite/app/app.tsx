@@ -16,7 +16,10 @@ const { clientHandler, serverHandler, ctx } = createApp({
   abortDelay: 5000,
   plugins: [
     tanstackQueryPlugin({
-      QueryClientProvider,
+      provider: ({ children, queryClient }) => (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      ),
+
       queryClientConfig: {
         defaultOptions: {
           queries: {
@@ -27,7 +30,12 @@ const { clientHandler, serverHandler, ctx } = createApp({
           },
         },
       },
+
+      // @TODO: hydration error with devtools atm..
+      // due to the way react-router works
+      // devTools: { QueryDevtools, options: { buttonPosition: 'bottom-right' } },
     }),
+
     trpcPlugin<AppRouter>({ httpBatchLinkOpts: { url: `/${TRPC_ROOT}` } }),
   ],
 });

@@ -36,6 +36,6 @@
     "@ssrx/renderer": "^0.4.0"
   },
   "devDependencies": {
-    "react-router-dom": "6.21.3"
+    "react-router-dom": "6.22.0"
   }
 }

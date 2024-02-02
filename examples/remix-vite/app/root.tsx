@@ -1,6 +1,6 @@
 import './globals.css';
 
-import { Links, LiveReload, Meta, NavLink, Outlet, Scripts, ScrollRestoration, useNavigate } from '@remix-run/react';
+import { Links, Meta, NavLink, Outlet, Scripts, ScrollRestoration, useNavigate } from '@remix-run/react';
 import { useCallback } from 'react';
 import { $path } from 'remix-routes';
 
@@ -24,7 +24,6 @@ export default function App() {
       <body>
         <AppContainer />
         <ScrollRestoration />
-        <LiveReload />
         <Scripts />
       </body>
     </html>
