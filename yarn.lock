@@ -3405,12 +3405,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solidjs/router@npm:0.10.10":
-  version: 0.10.10
-  resolution: "@solidjs/router@npm:0.10.10"
+"@solidjs/router@npm:0.11.2":
+  version: 0.11.2
+  resolution: "@solidjs/router@npm:0.11.2"
   peerDependencies:
     solid-js: ^1.8.6
-  checksum: bc0e8d5b160b5cc0704574c0194055b712745cad147fe5795e53b80fe44e8b04b4fcd93e75794701d81a299c8d9fdd8eb3473581f7f5e5993b4fb9a69c9e2ffb
+  checksum: d367a1ed1f04eea58b48990d15e49957dacab35446cb5661d4971fe1cac0a46209ea8e58d2f0752956222cfa043c3261d497d932d387e056259c5f2625f8529b
   languageName: node
   linkType: hard
 
@@ -3438,7 +3438,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-solid-router@workspace:packages/plugin-solid-router"
   dependencies:
-    "@solidjs/router": "npm:0.10.10"
+    "@solidjs/router": "npm:0.11.2"
     "@ssrx/renderer": "npm:^0.4.0"
     esbuild-plugin-solid: "npm:0.5.0"
   peerDependencies:
@@ -3585,7 +3585,7 @@ __metadata:
     "@ssrx/vite": "npm:^0.6.0"
     solid-js: "npm:1.8.12"
   peerDependencies:
-    solid-js: "*"
+    solid-js: ">=1.8"
   languageName: unknown
   linkType: soft
 
@@ -14354,7 +14354,7 @@ __metadata:
   dependencies:
     "@hono/node-server": "npm:^1.7.0"
     "@solidjs/meta": "npm:~0.29.3"
-    "@solidjs/router": "npm:0.10.10"
+    "@solidjs/router": "npm:0.11.2"
     "@ssrx/solid": "npm:latest"
     "@ssrx/vite": "npm:latest"
     hono: "npm:3.12.9"
