@@ -34,6 +34,16 @@
       "types": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "default": "./dist/server/index.js"
+    },
+    "./assets": {
+      "types": "./src/server/assets.ts",
+      "bun": "./src/server/assets.ts",
+      "node": "./dist/server/assets.js",
+      "worker": "./dist/server/assets.js",
+      "workerd": "./dist/server/assets.js",
+      "deno": "./dist/server/assets.js",
+      "edge": "./dist/server/assets.js",
+      "default": "./dist/client/assets.js"
     }
   },
   "scripts": {

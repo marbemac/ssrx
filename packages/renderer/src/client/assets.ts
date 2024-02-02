@@ -4,3 +4,7 @@ export const assetsPlugin = () =>
   defineRenderPlugin({
     id: ASSETS_PLUGIN_ID,
   });
+
+export const injectAssetsToStream = async () => {
+  return {};
+};

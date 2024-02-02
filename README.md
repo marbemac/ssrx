@@ -193,7 +193,8 @@ streamed application. For example:
 
 ```tsx
 // In this case we're using the `react` renderer, which simply wraps @ssrx/renderer with a react specific stream function
-import { createApp, assetsPlugin } from '@ssrx/react';
+import { createApp } from '@ssrx/react';
+import { assetsPlugin } from '@ssrx/renderer/assets';
 
 export const { clientHandler, serverHandler, ctx } = createApp({
   // Usually a router plugin will provide the appRenderer, but you can always provide your own if needed
