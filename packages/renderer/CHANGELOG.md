@@ -1,5 +1,13 @@
 # @ssrx/renderer
 
+## 0.4.1
+
+### Patch Changes
+
+- [`5bc83b1`](https://github.com/marbemac/ssrx/commit/5bc83b164ec0bd53ce0d08027151ee0be965454e) Thanks
+  [@marbemac](https://github.com/marbemac)! - Improve renderer ctx typings to resolve "Type instantiation is excessively
+  deep and possibly infinite" issue.
+
 ## 0.4.0
 
 ### Minor Changes
