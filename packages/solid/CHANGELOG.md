@@ -1,5 +1,13 @@
 # @ssrx/solid
 
+## 0.4.1
+
+### Patch Changes
+
+- [`973c8c0`](https://github.com/marbemac/ssrx/commit/973c8c0415bfa40365a2e363cc60e21503904a8b) Thanks
+  [@marbemac](https://github.com/marbemac)! - Wrap the stream in the solid request event async ctx so that cache
+  function from solid-router can be used in v0.11+.
+
 ## 0.4.0
 
 ### Minor Changes
