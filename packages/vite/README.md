@@ -27,10 +27,9 @@ A Vite plugin that improves the DX of developing SSR apps.
 ## Examples
 
 The SSRx Vite plugin is barebones and (mostly) unopinionated by design, and can be used standalone. See the
-[`bun-react-router`](/examples/bun-react-router/README.md),
-[`react-router-simple`](/examples/react-router-simple/README.md),
-[`tanstack-router-simple`](/examples/tanstack-router-simple/README.md), and
-[`solid-router-simple`](/examples/solid-router-simple/README.md) examples.
+[`bun-react-router`](/examples/bun-react-router), [`react-router-simple`](/examples/react-router-simple),
+[`tanstack-router-simple`](/examples/tanstack-router-simple), and [`solid-router-simple`](/examples/solid-router-simple)
+examples.
 
 ## Usage
 
@@ -118,7 +117,7 @@ type Route = {
 ```
 
 `react-router` and `solid-router` both conform to this shape out of the box. You can provide your own `routerAdapter` if
-your routes config does not - see [plugin-tanstack-router](/packages/plugin-tanstack-router/README.md) for an example.
+your routes config does not - see [plugin-tanstack-router](/packages/plugin-tanstack-router) for an example.
 
 </details>
 

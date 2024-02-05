@@ -5,8 +5,8 @@ agnostic way. It is client and server framework agnostic, so long as the server 
 AsyncLocalStorage (node 18+, bun, deno, cloudflare, vercel, etc). A handful of renderer plugins for common libraries are
 maintained in this repo.
 
-See the [react-router-kitchen-sink](/examples/react-router-kitchen-sink/README.md) and
-[remix-vite](/examples/remix-vite/README.md) examples for a look at how everything can work together in practice.
+See the [react-router-kitchen-sink](/examples/react-router-kitchen-sink) and [remix-vite](/examples/remix-vite) examples
+for a look at how everything can work together in practice.
 
 ## Usage
 
