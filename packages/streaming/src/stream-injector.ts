@@ -8,9 +8,31 @@ import {
 } from './stream-utils.ts';
 
 export type StreamInjectorHooks = {
+  /**
+   * Return a string to emit some HTML into the SSR stream just before the document's closing </head> tag.
+   *
+   * Called once per request.
+   */
   emitToDocumentHead?: () => Promise<string | undefined> | string | undefined;
+
+  /**
+   * Return a string to emit into the SSR stream just before the rendering
+   * framework (react, solid, etc) emits a chunk of the page.
+   *
+   * Called one or more times per request.
+   */
   emitBeforeStreamChunk?: () => Promise<string | undefined> | string | undefined;
+
+  /**
+   * Return a string to emit some HTML to the document body, after the client renderer's first flush.
+   *
+   * Called once per request.
+   */
   emitToDocumentBody?: () => Promise<string | undefined> | string | undefined;
+
+  /**
+   * Runs when the stream is done processing.
+   */
   onStreamComplete?: () => Promise<void> | void;
 };
 

@@ -1,4 +1,4 @@
-# @ssrx/trpc-react
+# @ssrx/trpc-react-query
 
 Similar https://github.com/trpc/trpc/tree/main/packages/react-query, with the following major changes:
 
