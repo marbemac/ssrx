@@ -1,5 +1,12 @@
 # @ssrx/react
 
+## 0.3.1
+
+### Patch Changes
+
+- [`a3ebb2d`](https://github.com/marbemac/ssrx/commit/a3ebb2d215b220591f457af8a373a96ab5393438) Thanks
+  [@marbemac](https://github.com/marbemac)! - Require @ssrx/renderer >= 0.4
+
 ## 0.3.0
 
 ### Minor Changes
