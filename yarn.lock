@@ -3507,7 +3507,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/react@workspace:packages/react"
   dependencies:
-    "@ssrx/renderer": "npm:^0.4.0"
+    "@ssrx/renderer": "npm:^0.4.1"
     "@ssrx/streaming": "npm:^0.2.0"
     "@ssrx/vite": "npm:^0.6.0"
     esbuild: "npm:0.20.0"
@@ -3583,7 +3583,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/solid@workspace:packages/solid"
   dependencies:
-    "@ssrx/renderer": "npm:^0.4.0"
+    "@ssrx/renderer": "npm:^0.4.1"
     "@ssrx/streaming": "npm:^0.2.0"
     "@ssrx/vite": "npm:^0.6.0"
     solid-js: "npm:1.8.12"

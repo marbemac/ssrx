@@ -50,7 +50,7 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.4.0",
+    "@ssrx/renderer": "^0.4.1",
     "@ssrx/streaming": "^0.2.0",
     "@ssrx/vite": "^0.6.0",
     "isbot-fast": "1.2.0"
