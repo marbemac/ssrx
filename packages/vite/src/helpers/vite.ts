@@ -179,7 +179,7 @@ const ASSET_REGEXES = {
   cssModules: /\.module\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/,
   external: /\/(node_modules|inc)\/.*/,
   static: /\.(txt|ico|svg|webp|png|jpg|jpeg|gif|mp3)$/,
-  runtime: /\.(js|ts|tsx|jsx)$/,
+  runtime: /\.(js|ts|tsx|jsx|svelte)$/,
 
   // Vite plugins generally use `/@xyz/...` as the prefix for their assets
   // SOME vite plugins, however, use a nul character \0, for example this one:
