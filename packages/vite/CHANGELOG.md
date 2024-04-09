@@ -1,5 +1,18 @@
 # @ssrx/vite
 
+## 0.6.1
+
+### Patch Changes
+
+- [#29](https://github.com/marbemac/ssrx/pull/29)
+  [`4a39bbf`](https://github.com/marbemac/ssrx/commit/4a39bbf7597bd041c436c36da79f2d6c0519fdc6) Thanks
+  [@jurijzahn8019](https://github.com/jurijzahn8019)! - add svelte files to runtime regex
+
+- [#30](https://github.com/marbemac/ssrx/pull/30)
+  [`d91b9ff`](https://github.com/marbemac/ssrx/commit/d91b9fffe4fd82142350f1402a580bf21750f1a9) Thanks
+  [@jurijzahn8019](https://github.com/jurijzahn8019)! - pass through all rest parameters to the fetch function. those
+  are needed for tracing purposes
+
 ## 0.6.0
 
 ### Minor Changes
