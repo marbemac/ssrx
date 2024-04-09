@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/vite",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "sideEffects": false,
   "type": "module",
   "keywords": [
