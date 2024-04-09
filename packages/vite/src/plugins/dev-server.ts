@@ -41,7 +41,7 @@ export type DevServerOptions = {
   config: Config;
 };
 
-type Fetch = (request: Request) => Promise<Response>;
+type Fetch = (request: Request, ...args: unknown[]) => Promise<Response>;
 
 function createMiddleware(server: ViteDevServer, options: DevServerOptions): Promise<Connect.HandleFunction> {
   // @ts-expect-error ignore
@@ -74,8 +74,8 @@ function createMiddleware(server: ViteDevServer, options: DevServerOptions): Pro
     }
 
     void getRequestListener(
-      async (request: Request) => {
-        const response = await app!.fetch(request);
+      async (request: Request, ...args) => {
+        const response = await app!.fetch(request, ...args);
 
         // Allow the server to pass rendering errors through in development
         // we pass these through to vite to display in the error overlay
