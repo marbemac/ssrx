@@ -5,6 +5,7 @@ import { rand, sleep } from '~/utils.ts';
 
 export const Route = createFileRoute('/')({
   loader: async () => {
+    console.log('home loader called');
     const deferred = loadData(1000, 'deferred');
     const critical = await loadData(100, 'critical');
 

@@ -4,6 +4,7 @@ import { getMember, sleep } from '~/utils.ts';
 
 export const Route = createFileRoute('/admin/members/$memberId')({
   loader: async ({ params: { memberId } }) => {
+    console.info('/admin/members/$memberId loader called with id:', memberId);
     await sleep();
 
     const member = getMember(Number(memberId));

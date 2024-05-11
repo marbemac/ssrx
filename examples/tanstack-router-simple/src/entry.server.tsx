@@ -2,7 +2,6 @@ import { renderAssets } from '@ssrx/react/server';
 import { assetsForRequest } from '@ssrx/vite/runtime';
 import { createMemoryHistory, RouterProvider } from '@tanstack/react-router';
 
-// import { StrictMode } from 'react';
 import { createRouter } from '~/router.tsx';
 
 export async function render(req: Request) {

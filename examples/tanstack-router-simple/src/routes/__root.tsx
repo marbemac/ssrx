@@ -2,8 +2,9 @@ import './__root.css';
 
 import type { ErrorComponentProps } from '@tanstack/react-router';
 import { createRootRouteWithContext, ErrorComponent, Link, Outlet, useRouter } from '@tanstack/react-router';
-import { Meta } from '@tanstack/react-router-server/client';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+// @ts-expect-error no types
+import jsesc from 'jsesc';
 
 import type { RootRouterContext } from '~/router.ts';
 
@@ -21,8 +22,6 @@ function RootComponent() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <Meta />
 
         {headTags?.()}
       </head>
@@ -78,6 +77,12 @@ export function DehydrateRouter() {
     payload: router.options.dehydrate?.(),
   };
 
+  // Use jsesc to escape the stringified JSON for use in a script tag
+  const stringified = jsesc(router.options.transformer.stringify(dehydrated), {
+    isScriptContext: true,
+    wrap: true,
+  });
+
   return (
     <script
       id="__TSR_DEHYDRATED__"
@@ -85,7 +90,7 @@ export function DehydrateRouter() {
       dangerouslySetInnerHTML={{
         __html: `
           window.__TSR_DEHYDRATED__ = {
-            data: ${JSON.stringify(router.options.transformer.stringify(dehydrated))}
+            data: ${stringified}
           }
         `,
       }}
