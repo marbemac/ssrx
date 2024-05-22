@@ -18,8 +18,8 @@ const server = new Hono()
       const { app, router } = await entry.render(c.req.raw);
 
       // Handle redirects
-      if (router.state.redirect && router.state.redirect?.to) {
-        return c.redirect(router.state.redirect?.to);
+      if (router.state.redirect) {
+        return c.redirect(router.state.redirect.href);
       }
 
       const { stream, statusCode } = await renderToStream({
