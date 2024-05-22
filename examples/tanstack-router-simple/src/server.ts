@@ -17,6 +17,11 @@ const server = new Hono()
     try {
       const { app, router } = await entry.render(c.req.raw);
 
+      // Handle redirects
+      if (router.state.redirect && router.state.redirect?.to) {
+        return c.redirect(router.state.redirect?.to);
+      }
+
       const { stream, statusCode } = await renderToStream({
         app: () => app,
         req: c.req.raw,
@@ -39,7 +44,7 @@ const server = new Hono()
 
       let status = statusCode();
 
-      // Handle redirects
+      // Handle 404 errors
       if (router.hasNotFoundMatch() && status !== 500) status = 404;
 
       return new Response(stream, { status, headers: { 'Content-Type': 'text/html' } });
