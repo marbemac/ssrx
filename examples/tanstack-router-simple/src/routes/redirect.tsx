@@ -26,12 +26,16 @@ function RedirectComponent() {
         well on first load when relevant.
       </p>
 
-      <p>NOTE: the server side of things doesn't seem to be working atm. Could be an issue in tanstack router.</p>
+      <p>
+        <Link to="/redirect" search={{ doRedirect: true }} className="text-blue-700">
+          Client Side Redirect
+        </Link>
+      </p>
 
       <p>
-        <Link to="/redirect" search={{ doRedirect: true }}>
-          Redirect
-        </Link>
+        <a href="/redirect?doRedirect=true" className="text-blue-700">
+          Server Side Redirect
+        </a>
       </p>
     </div>
   );
