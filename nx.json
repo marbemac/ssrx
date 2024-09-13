@@ -1,8 +1,7 @@
 {
   "extends": "nx/presets/npm.json",
-  "affected": {
-    "defaultBase": "main"
-  },
+  "defaultBase": "main",
+  "useInferencePlugins": false,
   "workspaceLayout": {
     "appsDir": "examples",
     "libsDir": "packages"

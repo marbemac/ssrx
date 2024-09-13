@@ -28,9 +28,7 @@ server.get('*', async c => {
      * Handle react-router redirects
      */
     if (err instanceof Response && err.status >= 300 && err.status <= 399) {
-      c.set.status = err.status;
-      c.set.redirect = err.headers.get('Location') || '/';
-      return;
+      return c.redirect(err.headers.get('Location') || '/', err.status as any);
     }
 
     /**

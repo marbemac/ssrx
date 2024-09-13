@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@ssrx/renderer": "^0.4.0",
-    "devalue": "^4.3.2"
+    "devalue": "^5.0.0"
   },
   "devDependencies": {
     "@tanstack/query-core": "^5.56.2"

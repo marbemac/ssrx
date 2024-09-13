@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "@ssrx/renderer": "^0.4.0",
-    "@unhead/addons": "~1.8.10",
-    "@unhead/schema": "~1.8.10",
-    "@unhead/ssr": "~1.8.10",
-    "unhead": "~1.8.20"
+    "@unhead/addons": "~1.11.2",
+    "@unhead/schema": "~1.11.2",
+    "@unhead/ssr": "~1.11.2",
+    "unhead": "~1.11.2"
   }
 }

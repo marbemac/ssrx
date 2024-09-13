@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "~0.6.1",
-    "esbuild": "0.20.0",
+    "esbuild": "0.23.1",
     "rollup": "4.21.3",
     "rollup-plugin-esbuild": "6.1.1",
-    "vite": "5.4.4"
+    "vite": "5.4.5"
   }
 }

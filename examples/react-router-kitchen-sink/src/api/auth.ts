@@ -3,12 +3,25 @@
 // import 'lucia/polyfill/node';
 
 import { betterSqlite3 } from '@lucia-auth/adapter-sqlite';
-import { lucia } from 'lucia';
-import { hono } from 'lucia/middleware';
+import type { Context } from 'hono';
+import { lucia, type Middleware } from 'lucia';
 
 import { sqliteDatabase } from '~/api/db/client.ts';
 
 export type Auth = typeof auth;
+
+// Adapted for hono v4
+const hono = (): Middleware<[Context]> => {
+  return ({ args }) => {
+    const [context] = args;
+    return {
+      request: context.req.raw,
+      setCookie: cookie => {
+        context.header('Set-Cookie', cookie.serialize());
+      },
+    };
+  };
+};
 
 export const auth = lucia({
   env: import.meta.env.DEV ? 'DEV' : 'PROD',
