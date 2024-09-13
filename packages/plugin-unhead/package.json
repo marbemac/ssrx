@@ -31,6 +31,6 @@
     "@unhead/addons": "~1.8.10",
     "@unhead/schema": "~1.8.10",
     "@unhead/ssr": "~1.8.10",
-    "unhead": "~1.8.10"
+    "unhead": "~1.8.20"
   }
 }

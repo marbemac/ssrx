@@ -1,6 +1,6 @@
 import { tanstackRouterAdapter } from '@ssrx/plugin-tanstack-router/adapter';
 import { ssrx } from '@ssrx/vite/plugin';
-import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';

@@ -1,10 +1,16 @@
 import './__root.css';
 
 import type { ErrorComponentProps } from '@tanstack/react-router';
-import { createRootRouteWithContext, ErrorComponent, Link, Outlet, useRouter } from '@tanstack/react-router';
+import {
+  createRootRouteWithContext,
+  ErrorComponent,
+  Link,
+  Outlet,
+  ScrollRestoration,
+  useRouter,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-// @ts-expect-error no types
-import jsesc from 'jsesc';
+import { Meta } from '@tanstack/start';
 
 import type { RootRouterContext } from '~/router.ts';
 
@@ -24,6 +30,8 @@ function RootComponent() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {headTags?.()}
+
+        <Meta />
       </head>
 
       <body>
@@ -51,9 +59,9 @@ function RootComponent() {
           <Outlet />
         </div>
 
-        <DehydrateRouter />
+        <ScrollRestoration />
 
-        <TanStackRouterDevtools />
+        <TanStackRouterDevtools position="bottom-right" />
 
         {bodyTags?.()}
       </body>
@@ -67,33 +75,4 @@ function RootErrorComponent({ error }: ErrorComponentProps) {
   }
 
   return <ErrorComponent error={error} />;
-}
-
-export function DehydrateRouter() {
-  const router = useRouter();
-
-  const dehydrated = router.dehydratedData || {
-    router: router.dehydrate(),
-    payload: router.options.dehydrate?.(),
-  };
-
-  // Use jsesc to escape the stringified JSON for use in a script tag
-  const stringified = jsesc(router.options.transformer.stringify(dehydrated), {
-    isScriptContext: true,
-    wrap: true,
-  });
-
-  return (
-    <script
-      id="__TSR_DEHYDRATED__"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: `
-          window.__TSR_DEHYDRATED__ = {
-            data: ${stringified}
-          }
-        `,
-      }}
-    />
-  );
 }

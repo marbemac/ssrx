@@ -4,8 +4,12 @@ import { Suspense } from 'react';
 import { rand, sleep } from '~/utils.ts';
 
 export const Route = createFileRoute('/')({
+  meta: () => [
+    {
+      title: 'Home',
+    },
+  ],
   loader: async () => {
-    console.log('home loader called');
     const deferred = loadData(1000, 'deferred');
     const critical = await loadData(100, 'critical');
 
@@ -15,11 +19,6 @@ export const Route = createFileRoute('/')({
     };
   },
   component: IndexComponent,
-  meta: () => [
-    {
-      title: 'Home',
-    },
-  ],
 });
 
 function IndexComponent() {
