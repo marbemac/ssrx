@@ -46,8 +46,8 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-error-boundary": "4.0.13",
-    "react-router-dom": "6.22.0",
-    "react-router-typesafe-routes": "1.2.1",
+    "react-router-dom": "6.26.2",
+    "react-router-typesafe-routes": "1.2.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "valibot": "0.41.0"

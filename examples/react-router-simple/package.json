@@ -18,7 +18,7 @@
     "hono": "4.6.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.22.0"
+    "react-router-dom": "6.26.2"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
