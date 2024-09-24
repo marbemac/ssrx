@@ -18,7 +18,7 @@ export const ActionBar = ({
   trailingActions?: React.ReactNode;
 }) => {
   const navigate = useNavigate();
-  const { data } = ctx.trpc.auth.me.useQuery();
+  const { data } = ctx.trpc.auth.me.useSuspenseQuery();
   if (!data) return null;
 
   return (

@@ -1,4 +1,3 @@
-import { deepmerge } from '@ssrx/renderer';
 import { QueryCache, QueryClient, type QueryClientConfig } from '@tanstack/query-core';
 
 type CreateQueryClientOpts = {
@@ -24,14 +23,7 @@ export const createQueryClient = ({ trackedQueries, blockingQueries, clientConfi
 
   const queryClient: QueryClient = new QueryClient({
     queryCache,
-    defaultOptions: deepmerge(
-      {
-        queries: {
-          suspense: true,
-        },
-      },
-      clientConfig?.defaultOptions || {},
-    ),
+    defaultOptions: clientConfig?.defaultOptions || {},
   });
 
   if (trackedQueries && import.meta.env.SSR) {

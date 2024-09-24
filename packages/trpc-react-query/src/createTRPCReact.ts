@@ -28,6 +28,7 @@ import {
   type UseTRPCMutationResult,
   type UseTRPCQueryResult,
   type UseTRPCSubscriptionOptions,
+  type UseTRPCSuspenseQueryResult,
 } from './createHooksInternal.tsx';
 import { createSolidProxyDecoration } from './decorationProxy.ts';
 import type {
@@ -36,6 +37,7 @@ import type {
   UseTRPCInfiniteQueryOptions,
   UseTRPCMutationOptions,
   UseTRPCQueryOptions,
+  UseTRPCSuspenseQueryOptions,
 } from './types.ts';
 
 /**
@@ -57,6 +59,17 @@ export type DecorateProcedure<
           TRPCClientErrorLike<TProcedure>
         >,
       ) => UseTRPCQueryResult<TData, TRPCClientErrorLike<TProcedure>>;
+
+      useSuspenseQuery: <TOutput = inferProcedureOutput<TProcedure>, TData = inferProcedureOutput<TProcedure>>(
+        input: inferProcedureInput<TProcedure>,
+        opts?: UseTRPCSuspenseQueryOptions<
+          TPath,
+          inferProcedureInput<TProcedure>,
+          TOutput,
+          TData,
+          TRPCClientErrorLike<TProcedure>
+        >,
+      ) => UseTRPCSuspenseQueryResult<TData, TRPCClientErrorLike<TProcedure>>;
 
       fetchQuery<TOutput = inferProcedureOutput<TProcedure>>(
         input: inferProcedureInput<TProcedure>,

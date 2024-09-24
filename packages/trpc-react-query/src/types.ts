@@ -5,8 +5,9 @@ import type {
   MutationOptions,
   QueryClient,
   QueryKey,
-  QueryObserverOptions,
   UseInfiniteQueryOptions,
+  UseQueryOptions,
+  UseSuspenseQueryOptions,
 } from '@tanstack/react-query';
 import type { TRPCRequestOptions, TRPCUntypedClient } from '@trpc/client';
 import type { AnyRouter, MaybePromise } from '@trpc/server';
@@ -57,7 +58,7 @@ export type CreateQueryOptions<
   TError = unknown,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
-> = OmitUseless<QueryObserverOptions<TQueryFnData, TError, TData, TQueryKey>>;
+> = OmitUseless<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>>;
 
 export type CreateInfiniteQueryOptions<
   TQueryFnData = unknown,
@@ -65,6 +66,13 @@ export type CreateInfiniteQueryOptions<
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
 > = OmitUseless<UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryFnData, TQueryKey>>;
+
+export type CreateSuspenseQueryOptions<
+  TQueryFnData = unknown,
+  TError = unknown,
+  TData = TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey,
+> = OmitUseless<UseSuspenseQueryOptions<TQueryFnData, TError, TData, TQueryKey>>;
 
 export type CreateMutationOptions<TInput, TError, TOutput, TContext = unknown> = OmitUseless<
   MutationOptions<TInput, TError, TOutput, TContext>
@@ -77,6 +85,10 @@ export interface UseTRPCInfiniteQueryOptions<TPath, TInput, TOutput, TError>
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface UseTRPCQueryOptions<TPath, TInput, TOutput, TData, TError>
   extends CreateQueryOptions<TOutput, TError, TData, [TPath, TInput]> {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UseTRPCSuspenseQueryOptions<TPath, TInput, TOutput, TData, TError>
+  extends CreateSuspenseQueryOptions<TOutput, TError, TData, [TPath, TInput]> {}
 
 export interface UseTRPCMutationOptions<TInput, TError, TOutput, TContext = unknown>
   extends CreateMutationOptions<TInput, TError, TOutput, TContext> {}

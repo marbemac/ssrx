@@ -73,7 +73,7 @@ export function Component() {
 const AddArticleButton = ({ onSuccess }: { onSuccess?: (article: RouterOutputs['articles']['create']) => void }) => {
   const { toast } = useToast();
 
-  const { data } = ctx.trpc.auth.me.useQuery();
+  const { data } = ctx.trpc.auth.me.useSuspenseQuery();
   const isLoggedIn = !!data;
 
   const mut = ctx.trpc.articles.create.useMutation({
@@ -125,7 +125,7 @@ const AddArticleButton = ({ onSuccess }: { onSuccess?: (article: RouterOutputs['
 };
 
 const LoginButton = () => {
-  const { data, isLoading } = ctx.trpc.auth.me.useQuery();
+  const { data, isLoading } = ctx.trpc.auth.me.useSuspenseQuery();
   const login = ctx.trpc.auth.login.useMutation({
     onSuccess: () => {
       // invalidate the entire query cache on login/logout
@@ -156,7 +156,7 @@ const LoginButton = () => {
 };
 
 const LogoutButton = () => {
-  const { data } = ctx.trpc.auth.me.useQuery();
+  const { data } = ctx.trpc.auth.me.useSuspenseQuery();
   const logout = ctx.trpc.auth.logout.useMutation({
     onSuccess: () => {
       // invalidate the entire query cache on login/logout

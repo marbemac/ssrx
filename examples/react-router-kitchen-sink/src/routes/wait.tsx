@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
 import { Counter } from '~/components/counter.tsx';
@@ -66,7 +66,7 @@ export function Component() {
 }
 
 function useWaitQuery(props: { wait: number; deferStream?: boolean; simulateErrorOnServer?: boolean }) {
-  const query = useQuery({
+  const query = useSuspenseQuery({
     queryKey: ['wait', props.wait, props.simulateErrorOnServer],
     meta: { deferStream: props.deferStream },
     queryFn: async () => {

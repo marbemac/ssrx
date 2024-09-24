@@ -15,7 +15,7 @@ export default function Articles() {
     <div className="flex divide-x flex-1">
       <div className="flex-1">
         <QueryBoundary
-          query={() => ctx.trpc.articles.list.useQuery()}
+          query={() => ctx.trpc.articles.list.useSuspenseQuery()}
           loadingFallback={
             <div className="p-10 text-muted-foreground">Loading articles (with simulated latency)...</div>
           }

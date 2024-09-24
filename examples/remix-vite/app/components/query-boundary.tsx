@@ -1,9 +1,9 @@
-import type { UseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult, UseSuspenseQueryResult } from '@tanstack/react-query';
 import { type ReactNode, Suspense, useCallback } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 
 export type QueryBoundaryProps<T = unknown> = {
-  query: () => UseQueryResult<T, unknown>;
+  query: () => UseQueryResult<T, unknown> | UseSuspenseQueryResult<T, unknown>;
 
   /**
    * Triggered when the data is initially loading.

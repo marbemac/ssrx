@@ -12,6 +12,8 @@ import {
   type UseMutationResult,
   useQuery as __useQuery,
   type UseQueryResult,
+  useSuspenseQuery as __useSuspenseQuery,
+  type UseSuspenseQueryResult,
 } from '@tanstack/react-query';
 import { type TRPCClientErrorLike } from '@trpc/client';
 import type {
@@ -33,6 +35,7 @@ import type {
   UseTRPCInfiniteQueryOptions,
   UseTRPCMutationOptions,
   UseTRPCQueryOptions,
+  UseTRPCSuspenseQueryOptions,
 } from './types.ts';
 
 export interface UseTRPCSubscriptionOptions<TOutput, TError> {
@@ -66,6 +69,11 @@ type inferProcedures<TObj extends ProcedureRecord> = {
  * @internal
  */
 export type UseTRPCQueryResult<TData, TError> = UseQueryResult<TData, TError>;
+
+/**
+ * @internal
+ */
+export type UseTRPCSuspenseQueryResult<TData, TError> = UseSuspenseQueryResult<TData, TError>;
 
 /**
  * @internal
@@ -183,7 +191,27 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
         ...(opts as any),
       },
       queryClient,
-    ) as UseTRPCQueryResult<TData, TError>;
+    ) satisfies UseTRPCQueryResult<TData, TError>;
+  }
+
+  function useSuspenseQuery<
+    TPath extends keyof TQueryValues & string,
+    TQueryFnData = TQueryValues[TPath]['output'],
+    TData = TQueryValues[TPath]['output'],
+  >(
+    pathAndInput: [path: TPath, ...args: inferHandlerInput<TQueries[TPath]>],
+    opts?: UseTRPCSuspenseQueryOptions<TPath, TQueryValues[TPath]['input'], TQueryFnData, TData, TError>,
+  ): UseTRPCSuspenseQueryResult<TData, TError> {
+    return __useSuspenseQuery(
+      {
+        queryKey: getArrayQueryKey(pathAndInput, 'query'),
+        queryFn: () => {
+          return (config.client as any).query(...getClientArgs(pathAndInput, opts));
+        },
+        ...(opts as any),
+      },
+      queryClient,
+    ) satisfies UseTRPCSuspenseQueryResult<TData, TError>;
   }
 
   function useMutation<TPath extends keyof TMutationValues & string, TContext = unknown>(
@@ -212,7 +240,12 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
         },
       },
       queryClient,
-    ) as UseTRPCMutationResult<TMutationValues[TPath]['output'], TError, TMutationValues[TPath]['input'], TContext>;
+    ) satisfies UseTRPCMutationResult<
+      TMutationValues[TPath]['output'],
+      TError,
+      TMutationValues[TPath]['input'],
+      TContext
+    >;
   }
 
   /**
@@ -287,7 +320,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
         ...(opts as any),
       },
       queryClient,
-    ) as UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError>;
+    ) satisfies UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError>;
   }
 
   return {
@@ -301,6 +334,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(config: CreateTRP
     useMutation,
     useSubscription,
     useInfiniteQuery,
+    useSuspenseQuery,
   };
 }
 

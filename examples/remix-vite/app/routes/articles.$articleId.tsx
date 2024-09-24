@@ -12,7 +12,7 @@ export default function ArticlePage() {
     <div>
       <QueryBoundary
         loadingFallback={<div className="text-muted-foreground">Loading article (with simulated latency)...</div>}
-        query={() => ctx.trpc.articles.byId.useQuery({ id: articleId! })}
+        query={() => ctx.trpc.articles.byId.useSuspenseQuery({ id: articleId! })}
       >
         {data => <Article article={data} />}
       </QueryBoundary>
