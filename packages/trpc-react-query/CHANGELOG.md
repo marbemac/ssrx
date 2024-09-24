@@ -1,5 +1,14 @@
 # @ssrx/trpc-react
 
+## 0.3.0
+
+### Minor Changes
+
+- [`da6fec0`](https://github.com/marbemac/ssrx/commit/da6fec0fd261b56796e6665af0efbf884ac7e476) Thanks
+  [@marbemac](https://github.com/marbemac)! - Per tanstack query recommendations, stop using the suspense: true option
+  by default. Thus you must change your .useQuery() instances to .useSuspenseQuery() if you would like to preserve the
+  SSR data fetching.
+
 ## 0.2.0
 
 ### Minor Changes
