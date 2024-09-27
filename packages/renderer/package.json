@@ -16,34 +16,28 @@
   ],
   "exports": {
     ".": {
-      "types": "./src/server/index.ts",
-      "bun": "./src/server/index.ts",
-      "node": "./dist/server/index.js",
-      "worker": "./dist/server/index.js",
-      "workerd": "./dist/server/index.js",
-      "deno": "./dist/server/index.js",
-      "edge": "./dist/server/index.js",
-      "default": "./dist/client/index.js"
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./assets": {
+      "types": "./src/assets/index.ts",
+      "development": "./src/assets/index.ts",
+      "bun": "./src/assets/index.ts",
+      "default": "./dist/assets/index.js"
     },
     "./client": {
       "types": "./src/client/index.ts",
+      "development": "./src/client/index.ts",
       "bun": "./src/client/index.ts",
       "default": "./dist/client/index.js"
     },
     "./server": {
       "types": "./src/server/index.ts",
+      "development": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "default": "./dist/server/index.js"
-    },
-    "./assets": {
-      "types": "./src/server/assets.ts",
-      "bun": "./src/server/assets.ts",
-      "node": "./dist/server/assets.js",
-      "worker": "./dist/server/assets.js",
-      "workerd": "./dist/server/assets.js",
-      "deno": "./dist/server/assets.js",
-      "edge": "./dist/server/assets.js",
-      "default": "./dist/client/assets.js"
     }
   },
   "scripts": {
@@ -57,10 +51,11 @@
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
-    "@types/node": "22.5.4",
+    "@types/node": "22.7.4",
     "esbuild": "0.23.1",
-    "rollup": "4.21.3",
+    "rollup": "4.22.5",
     "rollup-plugin-esbuild": "6.1.1",
-    "type-fest": "4.26.1"
+    "type-fest": "4.26.1",
+    "vite-env-only": "3.0.3"
   }
 }

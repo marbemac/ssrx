@@ -17,11 +17,13 @@
   "exports": {
     ".": {
       "types": "./src/index.ts",
+      "development": "./src/index.ts",
       "bun": "./src/index.ts",
       "import": "./dist/index.js"
     },
     "./adapter": {
       "types": "./src/adapter.ts",
+      "development": "./src/adapter.ts",
       "bun": "./src/adapter.ts",
       "import": "./dist/adapter.js"
     }
@@ -35,6 +37,9 @@
   },
   "peerDependencies": {
     "@tanstack/react-router": ">=1.57"
+  },
+  "dependencies": {
+    "@ssrx/renderer": "^0.4.0"
   },
   "devDependencies": {
     "@ssrx/vite": "^0.6.0",

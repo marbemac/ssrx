@@ -2,7 +2,7 @@ import esbuild from 'rollup-plugin-esbuild';
 
 const bundle = config => ({
   ...config,
-  input: ['src/client/index.ts', 'src/server/index.ts'],
+  input: ['src/index.ts', 'src/server/index.ts'],
   external: id => !/^[./]/.test(id),
 });
 

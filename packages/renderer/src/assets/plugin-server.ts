@@ -1,24 +1,19 @@
-import type { AssetHtmlTag } from '@ssrx/vite/runtime';
+import { assetsForRequest, renderAssetsToHtml } from '@ssrx/vite/runtime';
+import { serverOnly$ } from 'vite-env-only/macros';
 
 import { ASSETS_PLUGIN_ID, defineRenderPlugin } from '../common.ts';
 
-export type AssetsPluginCtx = {
-  headAssets: AssetHtmlTag[];
-  bodyAssets: AssetHtmlTag[];
-};
-
-export const assetsPlugin = () =>
-  defineRenderPlugin({
+export const assetsPluginServer = serverOnly$(() => {
+  return defineRenderPlugin({
     id: ASSETS_PLUGIN_ID,
 
     hooksForReq: async ({ req }) => ({
       server: await injectAssetsToStream({ req }),
     }),
   });
+});
 
-export const injectAssetsToStream = async ({ req }: { req: Request }) => {
-  const { assetsForRequest, renderAssetsToHtml } = await import('@ssrx/vite/runtime');
-
+const injectAssetsToStream = async ({ req }: { req: Request }) => {
   const assets = await assetsForRequest(req.url);
 
   return {

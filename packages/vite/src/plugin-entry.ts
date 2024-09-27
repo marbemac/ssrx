@@ -1,4 +1,5 @@
 import type { PluginOption } from 'vite';
+import { envOnlyMacros } from 'vite-env-only';
 
 import { Config } from './config.ts';
 import { defaultRouterAdapter } from './default-router-adapter.ts';
@@ -54,6 +55,7 @@ export const ssrx = ({
   globalThis.MANIFEST = manifest;
 
   return [
+    envOnlyMacros(),
     configPlugin({ config, router, manifest }),
     emptyModulesPlugin(),
     virtualPlugin({ config, router, manifest }),

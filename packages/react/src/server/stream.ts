@@ -1,4 +1,4 @@
-import type { RenderToStreamFn } from '@ssrx/renderer/server';
+import type { RenderToStreamFn } from '@ssrx/renderer';
 import { injectIntoStream } from '@ssrx/streaming';
 // @ts-expect-error no types
 import isbot from 'isbot-fast';
@@ -7,7 +7,7 @@ import rd from 'react-dom/server';
 // @ts-expect-error ignore
 import { renderToReadableStream as fallbackRenderToReadableStream } from 'react-dom/server.browser';
 
-export const renderToStream: RenderToStreamFn<RenderToReadableStreamOptions> = async ({
+export const renderToStreamServer: RenderToStreamFn<RenderToReadableStreamOptions> = async ({
   app,
   req,
   injectToStream,

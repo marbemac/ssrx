@@ -1,3 +1,5 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
+
 import type { Simplify } from 'type-fest';
 
 import type {
@@ -9,7 +11,8 @@ import type {
   ServerHandlerOpts,
   ServerHooks,
 } from '../types.ts';
-import { storage } from './ctx.ts';
+
+export const storage = new AsyncLocalStorage<{ appCtx: Record<string, any> }>();
 
 export function createApp<P extends RenderPlugin<any>[]>({
   RootLayout,

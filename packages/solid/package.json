@@ -17,6 +17,7 @@
   "exports": {
     ".": {
       "types": "./src/server/index.ts",
+      "development": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "node": "./dist/server/index.jsx",
       "worker": "./dist/server/index.jsx",
@@ -27,11 +28,13 @@
     },
     "./client": {
       "types": "./src/client/index.ts",
+      "development": "./src/client/index.ts",
       "bun": "./src/client/index.ts",
       "default": "./dist/client/index.jsx"
     },
     "./server": {
       "types": "./src/server/index.ts",
+      "development": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "default": "./dist/server/index.jsx"
     }

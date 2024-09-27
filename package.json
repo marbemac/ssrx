@@ -13,7 +13,7 @@
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many --target lint --all",
     "release": "yarn build && changeset publish",
-    "clean": "rimraf node_modules packages/**/dist examples/**/dist packages/**/node_modules examples/**/node_modules",
+    "clean": "rimraf **/dist **/node_modules",
     "dep-graph": "nx graph"
   },
   "resolutions": {

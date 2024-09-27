@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
 import { sleep } from '~/utils.ts';
@@ -63,7 +63,7 @@ export default function Wait() {
 }
 
 function useWaitQuery(props: { wait: number; defer?: boolean }) {
-  const query = useQuery({
+  const query = useSuspenseQuery({
     queryKey: ['wait', props.wait],
     meta: { deferStream: props.defer },
     queryFn: async () => {

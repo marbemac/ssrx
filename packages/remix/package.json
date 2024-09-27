@@ -20,24 +20,10 @@
   ],
   "exports": {
     ".": {
-      "types": "./src/server.tsx",
-      "bun": "./src/server.tsx",
-      "node": "./dist/server.js",
-      "worker": "./dist/server.js",
-      "workerd": "./dist/server.js",
-      "deno": "./dist/server.js",
-      "edge": "./dist/server.js",
-      "default": "./dist/client.js"
-    },
-    "./client": {
-      "types": "./src/client.tsx",
-      "bun": "./src/client.tsx",
-      "default": "./dist/client.js"
-    },
-    "./server": {
-      "types": "./src/server.tsx",
-      "bun": "./src/server.tsx",
-      "default": "./dist/server.js"
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
@@ -55,7 +41,8 @@
   "devDependencies": {
     "@remix-run/react": "2.12.0",
     "esbuild": "0.23.1",
-    "rollup": "4.21.3",
-    "rollup-plugin-esbuild": "6.1.1"
+    "rollup": "4.22.5",
+    "rollup-plugin-esbuild": "6.1.1",
+    "vite-env-only": "3.0.3"
   }
 }

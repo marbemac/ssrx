@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.base.json",
   "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "types": ["@types/node"],
     "paths": {
       "~/*": ["./src/*"]
     }

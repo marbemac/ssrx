@@ -20,6 +20,7 @@
   "exports": {
     ".": {
       "types": "./src/index.ts",
+      "development": "./src/index.ts",
       "bun": "./src/index.ts",
       "default": "./dist/index.js"
     }

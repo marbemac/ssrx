@@ -20,22 +20,14 @@
   ],
   "exports": {
     ".": {
-      "types": "./src/server/index.ts",
-      "bun": "./src/server/index.ts",
-      "node": "./dist/server/index.js",
-      "worker": "./dist/server/index.js",
-      "workerd": "./dist/server/index.js",
-      "deno": "./dist/server/index.js",
-      "edge": "./dist/server/index.js",
-      "default": "./dist/client/index.js"
-    },
-    "./client": {
-      "types": "./src/client/index.ts",
-      "bun": "./src/client/index.ts",
-      "default": "./dist/client/index.js"
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
     },
     "./server": {
       "types": "./src/server/index.ts",
+      "development": "./src/server/index.ts",
       "bun": "./src/server/index.ts",
       "default": "./dist/server/index.js"
     }
@@ -59,7 +51,8 @@
     "esbuild": "0.23.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "rollup": "4.21.3",
-    "rollup-plugin-esbuild": "6.1.1"
+    "rollup": "4.22.5",
+    "rollup-plugin-esbuild": "6.1.1",
+    "vite-env-only": "3.0.3"
   }
 }
