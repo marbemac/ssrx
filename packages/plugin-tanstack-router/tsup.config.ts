@@ -4,6 +4,6 @@ export default defineConfig({
   format: 'esm',
   sourcemap: true,
   clean: true,
-  external: ['react', 'virtual:ssrx-manifest'],
+  external: ['vite-env-only', 'virtual:ssrx-manifest'],
   entry: ['src/index.ts', 'src/adapter.ts'],
 });

@@ -1,9 +1,10 @@
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { renderToStream } from '@ssrx/react/server';
 import { Hono } from 'hono';
+import type { RedirectStatusCode } from 'hono/utils/http-status';
 
-import * as entry from '~/entry.server.tsx';
+import { serverHandler } from './app.tsx';
+import { createRouter } from './router.tsx';
 
 const server = new Hono()
   /**
@@ -15,32 +16,17 @@ const server = new Hono()
 
   .get('*', async c => {
     try {
-      const { app, router } = await entry.render(c.req.raw);
+      const router = createRouter();
+
+      const { stream, statusCode } = await serverHandler({
+        req: c.req.raw,
+        renderProps: { router },
+      });
 
       // Handle redirects
       if (router.state.redirect) {
-        return c.redirect(router.state.redirect.href);
+        return c.redirect(router.state.redirect.href, router.state.redirect.code as RedirectStatusCode);
       }
-
-      const { stream, statusCode } = await renderToStream({
-        app: () => app,
-        req: c.req.raw,
-        injectToStream: [
-          /**
-           * Automatically inject assets into the stream if preferred, vs manually adding them to the head/body through route context
-           * import { injectAssetsToStream } from @ssrx/react/server;
-           */
-          // await injectAssetsToStream({ req: c.req.raw }),
-          {
-            async emitBeforeStreamChunk() {
-              const injectorPromises = router.injectedHtml.map(d => (typeof d === 'function' ? d() : d));
-              const injectors = await Promise.all(injectorPromises);
-              router.injectedHtml = [];
-              return injectors.join('');
-            },
-          },
-        ],
-      });
 
       let status = statusCode();
 

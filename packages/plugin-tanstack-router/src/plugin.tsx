@@ -1,16 +1,29 @@
 import { defineRenderPlugin } from '@ssrx/renderer';
-import type { Router } from '@tanstack/react-router';
-import { createMemoryHistory, RouterProvider } from '@tanstack/react-router';
+import type { AnyRouter, Router } from '@tanstack/react-router';
+import { createMemoryHistory } from '@tanstack/react-router';
+import { clientOnly$, serverOnly$ } from 'vite-env-only/macros';
+
+import { serializeLoaderData } from './start/serialization.tsx';
+import { StartClient } from './start/StartClient.tsx';
+import { StartServer } from './start/StartServer.tsx';
 
 export const PLUGIN_ID = 'tanstackRouter' as const;
 
 declare global {
   namespace SSRx {
     interface RenderProps {
-      router: Router;
+      router: Router<any, any>;
     }
   }
 }
+
+const renderOnClient = clientOnly$(<TRouter extends AnyRouter>(props: { router: TRouter }) => (
+  <StartClient {...props} />
+));
+
+const renderOnServer = serverOnly$(<TRouter extends AnyRouter>(props: { router: TRouter }) => (
+  <StartServer {...props} />
+));
 
 export const tanstackRouterPlugin = () =>
   defineRenderPlugin({
@@ -26,6 +39,9 @@ export const tanstackRouterPlugin = () =>
              * SERVER
              */
             if (import.meta.env.SSR) {
+              // required if using defer() in loaders
+              router.serializeLoaderData = serializeLoaderData;
+
               const url = new URL(req.url);
               const memoryHistory = createMemoryHistory({
                 initialEntries: [url.pathname + url.search],
@@ -36,18 +52,13 @@ export const tanstackRouterPlugin = () =>
               // Wait for the router to finish loading critical data
               await router.load();
 
-              return () => <RouterProvider router={router} />;
+              return () => renderOnServer!({ router });
             } else {
               /**
                * CLIENT
                */
 
-              if (!router.state.lastUpdated) {
-                await router.load(); // needed until https://github.com/TanStack/router/issues/1115 is resolved
-                void router.hydrate();
-              }
-
-              return () => <RouterProvider router={router} />;
+              return () => renderOnClient!({ router });
             }
           },
         },

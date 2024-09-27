@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
+import type { RedirectStatusCode } from 'hono/utils/http-status';
 
 import { type ReqCtx, reqCtxMiddleware } from '~/api/middleware/context.ts';
 import { trpcServer } from '~/api/middleware/trpc.ts';
@@ -70,7 +71,7 @@ server
        * Handle react-router redirects
        */
       if (err instanceof Response && err.status >= 300 && err.status <= 399) {
-        return c.redirect(err.headers.get('Location') || '/', err.status);
+        return c.redirect(err.headers.get('Location') || '/', err.status as RedirectStatusCode);
       }
 
       /**

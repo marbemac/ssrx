@@ -12,6 +12,8 @@ export default defineConfig(({ isSsrBuild, command }) => ({
     react(),
     TanStackRouterVite(),
     ssrx({
+      serverFile: 'src/server.ts',
+      clientEntry: 'src/entry.client.tsx',
       routesFile: 'src/routeTree.gen.ts',
       routerAdapter: tanstackRouterAdapter(),
     }),

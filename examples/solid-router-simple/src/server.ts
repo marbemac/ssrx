@@ -2,6 +2,7 @@ import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { renderToStream } from '@ssrx/solid/server';
 import { Hono } from 'hono';
+import type { RedirectStatusCode } from 'hono/utils/http-status';
 
 import * as entry from '~/entry.server.tsx';
 
@@ -25,7 +26,7 @@ const server = new Hono()
        * Handle redirects
        */
       if (err instanceof Response && err.status >= 300 && err.status <= 399) {
-        return c.redirect(err.headers.get('Location') || '/', err.status);
+        return c.redirect(err.headers.get('Location') || '/', err.status as RedirectStatusCode);
       }
 
       /**

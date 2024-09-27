@@ -1,16 +1,9 @@
 import './__root.css';
 
 import type { ErrorComponentProps } from '@tanstack/react-router';
-import {
-  createRootRouteWithContext,
-  ErrorComponent,
-  Link,
-  Outlet,
-  ScrollRestoration,
-  useRouter,
-} from '@tanstack/react-router';
+import { createRootRouteWithContext, ErrorComponent, Link, Outlet, ScrollRestoration } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { Meta } from '@tanstack/start';
+import { Meta } from '@tanstack/start/client';
 
 import type { RootRouterContext } from '~/router.ts';
 
@@ -20,16 +13,11 @@ export const Route = createRootRouteWithContext<RootRouterContext>()({
 });
 
 function RootComponent() {
-  const router = useRouter();
-  const { bodyTags, headTags } = router.options.context;
-
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        {headTags?.()}
 
         <Meta />
       </head>
@@ -62,8 +50,6 @@ function RootComponent() {
         <ScrollRestoration />
 
         <TanStackRouterDevtools position="bottom-right" />
-
-        {bodyTags?.()}
       </body>
     </html>
   );

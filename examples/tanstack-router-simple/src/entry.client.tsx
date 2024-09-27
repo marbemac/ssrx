@@ -1,12 +1,14 @@
-import { StartClient } from '@tanstack/start';
 import { hydrateRoot } from 'react-dom/client';
 
+import { clientHandler } from '~/app.tsx';
 import { createRouter } from '~/router.tsx';
 
-void render();
+void hydrate();
 
-async function render() {
-  const router = createRouter();
+async function hydrate() {
+  const renderApp = await clientHandler({
+    renderProps: { router: createRouter() },
+  });
 
-  hydrateRoot(document, <StartClient router={router} />);
+  hydrateRoot(document, renderApp());
 }

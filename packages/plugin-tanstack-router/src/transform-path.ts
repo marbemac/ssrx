@@ -1,5 +1,5 @@
 export const transformPath = (path: string) => {
-  if (!path) return path;
+  if (!path) return '/';
 
   return (
     path

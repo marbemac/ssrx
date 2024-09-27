@@ -2,6 +2,7 @@ import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 import { compress } from 'hono/compress';
+import type { RedirectStatusCode } from 'hono/utils/http-status';
 
 import { serverHandler } from './app.tsx';
 import { routes } from './routes.tsx';
@@ -41,7 +42,7 @@ server.get('*', async c => {
      * Handle react-router redirects
      */
     if (err instanceof Response && err.status >= 300 && err.status <= 399) {
-      return c.redirect(err.headers.get('Location') || '/', err.status);
+      return c.redirect(err.headers.get('Location') || '/', err.status as RedirectStatusCode);
     }
 
     /**
