@@ -1,5 +1,13 @@
 # @ssrx/streaming
 
+## 0.3.0
+
+### Minor Changes
+
+- [`162432d`](https://github.com/marbemac/ssrx/commit/162432d8e333c8fa5d8fdf17956c20dd5bef01cb) Thanks
+  [@marbemac](https://github.com/marbemac)! - Update module resolution strategy. Update tanstack router plugin and
+  example to the latest router version.
+
 ## 0.2.0
 
 ### Minor Changes
