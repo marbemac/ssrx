@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-solid-router",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "@solidjs/router": ">=0.10"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.4.0"
+    "@ssrx/renderer": "^0.5.0"
   },
   "devDependencies": {
     "@solidjs/router": "0.11.2",

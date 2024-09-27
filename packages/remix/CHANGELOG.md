@@ -1,5 +1,19 @@
 # @ssrx/remix
 
+## 0.4.0
+
+### Minor Changes
+
+- [`162432d`](https://github.com/marbemac/ssrx/commit/162432d8e333c8fa5d8fdf17956c20dd5bef01cb) Thanks
+  [@marbemac](https://github.com/marbemac)! - Update module resolution strategy. Update tanstack router plugin and
+  example to the latest router version.
+
+### Patch Changes
+
+- Updated dependencies [[`162432d`](https://github.com/marbemac/ssrx/commit/162432d8e333c8fa5d8fdf17956c20dd5bef01cb)]:
+  - @ssrx/react@0.4.0
+  - @ssrx/renderer@0.5.0
+
 ## 0.3.0
 
 ### Minor Changes
