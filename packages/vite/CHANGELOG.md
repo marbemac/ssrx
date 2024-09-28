@@ -1,5 +1,12 @@
 # @ssrx/vite
 
+## 0.7.1
+
+### Patch Changes
+
+- [`15cdfdd`](https://github.com/marbemac/ssrx/commit/15cdfdda82375d1de6a20c33fcee26bb5cc3606b) Thanks
+  [@marbemac](https://github.com/marbemac)! - move vite-env-only to dependencies
+
 ## 0.7.0
 
 ### Minor Changes
