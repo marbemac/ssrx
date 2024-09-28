@@ -49,6 +49,7 @@
   "devDependencies": {
     "@ssrx/vite": "^0.7.0",
     "@tanstack/react-router": "1.57.13",
+    "@types/jsesc": "3.0.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "vite-env-only": "3.0.3"

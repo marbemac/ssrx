@@ -1,9 +1,9 @@
 import './__root.css';
 
+import { Meta } from '@ssrx/plugin-tanstack-router';
 import type { ErrorComponentProps } from '@tanstack/react-router';
 import { createRootRouteWithContext, ErrorComponent, Link, Outlet, ScrollRestoration } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { Meta } from '@tanstack/start/client';
 
 import type { RootRouterContext } from '~/router.ts';
 
