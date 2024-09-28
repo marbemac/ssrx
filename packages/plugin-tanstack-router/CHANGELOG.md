@@ -1,5 +1,12 @@
 # @ssrx/plugin-tanstack-router
 
+## 0.4.1
+
+### Patch Changes
+
+- [`d6ca179`](https://github.com/marbemac/ssrx/commit/d6ca17996ef0575653cb7dc74ef3072d095b7616) Thanks
+  [@marbemac](https://github.com/marbemac)! - Remove tanstack/start dependency to avoid react context issues.
+
 ## 0.4.0
 
 ### Minor Changes
