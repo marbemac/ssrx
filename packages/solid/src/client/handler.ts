@@ -1,9 +1,5 @@
-import {
-  type ClientHandlerOpts,
-  createApp as baseCreateApp,
-  type RenderPlugin,
-  type SetOptional,
-} from '@ssrx/renderer/client';
+import type { ClientHandlerOpts, RenderPlugin, SetOptional } from '@ssrx/renderer';
+import { createApp as baseCreateApp } from '@ssrx/renderer/client';
 
 import { RootLayout } from '../default-root.tsx';
 

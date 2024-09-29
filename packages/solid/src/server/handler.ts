@@ -1,9 +1,5 @@
-import {
-  createApp as baseCreateApp,
-  type RenderPlugin,
-  type ServerHandlerOpts,
-  type SetOptional,
-} from '@ssrx/renderer/server';
+import type { RenderPlugin, ServerHandlerOpts, SetOptional } from '@ssrx/renderer';
+import { createApp as baseCreateApp } from '@ssrx/renderer/server';
 
 import { RootLayout } from '../default-root.tsx';
 import { renderToStream } from './stream.ts';

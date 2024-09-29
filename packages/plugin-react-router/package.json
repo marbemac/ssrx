@@ -34,7 +34,8 @@
     "react-router-dom": "^6"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.5.0"
+    "@ssrx/renderer": "^0.5.0",
+    "vite-env-only": "3.0.3"
   },
   "devDependencies": {
     "react-router-dom": "6.26.2"

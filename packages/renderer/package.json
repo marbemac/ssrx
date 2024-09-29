@@ -48,14 +48,14 @@
   "dependencies": {
     "@ssrx/streaming": "^0.3.0",
     "@ssrx/vite": "^0.7.0",
-    "deepmerge": "4.3.1"
+    "deepmerge": "4.3.1",
+    "vite-env-only": "3.0.3"
   },
   "devDependencies": {
     "@types/node": "22.7.4",
     "esbuild": "0.23.1",
     "rollup": "4.22.5",
     "rollup-plugin-esbuild": "6.1.1",
-    "type-fest": "4.26.1",
-    "vite-env-only": "3.0.3"
+    "type-fest": "4.26.1"
   }
 }

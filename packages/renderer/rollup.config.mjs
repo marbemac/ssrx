@@ -15,6 +15,7 @@ export default [
         format: 'es',
         exports: 'named',
         preserveModules: true, // Keep directory structure and files
+        sourcemap: true,
       },
     ],
   }),

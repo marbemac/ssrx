@@ -20,15 +20,43 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
     config() {
       return {
         appType: 'custom',
+
         ssr: {
           // Ensure ssrx packages are processed by the vite pipeline so
-          // that the virtual plugin works
+          // that the virtual plugin works, and the vite-env-only plugin works.
           noExternal: [/@ssrx/],
         },
 
+        // To test changes to these settings, run any of the examples with the resolve.preserveSymlinks vite config
+        // option set to true. (make sure to build all the ssrx packages first)
         optimizeDeps: {
-          // Exclude all virtual modules from the vite dep optimization
-          exclude: ['virtual:ssrx-manifest', 'virtual:ssrx-routes'],
+          // Any commonjs deps that ssrx packages use must be explicitly included, per the note here:
+          // https://vitejs.dev/config/dep-optimization-options.html#optimizedeps-exclude
+          include: ['deepmerge', 'jsesc', 'react', 'react-dom'],
+
+          exclude: [
+            // Exclude all virtual modules from the vite dep optimization
+            'virtual:ssrx-manifest',
+            'virtual:ssrx-routes',
+
+            // Exclude certain ssrx packages from the vite dep optimization, so that they go through the full
+            // vite pipeline during development, which is critical for plugins like vite-env-only to work.
+            //
+            // !! Any package that uses vite-env-only should be added to this list.
+            '@ssrx/plugin-react-router',
+            // '@ssrx/plugin-solid-router',
+            // '@ssrx/plugin-tanstack-query',
+            '@ssrx/plugin-tanstack-router',
+            // '@ssrx/plugin-trpc-react',
+            // '@ssrx/plugin-unhead',
+            '@ssrx/react',
+            '@ssrx/remix',
+            '@ssrx/renderer',
+            // '@ssrx/solid',
+            // '@ssrx/streaming',
+            // '@ssrx/trpc-react-query',
+            '@ssrx/vite',
+          ],
         },
       } satisfies UserConfig;
     },

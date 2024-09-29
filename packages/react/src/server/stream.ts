@@ -30,7 +30,6 @@ export const renderToStreamServer: RenderToStreamFn<RenderToReadableStreamOption
     signal: req.signal,
     ...opts,
     onError(error, errorInfo) {
-      console.error('Error while rendering the app shell', error);
       status = 500;
 
       if (opts?.onError) {

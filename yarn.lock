@@ -2905,6 +2905,7 @@ __metadata:
   dependencies:
     "@ssrx/renderer": "npm:^0.5.0"
     react-router-dom: "npm:6.26.2"
+    vite-env-only: "npm:3.0.3"
   peerDependencies:
     react-router-dom: ^6
   languageName: unknown
