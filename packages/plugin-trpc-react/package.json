@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-trpc-react",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",

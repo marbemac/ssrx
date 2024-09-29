@@ -1,5 +1,12 @@
 # @ssrx/plugin-trpc-react
 
+## 0.6.2
+
+### Patch Changes
+
+- [`7540345`](https://github.com/marbemac/ssrx/commit/7540345e18377690488cded7cb7a40566f8642f2) Thanks
+  [@marbemac](https://github.com/marbemac)! - explicitly set plugin-trpc-react dep versions
+
 ## 0.6.1
 
 ### Patch Changes
