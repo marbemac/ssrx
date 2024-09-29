@@ -1,5 +1,17 @@
 # @ssrx/react
 
+## 0.4.1
+
+### Patch Changes
+
+- [`8df5fea`](https://github.com/marbemac/ssrx/commit/8df5fea9c2a308c321ae181942f011e834d010e4) Thanks
+  [@marbemac](https://github.com/marbemac)! - Fix various import resolution issues.
+
+- Updated dependencies [[`8df5fea`](https://github.com/marbemac/ssrx/commit/8df5fea9c2a308c321ae181942f011e834d010e4)]:
+  - @ssrx/renderer@0.5.1
+  - @ssrx/vite@0.7.2
+  - @ssrx/streaming@0.3.1
+
 ## 0.4.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/streaming",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
