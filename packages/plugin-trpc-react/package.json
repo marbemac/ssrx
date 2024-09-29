@@ -36,9 +36,9 @@
     "@trpc/server": "^10"
   },
   "dependencies": {
-    "@ssrx/plugin-tanstack-query": "*",
+    "@ssrx/plugin-tanstack-query": "^0.6.1",
     "@ssrx/renderer": "^0.5.1",
-    "@ssrx/trpc-react-query": "*"
+    "@ssrx/trpc-react-query": "^0.4.1"
   },
   "devDependencies": {
     "@tanstack/react-query": "^5.56.2",

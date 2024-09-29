@@ -3144,9 +3144,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ssrx/plugin-trpc-react@workspace:packages/plugin-trpc-react"
   dependencies:
-    "@ssrx/plugin-tanstack-query": "npm:*"
+    "@ssrx/plugin-tanstack-query": "npm:^0.6.1"
     "@ssrx/renderer": "npm:^0.5.1"
-    "@ssrx/trpc-react-query": "npm:*"
+    "@ssrx/trpc-react-query": "npm:^0.4.1"
     "@tanstack/react-query": "npm:^5.56.2"
     "@trpc/client": "npm:10.45.2"
     "@trpc/server": "npm:10.45.2"
