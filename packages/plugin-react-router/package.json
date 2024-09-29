@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-react-router",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -34,7 +34,7 @@
     "react-router-dom": "^6"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.5.0",
+    "@ssrx/renderer": "^0.5.1",
     "vite-env-only": "3.0.3"
   },
   "devDependencies": {

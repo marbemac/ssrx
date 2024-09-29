@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/plugin-unhead",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.5.0",
+    "@ssrx/renderer": "^0.5.1",
     "@unhead/addons": "~1.11.7",
     "@unhead/schema": "~1.11.7",
     "@unhead/ssr": "~1.11.7",
