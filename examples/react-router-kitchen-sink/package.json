@@ -20,7 +20,7 @@
     "debug": "tsx debug.ts"
   },
   "dependencies": {
-    "@hono/node-server": "^1.12.2",
+    "@hono/node-server": "^1.13.1",
     "@lucia-auth/adapter-sqlite": "2.0.1",
     "@paralleldrive/cuid2": "2.2.2",
     "@radix-ui/react-slot": "^1.1.0",
@@ -40,7 +40,7 @@
     "clsx": "^2.1.1",
     "drizzle-orm": "0.33.0",
     "drizzle-valibot": "0.2.0",
-    "hono": "4.6.1",
+    "hono": "4.6.3",
     "lucia": "2.7.7",
     "lucide-react": "^0.441.0",
     "react": "18.3.1",
@@ -50,7 +50,7 @@
     "react-router-typesafe-routes": "1.2.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "valibot": "0.41.0"
+    "valibot": "0.42.1"
   },
   "devDependencies": {
     "@ssrx/vite": "latest",
@@ -60,12 +60,12 @@
     "@vitejs/plugin-react": "4.3.1",
     "autoprefixer": "10.4.20",
     "drizzle-kit": "0.24.2",
-    "postcss": "8.4.45",
+    "postcss": "8.4.47",
     "rollup-plugin-analyzer": "4.0.0",
-    "tailwindcss": "3.4.11",
+    "tailwindcss": "3.4.13",
     "tsx": "4.19.1",
     "typescript": "5.6.2",
-    "vite": "5.4.5",
+    "vite": "5.4.8",
     "vite-tsconfig-paths": "5.0.1"
   }
 }

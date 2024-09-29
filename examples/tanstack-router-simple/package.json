@@ -13,12 +13,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@hono/node-server": "^1.12.2",
+    "@hono/node-server": "^1.13.1",
     "@ssrx/plugin-tanstack-router": "latest",
     "@ssrx/react": "latest",
     "@tanstack/react-router": "1.57.13",
     "@tanstack/router-devtools": "1.57.13",
-    "hono": "4.6.1",
+    "hono": "4.6.3",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
@@ -29,10 +29,10 @@
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.3.1",
     "autoprefixer": "10.4.20",
-    "postcss": "8.4.45",
-    "tailwindcss": "3.4.11",
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.13",
     "typescript": "5.6.2",
-    "vite": "5.4.5",
+    "vite": "5.4.8",
     "vite-tsconfig-paths": "5.0.1"
   }
 }
