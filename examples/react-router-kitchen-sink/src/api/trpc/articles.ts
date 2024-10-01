@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { desc, eq, or } from 'drizzle-orm';
-import { object, omit, parse, partial, pick } from 'valibot';
+import * as v from 'valibot';
 
 import { createDbId } from '~/api/db/ids.ts';
 import { articles, insertArticleSchema, selectArticleSchema } from '~/api/db/schema/index.ts';
@@ -25,7 +25,7 @@ export const articlesRouter = router({
   }),
 
   byId: publicProcedure
-    .input(i => parse(pick(selectArticleSchema, ['id']), i))
+    .input(i => v.parse(v.pick(selectArticleSchema, ['id']), i))
     .query(async ({ input, ctx }) => {
       await sleep(500);
 
@@ -42,7 +42,7 @@ export const articlesRouter = router({
    */
 
   create: protectedProcedure
-    .input(i => parse(omit(insertArticleSchema, ['id', 'authorId']), i))
+    .input(i => v.parse(v.omit(insertArticleSchema, ['id', 'authorId']), i))
     .mutation(async ({ input, ctx }) => {
       const article = await ctx.db
         .insert(articles)
@@ -59,10 +59,10 @@ export const articlesRouter = router({
 
   update: protectedProcedure
     .input(i =>
-      parse(
-        object({
-          lookup: pick(insertArticleSchema, ['id']),
-          set: partial(pick(insertArticleSchema, ['title', 'body', 'status'])),
+      v.parse(
+        v.object({
+          lookup: v.pick(insertArticleSchema, ['id']),
+          set: v.partial(v.pick(insertArticleSchema, ['title', 'body', 'status'])),
         }),
         i,
       ),
@@ -87,7 +87,7 @@ export const articlesRouter = router({
     }),
 
   delete: protectedProcedure
-    .input(i => parse(pick(selectArticleSchema, ['id']), i))
+    .input(i => v.parse(v.pick(selectArticleSchema, ['id']), i))
     .mutation(async ({ input: { id }, ctx }) => {
       const existing = (await ctx.db.select().from(articles).where(eq(articles.id, id)).execute())[0];
       if (!existing || existing.authorId !== ctx.user.id) {

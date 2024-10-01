@@ -1,6 +1,6 @@
 import { blob, index, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 
+import { createInsertSchema, createSelectSchema } from '../drizzle-valibot.ts';
 import { users } from './users.ts';
 
 export const userSessions = sqliteTable(

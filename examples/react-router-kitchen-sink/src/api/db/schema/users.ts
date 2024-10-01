@@ -1,5 +1,6 @@
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+
+import { createInsertSchema, createSelectSchema } from '../drizzle-valibot.ts';
 
 export const users = sqliteTable('users', {
   id: text('id').primaryKey(),

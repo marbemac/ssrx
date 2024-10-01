@@ -330,7 +330,7 @@ export const getClientManifestSources = (clientManifest: ViteClientManifest) => 
       // ensure absolute, to match with how vite formats the "url" node property in it's module graph
       .map(m => (m.src && !m.src.startsWith('/') ? `/${m.src}` : m.src))
       .filter(Boolean),
-  );
+  ) as Set<string>;
 };
 
 /**

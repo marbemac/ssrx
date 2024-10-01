@@ -29,7 +29,7 @@ export function createApp<P extends RenderPlugin<any>[]>({ RootLayout, appRender
     );
   }) as ServerHandlerFn;
 
-  const clientHandler: ClientHandlerFn = async ({ renderProps = {} } = {}) => {
+  const clientHandler: ClientHandlerFn = async ({ renderProps }) => {
     const appCtx: Record<string, any> = {};
 
     const commonHooks = {

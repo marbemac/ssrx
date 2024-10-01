@@ -2,15 +2,15 @@ import { TRPCError } from '@trpc/server';
 import { SqliteError } from 'better-sqlite3';
 import type { CookieOptions } from 'hono/utils/cookie';
 import { LuciaError } from 'lucia';
-import { maxLength, minLength, object, parse, string } from 'valibot';
+import * as v from 'valibot';
 
 import { auth } from '~/api/auth.ts';
 import { createDbId } from '~/api/db/ids.ts';
 import { protectedProcedure, publicProcedure, router } from '~/api/trpc/trpc.ts';
 
-const SignupSchema = object({
-  username: string([minLength(4), maxLength(31)]),
-  password: string([minLength(6), maxLength(100)]),
+const SignupSchema = v.object({
+  username: v.pipe(v.string(), v.minLength(4), v.maxLength(31)),
+  password: v.pipe(v.string(), v.minLength(6), v.maxLength(100)),
 });
 
 const LoginSchema = SignupSchema;
@@ -21,7 +21,7 @@ export const authRouter = router({
   }),
 
   signup: publicProcedure
-    .input(i => parse(SignupSchema, i))
+    .input(i => v.parse(SignupSchema, i))
     .mutation(async ({ input, ctx }) => {
       const { username, password } = input;
 
@@ -69,7 +69,7 @@ export const authRouter = router({
     }),
 
   login: publicProcedure
-    .input(i => parse(LoginSchema, i))
+    .input(i => v.parse(LoginSchema, i))
     .mutation(async ({ input, ctx }) => {
       const { username, password } = input;
 

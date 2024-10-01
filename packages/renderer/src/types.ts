@@ -32,7 +32,7 @@ export type ClientHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts &
   plugins?: P;
 };
 
-export type ClientHandlerFn = (props?: { renderProps?: SSRx.RenderProps }) => Promise<() => Config['jsxElement']>;
+export type ClientHandlerFn = (props: { renderProps: SSRx.RenderProps }) => Promise<() => Config['jsxElement']>;
 
 export type ServerHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts & {
   renderer: ServerRenderer;
@@ -41,7 +41,7 @@ export type ServerHandlerOpts<P extends RenderPlugin<any>[]> = BaseHandlerOpts &
 
 export type ServerHandlerFn = (props: {
   req: Request;
-  renderProps?: SSRx.RenderProps;
+  renderProps: SSRx.RenderProps;
   meta?: SSRx.ReqMeta;
 }) => Promise<{ stream: ReadableStream<Uint8Array>; statusCode: () => number }>;
 
