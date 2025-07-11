@@ -61,10 +61,11 @@ export const configPlugin = ({ config }: ConfigPluginOpts): Plugin => {
       } satisfies UserConfig;
     },
 
-    configResolved(viteConfig) {
+    configResolved(this, viteConfig) {
       config.root = viteConfig.root;
       config.mode = viteConfig.mode;
       config.basePath = viteConfig.base;
+      config.minimalContext = this;
     },
   };
 };

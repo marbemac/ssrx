@@ -62,5 +62,5 @@ export const ssrx = ({
     devServerPlugin({ config, router, manifest }),
     buildPlugin({ config, router, manifest }),
     runtime === 'cf-pages' ? cloudflarePlugin({ config, router, manifest }) : undefined,
-  ].filter(Boolean);
+  ].filter(Boolean) as PluginOption[];
 };
