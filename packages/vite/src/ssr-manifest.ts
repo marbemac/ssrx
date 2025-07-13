@@ -124,7 +124,7 @@ export class Manifest<ExternalRoutes> {
           : // @ts-expect-error ignore
             hook.handler ?? hook.transform;
 
-      const transformedHtml = await handler(``, { path: requestUrl, server, filename: 'index.html' });
+      const transformedHtml = await handler.call(this.config.minimalContext!, ``, { path: requestUrl, server, filename: 'index.html' });
 
       if (!transformedHtml) continue;
 

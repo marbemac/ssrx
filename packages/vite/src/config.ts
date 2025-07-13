@@ -1,6 +1,6 @@
 import * as path from 'path';
-import type { SSROptions } from 'vite';
-import { normalizePath } from 'vite';
+import type { MinimalPluginContextWithoutEnvironment, SSROptions } from 'vite';
+import { normalizePath, version } from 'vite';
 
 import type { ServerRuntime } from './types';
 
@@ -28,6 +28,7 @@ const RUNTIME_CONDITIONS: Record<ServerRuntime, string[]> = {
 export class Config {
   public root: string;
   public mode: string;
+  public minimalContext?: MinimalPluginContextWithoutEnvironment;
 
   #clientOutDir?: string;
   #serverOutDir?: string;
@@ -130,6 +131,10 @@ export class Config {
 
   get basePath() {
     return this.#basePath;
+  }
+
+  get viteMajorVersion() {
+    return Number(version.split('.')[0]);
   }
 
   /**

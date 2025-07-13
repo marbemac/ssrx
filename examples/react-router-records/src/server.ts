@@ -4,7 +4,7 @@ import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 import type { RedirectStatusCode } from 'hono/utils/http-status';
 
-import { serverHandler } from './app.tsx';
+import { serverHandler } from './App.tsx';
 import { routes } from './routes.tsx';
 
 const server = new Hono();
@@ -67,7 +67,7 @@ if (import.meta.env.PROD) {
       fetch: server.fetch,
     },
     () => {
-      console.log(`🚀 Server running at http://localhost:${port}`);
+      console.log(`🚀 Server running at http://localhost:${port}/react-router-records`);
     },
   );
 }

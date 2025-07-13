@@ -56,7 +56,7 @@ export const buildPlugin = ({ config, router, manifest }: BuildPluginOpts): Plug
         build: {
           manifest: !isSsr,
           outDir: isSsr ? config.serverOutDir : config.clientOutDir,
-          target: isSsr ? 'esnext' : 'modules',
+          target: isSsr ? 'esnext' : undefined,
           copyPublicDir: !isSsr,
           emptyOutDir: !isSsr,
           rollupOptions: {

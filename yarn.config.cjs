@@ -11,7 +11,8 @@ const { defineConfig } = require(`@yarnpkg/types`);
  */
 function enforceConsistentDependenciesAcrossTheProject({ Yarn }) {
   for (const dependency of Yarn.dependencies()) {
-    if (dependency.type === `peerDependencies` || dependency.ident.startsWith('@ssrx/')) continue;
+    if (dependency.type === `peerDependencies` || dependency.ident.startsWith('@ssrx/') || dependency.ident === 'vite')
+      continue;
 
     for (const otherDependency of Yarn.dependencies({ ident: dependency.ident })) {
       if (otherDependency.type === `peerDependencies`) continue;
