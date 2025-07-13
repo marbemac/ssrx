@@ -1,5 +1,12 @@
 # @ssrx/renderer
 
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies [[`3d281cd`](https://github.com/marbemac/ssrx/commit/3d281cd156197b22ff2c1f0cf9bf37992e4a81f1)]:
+  - @ssrx/vite@0.8.0
+
 ## 0.5.1
 
 ### Patch Changes

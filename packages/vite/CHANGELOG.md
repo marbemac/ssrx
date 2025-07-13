@@ -1,5 +1,13 @@
 # @ssrx/vite
 
+## 0.8.0
+
+### Minor Changes
+
+- [#44](https://github.com/marbemac/ssrx/pull/44)
+  [`3d281cd`](https://github.com/marbemac/ssrx/commit/3d281cd156197b22ff2c1f0cf9bf37992e4a81f1) Thanks
+  [@jurijzahn8019](https://github.com/jurijzahn8019)! - Updated plugin to comply with vite 7 new api
+
 ## 0.7.2
 
 ### Patch Changes

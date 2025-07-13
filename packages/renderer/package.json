@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/renderer",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@ssrx/streaming": "^0.3.1",
-    "@ssrx/vite": "^0.7.2",
+    "@ssrx/vite": "^0.8.0",
     "deepmerge": "4.3.1",
     "vite-env-only": "3.0.3"
   },
