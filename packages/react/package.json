@@ -1,6 +1,6 @@
 {
   "name": "@ssrx/react",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "sideEffects": false,
   "type": "module",
   "license": "MIT",
@@ -42,9 +42,9 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@ssrx/renderer": "^0.5.1",
+    "@ssrx/renderer": "^0.5.2",
     "@ssrx/streaming": "^0.3.1",
-    "@ssrx/vite": "^0.7.2",
+    "@ssrx/vite": "^0.8.0",
     "isbot-fast": "1.2.0",
     "vite-env-only": "3.0.3"
   },
